@@ -8,29 +8,29 @@ import java.time.LocalDateTime;
 
 public class Message {
 
-    private int messageID;
+    private static int messageId;
     private String recipientEmail;
     private String senderEmail;
-    private int conversationID;
+    private int conversationId;
     private LocalDateTime timestamp;
 
     /**
-     * A message and conversation ID, recipient and sender email address, and a timestamp are required to create an
-     * instance of Message.
-     * @param messageID a unique integer representing the ID of a message
+     * A conversation ID, recipient and sender email address, and a timestamp are required to create an
+     * instance of Message. This Message has a uniquely generated ID.
      * @param recipientEmail the email address of the recipient
      * @param senderEmail the email address of the sender
-     * @param conversationID a unique integer representing the ID of a conversation
+     * @param conversationId a unique integer representing the ID of a conversation
      * @param timestamp the time and date this message was sent
      */
 
-    public Message(int messageID, String recipientEmail, String senderEmail, int conversationID,
+    public Message(String recipientEmail, String senderEmail, int conversationId,
                    LocalDateTime timestamp) {
-        this.messageID = messageID;
+
         this.recipientEmail = recipientEmail;
         this.senderEmail = senderEmail;
-        this.conversationID = conversationID;
+        this.conversationId = conversationId;
         this.timestamp = timestamp;
+        messageId ++;
     }
 
     /**
@@ -38,8 +38,8 @@ public class Message {
      * @return the message ID of the message
      */
 
-    public int getMessageID() {
-        return messageID;
+    public int getMessageId() {
+        return messageId;
     }
 
     /**
@@ -66,7 +66,7 @@ public class Message {
      */
 
     public int getConversationID() {
-        return conversationID;
+        return conversationId;
     }
 
     /**
@@ -77,4 +77,5 @@ public class Message {
     public LocalDateTime getTimestamp(){
         return timestamp;
     }
+
 }
