@@ -1,18 +1,19 @@
 package Schedule;
 
 import Schedule.ScheduleManager;
+import UserLogin.Speaker;
 
 import java.util.ArrayList;
 
 public class SpeakerScheduleManager extends ScheduleManager {
-    Object speaker;
+    Speaker speaker;
     ArrayList<Talk> talkList;
 
-    public SpeakerScheduleManager(Object speaker){
+    public SpeakerScheduleManager(Speaker speaker){
         this.speaker = speaker;
     }
 
-    public Object getSpeaker() {
+    public Speaker getSpeaker() {
         return speaker;
     }
 }

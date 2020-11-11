@@ -14,7 +14,7 @@ public class UserScheduleManager extends ScheduleManager {
         this.user = speaker;
     }
 
-    public Object getSpeaker() {
+    public Object getUser() {
         return user;
     }
 }
