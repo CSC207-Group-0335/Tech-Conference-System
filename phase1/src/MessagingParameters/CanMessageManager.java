@@ -13,9 +13,19 @@ public class CanMessageManager {
     private User user;
     private ArrayList<User> friendsList;
 
+    /**
+     * A user is needed to create an instance of CanMessageManager.
+     * @param user the user whose messages will be managed
+     */
+
     public CanMessageManager(User user) {
         this.user = user;
     }
+
+    /**
+     * Returns a list of users that this user is allowed to message.
+     * @return the list of users that user can message
+     */
 
     public ArrayList<User> getFriendsList() {
         if (user instanceof Organizer) {
@@ -30,9 +40,15 @@ public class CanMessageManager {
         return friendsList;
     }
 
-    public boolean canMessage(User user) {
+    /**
+     * Returns true if and only if this user is able to message </friend>.
+     * @param friend the other user who this user can or cannot message
+     * @return a boolean representing whether or not this user can message </friend>
+     */
+
+    public boolean canMessage(User friend) {
         if (this.user instanceof Attendee) {
-            if (user instanceof Attendee || user instanceof Speaker) {
+            if (friend instanceof Attendee || friend instanceof Speaker) {
                 return true;
             } else {
                 return false;
@@ -40,7 +56,7 @@ public class CanMessageManager {
         } else if (this.user instanceof Organizer) {
             return true;
         } else {
-            if (user instanceof Organizer) {
+            if (friend instanceof Organizer) {
                 return false;
             }
             else {
