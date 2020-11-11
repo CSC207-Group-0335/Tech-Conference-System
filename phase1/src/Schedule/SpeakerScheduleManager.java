@@ -1,6 +1,10 @@
+package Schedule;
+
+import Schedule.ScheduleManager;
+
 import java.util.ArrayList;
 
-public class SpeakerScheduleManager extends ScheduleManager{
+public class SpeakerScheduleManager extends ScheduleManager {
     Object speaker;
     ArrayList<Talk> talkList;
 

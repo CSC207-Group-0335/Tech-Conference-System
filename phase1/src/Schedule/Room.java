@@ -1,3 +1,5 @@
+package Schedule;
+
 public class Room {
     String roomName;
     int capacity = 2;
@@ -19,3 +21,5 @@ public class Room {
         return this.capacity;
     }
 }
+
+

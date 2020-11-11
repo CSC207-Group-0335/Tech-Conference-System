@@ -1,8 +1,10 @@
+package Schedule;
+
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 
-public class RoomScheduleManager extends ScheduleManager{
+public class RoomScheduleManager extends ScheduleManager {
     Room room;
     ArrayList<Talk> talkList;
 

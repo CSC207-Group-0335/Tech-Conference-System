@@ -1,3 +1,5 @@
+package Schedule;
+
 import java.util.Date;
 
 public class Talk {

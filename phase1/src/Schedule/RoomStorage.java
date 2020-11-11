@@ -1,4 +1,7 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package Schedule;
+
+import Schedule.Room;
+import Schedule.RoomScheduleManager;
 
 import java.util.ArrayList;
 
