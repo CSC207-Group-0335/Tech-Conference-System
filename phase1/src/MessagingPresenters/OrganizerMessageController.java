@@ -1,4 +1,4 @@
-package MessagingParameters;
+package MessagingPresenters;
 
 import UserLogin.Organizer;
 import UserLogin.User;
@@ -16,13 +16,12 @@ public class OrganizerMessageController extends MessengerController {
     private CanMessageManager userInfo;
 
     /**
-     * An organizer and a friend list is required to create an instance of this class.
+     * An organizer is required to create an instance of this class.
      * @param user the organizer
-     * @param friendList a list of users whom this organizer can message
      */
 
-    public OrganizerMessageController(Organizer user, ArrayList<User> friendList) {
-        super(user, friendList);
+    public OrganizerMessageController(Organizer user) {
+        super(user);
         this.userInfo = new CanMessageManager(user);
     }
 
@@ -33,7 +32,7 @@ public class OrganizerMessageController extends MessengerController {
 
     public void addToFriendList(User friend) {
         if (userInfo.canMessage(friend)){
-            friendList.add(friend);
+            userInfo.getFriendsList().add(friend);
         }
     }
 

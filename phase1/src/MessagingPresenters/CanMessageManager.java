@@ -1,4 +1,4 @@
-package MessagingParameters;
+package MessagingPresenters;
 import UserLogin.Attendee;
 import UserLogin.Organizer;
 import UserLogin.Speaker;

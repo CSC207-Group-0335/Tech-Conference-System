@@ -1,4 +1,4 @@
-package MessagingParameters;
+package MessagingPresenters;
 
 import UserLogin.User;
 
@@ -10,18 +10,15 @@ import java.util.ArrayList;
 
 public abstract class MessengerController {
     private User user;
-    private ArrayList<User> friendList;
     private CanMessageManager userInfo;
 
     /**
-     * A user and a friend list is required to create an instance of this class.
+     * A user is required to create an instance of this class.
      * @param user the user
-     * @param friendList a list of users whom this user can message
      */
 
-    public MessengerController(User user, ArrayList<User> friendList) {
+    public MessengerController(User user) {
         this.user = user;
-        this.friendList = friendList;
         this.userInfo = new CanMessageManager(user);
     }
 
@@ -32,7 +29,7 @@ public abstract class MessengerController {
 
     public void addToFriendList(User friend) {
         if (userInfo.canMessage(friend)){
-            friendList.add(friend);
+            userInfo.getFriendsList().add(friend);
         }
     }
 
