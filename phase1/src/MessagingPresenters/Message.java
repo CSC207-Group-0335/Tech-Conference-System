@@ -21,17 +21,15 @@ public class Message {
      * instance of Message. This Message has a uniquely generated ID.
      * @param recipientEmail the email address of the recipient
      * @param senderEmail the email address of the sender
-     * @param conversationId a unique integer representing the ID of a conversation
      * @param timestamp the time and date this message was sent
      * @param messageContent the content of the message
      */
 
-    public Message(String recipientEmail, String senderEmail, int conversationId,
+    public Message(String recipientEmail, String senderEmail,
                    LocalDateTime timestamp, String messageContent) {
 
         this.recipientEmail = recipientEmail;
         this.senderEmail = senderEmail;
-        this.conversationId = conversationId;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
         this.messageId = UUID.randomUUID().toString();
@@ -42,7 +40,7 @@ public class Message {
      * @return the message ID of the message
      */
 
-    public int getMessageId() {
+    public String getMessageId() {
         return messageId;
     }
 
