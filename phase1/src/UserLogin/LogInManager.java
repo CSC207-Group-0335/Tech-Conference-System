@@ -17,8 +17,6 @@ public class LogInManager implements Observer {
 
     /**
      * A user will login with their email and password and the LogInManager will process the login attempt.
-     * @param email the email that is used in the login attempt.
-     * @param password the password that is used in the login attempt.
      */
 
     public LogInManager() {
@@ -30,7 +28,6 @@ public class LogInManager implements Observer {
 
     /**
      * Based on the given email, look into the database for the associated User object.
-     * @param email the email that is given for the login attempt
      * @return the User object associated with that email.
      */
     //public User findUser(String email) {
