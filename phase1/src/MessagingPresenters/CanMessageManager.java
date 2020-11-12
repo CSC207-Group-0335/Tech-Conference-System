@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class CanMessageManager {
     private User user;
-    private ArrayList<User> friendsList;
 
     /**
      * A user is needed to create an instance of CanMessageManager.
@@ -29,15 +28,14 @@ public class CanMessageManager {
 
     public ArrayList<User> getFriendsList() {
         if (user instanceof Organizer) {
-
+            //returns list of everyone
         }
         else if (user instanceof Attendee) {
-
+            //returns attendees and speakers
         }
         else {
-
+            //returns attendees signed up for talks
         }
-        return friendsList;
     }
 
     /**
