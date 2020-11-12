@@ -1,4 +1,4 @@
-package MessagingParameters;
+package MessagingPresenters;
 
 public class ConversationManager {
 
