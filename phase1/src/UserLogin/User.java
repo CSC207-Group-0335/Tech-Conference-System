@@ -10,7 +10,7 @@ public abstract class User {
     private String email;
 
     /**
-     * A user is identified by a name, password and email address (the email will be used as a unique identifier.
+     * A user is identified by a name, password and email address (the email will be used as a unique identifier).
      * @param name the name of the user.
      * @param password the password of the user.
      * @param email a unique string representing the email address of the user that they have used to
