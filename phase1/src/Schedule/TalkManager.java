@@ -9,10 +9,10 @@ import java.util.*;
 public class TalkManager {
     RoomStorage roomStorage;
     Map<Talk, ArrayList<Object>> talkMap;
-    Map<Room, RoomScheduleManager> scheduleList;
+    Map<Room, RoomScheduleManager> roomScheduleList;
     public TalkManager(){
         this.roomStorage = new RoomStorage();
-        this.scheduleList = this.roomStorage.getScheduleList();
+        this.roomScheduleList = this.roomStorage.getScheduleList();
         this.talkMap = new Map<Talk, ArrayList<Object>>() {
             @Override
             public int size() {
@@ -85,18 +85,46 @@ public class TalkManager {
             }
         };
     }
-    public void createTalk(Talk t, Speaker s, Room r, Date d){
-        RoomScheduleManager roomScheduleManager = this.scheduleList.get(r);
-        if (roomScheduleManager.checkDoubleBooking(d)) {
-            ArrayList<Object> tup = new ArrayList<Object>();
-            tup.add(s);
-            tup.add(r);
-            tup.add(d);
-            this.talkMap.put(t, tup);
+    public boolean createTalk(String title, String speaker, String room, Date d){
+        ArrayList<Room> roomList = this.roomStorage.getRoomList();
+        //ArrayList<Speaker> speakerList = this.speakerStorage.getSpeakerList();
+        Room r = new Room("", 0);
+        Speaker s = new Speaker("", "", "");
+        for (Room room_iterator : roomList){
+            if (room_iterator.getRoomName().equals(room)){
+                r = room_iterator;
+                break;
+            }
         }
+//        for (Speaker speaker_iterator : speakerList){
+//            if (speaker_iterator.getSpeakerName().equals(speaker)){
+//                s = speaker_iterator;
+//                break;
+//            }
+//        }
+        RoomScheduleManager roomScheduleManager = this.roomScheduleList.get(r);
+        //SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleList.get(s);
+        ArrayList<Object> tup = new ArrayList<Object>();
+        tup.add(s);
+        tup.add(r);
+        tup.add(d);
+        Talk t = new Talk(title, d);
+        boolean addedToRoomScheduleManager = roomScheduleManager.addTalk(t);
+        //boolean addedToSpeakerScheduleManager = speakerScheduleManager.addTalk(t);
+        if (addedToRoomScheduleManager){
+            this.talkMap.put(t, tup);
+            return true;
+        }
+        return false;
     }
-    public void removeTalk(Talk t){
-        this.talkMap.remove(t);
+    public boolean removeTalk(Talk t){
+        boolean found = this.talkMap.containsKey(t);
+        if (found){
+            this.talkMap.remove(t);
+            return true;
+        }
+        return false;
+
 
     }
 
