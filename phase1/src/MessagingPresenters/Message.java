@@ -34,7 +34,7 @@ public class Message {
         this.conversationId = conversationId;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
-        this.messageId = UUID..randomUUID().toString();
+        this.messageId = UUID.randomUUID().toString();
     }
 
     /**
@@ -69,7 +69,7 @@ public class Message {
      * @return the message ID of the conversation in which this message is located
      */
 
-    public int getConversationID() {
+    public String getConversationID() {
         return conversationId;
     }
 
@@ -87,7 +87,7 @@ public class Message {
      * @return the content of message that was sent
      */
 
-    public LocalDateTime getTimestamp(){
+    public String getMessageContent(){
         return messageContent;
     }
 
