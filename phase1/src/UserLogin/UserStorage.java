@@ -8,8 +8,9 @@ import java.util.ArrayList;
  */
 
 public class UserStorage {
-    private ArrayList<User> UserList;
-    private ArrayList<UserScheduleManager> UserScheduleList;
+    //made these public (NOV 12) - Nathan
+    public ArrayList<User> UserList;
+    public ArrayList<UserScheduleManager> UserScheduleList;
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.

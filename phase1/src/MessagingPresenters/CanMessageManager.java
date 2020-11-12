@@ -36,6 +36,7 @@ public class CanMessageManager {
         else {
             //returns attendees signed up for talks
         }
+        return new ArrayList<User>(); //FOR TESTING PURPOSES -Nathan
     }
 
     /**

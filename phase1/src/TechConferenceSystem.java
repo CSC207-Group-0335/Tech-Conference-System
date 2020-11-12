@@ -1,0 +1,1 @@
+//Store all gateways that share the observable design pattern.
