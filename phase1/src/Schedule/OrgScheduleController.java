@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 public class OrgScheduleController implements Actions{
 
+    UserScheduleManager organizer;
+
+    public OrgScheduleController(UserScheduleManager organizer){
+        this.organizer = organizer;
+    }
+
     @Override
     public boolean signUp(Talk talk) {
         return false;

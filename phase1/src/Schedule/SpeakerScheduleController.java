@@ -5,6 +5,11 @@ import UserLogin.User;
 import java.util.ArrayList;
 
 public class SpeakerScheduleController implements Actions{
+
+    SpeakerScheduleManager speaker;
+    public SpeakerScheduleController(SpeakerScheduleManager speaker){
+        this.speaker = speaker;
+    }
     @Override
     public boolean signUp(Talk talk) {
         return false;
