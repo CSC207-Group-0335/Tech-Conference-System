@@ -33,6 +33,14 @@ public class UserStorage {
 
     }
 
+    public ArrayList<User> getUserList() {
+        return UserList;
+    }
+
+    public ArrayList<UserScheduleManager> getUserScheduleList() {
+        return UserScheduleList;
+    }
+
     private User createUserOfInstance(String usertype, String name, String password, String email){
         User newuser = null;
         switch (usertype) {
