@@ -1,5 +1,7 @@
 package UserLogin;
 
+import Schedule.UserScheduleManager;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -42,5 +44,9 @@ public class LogInManager implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (arg instanceof ArrayList) {
+            this.userList = (ArrayList<User>) arg;
+        }
+
     }
 }

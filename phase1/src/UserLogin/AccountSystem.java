@@ -14,14 +14,15 @@ import java.util.Observable;
 public class AccountSystem extends Observable {
     //Variables
     public UserStorage userStorage;
-    private ArrayList<User> userList;
+    public ArrayList<User> userList;
     public ArrayList<UserScheduleManager> userScheduleList;
+    public LogInController logInController;
 
     public AccountSystem() {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleList = new ArrayList<>();
-
+        this.addObserver(logInController.logInManager);
     }
 
     public void setUserList(ArrayList<User> userlst) {
@@ -39,7 +40,7 @@ public class AccountSystem extends Observable {
     public void setUserStorage(String usertype, String name, String password, String email) {
         this.userStorage.createUser(usertype, name, password, email);
         setUserList(this.userStorage.getUserList());
-        setUserScheduleList(this.userStorage.getUserScheduleList());
+        //setUserScheduleList(this.userStorage.getUserScheduleList());
     }
 
 }

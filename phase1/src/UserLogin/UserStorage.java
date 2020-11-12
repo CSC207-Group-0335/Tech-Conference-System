@@ -1,6 +1,7 @@
 package UserLogin;
 import Schedule.UserScheduleManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class UserStorage {
     //made these public (NOV 12) - Nathan
     public ArrayList<User> UserList;
-    public ArrayList<UserScheduleManager> UserScheduleList;
+    public Array UserScheduleList; //CHANGED FOR TESTING PURPOSES
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
@@ -18,7 +19,7 @@ public class UserStorage {
 
     public UserStorage() {
         this.UserList = new ArrayList<>();
-        this.UserScheduleList = new ArrayList<>();
+        //this.UserScheduleList = new ArrayList<>();
 
     }
 
@@ -41,8 +42,8 @@ public class UserStorage {
         //Add the user to the UserList
         this.UserList.add(newuser);
         //Add the user to UserScheduleList
-        UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
-        this.UserScheduleList.add(newuserschedulemanager);
+        //UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
+        //this.UserScheduleList.add(newuserschedulemanager);
 
         return true;
 
@@ -52,9 +53,9 @@ public class UserStorage {
         return UserList;
     }
 
-    public ArrayList<UserScheduleManager> getUserScheduleList() {
-        return UserScheduleList;
-    }
+   // public ArrayList<UserScheduleManager> getUserScheduleList() {
+    //    return UserScheduleList;
+    //}
 
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
