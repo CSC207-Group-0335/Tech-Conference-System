@@ -67,14 +67,6 @@ public class Message {
      * @return the message ID of the conversation in which this message is located
      */
 
-    public String getConversationID() {
-        return conversationId;
-    }
-
-    /**
-     * Returns the date and time at which this message was sent.
-     * @return the date and time this message was sent
-     */
 
     public LocalDateTime getTimestamp(){
         return timestamp;

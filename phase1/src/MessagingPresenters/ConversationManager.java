@@ -27,10 +27,17 @@ public class ConversationManager {
 
     public void addMessage(String recipientEmail, String senderEmail,
                        LocalDateTime timestamp, String messageContent){
-        if (this.participants.contains(recipientEmail) and this.participants.contains(senderEmail)){
+        if (this.participants.contains(recipientEmail) && this.participants.contains(senderEmail)){
             Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent);
             this.messages.add(message);
         }
+    }
+
+    /**
+     * Returns set of participants.
+     */
+    public Set<String> getParticipants(){
+        return this.participants;
     }
 
 

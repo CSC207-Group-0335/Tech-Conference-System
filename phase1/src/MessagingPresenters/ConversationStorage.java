@@ -23,10 +23,9 @@ public class ConversationStorage{
      * @return True if conversation is add and false if it already exists.
      */
 
-    @Override
     public boolean contains(ConversationManager conversationManager){
         for (ConversationManager c: conversationManagers){
-            if (conversationManager.partcipants.equals(c.participants)){
+            if (conversationManager.getParticipants().equals(c.getParticipants())){
                 return true;
             }
         }
