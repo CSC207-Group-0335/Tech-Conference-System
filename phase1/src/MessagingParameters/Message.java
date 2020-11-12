@@ -1,6 +1,7 @@
 package MessagingParameters;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * A class that represents a message.
@@ -8,11 +9,12 @@ import java.time.LocalDateTime;
 
 public class Message {
 
-    private static int messageId;
+    private String messageId;
     private String recipientEmail;
     private String senderEmail;
     private int conversationId;
     private LocalDateTime timestamp;
+    private String messageContent;
 
     /**
      * A conversation ID, recipient and sender email address, and a timestamp are required to create an
@@ -21,16 +23,18 @@ public class Message {
      * @param senderEmail the email address of the sender
      * @param conversationId a unique integer representing the ID of a conversation
      * @param timestamp the time and date this message was sent
+     * @param messageContent the content of the message
      */
 
     public Message(String recipientEmail, String senderEmail, int conversationId,
-                   LocalDateTime timestamp) {
+                   LocalDateTime timestamp, String messageContent) {
 
         this.recipientEmail = recipientEmail;
         this.senderEmail = senderEmail;
         this.conversationId = conversationId;
         this.timestamp = timestamp;
-        messageId ++;
+        this.messageContent = messageContent;
+        this.messageId = UUID..randomUUID().toString();
     }
 
     /**
@@ -76,6 +80,15 @@ public class Message {
 
     public LocalDateTime getTimestamp(){
         return timestamp;
+    }
+
+    /**
+     * Returns the content of the message sent.
+     * @return the content of message that was sent
+     */
+
+    public LocalDateTime getTimestamp(){
+        return messageContent;
     }
 
 }
