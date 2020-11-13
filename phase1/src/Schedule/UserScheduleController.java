@@ -68,13 +68,15 @@ public class UserScheduleController implements Actions, Observer {
                 }
                 //check to see they entered valid talk
                 if (toRegister != null){
-                    this.signUp(toRegister);
-                    break;
+                    scan.close();
+                    return this.signUp(toRegister);
                 }
                 System.out.println("Not a valid talk");
             } else if (command == 2) {
+                scan.close();
                 return this.allAttending();
             } else if (command == 3) {
+                scan.close();
                 return this.allRegistered();
             } else if (command == 4) {
                 System.out.println("What event would you like to cancel for?");
@@ -88,14 +90,13 @@ public class UserScheduleController implements Actions, Observer {
                 }
                 //check to see they entered valid talk
                 if (toCancel != null){
+                    scan.close();
                     return this.cancelRegistration(toCancel);
                 }
                 System.out.println("Not a valid talk");
                 //duplicate code, should I make a private method?
             }
         }
-        scan.close();
-        return null;
     }
 
     @Override
