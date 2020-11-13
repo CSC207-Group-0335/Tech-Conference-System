@@ -31,6 +31,10 @@ public class UserStorage {
 
     public boolean createUser(String usertype, String name, String password, String email) {
         //Create instance of user depending on usertype
+        // First check if email is already in system
+        if (!(checkIfValidEmail(email))){
+            return false;
+        }
         User newuser = createUserOfInstance(usertype, name, password, email);
         if (newuser == null) {
             return false;
@@ -82,9 +86,17 @@ public class UserStorage {
             }
         }
         return newuser;
+    }
+    private boolean checkIfValidEmail(String email){
+        for (User account: this.UserList){
+            if((account.getEmail()).equals(email)){
+                return false;
+            }
         }
+        return true;
 
     }
+}
 
 
 
