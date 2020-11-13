@@ -1,4 +1,5 @@
 package UserLogin;
+import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
 
 import java.lang.reflect.Array;
@@ -12,6 +13,7 @@ public class UserStorage {
     //made these public (NOV 12) - Nathan
     public ArrayList<User> userList;
     public ArrayList<UserScheduleManager> userScheduleList; //CHANGED FOR TESTING PURPOSES
+    public ArrayList<SpeakerScheduleManager> speakerScheduleList;
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
@@ -20,6 +22,7 @@ public class UserStorage {
     public UserStorage() {
         this.userList = new ArrayList<>();
         this.userScheduleList = new ArrayList<>();
+        this.speakerScheduleList = new ArrayList<>();
 
     }
 
@@ -42,9 +45,15 @@ public class UserStorage {
 
         //Add the user to the UserList
         this.userList.add(newuser);
-        //Add the user to UserScheduleList
-        UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
-        this.userScheduleList.add(newuserschedulemanager);
+        //Add the Attendee/Organizer user to UserScheduleList
+        if (newuser instanceof Attendee || newuser instanceof Organizer){
+            UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
+            this.userScheduleList.add(newuserschedulemanager);
+        }
+        if (newuser instanceof Speaker){
+            SpeakerScheduleManager newspeakerschedulemanager = new SpeakerScheduleManager((Speaker) newuser);
+            this.speakerScheduleList.add(newspeakerschedulemanager);
+        }
 
         return true;
 
