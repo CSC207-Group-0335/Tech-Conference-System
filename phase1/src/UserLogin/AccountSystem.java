@@ -22,6 +22,7 @@ public class AccountSystem extends Observable {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleList = new ArrayList<>();
+        this.logInController = new LogInController();
         this.addObserver(logInController.logInManager);
     }
 
@@ -41,7 +42,7 @@ public class AccountSystem extends Observable {
     public void setUserStorage(String usertype, String name, String password, String email) {
         this.userStorage.createUser(usertype, name, password, email);
         setUserList(this.userStorage.getUserList());
-        //setUserScheduleList(this.userStorage.getUserScheduleList());
+        setUserScheduleList(this.userStorage.getUserScheduleList());
     }
 
 }
