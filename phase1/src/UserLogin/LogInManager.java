@@ -16,18 +16,16 @@ public class LogInManager implements Observer {
     private String password;
     private User usertype;
     public ArrayList<User> userList;
-    //public ArrayList<UserScheduleManager> userScheduleManagerList;
 
     /**
      * A user will login with their email and password and the LogInManager will process the login attempt.
      */
 
     public LogInManager() {
-        //this.email = email;
-        //this.password = password;
+        this.email = email;
+        this.password = password;
         this.usertype = null;
         this.userList = new ArrayList<User>();
-        //this.userScheduleManagerList = new ArrayList<UserScheduleManager>();
     }
 
     //public User findUser(String email) {
