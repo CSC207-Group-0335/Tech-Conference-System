@@ -19,8 +19,10 @@ public class TechConferenceSystem extends Observable {
     public Map<User, UserScheduleManager> userScheduleMap;
     public LogInController logInController;
     public RoomSystem roomSystem;
+    public User user; //needed to instantiate a LogInController, NOV 13
 
-    public TechConferenceSystem() {
+    public TechConferenceSystem(User user) {
+        this.user = user; //NOV 13, USER PARAMETER ADDED, NATHAN
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new Map<User, UserScheduleManager>() {
@@ -94,7 +96,7 @@ public class TechConferenceSystem extends Observable {
                 return 0;
             }
         };
-        this.logInController = new LogInController();
+        this.logInController = new LogInController(this.user); //NOV 13, CHANGED LogInController
         this.addObserver(logInController.logInManager);
         this.roomSystem = new RoomSystem();
         this.addObserver(roomSystem.talkSystem);

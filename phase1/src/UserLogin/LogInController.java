@@ -8,9 +8,10 @@ package UserLogin;
 public class LogInController {
     //private UserStorage userStorage;
     public LogInManager logInManager;
+    public User user;
 
-    public LogInController(){
-        this.logInManager = new LogInManager();
+    public LogInController(User user){
+        this.logInManager = new LogInManager(user.getEmail(), user.getPassword());
     }
 }
 

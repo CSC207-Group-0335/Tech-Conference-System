@@ -3,10 +3,11 @@ package UserLogin;
 public class test {
 
     public static void main(String[] args) {
-        TechConferenceSystem accountSystem = new TechConferenceSystem();
+        User nathan = new Attendee("Nathan", "coding123", "nathan@mail.com");
+        TechConferenceSystem techSystem = new TechConferenceSystem(nathan);
 
-        accountSystem.setUserStorage("Attendee", "Nathan", "coding123", "nathan@mail.com");
-        System.out.println(accountSystem.userStorage.getUserList());
-        System.out.println(accountSystem.logInController.logInManager.userList);
+        techSystem.setUserStorage("Attendee", "Nathan", "coding123", "nathan@mail.com");
+        System.out.println(techSystem.userStorage.getUserList());
+        System.out.println(techSystem.logInController.logInManager.userList);
     }
 }

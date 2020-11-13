@@ -12,9 +12,9 @@ import java.util.Optional;
  */
 
 public class LogInManager implements Observer {
-    //Variables
-    private String email;
-    private String password;
+    //IntelliJ prompted me to make these variables final
+    private final String email;
+    private final String password;
     private User usertype;
     public ArrayList<User> userList;
 
@@ -22,7 +22,7 @@ public class LogInManager implements Observer {
      * A user will login with their email and password and the LogInManager will process the login attempt.
      */
 
-    public LogInManager() {
+    public LogInManager(String email, String password) {
         this.email = email;
         this.password = password;
         this.usertype = null;
@@ -30,15 +30,14 @@ public class LogInManager implements Observer {
     }
 
     /**
-     * Helper method to find the user in the database from the provided email
-     * @param email the provided email for the login attempt
+     * Helper method to find the user in the UserStorage associated with this.email
      * @return the user associated with the email, or null if no such user is found. Currently attempting to
      * use an Optional Parameter in order to accomplish this task, instead of a null value.
      */
-    private User findUser(String email) {
+    private User findUser() {
         //iterate through userList and check the email associated with each user to see if there is a match.
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getEmail().equals(email)) {
+            if (userList.get(i).getEmail().equals(this.email)) {
                 return userList.get(i); //return the user associated with this email.
             }
         }
@@ -46,22 +45,20 @@ public class LogInManager implements Observer {
     }
 
     /**
-     * Public method used to login the user based on teh provided email and password.
-     * @param email the provided email.
-     * @param password the provided password.
+     * Public method used to login the user based on this.email and this.password.
      * @return a boolean value representing whether or not the login was successful.
      */
 
-    public boolean login(String email, String password) {
+    public boolean login() {
         //find the user in UserStorage using the provided email
-        User user = findUser(email);
+        User user = findUser();
         if (user != null) {
             //A user has been found, now check the password
 
             //NOTE should we return a string that says "Incorrect password" vs "User not found" in order to
             //differentiate the problem if the result is false?
 
-            return user.getPassword().equals(password);
+            return user.getPassword().equals(this.password);
         } else {
             return false;
         }
