@@ -6,7 +6,11 @@ package UserLogin;
  */
 
 public class LogInController {
-    private UserStorage userStorage;
+    //private UserStorage userStorage;
     public LogInManager logInManager;
+
+    public LogInController(){
+        this.logInManager = new LogInManager();
+    }
 }
 

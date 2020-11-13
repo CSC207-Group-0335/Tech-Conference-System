@@ -2,7 +2,6 @@ package UserLogin;
 
 import Schedule.UserScheduleManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,10 +30,6 @@ public class LogInManager implements Observer {
         this.userScheduleManagerList = new ArrayList<UserScheduleManager>();
     }
 
-    /**
-     * Based on the given email, look into the database for the associated User object.
-     * @return the User object associated with that email.
-     */
     //public User findUser(String email) {
     //}
 
@@ -50,16 +45,19 @@ public class LogInManager implements Observer {
         //First, check if the argument is empty
         //If the argument is empty, then it is the first User object that is being put in the UserStorage
         ArrayList argum = (ArrayList) arg;
-        if (arg == null) {
-            this.userList = (ArrayList<User>) arg;
-        }
-        else {
-            if (argum[0].isInstanceOf(User)) {
+//        if (argum.isEmpty()) {
+//            //add to the userList since
+//            this.userList = (ArrayList<User>) arg;
+//        }
+
+            //check if the first element is an instance of User, which would mean that argum is referring to
+            //the userList. So then update userList.
+            if (argum.get(0) instanceof User) {
                 this.userList = (ArrayList<User>) arg;
             }
-            else if (arg instanceof ArrayList<UserScheduleManager>) {
+            //else, we know that argum is instead referring to the UserScheduleManagerList, so update that instead
+            else {
                 this.userScheduleManagerList = (ArrayList<UserScheduleManager>) arg;
-            }
         }
 
 
