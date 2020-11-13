@@ -21,6 +21,7 @@ public class SpeakerScheduleController implements Actions, Observer {
 
     @Override
     public boolean signUp(Talk talk) {
+
         return false;
     }
 
@@ -38,8 +39,10 @@ public class SpeakerScheduleController implements Actions, Observer {
     public ArrayList<Talk> allRegistered() {
         return null;
     }
-    public ArrayList<Talk> allSpeaking() {
-        return null;
+
+    public ArrayList<Talk> allSpeakingAt() {
+
+        return speaker.talkList;
     }
 
     @Override
