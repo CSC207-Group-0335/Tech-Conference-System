@@ -9,9 +9,16 @@ import java.util.Observer;
 public class SpeakerScheduleController implements Actions, Observer {
 
     SpeakerScheduleManager speaker;
-    public SpeakerScheduleController(SpeakerScheduleManager speaker){
+    TalkManager talkManager;
+    SignUpAttendeesManager signUpList;
+    public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
+                                     SignUpAttendeesManager signUpList){
+
         this.speaker = speaker;
+        this.talkManager = talkManager;
+        this.signUpList = signUpList;
     }
+
     @Override
     public boolean signUp(Talk talk) {
         return false;
