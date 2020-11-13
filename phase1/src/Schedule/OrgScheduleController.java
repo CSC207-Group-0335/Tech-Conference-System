@@ -3,8 +3,10 @@ package Schedule;
 import UserLogin.User;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class OrgScheduleController implements Actions{
+public class OrgScheduleController implements Actions, Observer {
 
     UserScheduleManager organizer;
 
@@ -42,5 +44,10 @@ public class OrgScheduleController implements Actions{
 
     public boolean createSpeaker() {
         return false;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

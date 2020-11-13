@@ -6,11 +6,13 @@ public class RoomSystem extends Observable{
     public ArrayList<RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
     public TalkManager talkManager;
+    public OrgScheduleController orgScheduleController;
     public RoomSystem(){
         this.roomStorage = new RoomStorage();
         this.roomList = this.roomStorage.getRoomList();
         this.roomScheduleManagerList = this.roomStorage.getScheduleList();
         this.addObserver(talkManager);
+        this.addObserver(orgScheduleController);
     }
 
 }
