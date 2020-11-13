@@ -5,6 +5,7 @@ import Schedule.UserScheduleManager;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 /**
  * A Use Case class that handles the back-end of the login process for a user attempting to login to their account.
@@ -28,20 +29,49 @@ public class LogInManager implements Observer {
         this.userList = new ArrayList<User>();
     }
 
-    //public User findUser(String email) {
-    //}
+    /**
+     * Helper method to find the user in the database from the provided email
+     * @param email the provided email for the login attempt
+     * @return the user associated with the email, or null if no such user is found. Currently attempting to
+     * use an Optional Parameter in order to accomplish this task, instead of a null value.
+     */
+    private User findUser(String email) {
+        //iterate through userList and check the email associated with each user to see if there is a match.
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getEmail().equals(email)) {
+                return userList.get(i); //return the user associated with this email.
+            }
+        }
+        return null; //If we have reached the end of the list and there is no match, return null.
+    }
 
-    //public boolean login(User user) {
-        //Update the UserList
-        //check if the user is in UserStorage
-        //return userStorage.UserList.contains(user);
-   // }
+    /**
+     * Public method used to login the user based on teh provided email and password.
+     * @param email the provided email.
+     * @param password the provided password.
+     * @return a boolean value representing whether or not the login was successful.
+     */
+
+    public boolean login(String email, String password) {
+        //find the user in UserStorage using the provided email
+        User user = findUser(email);
+        if (user != null) {
+            //A user has been found, now check the password
+
+            //NOTE should we return a string that says "Incorrect password" vs "User not found" in order to
+            //differentiate the problem if the result is false?
+
+            return user.getPassword().equals(password);
+        } else {
+            return false;
+        }
+    }
 
 
     @Override
     public void update(Observable o, Object arg) {
         //check the type of arg (if it is a map, we do not update it here since it is referring to the
-        // UserScheduleMap/SpeakerScheduleMap.
+        // UserScheduleMap/SpeakerScheduleMap).
         if (arg instanceof ArrayList) {
             //We know that arg refers to the UserList
             this.userList = (ArrayList<User>) arg;
