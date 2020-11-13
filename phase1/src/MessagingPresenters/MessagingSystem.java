@@ -5,4 +5,5 @@ package MessagingPresenters;
  */
 
 public class MessagingSystem {
+    public SpeakerMessengerController speakerMessengerController;
 }

@@ -1,8 +1,6 @@
 package MessagingPresenters;
-import UserLogin.Attendee;
-import UserLogin.Organizer;
-import UserLogin.Speaker;
-import UserLogin.User;
+import UserLogin.*;
+
 import java.util.ArrayList;
 
 /**
@@ -22,21 +20,36 @@ public class CanMessageManager {
     }
 
     /**
-     * Returns a list of users that this user is allowed to message.
+     * Returns a list of users that this user is allowed to message. Attendees can message all attendees and speakers,
+     * organizers can message all users, and speakers can message all attendees.
      * @return the list of users that user can message
      */
 
     public ArrayList<User> getFriendsList() {
+        ArrayList<User> friends = new ArrayList<User>();
+        UserStorage allUsers = new UserStorage();
+
         if (user instanceof Organizer) {
-            //returns list of everyone
+            for (int i = 0; i < allUsers.userList.size(); i++){
+                friends.add(allUsers.getUserList().get(i));
+            }
         }
         else if (user instanceof Attendee) {
-            //returns attendees and speakers
+            for (int i = 0; i < allUsers.userList.size(); i++){
+                if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i)
+                        instanceof Speaker){
+                    friends.add(allUsers.getUserList().get(i));
+                }
+            }
         }
         else {
-            //returns attendees signed up for talks
+            for (int i = 0; i < allUsers.userList.size(); i++){
+                if (allUsers.getUserList().get(i) instanceof Attendee){
+                    friends.add(allUsers.getUserList().get(i));
+                }
+            }
         }
-        return new ArrayList<User>(); //FOR TESTING PURPOSES -Nathan
+        return friends;
     }
 
     /**
@@ -55,7 +68,7 @@ public class CanMessageManager {
         } else if (this.user instanceof Organizer) {
             return true;
         } else {
-            if (friend instanceof Organizer) {
+            if (friend instanceof Organizer || friend instanceof Speaker) {
                 return false;
             }
             else {

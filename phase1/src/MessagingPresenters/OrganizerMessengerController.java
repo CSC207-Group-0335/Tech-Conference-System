@@ -1,30 +1,30 @@
 package MessagingPresenters;
 
-import UserLogin.Speaker;
+import UserLogin.Organizer;
 import UserLogin.User;
 
 import java.util.ArrayList;
 
+
 /**
- * A class that represents a speaker message controller.
+ * A class that represents an organizer message controller.
  */
 
-public class SpeakerMessageController extends MessengerController {
-    private Speaker user;
+public class OrganizerMessengerController extends MessengerController {
     private CanMessageManager userInfo;
 
     /**
-     * A speaker is required to create an instance of this class.
-     * @param user the speaker
+     * An organizer is required to create an instance of this class.
+     * @param user the organizer
      */
 
-    public SpeakerMessageController(Speaker user) {
+    public OrganizerMessengerController(Organizer user) {
         super(user);
         this.userInfo = new CanMessageManager(user);
     }
 
     /**
-     * Adds the given user to this speaker's friend list if and only if this speaker can message them.
+     * Adds the given user to this organizer's friend list if and only if this organizer can message them.
      * @param friend the given user to be added to the friend list
      */
 
@@ -33,4 +33,5 @@ public class SpeakerMessageController extends MessengerController {
             userInfo.getFriendsList().add(friend);
         }
     }
+
 }
