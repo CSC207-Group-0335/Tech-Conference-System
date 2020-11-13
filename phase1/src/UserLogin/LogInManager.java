@@ -2,6 +2,7 @@ package UserLogin;
 
 import Schedule.UserScheduleManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,6 +17,7 @@ public class LogInManager implements Observer {
     private String password;
     private User usertype;
     public ArrayList<User> userList;
+    public ArrayList<UserScheduleManager> userScheduleManagerList;
 
     /**
      * A user will login with their email and password and the LogInManager will process the login attempt.
@@ -26,6 +28,7 @@ public class LogInManager implements Observer {
         //this.password = password;
         this.usertype = null;
         this.userList = new ArrayList<User>();
+        this.userScheduleManagerList = new ArrayList<UserScheduleManager>();
     }
 
     /**
@@ -44,9 +47,21 @@ public class LogInManager implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof ArrayList) {
+        //First, check if the argument is empty
+        //If the argument is empty, then it is the first User object that is being put in the UserStorage
+        ArrayList argum = (ArrayList) arg;
+        if (arg == null) {
             this.userList = (ArrayList<User>) arg;
         }
+        else {
+            if (argum[0].isInstanceOf(User)) {
+                this.userList = (ArrayList<User>) arg;
+            }
+            else if (arg instanceof ArrayList<UserScheduleManager>) {
+                this.userScheduleManagerList = (ArrayList<UserScheduleManager>) arg;
+            }
+        }
+
 
     }
 }

@@ -37,6 +37,7 @@ public class AccountSystem extends Observable {
         notifyObservers(userScheduleList);
     }
 
+    //Edit this method to read from .csv file and creates an updated version of UserStorage
     public void setUserStorage(String usertype, String name, String password, String email) {
         this.userStorage.createUser(usertype, name, password, email);
         setUserList(this.userStorage.getUserList());

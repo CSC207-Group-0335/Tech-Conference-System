@@ -10,16 +10,16 @@ import java.util.ArrayList;
 
 public class UserStorage {
     //made these public (NOV 12) - Nathan
-    public ArrayList<User> UserList;
-    public Array UserScheduleList; //CHANGED FOR TESTING PURPOSES
+    public ArrayList<User> userList;
+    public ArrayList<UserScheduleManager> userScheduleList; //CHANGED FOR TESTING PURPOSES
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
      */
 
     public UserStorage() {
-        this.UserList = new ArrayList<>();
-        //this.UserScheduleList = new ArrayList<>();
+        this.userList = new ArrayList<>();
+        this.userScheduleList = new ArrayList<>();
 
     }
 
@@ -40,26 +40,21 @@ public class UserStorage {
             return false;
         }
 
-        //NOV 12 NOTE by Nathan...We need to check that this users email is unique or else do not create a new user.
-        //I could try to do this is a helper method.
-
         //Add the user to the UserList
-        this.UserList.add(newuser);
+        this.userList.add(newuser);
         //Add the user to UserScheduleList
-        //UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
-        //this.UserScheduleList.add(newuserschedulemanager);
+        UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
+        this.userScheduleList.add(newuserschedulemanager);
 
         return true;
 
     }
 
     public ArrayList<User> getUserList() {
-        return UserList;
+        return userList;
     }
 
-   // public ArrayList<UserScheduleManager> getUserScheduleList() {
-    //    return UserScheduleList;
-    //}
+    public ArrayList<UserScheduleManager> getUserScheduleList() { return userScheduleList;}
 
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
@@ -88,7 +83,7 @@ public class UserStorage {
         return newuser;
     }
     private boolean checkIfValidEmail(String email){
-        for (User account: this.UserList){
+        for (User account: this.userList){
             if((account.getEmail()).equals(email)){
                 return false;
             }
