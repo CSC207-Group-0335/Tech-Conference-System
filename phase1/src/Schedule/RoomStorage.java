@@ -10,12 +10,71 @@ import java.util.Set;
 
 public class RoomStorage {
     ArrayList<Room> roomList;
-    ArrayList<RoomScheduleManager>scheduleList;
-    //Map<Room, RoomScheduleManager> scheduleList;
+    Map<Room, RoomScheduleManager> scheduleList;
 
     public RoomStorage(){
         this.roomList = new ArrayList<>();
-        this.scheduleList = new ArrayList<>();
+        this.scheduleList = new Map<Room, RoomScheduleManager>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean containsKey(Object key) {
+                return false;
+            }
+
+            @Override
+            public boolean containsValue(Object value) {
+                return false;
+            }
+
+            @Override
+            public RoomScheduleManager get(Object key) {
+                return null;
+            }
+
+            @Override
+            public RoomScheduleManager put(Room key, RoomScheduleManager value) {
+                return null;
+            }
+
+            @Override
+            public RoomScheduleManager remove(Object key) {
+                return null;
+            }
+
+            @Override
+            public void putAll(Map<? extends Room, ? extends RoomScheduleManager> m) {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Set<Room> keySet() {
+                return null;
+            }
+
+            @Override
+            public Collection<RoomScheduleManager> values() {
+                return null;
+            }
+
+            @Override
+            public Set<Entry<Room, RoomScheduleManager>> entrySet() {
+                return null;
+            }
+        };
     }
 
     public void createRoom(String roomName) {
@@ -29,7 +88,7 @@ public class RoomStorage {
             Room room = new Room(roomName);
             roomList.add(room);
             RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-            scheduleList.add(rScheduleManager);
+            scheduleList.put(room, rScheduleManager);
         }
     }
 
@@ -44,7 +103,7 @@ public class RoomStorage {
             Room room = new Room(roomName, capacity);
             roomList.add(room);
             RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-            scheduleList.add(rScheduleManager);
+            scheduleList.put(room, rScheduleManager);
         }
     }
 
@@ -52,7 +111,7 @@ public class RoomStorage {
         return roomList;
     }
 
-    public ArrayList<RoomScheduleManager> getScheduleList() {
+    public Map<Room, RoomScheduleManager> getScheduleList() {
         return scheduleList;
     }
 }

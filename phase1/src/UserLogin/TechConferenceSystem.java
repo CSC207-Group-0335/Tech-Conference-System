@@ -1,5 +1,7 @@
 package UserLogin;
 
+import Schedule.RoomStorage;
+import Schedule.RoomSystem;
 import Schedule.ScheduleManager;
 import Schedule.UserScheduleManager;
 
@@ -10,14 +12,15 @@ import java.util.*;
  * registered in the database.
  */
 
-public class AccountSystem extends Observable {
+public class TechConferenceSystem extends Observable {
     //Variables
     public UserStorage userStorage;
     public ArrayList<User> userList;
     public Map<User, UserScheduleManager> userScheduleMap;
     public LogInController logInController;
+    public RoomSystem roomSystem;
 
-    public AccountSystem() {
+    public TechConferenceSystem() {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new Map<User, UserScheduleManager>() {
@@ -93,6 +96,8 @@ public class AccountSystem extends Observable {
         };
         this.logInController = new LogInController();
         this.addObserver(logInController.logInManager);
+        this.roomSystem = new RoomSystem();
+        this.addObserver(roomSystem.talkSystem);
     }
 
     public void setUserList(ArrayList<User> userlst) {

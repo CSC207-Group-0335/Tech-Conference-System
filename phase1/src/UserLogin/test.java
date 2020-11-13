@@ -3,7 +3,7 @@ package UserLogin;
 public class test {
 
     public static void main(String[] args) {
-        AccountSystem accountSystem = new AccountSystem();
+        TechConferenceSystem accountSystem = new TechConferenceSystem();
 
         accountSystem.setUserStorage("Attendee", "Nathan", "coding123", "nathan@mail.com");
         System.out.println(accountSystem.userStorage.getUserList());

@@ -10,8 +10,8 @@ public class UserScheduleManager extends ScheduleManager {
     User user;
     ArrayList<Talk> talkList;
 
-    public UserScheduleManager(User speaker){
-        this.user = speaker;
+    public UserScheduleManager(User user){
+        this.user = user;
     }
 
     public Object getUser() {

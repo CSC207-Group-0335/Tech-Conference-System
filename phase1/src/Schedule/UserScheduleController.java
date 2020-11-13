@@ -2,12 +2,14 @@ package Schedule;
 import UserLogin.*;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * A controller class describing the actions a user can perform in the program
  */
-public class UserScheduleController implements Actions{
+public class UserScheduleController implements Actions, Observer {
     /**
      * The user of the program
      */
@@ -68,6 +70,11 @@ public class UserScheduleController implements Actions{
                 break;
             }
         }
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }
