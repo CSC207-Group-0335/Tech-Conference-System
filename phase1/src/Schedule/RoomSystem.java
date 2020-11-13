@@ -7,10 +7,12 @@ public class RoomSystem extends Observable{
     public RoomStorage roomStorage;
     public TalkManager talkManager;
     public OrgScheduleController orgScheduleController;
+    public TalkSystem talkSystem;
     public RoomSystem(){
         this.roomStorage = new RoomStorage();
         this.roomList = this.roomStorage.getRoomList();
         this.roomScheduleManagerList = this.roomStorage.getScheduleList();
+        this.talkSystem = new TalkSystem();
         this.addObserver(talkManager);
         this.addObserver(orgScheduleController);
     }
