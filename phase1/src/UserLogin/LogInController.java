@@ -14,6 +14,7 @@ public class LogInController extends Observable {
     //private UserStorage userStorage;
     public LogInManager logInManager;
     public User user;
+    public LogInPresenter presenter;
 
     public LogInController(){
         //we need a method like set-user that returns a user object based on the info entered and then we instantiate
@@ -22,6 +23,8 @@ public class LogInController extends Observable {
         //the type of the User to properly display the correct type of schedule) - Nathan, NOV 13
         //this.logInManager = new LogInManager(user.getEmail(), user.getPassword());
         this.logInManager = null;
+        this.presenter = new LogInPresenter();
+
 
     }
     public boolean runLogIn(){
@@ -29,9 +32,9 @@ public class LogInController extends Observable {
         while (check){
 
             Scanner in = new Scanner(System.in);
-            System.out.println("Enter you email: ");
+            presenter.printLoginInfo(1); //Ask for email
             String email = in.nextLine();
-            System.out.println("Enter your password: ");
+            presenter.printLoginInfo(2); //Ask for password
             String password = in.nextLine();
             in.close();
 
@@ -39,9 +42,10 @@ public class LogInController extends Observable {
             if (this.logInManager.login()){
                 check = false;
                 this.user = this.logInManager.findUser();
+                presenter.printLoginInfo(3); //Login Successful
             }
             else{
-                System.out.println("Email and password combination not found, try again.");
+                presenter.printLoginInfo(4); //Something went wrong
             }
 
         }
