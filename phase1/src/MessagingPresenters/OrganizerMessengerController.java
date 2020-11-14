@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController { // NOV 14: REMOVED PARENT/CHILD CLASS RELATIONSHIP BETWEEN MESSENGER CONTROLLERS; NOT ENOUGH REASON TO INHERIT - JOLIE
+public class OrganizerMessengerController {
     private Organizer organizer;
     private CanMessageManager userInfo;
 
