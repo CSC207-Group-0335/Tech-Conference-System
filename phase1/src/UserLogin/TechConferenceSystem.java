@@ -2,6 +2,7 @@ package UserLogin;
 
 import Schedule.*;
 
+import java.io.BufferedReader;
 import java.util.*;
 
 /**
@@ -47,10 +48,14 @@ public class TechConferenceSystem extends Observable {
     }
 
     //Edit this method to read from .csv file and creates an updated version of UserStorage
-    public void setUserStorage(String usertype, String name, String password, String email) {
-        this.userStorage.createUser(usertype, name, password, email);
-        setUserList(this.userStorage.getUserList());
-        setUserScheduleMap(this.userStorage.getUserScheduleMap());
-    }
+    //public void setUserStorage(String usertype, String name, String password, String email) {
+        //this.userStorage.createUser(usertype, name, password, email);
+        //setUserList(this.userStorage.getUserList());
+        //setUserScheduleMap(this.userStorage.getUserScheduleMap());
+    //}
+    public void setUserStorage() {
+
+
+        }
 
 }
