@@ -1,8 +1,10 @@
 package UserLogin;
 
 import Schedule.*;
-
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 /**
@@ -66,4 +68,10 @@ public class TechConferenceSystem extends Observable {
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
         }
+
+
+    public void saveUserImage(){
+        new UsersCSVWriter("Users.csv",this.userList);
+
+    }
 }
