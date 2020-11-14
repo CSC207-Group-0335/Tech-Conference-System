@@ -34,7 +34,7 @@ public class LogInManager implements Observer {
      * @return the user associated with the email, or null if no such user is found. Currently attempting to
      * use an Optional Parameter in order to accomplish this task, instead of a null value.
      */
-    private User findUser() {
+    public User findUser() {
         //iterate through userList and check the email associated with each user to see if there is a match.
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getEmail().equals(this.email)) {

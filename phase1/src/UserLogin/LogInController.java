@@ -37,15 +37,18 @@ public class LogInController extends Observable {
 
             this.logInManager = new LogInManager(email, password);
             if (this.logInManager.login()){
-
+                check = false;
+                this.user = this.logInManager.findUser();
             }
-
+            else{
+                System.out.println("Email and password combination not found, try again.");
+            }
 
         }
 
 
 
-
+        return true;
     }
 }
 
