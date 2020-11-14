@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class TalkManager implements Observer {
-    HashMap<Talk, ArrayList<Object>> talkMap;
+    LinkedHashMap<Talk, ArrayList<Object>> talkMap;
     public HashMap<Room, RoomScheduleManager> roomScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
 
     public TalkManager(){
         this.roomScheduleMap = new HashMap<Room, RoomScheduleManager>();
         this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
-        this.talkMap = new HashMap<Talk, ArrayList<Object>>();
+        this.talkMap = new LinkedHashMap<Talk, ArrayList<Object>>();
     }
 
     public void addTalk(Talk t, Room r, Speaker s, LocalDateTime d){
