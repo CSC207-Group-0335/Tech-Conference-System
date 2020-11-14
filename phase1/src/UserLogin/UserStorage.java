@@ -13,7 +13,7 @@ public class UserStorage {
     //made these public (NOV 12) - Nathan
     public ArrayList<User> userList;
     public HashMap<User, UserScheduleManager> userScheduleMap; //CHANGED FOR TESTING PURPOSES
-    public HashMap<User, SpeakerScheduleManager> speakerScheduleMap;
+    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
@@ -22,7 +22,7 @@ public class UserStorage {
     public UserStorage() {
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.speakerScheduleMap = new HashMap<User, SpeakerScheduleManager>();
+        this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
 
     }
 
@@ -52,7 +52,7 @@ public class UserStorage {
         }
         if (newuser instanceof Speaker){
             SpeakerScheduleManager newspeakerschedulemanager = new SpeakerScheduleManager((Speaker) newuser);
-            this.speakerScheduleMap.put(newuser, newspeakerschedulemanager);
+            this.speakerScheduleMap.put((Speaker) newuser, newspeakerschedulemanager);
         }
 
         return true;
@@ -65,7 +65,7 @@ public class UserStorage {
 
     public HashMap<User, UserScheduleManager> getUserScheduleMap() { return userScheduleMap;}
 
-    public HashMap<User, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
+    public HashMap<Speaker, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
 
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the

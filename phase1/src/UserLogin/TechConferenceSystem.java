@@ -57,9 +57,13 @@ public class TechConferenceSystem extends Observable {
         //setUserList(this.userStorage.getUserList());
         //setUserScheduleMap(this.userStorage.getUserScheduleMap());
     //}
-    public void setUserStorage() {
-
-
+    public void run() {
+        UsersCSVReader file = new UsersCSVReader("Users.csv");
+        for(ArrayList<String> user: file.getData()){
+            this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }
-
+        setUserList(this.userStorage.userList);
+        setUserScheduleMap(this.userStorage.userScheduleMap);
+        setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
+        }
 }
