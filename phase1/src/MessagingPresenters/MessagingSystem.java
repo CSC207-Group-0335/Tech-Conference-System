@@ -1,10 +1,12 @@
 package MessagingPresenters;
 
+import java.util.Observable;
+
 /**
  * A class that represents a messaging system.
  */
 
-public class MessagingSystem {
+public class MessagingSystem extends Observable {
     public ConversationStorage conversationStorage;
     public MessengerController messengerController; // ?
     public SpeakerMessengerController speakerMessengerController;

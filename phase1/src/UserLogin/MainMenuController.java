@@ -23,18 +23,9 @@ public class MainMenuController implements Observer {
     public SpeakerMessengerController speakerMessengerController;
     public OrgScheduleController orgScheduleController;
     public OrganizerMessengerController orgMessengerController;
-    public TalkManager talkManager;
-    public UserScheduleManager userScheduleManager;
-    public SpeakerScheduleManager speakerScheduleManager;
 
     public MainMenuController(){
         this.presenter = new MainMenuPresenter();
-        this.userScheduleController = new UserScheduleController(this.userScheduleManager, this.talkManager);
-        this.messengerController = new MessengerController(this.user);
-        this.speakerScheduleController = new SpeakerScheduleController();
-        this.speakerMessengerController = new SpeakerMessengerController();
-        this.orgScheduleController = new OrgScheduleController();
-        this.orgMessengerController = new OrganizerMessengerController();
     }
 
     /**
@@ -111,6 +102,5 @@ public class MainMenuController implements Observer {
         } else if (arg instanceof OrganizerMessengerController) {
             this.orgMessengerController = (OrganizerMessengerController) arg;
         }
-
-    } //updates the user based on Observable LogInController
+    }
 }

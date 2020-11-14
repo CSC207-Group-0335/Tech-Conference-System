@@ -9,6 +9,6 @@ public class MainMenuPresenter {
 
     public void printMainMenuInfo() {
         System.out.println("Welcome to our Tech Conference. This is the main menu. Navigate to different " +
-                "screens by typing: \n\"1 -> Schedules\" \n\"2 -> Messages\""); //\n equals new line
+                "screens by typing: \"1 -> Schedules\", \"2 -> Messages\"");
     }
 }
