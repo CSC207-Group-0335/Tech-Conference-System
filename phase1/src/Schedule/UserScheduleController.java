@@ -1,7 +1,5 @@
 package Schedule;
-import UserLogin.*;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -23,10 +21,12 @@ public class UserScheduleController implements Observer {
         this.talkManager = talkManager;
     }
 //should all these methods return void?
-    public boolean signUp(Talk talk) { return attendee.addTalk(talk); }
+    public void signUp(Talk talk) {
+        attendee.addTalk(talk);
+    }
 
-    public boolean cancelRegistration(Talk talk) {
-        return attendee.removeTalk(talk);
+    public void cancelRegistration(Talk talk) {
+        attendee.removeTalk(talk);
     }
 
     public String allTalks() { return talkManager.talkMapStringRepresentation(); }
@@ -106,19 +106,24 @@ public class UserScheduleController implements Observer {
         presenter.print(1);
         presenter.print(2);
         Scanner scan = new Scanner(System.in);
-        while(true) {
+        boolean doContinue = true;
+        while(doContinue) {
             int command = scan.nextInt();
             //if they want to register for a talk
             if (command == 1) {
+                doContinue = false;
                 this.registerTalk(presenter, scan);
                 //If they want to see all available talks
             } else if (command == 2) {
+                doContinue = false;
                 this.seeAllTalks(presenter, scan);
                 //if they want to see all the talks they are currently registered for
             } else if (command == 3) {
+                doContinue = false;
                 this.seeAllRegistered(presenter, scan);
                 // if they want to cancel a registration
             } else if (command == 4) {
+                doContinue = false;
                 this.cancelATalk(presenter, scan);
             }
         }
