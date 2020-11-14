@@ -35,7 +35,7 @@ public class TalkSystem extends Observable implements Observer{
     }
 
     public void run(){
-        TalkCSVReader fileReader = new TalkCSVReader("Talks.csv");
+        CSVReader fileReader = new CSVReader("Talks.csv", 5);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
             this.talkManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),
