@@ -3,10 +3,7 @@ import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A Use Case class that handles the creation and storage of all users in the database.
@@ -15,8 +12,8 @@ import java.util.Set;
 public class UserStorage {
     //made these public (NOV 12) - Nathan
     public ArrayList<User> userList;
-    public Map<User, UserScheduleManager> userScheduleMap; //CHANGED FOR TESTING PURPOSES
-    public Map<User, SpeakerScheduleManager> speakerScheduleMap;
+    public HashMap<User, UserScheduleManager> userScheduleMap; //CHANGED FOR TESTING PURPOSES
+    public HashMap<User, SpeakerScheduleManager> speakerScheduleMap;
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
@@ -24,138 +21,8 @@ public class UserStorage {
 
     public UserStorage() {
         this.userList = new ArrayList<>();
-        this.userScheduleMap = new Map<User, UserScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public UserScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public UserScheduleManager put(User key, UserScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public UserScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends User, ? extends UserScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<User> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<UserScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<User, UserScheduleManager>> entrySet() {
-                return null;
-            }
-        };
-        this.speakerScheduleMap = new Map<User, SpeakerScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public SpeakerScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public SpeakerScheduleManager put(User key, SpeakerScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public SpeakerScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends User, ? extends SpeakerScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<User> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<SpeakerScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<User, SpeakerScheduleManager>> entrySet() {
-                return null;
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                return false;
-            }
-
-            @Override
-            public int hashCode() {
-                return 0;
-            }
-        };
+        this.userScheduleMap = new HashMap<User, UserScheduleManager>();
+        this.speakerScheduleMap = new HashMap<User, SpeakerScheduleManager>();
 
     }
 
@@ -196,9 +63,9 @@ public class UserStorage {
         return userList;
     }
 
-    public Map<User, UserScheduleManager> getUserScheduleMap() { return userScheduleMap;}
+    public HashMap<User, UserScheduleManager> getUserScheduleMap() { return userScheduleMap;}
 
-    public Map<User, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
+    public HashMap<User, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
 
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
