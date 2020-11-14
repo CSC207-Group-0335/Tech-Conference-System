@@ -1,9 +1,6 @@
 package UserLogin;
 
-import Schedule.RoomStorage;
-import Schedule.RoomSystem;
-import Schedule.ScheduleManager;
-import Schedule.UserScheduleManager;
+import Schedule.*;
 
 import java.util.*;
 
@@ -17,6 +14,7 @@ public class TechConferenceSystem extends Observable {
     public UserStorage userStorage;
     public ArrayList<User> userList;
     public Map<User, UserScheduleManager> userScheduleMap;
+    public  Map<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public LogInController logInController;
     public RoomSystem roomSystem;
 
@@ -97,7 +95,7 @@ public class TechConferenceSystem extends Observable {
         this.logInController = new LogInController(); //NOV 13, CHANGED LogInController
         this.addObserver(logInController.logInManager);
         this.roomSystem = new RoomSystem();
-        this.addObserver(roomSystem.talkSystem);
+        this.addObserver(roomSystem.talkSystem.talkManager);
     }
 
     public void setUserList(ArrayList<User> userlst) {
@@ -110,6 +108,12 @@ public class TechConferenceSystem extends Observable {
         this.userScheduleMap = userSchedMap;
         setChanged();
         notifyObservers(userScheduleMap);
+    }
+
+    public void setSpeakerScheduleMap(Map<Speaker, SpeakerScheduleManager> speakerSchedMap) {
+        this.speakerScheduleMap = speakerSchedMap;
+        setChanged();
+        notifyObservers(speakerScheduleMap);
     }
 
     //Edit this method to read from .csv file and creates an updated version of UserStorage
