@@ -6,12 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TalkCSVReader {
+public class CSVReader {
     private String csv;
     private ArrayList<ArrayList<String>> data;
+    private int numParameters;
 
-    public TalkCSVReader(String csv){
+    public CSVReader(String csv, int numParameters){
         data = new ArrayList<>();
+        this.numParameters = numParameters;
         this.csv = csv;
         String splitter = ",";
         String l;
@@ -19,15 +21,13 @@ public class TalkCSVReader {
 
             while ((l = br.readLine()) != null) {
 
-                String[] talk; talk = l.split(splitter);
+                String[] column; column = l.split(splitter);
 
-                ArrayList<String> talkdata = new ArrayList<>();
-                talkdata.add(talk[0]);
-                talkdata.add(talk[1]);
-                talkdata.add(talk[2]);
-                talkdata.add(talk[3]);
-                talkdata.add(talk[4]);
-                data.add(talkdata);
+                ArrayList<String> rowdata = new ArrayList<>();
+                for(int i = 0; i < this.numParameters; i++){
+                rowdata.add(column[i]);
+                }
+                data.add(rowdata);
             }
 
         }
