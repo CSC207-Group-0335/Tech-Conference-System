@@ -10,3 +10,4 @@ public class Attendee extends User {
         super(name, password, email);
     }
 }
+//Commit test with new cloned file
