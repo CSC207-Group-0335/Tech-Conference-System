@@ -1,8 +1,5 @@
 package UserLogin;
 
-import MessagingPresenters.LoginPresenter;
-import com.sun.prism.shader.Solid_ImagePattern_Loader;
-
 public class LogInPresenter {
 
     public void printLoginInfo(int i) {
