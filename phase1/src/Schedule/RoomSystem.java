@@ -22,7 +22,7 @@ public class RoomSystem extends Observable{
     }
 
     public void run(){
-        TxtIterator txtIterator = new TxtIterator("RoomFile");
+        TxtIterator txtIterator = new TxtIterator("RoomFile.txt");
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);
         }

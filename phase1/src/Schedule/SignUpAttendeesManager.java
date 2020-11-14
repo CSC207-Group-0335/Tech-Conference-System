@@ -25,6 +25,16 @@ public class SignUpAttendeesManager {
         }
     }
 
+    public boolean removeUser(User user){
+        if (userList.contains(user)){
+            userList.remove(user);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 
 
