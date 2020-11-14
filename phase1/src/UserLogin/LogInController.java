@@ -42,17 +42,21 @@ public class LogInController extends Observable {
             if (this.logInManager.login()){
                 check = false;
                 this.user = this.logInManager.findUser();
+                setUser(this.user);
                 presenter.printLoginInfo(3); //Login Successful
             }
             else{
                 presenter.printLoginInfo(4); //Something went wrong
             }
-
         }
-
-
-
         return true;
     }
+
+    //Method to notify the observers of the user that has logged in
+    public void setUser(User user) {
+        setChanged();
+        notifyObservers(user);
+    }
+
 }
 
