@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class MainMenuController implements Observer {
     private User user; //This user is gotten from LogInController
+    public MainMenuPresenter presenter;
 
     /**
      * This method will run the Main Menu based on the type of the user that is provided.
@@ -30,21 +31,33 @@ public class MainMenuController implements Observer {
      * Helper method for presenting a Attendee' Main Menu
      */
     private void runMainMenuAttendee() {
-
+        Scanner in = new Scanner(System.in);
+        presenter.printMainMenuInfoAttendee(0); //Display Main Menu
+        int choice = Integer.parseInt(in.nextLine());
+        presenter.printMainMenuInfoAttendee(choice); //Display selected Menu
+        in.close();
     }
 
     /**
      * Helper method for presenting a Speakers' Main Menu
      */
     private void runMainMenuSpeaker() {
-
+        Scanner in = new Scanner(System.in);
+        presenter.printMainMenuInfoSpeaker(0); //Display Main Menu
+        int choice = Integer.parseInt(in.nextLine());
+        presenter.printMainMenuInfoAttendee(choice); //Display selected Menu
+        in.close();
     }
 
     /**
      * Helper method for presenting a Organizers' Main Menu
      */
     private void getRunMainMenuOrganizer() {
-
+        Scanner in = new Scanner(System.in);
+        presenter.printMainMenuInfoOrganizer(0); //Display Main Menu
+        int choice = Integer.parseInt(in.nextLine());
+        presenter.printMainMenuInfoAttendee(choice); //Display selected Menu
+        in.close();
     }
 
 

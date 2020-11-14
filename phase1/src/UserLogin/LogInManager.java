@@ -12,9 +12,8 @@ import java.util.Optional;
  */
 
 public class LogInManager implements Observer {
-    //IntelliJ prompted me to make these variables final
-    private final String email;
-    private final String password;
+    private String email;
+    private String password;
     private User usertype;
     public ArrayList<User> userList;
 
@@ -30,7 +29,7 @@ public class LogInManager implements Observer {
     }
 
     /**
-     * Helper method to find the user in the UserStorage associated with this.email
+     * Method to find the user in the UserStorage associated with this.email
      * @return the user associated with the email, or null if no such user is found. Currently attempting to
      * use an Optional Parameter in order to accomplish this task, instead of a null value.
      */
