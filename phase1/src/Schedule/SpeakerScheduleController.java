@@ -13,7 +13,6 @@ public class SpeakerScheduleController implements Observer {
     SignUpAttendeesManager signUpList;
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
                                      SignUpAttendeesManager signUpList){
-
         this.speaker = speaker;
         this.talkManager = talkManager;
         this.signUpList = signUpList;

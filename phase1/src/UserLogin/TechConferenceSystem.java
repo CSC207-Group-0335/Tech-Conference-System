@@ -23,10 +23,11 @@ public class TechConferenceSystem extends Observable {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.logInController = new LogInController(); //NOV 13, CHANGED LogInController
+        this.logInController = new LogInController();//NOV 13, CHANGED LogInController
         this.addObserver(logInController.logInManager);
         this.roomSystem = new RoomSystem();
         this.addObserver(roomSystem.talkSystem.talkManager);
+        this.logInController.addObserver(roomSystem.talkSystem);
     }
 
     public void setUserList(ArrayList<User> userlst) {

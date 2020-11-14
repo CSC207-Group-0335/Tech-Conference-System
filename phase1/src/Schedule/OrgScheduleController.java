@@ -1,6 +1,8 @@
 package Schedule;
 
 import UserLogin.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import java.util.ArrayList;
@@ -8,27 +10,24 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class OrgScheduleController extends UserScheduleController implements Observer {
-
     UserScheduleManager organizer;
     TalkManager talkManager;
-    SignUpAttendeesManager signUpList;
+    RoomStorage roomStorage;
 
-    public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager, SignUpAttendeesManager
-            signUpList){
-        super(organizer, talkManager,signUpList);
+
+    public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager){
+        super(organizer, talkManager);
+        roomStorage = null;
+        this.talkManager = talkManager;
     }
 
-    //as of now, Talk manager does the hard work of creating the talk
-    //so don't have to modify anything when I use it in the while loop
-    //probably will have to figure out how to convert string time to Date time
-    public boolean requestTalks(String title, String speaker, String room, Date time) {
-        return this.talkManager.createTalk(title, speaker, room, time);
+    public boolean requestTalks(String title, String talkId,  String speakerEmail, String roomName, LocalDateTime time) {
+        return this.talkManager.createTalk(title, talkId, speakerEmail, roomName, time);
     }
 
     //there's also a createRoom in RoomStorage with the parameter capacity
     public void addRoom(String roomName) {
-        Room room = this.talkManager.findRoom(roomName);
-
+        this.roomStorage.createRoom(roomName);
     }
 
     //can't put anything here since speakerStorage hasn't been made
@@ -38,6 +37,9 @@ public class OrgScheduleController extends UserScheduleController implements Obs
 
     @Override
     public void update(Observable o, Object arg) {
+        if(arg instanceof RoomStorage){
+            this.roomStorage = roomStorage;
+        }
 
     }
 }

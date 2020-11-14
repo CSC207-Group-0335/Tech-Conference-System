@@ -1,6 +1,7 @@
 package Schedule;
 
 import MessagingPresenters.MessagingSystem;
+import UserLogin.Speaker;
 import UserLogin.User;
 
 import java.util.*;
@@ -11,22 +12,24 @@ public class TalkSystem extends Observable implements Observer{
     public TalkManager talkManager;
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
+    public User user;
     public HashMap<User, UserScheduleManager> userScheduleMap;
+    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
 
     public TalkSystem(){
-        this.orgScheduleController = new OrgScheduleController(); //Do we not want only one instance -
-        this.addObserver(orgScheduleController); // - of controllers in the program?
-        this.userScheduleController = new UserScheduleController();
-        this.addObserver(userScheduleController); //do controllers need to
-        this.speakerScheduleController = new SpeakerScheduleController();
-        this.addObserver(speakerScheduleController);
         this.talkManager = new TalkManager();
         this.messagingSystem = new MessagingSystem();
         this.addObserver(messagingSystem.SpeakerMessengerController); //would be created
         this.scheduleSystem = new ScheduleSystem();
         this.addObserver(scheduleSystem);
         this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
+        this.orgScheduleController = new OrgScheduleController(talkManager); //Do we not want only one instance -
+        this.addObserver(orgScheduleController); // - of controllers in the program?
+        this.userScheduleController = new UserScheduleController(talkManager);
+        this.addObserver(userScheduleController); //do controllers need to
+        this.speakerScheduleController = new SpeakerScheduleController(talkManager);
+        this.addObserver(speakerScheduleController);
     }
 
     public void readFile(){}
@@ -63,7 +66,14 @@ public class TalkSystem extends Observable implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof HashMap){
+            if(!((HashMap<?, ?>) arg).isEmpty()){
+
+            }
+            else{}
             this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
+        }
+        if (arg instanceof User){
+            this.user = (User) arg;
         }
     }
 }

@@ -13,17 +13,14 @@ public class UserScheduleController implements Observer {
      */
     UserScheduleManager attendee ;
     TalkManager talkManager;
-    SignUpAttendeesManager signUpList;
 
     /**
      * Initializes a new controller for the user
      * @param user the user of the program
      */
-    public UserScheduleController(UserScheduleManager user, TalkManager talkManager, SignUpAttendeesManager signUpList
-    ){
+    public UserScheduleController(UserScheduleManager user, TalkManager talkManager){
         this.attendee = user;
         this.talkManager = talkManager;
-        this.signUpList = signUpList;
     }
 
     public boolean signUp(Talk talk) {

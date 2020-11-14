@@ -1,7 +1,5 @@
 package Schedule;
 
-import UserLogin.User;
-
 import java.util.*;
 public class RoomSystem extends Observable{
 
@@ -20,6 +18,17 @@ public class RoomSystem extends Observable{
         this.addObserver(this.scheduleSystem);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
+        this.run();
+    }
+
+    public void run(){
+        TxtIterator txtIterator = new TxtIterator("RoomFile");
+        for(String room: txtIterator.getProperties()){
+            roomStorage.createRoom(room);
+        }
+        setRoomStorage();
+        setRoomList(this.roomStorage.getRoomList());
+        setRoomScheduleManagerList(this.roomStorage.getScheduleList());
     }
 
     public void setRoomList(ArrayList<Room> roomlst) {
@@ -34,13 +43,8 @@ public class RoomSystem extends Observable{
         notifyObservers(roomScheduleManagerList);
     }
 
-    //Edit this method to read from .csv file and creates an updated version of Roomstorage
-    public void setRoomStorage(String name) {
-        this.roomStorage.createRoom(name);
-        setRoomList(this.roomStorage.getRoomList());
-        setRoomScheduleManagerList(this.roomStorage.getScheduleList());
-
-
-
-}
+    public void setRoomStorage(){
+        setChanged();
+        notifyObservers(this.roomStorage);
+    }
 }
