@@ -7,15 +7,135 @@ import UserLogin.Speaker;
 import java.util.*;
 
 public class TalkManager implements Observer {
-    public RoomStorage roomStorage;
-    //public SpeakerStorage speakerStorage;
     //Map<Talk, ArrayList<Object>> talkMap;
-    public ArrayList<RoomScheduleManager> roomScheduleList;
+    public Map<Room, RoomScheduleManager> roomScheduleMap;
+    public Map<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public TalkManager(){
-        this.roomStorage = new RoomStorage();
-        //this.speakerStorage = new SpeakerStorage();
-        //this.roomScheduleList = this.roomStorage.getScheduleList();
+        this.speakerScheduleMap = new Map<Speaker, SpeakerScheduleManager>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean containsKey(Object key) {
+                return false;
+            }
+
+            @Override
+            public boolean containsValue(Object value) {
+                return false;
+            }
+
+            @Override
+            public SpeakerScheduleManager get(Object key) {
+                return null;
+            }
+
+            @Override
+            public SpeakerScheduleManager put(Speaker key, SpeakerScheduleManager value) {
+                return null;
+            }
+
+            @Override
+            public SpeakerScheduleManager remove(Object key) {
+                return null;
+            }
+
+            @Override
+            public void putAll(Map<? extends Speaker, ? extends SpeakerScheduleManager> m) {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Set<Speaker> keySet() {
+                return null;
+            }
+
+            @Override
+            public Collection<SpeakerScheduleManager> values() {
+                return null;
+            }
+
+            @Override
+            public Set<Entry<Speaker, SpeakerScheduleManager>> entrySet() {
+                return null;
+            }
+        };
+        this.roomScheduleMap = new Map<Room, RoomScheduleManager>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean containsKey(Object key) {
+                return false;
+            }
+
+            @Override
+            public boolean containsValue(Object value) {
+                return false;
+            }
+
+            @Override
+            public RoomScheduleManager get(Object key) {
+                return null;
+            }
+
+            @Override
+            public RoomScheduleManager put(Room key, RoomScheduleManager value) {
+                return null;
+            }
+
+            @Override
+            public RoomScheduleManager remove(Object key) {
+                return null;
+            }
+
+            @Override
+            public void putAll(Map<? extends Room, ? extends RoomScheduleManager> m) {
+
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Set<Room> keySet() {
+                return null;
+            }
+
+            @Override
+            public Collection<RoomScheduleManager> values() {
+                return null;
+            }
+
+            @Override
+            public Set<Entry<Room, RoomScheduleManager>> entrySet() {
+                return null;
+            }
+        };
     }
+
+
 //    public boolean createTalk(String title, String speaker, String room, Date d){
 //        ArrayList<Room> roomList = this.roomStorage.getRoomList();
 //        //ArrayList<Speaker> speakerList = this.speakerStorage.getSpeakerList();
@@ -67,6 +187,6 @@ public class TalkManager implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if (arg instanceof Map);
     }
 }
