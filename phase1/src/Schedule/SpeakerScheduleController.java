@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SpeakerScheduleController implements Actions, Observer {
+public class SpeakerScheduleController implements Observer {
 
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
@@ -17,27 +17,6 @@ public class SpeakerScheduleController implements Actions, Observer {
         this.speaker = speaker;
         this.talkManager = talkManager;
         this.signUpList = signUpList;
-    }
-
-    @Override
-    public boolean signUp(Talk talk) {
-
-        return false;
-    }
-
-    @Override
-    public boolean cancelRegistration(Talk talk) {
-        return false;
-    }
-
-    @Override
-    public ArrayList<User> allAttending() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Talk> allRegistered() {
-        return null;
     }
 
     public ArrayList<Talk> allSpeakingAt() {

@@ -27,7 +27,8 @@ public class OrgScheduleController extends UserScheduleController implements Obs
 
     //there's also a createRoom in RoomStorage with the parameter capacity
     public void addRoom(String roomName) {
-        this.talkManager.roomStorage.createRoom(roomName);
+        Room room = this.talkManager.findRoom(roomName);
+
     }
 
     //can't put anything here since speakerStorage hasn't been made

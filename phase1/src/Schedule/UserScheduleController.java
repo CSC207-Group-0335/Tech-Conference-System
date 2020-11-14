@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * A controller class describing the actions a user can perform in the program
  */
-public class UserScheduleController implements Actions, Observer {
+public class UserScheduleController implements Observer {
     /**
      * The user of the program
      */
@@ -26,37 +26,34 @@ public class UserScheduleController implements Actions, Observer {
         this.signUpList = signUpList;
     }
 
-    @Override
     public boolean signUp(Talk talk) {
 
         return attendee.addTalk(talk);
     }
 
-    @Override
     public boolean cancelRegistration(Talk talk) {
         return attendee.removeTalk(talk);
     }
 
-    @Override
     public ArrayList<User> allAttending() {
         return signUpList.userList;
     }
-
-    @Override
+    
     public ArrayList<Talk> allRegistered() {
         return attendee.getTalkList();
     }
 //trying to make it return any type, tried using generic type doesn't work so just using object for now
     // Dont know what serializable just what Java reccomended to do to get rid of the errors related to ^
     public Serializable run(){
-        System.out.println("1. register for a talk, 2. see the guest list, 3. see all talks currently registered, " +
+        Presenter presenter = new Presenter();
+        presenter.print("1. register for a talk, 2. see the guest list, 3. see all talks currently registered, " +
                 "4. cancel a registration");
-        System.out.println("Please input a command");
+        presenter.print("Please input a command");
         Scanner scan = new Scanner(System.in);
         while(true) {
             int command = scan.nextInt();
             if (command == 1) {
-                System.out.println("What event would you like to register for?");
+                presenter.print("What event would you like to register for?");
                 String talk = scan.nextLine();
                 //assuming they enter in a valid talk
                 Talk toRegister = null;
@@ -71,7 +68,7 @@ public class UserScheduleController implements Actions, Observer {
                     scan.close();
                     return this.signUp(toRegister);
                 }
-                System.out.println("Not a valid talk");
+                presenter.print("Not a valid talk");
             } else if (command == 2) {
                 scan.close();
                 return this.allAttending();
@@ -79,7 +76,7 @@ public class UserScheduleController implements Actions, Observer {
                 scan.close();
                 return this.allRegistered();
             } else if (command == 4) {
-                System.out.println("What event would you like to cancel for?");
+                presenter.print("What event would you like to cancel for?");
                 String talk = scan.nextLine();
                 //assuming they enter in a valid talk
                 Talk toCancel = null;
@@ -93,7 +90,7 @@ public class UserScheduleController implements Actions, Observer {
                     scan.close();
                     return this.cancelRegistration(toCancel);
                 }
-                System.out.println("Not a valid talk");
+                presenter.print("Not a valid talk.");
                 //duplicate code, should I make a private method?
             }
         }
