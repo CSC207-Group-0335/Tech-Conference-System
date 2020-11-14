@@ -17,15 +17,27 @@ public class MainMenuPresenter {
                 break;
             }
             case 1: {
-                System.out.println("Enter your password: ");
+                System.out.println("Here is the current Conference Schedule: ");
                 break;
             }
             case 2: {
-                System.out.println("Login Successful");
+                System.out.println("Here is your Personal Conference Schedule");
                 break;
             }
             case 3: {
-                System.out.println("Email and password combination not found, try again.");
+                System.out.println("Which Talk would you like to sign up for?");
+                break;
+            }
+            case 4: {
+                System.out.println("Which Talk would you like to cancel?");
+                break;
+            }
+            case 5: {
+                System.out.println("Please specify the user that you would like to message: ");
+                break;
+            }
+            case 6: {
+                System.out.println("Here are all your current messages: ");
                 break;
             }
         }
