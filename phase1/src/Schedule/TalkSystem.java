@@ -11,8 +11,8 @@ public class TalkSystem extends Observable implements Observer{
     public TalkManager talkManager;
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
-    public Map<User, UserScheduleManager> userScheduleMap;
-    public Map<Talk, SignUpAttendeesManager> signUpMap;
+    public HashMap<User, UserScheduleManager> userScheduleMap;
+    public HashMap<Talk, SignUpAttendeesManager> signUpMap;
 
     public TalkSystem(){
         this.orgScheduleController = new OrgScheduleController(); //Do we not want only one instance -
@@ -26,67 +26,7 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(messagingSystem.SpeakerMessengerController); //would be created
         this.scheduleSystem = new ScheduleSystem();
         this.addObserver(scheduleSystem);
-        this.signUpMap = new Map<Talk, SignUpAttendeesManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public SignUpAttendeesManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public SignUpAttendeesManager put(Talk key, SignUpAttendeesManager value) {
-                return null;
-            }
-
-            @Override
-            public SignUpAttendeesManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends Talk, ? extends SignUpAttendeesManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<Talk> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<SignUpAttendeesManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<Talk, SignUpAttendeesManager>> entrySet() {
-                return null;
-            }
-        };
+        this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
     }
 
     public void readFile(){}
@@ -122,8 +62,8 @@ public class TalkSystem extends Observable implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Map){
-            this.userScheduleMap = (Map<User, UserScheduleManager>) arg;
+        if (arg instanceof HashMap){
+            this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
         }
     }
 }

@@ -1,5 +1,6 @@
 package Schedule;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public abstract class ScheduleManager {
         this.talkList = new ArrayList<Talk>();
     }
 
-    public boolean checkDoubleBooking(Date date){
+    public boolean checkDoubleBooking(LocalDateTime date){
         for(Talk t: talkList){
             if(t.getStartTime() == date){
                 return false;

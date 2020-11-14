@@ -6,7 +6,7 @@ import java.util.*;
 public class RoomSystem extends Observable{
 
     public ArrayList<Room> roomList;
-    public Map<Room, RoomScheduleManager> roomScheduleManagerList;
+    public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
     public TalkSystem talkSystem;
     public ScheduleSystem scheduleSystem;
@@ -19,67 +19,7 @@ public class RoomSystem extends Observable{
         this.scheduleSystem = new ScheduleSystem();
         this.addObserver(this.scheduleSystem);
         this.roomList = new ArrayList<Room>();
-        this.roomScheduleManagerList = new Map<Room, RoomScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public RoomScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager put(Room key, RoomScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends Room, ? extends RoomScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<Room> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<RoomScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<Room, RoomScheduleManager>> entrySet() {
-                return null;
-            }
-        };
+        this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
 
     public void setRoomList(ArrayList<Room> roomlst) {
@@ -88,7 +28,7 @@ public class RoomSystem extends Observable{
         notifyObservers(roomList);
     }
 
-    public void setRoomScheduleManagerList(Map<Room, RoomScheduleManager> roomSchedList) {
+    public void setRoomScheduleManagerList(HashMap<Room, RoomScheduleManager> roomSchedList) {
         this.roomScheduleManagerList = roomSchedList;
         setChanged();
         notifyObservers(roomScheduleManagerList);

@@ -3,78 +3,15 @@ package Schedule;
 import Schedule.Room;
 import Schedule.RoomScheduleManager;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RoomStorage {
     ArrayList<Room> roomList;
-    Map<Room, RoomScheduleManager> scheduleList;
+    HashMap<Room, RoomScheduleManager> scheduleList;
 
     public RoomStorage(){
         this.roomList = new ArrayList<>();
-        this.scheduleList = new Map<Room, RoomScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public RoomScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager put(Room key, RoomScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends Room, ? extends RoomScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<Room> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<RoomScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<Room, RoomScheduleManager>> entrySet() {
-                return null;
-            }
-        };
+        this.scheduleList = new HashMap<Room, RoomScheduleManager>();
     }
 
     public void createRoom(String roomName) {
@@ -111,7 +48,7 @@ public class RoomStorage {
         return roomList;
     }
 
-    public Map<Room, RoomScheduleManager> getScheduleList() {
+    public HashMap<Room, RoomScheduleManager> getScheduleList() {
         return scheduleList;
     }
 }

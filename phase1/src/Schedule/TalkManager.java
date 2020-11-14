@@ -3,190 +3,85 @@ import Schedule.Room;
 import Schedule.RoomScheduleManager;
 import Schedule.Talk;
 import UserLogin.Speaker;
+import UserLogin.TechConferenceSystem;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class TalkManager implements Observer {
-    //Map<Talk, ArrayList<Object>> talkMap;
-    public Map<Room, RoomScheduleManager> roomScheduleMap;
-    public Map<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+    HashMap<Talk, ArrayList<Object>> talkMap;
+    public HashMap<Room, RoomScheduleManager> roomScheduleMap;
+    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+
     public TalkManager(){
-        this.speakerScheduleMap = new Map<Speaker, SpeakerScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public SpeakerScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public SpeakerScheduleManager put(Speaker key, SpeakerScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public SpeakerScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends Speaker, ? extends SpeakerScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<Speaker> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<SpeakerScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<Speaker, SpeakerScheduleManager>> entrySet() {
-                return null;
-            }
-        };
-        this.roomScheduleMap = new Map<Room, RoomScheduleManager>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean containsKey(Object key) {
-                return false;
-            }
-
-            @Override
-            public boolean containsValue(Object value) {
-                return false;
-            }
-
-            @Override
-            public RoomScheduleManager get(Object key) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager put(Room key, RoomScheduleManager value) {
-                return null;
-            }
-
-            @Override
-            public RoomScheduleManager remove(Object key) {
-                return null;
-            }
-
-            @Override
-            public void putAll(Map<? extends Room, ? extends RoomScheduleManager> m) {
-
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public Set<Room> keySet() {
-                return null;
-            }
-
-            @Override
-            public Collection<RoomScheduleManager> values() {
-                return null;
-            }
-
-            @Override
-            public Set<Entry<Room, RoomScheduleManager>> entrySet() {
-                return null;
-            }
-        };
+        this.roomScheduleMap = new HashMap<Room, RoomScheduleManager>();
+        this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
+        this.talkMap = new HashMap<Talk, ArrayList<Object>>();
     }
 
+    public void addTalk(Talk t, Room r, Speaker s, LocalDateTime d){
+        ArrayList<Object> tup = new ArrayList<Object>();
+        tup.add(s);
+        tup.add(t);
+        tup.add(d);
+        talkMap.put(t, tup);
+    }
 
-//    public boolean createTalk(String title, String speaker, String room, Date d){
-//        ArrayList<Room> roomList = this.roomStorage.getRoomList();
-//        //ArrayList<Speaker> speakerList = this.speakerStorage.getSpeakerList();
-//        Room r;
-//        Speaker s;
-//        for (Room room_iterator : roomList){
-//            if (room_iterator.getRoomName().equals(room)){
-//                r = room_iterator;
-//                break;
-//            }
-//        }
-////        for (Speaker speaker_iterator : speakerList){
-////            if (speaker_iterator.getSpeakerName().equals(speaker)){
-////                s = speaker_iterator;
-////                break;
-////            }
-////        }
-//        RoomScheduleManager roomScheduleManager;
-//        //SpeakerScheduleManager speakerScheduleManager;
-//        for (RoomScheduleManager rsm : this.roomScheduleList){
-//            if (rsm.getRoom().equals(r)){
-//                roomScheduleManager = rsm;
-//                break;
-//            }
-//        }
-////        ArrayList<Object> tup = new ArrayList<Object>();
-////        tup.add(s);
-////        tup.add(r);
-////        tup.add(d);
-////        Talk t = new Talk(title, d);
-////        boolean addedToRoomScheduleManager = roomScheduleManager.addTalk(t);
-////        //boolean addedToSpeakerScheduleManager = speakerScheduleManager.addTalk(t);
-////        if (addedToRoomScheduleManager){
-////            this.talkMap.put(t, tup);
-////            return true;
-////        }
-////        return false;
-////    }
-////    public boolean removeTalk(Talk t){
-////        boolean found = this.talkMap.containsKey(t) ;
-////        if (found){
-////            this.talkMap.remove(t);
-////            return true;
-////        }
-////        return false;
-////
-////
-//    }
+    public Room findRoom(String roomName){
+        for (Room r : this.roomScheduleMap.keySet()){
+            if (r.getRoomName().equals(roomName)){
+                return r;
+            }
+        }
+        return null;
+    }
+
+    public Speaker findSpeaker(String speakerEmail){
+        for (Speaker s : speakerScheduleMap.keySet()){
+            if (s.getEmail().equals(speakerEmail)){
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public boolean createTalk(String talkId, String talkTitle, String speakerEmail, String roomName, LocalDateTime d){
+        Room talkRoom = findRoom(roomName);
+        Speaker talkSpeaker = findSpeaker(speakerEmail);
+        if (talkRoom != null && talkSpeaker != null){
+            if (this.speakerScheduleMap.get(talkSpeaker).checkDoubleBooking(d) &&
+                this.roomScheduleMap.get(talkRoom).checkDoubleBooking(d)){
+                Talk t = new Talk(talkTitle, d, UUID.fromString(talkId));
+                this.addTalk(t, talkRoom, talkSpeaker, d);
+                this.speakerScheduleMap.get(talkSpeaker).addTalk(t);
+                this.roomScheduleMap.get(talkRoom).addTalk(t);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean removeTalk(Talk t){
+        boolean found = this.talkMap.containsKey(t) ;
+        if (found){
+            this.talkMap.remove(t);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof Map);
+        if(o instanceof RoomSystem){
+            this.roomScheduleMap = (HashMap<Room, RoomScheduleManager>) arg;
+        }
+        else if(o instanceof TechConferenceSystem){
+            this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
+        }
     }
 }
