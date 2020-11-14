@@ -14,7 +14,7 @@ public class TechConferenceSystem extends Observable {
     public UserStorage userStorage;
     public ArrayList<User> userList;
     public Map<User, UserScheduleManager> userScheduleMap;
-    public  Map<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+    public Map<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public LogInController logInController;
     public RoomSystem roomSystem;
 

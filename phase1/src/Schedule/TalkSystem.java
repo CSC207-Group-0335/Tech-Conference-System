@@ -40,7 +40,7 @@ public class TalkSystem extends Observable implements Observer{
                     signUpMap.get(t).addUser(schedule.user);
                 }
                 else{ //We need a method in talk manager to match every talk with its room/speaker
-                    SignUpAttendeesManager signup = new SignUpAttendeesManager(t, talkManager.getroomfortalk(t));
+                    SignUpAttendeesManager signup = new SignUpAttendeesManager(t, talkManager.getTalkRoom(t).capacity);
                     signup.addUser(schedule.user);
                     signUpMap.put(t, signup);
                 }
