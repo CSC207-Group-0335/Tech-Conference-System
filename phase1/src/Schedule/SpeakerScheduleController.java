@@ -1,6 +1,8 @@
 package Schedule;
 
+import UserLogin.MainMenuController;
 import UserLogin.User;
+import sun.security.tools.keytool.Main;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -11,6 +13,7 @@ public class SpeakerScheduleController implements Observer {
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
     SignUpAttendeesManager signUpList;
+    MainMenuController mainMenuController;
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
                                      SignUpAttendeesManager signUpList){
         this.speaker = speaker;

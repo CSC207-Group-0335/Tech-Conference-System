@@ -4,6 +4,8 @@ import MessagingPresenters.MessagingSystem;
 import UserLogin.Speaker;
 import UserLogin.User;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 public class TalkSystem extends Observable implements Observer{
     public OrgScheduleController orgScheduleController;
@@ -32,7 +34,15 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(speakerScheduleController);
     }
 
-    public void readFile(){}
+    public void run(){
+        TalkCSVReader fileReader = new TalkCSVReader("Talks.csv");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        for(ArrayList<String> talkData: fileReader.getData()){
+            this.talkManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),
+                    talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter));
+        }
+        setTalkManager();
+    }
 
     public void writeToFile(){}
 

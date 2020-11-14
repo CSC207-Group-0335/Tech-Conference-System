@@ -95,8 +95,10 @@ public class TalkManager implements Observer {
             lines.add(line);
         }
         String totalString = "";
+        Integer i = 1;
         for(String line: lines){
-            totalString += line + System.lineSeparator();
+            totalString += Integer.toString(i) + ") " + line + System.lineSeparator();
+            i++;
         }
         return totalString;
     }
