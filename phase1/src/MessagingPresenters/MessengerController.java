@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * A class that represents the messenger controller.
  */
 
-public abstract class MessengerController {
+public class MessengerController { //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
     private User user;
     private CanMessageManager userInfo;
 
