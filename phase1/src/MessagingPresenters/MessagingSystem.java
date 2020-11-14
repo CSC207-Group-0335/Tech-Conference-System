@@ -8,9 +8,9 @@ import java.util.Observable;
 
 public class MessagingSystem extends Observable {
     public ConversationStorage conversationStorage;
-    public MessengerController messengerController; // ?
     public SpeakerMessengerController speakerMessengerController;
     public OrganizerMessengerController organizerMessengerController;
+    public AttendeeMessengerController attendeeMessengerController;
 
     /**
      * Instantiates OrganizerMessengerController, SpeakerMessengerController, MessengerController, and
@@ -21,8 +21,8 @@ public class MessagingSystem extends Observable {
         // parameters?
         this.organizerMessengerController = new OrganizerMessengerController();
         this.speakerMessengerController = new SpeakerMessengerController();
-        //this.messengerController = new MessengerController();
         this.conversationStorage = new ConversationStorage();
+        this.attendeeMessengerController = new AttendeeMessengerController();
     }
 
     /**
