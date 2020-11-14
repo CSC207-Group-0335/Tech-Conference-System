@@ -9,17 +9,17 @@ import java.util.ArrayList;
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController extends MessengerController {
+public class SpeakerMessengerController {
     private CanMessageManager userInfo;
+    private Speaker speaker;
 
     /**
      * A speaker is required to create an instance of this class.
-     * @param user the speaker
+     * @param speaker the speaker
      */
 
-    public SpeakerMessengerController(Speaker user) {
-        super(user);
-        this.userInfo = new CanMessageManager(user);
+    public SpeakerMessengerController(Speaker speaker) {
+        this.userInfo = new CanMessageManager(speaker);
     }
 
     /**

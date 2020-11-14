@@ -10,17 +10,17 @@ import java.util.ArrayList;
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController extends MessengerController {
+public class OrganizerMessengerController { // NOV 14: REMOVED PARENT/CHILD CLASS RELATIONSHIP BETWEEN MESSENGER CONTROLLERS; NOT ENOUGH REASON TO INHERIT - JOLIE
+    private Organizer organizer;
     private CanMessageManager userInfo;
 
     /**
      * An organizer is required to create an instance of this class.
-     * @param user the organizer
+     * @param organizer the organizer
      */
 
-    public OrganizerMessengerController(Organizer user) {
-        super(user);
-        this.userInfo = new CanMessageManager(user);
+    public OrganizerMessengerController(Organizer organizer) {
+        this.userInfo = new CanMessageManager(organizer);
     }
 
     /**

@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import UserLogin.Attendee;
 import UserLogin.User;
 
 import java.util.ArrayList;
@@ -8,18 +9,18 @@ import java.util.ArrayList;
  * A class that represents the messenger controller.
  */
 
-public class MessengerController { //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
-    private User user;
+public class AttendeeMessengerController { //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
+    private Attendee attendee;
     private CanMessageManager userInfo;
 
     /**
      * A user is required to create an instance of this class.
-     * @param user the user
+     * @param attendee the attendee
      */
 
-    public MessengerController(User user) {
-        this.user = user;
-        this.userInfo = new CanMessageManager(user);
+    public AttendeeMessengerController(Attendee attendee) {
+        this.attendee = attendee;
+        this.userInfo = new CanMessageManager(attendee);
     }
 
     /**
