@@ -3,10 +3,7 @@ package UserLogin;
 import MessagingPresenters.MessengerController;
 import MessagingPresenters.OrganizerMessengerController;
 import MessagingPresenters.SpeakerMessengerController;
-import Schedule.OrgScheduleController;
-import Schedule.SpeakerScheduleController;
-import Schedule.UserScheduleController;
-import Schedule.UserScheduleManager;
+import Schedule.*;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -26,11 +23,14 @@ public class MainMenuController implements Observer {
     public SpeakerMessengerController speakerMessengerController;
     public OrgScheduleController orgScheduleController;
     public OrganizerMessengerController orgMessengerController;
+    public TalkManager talkManager;
+    public UserScheduleManager userScheduleManager;
+    public SpeakerScheduleManager speakerScheduleManager;
 
     public MainMenuController(){
         this.presenter = new MainMenuPresenter();
-        this.userScheduleController = new UserScheduleController();
-        this.messengerController = new MessengerController();
+        this.userScheduleController = new UserScheduleController(this.userScheduleManager, this.talkManager);
+        this.messengerController = new MessengerController(this.user);
         this.speakerScheduleController = new SpeakerScheduleController();
         this.speakerMessengerController = new SpeakerMessengerController();
         this.orgScheduleController = new OrgScheduleController();
