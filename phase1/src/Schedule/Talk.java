@@ -32,4 +32,12 @@ public class Talk {
     public UUID getTalkId() {
         return talkId;
     }
+
+    @Override
+    public String toString() {
+        return "Talk{" +
+                "title='" + title + '\'' +
+                ", startTime=" + startTime +
+                '}';
+    }
 }

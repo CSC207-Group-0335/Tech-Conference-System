@@ -23,34 +23,39 @@ public class UserScheduleController implements Observer {
         this.talkManager = talkManager;
     }
 
-    public boolean signUp(Talk talk) {
-
-        return attendee.addTalk(talk);
-    }
+    public boolean signUp(Talk talk) { return attendee.addTalk(talk); }
 
     public boolean cancelRegistration(Talk talk) {
         return attendee.removeTalk(talk);
     }
 
-    public ArrayList<User> allAttending() {
-        return signUpList.userList;
-    }
+    public String allAttending() { return talkManager.talkMapStringRepresentation(); }
     
-    public ArrayList<Talk> allRegistered() {
-        return attendee.getTalkList();
+    public ArrayList<ArrayList<Object>> allRegistered() {
+        ArrayList<Talk> talkList = attendee.getTalkList();
+        ArrayList<ArrayList<Object>> registeredFor = new ArrayList<>();
+        for (int i = 0; i < talkList.size(); i++) {
+            ArrayList<Object> talkSpeakerRoom = new ArrayList<>();
+            Talk speech = talkList.get(i);
+            talkSpeakerRoom.set(0, speech);
+            talkSpeakerRoom.set(1, talkManager.getTalkSpeaker(speech));
+            talkSpeakerRoom.set(2, talkManager.getTalkRoom(speech));
+            registeredFor.set(i, talkSpeakerRoom);
+        }
+        return registeredFor;
     }
 //trying to make it return any type, tried using generic type doesn't work so just using object for now
     // Dont know what serializable just what Java reccomended to do to get rid of the errors related to ^
     public Serializable run(){
         Presenter presenter = new Presenter();
-        presenter.print("1. register for a talk, 2. see the guest list, 3. see all talks currently registered, " +
-                "4. cancel a registration");
-        presenter.print("Please input a command");
+        presenter.print(1);
+        presenter.print(2);
         Scanner scan = new Scanner(System.in);
         while(true) {
             int command = scan.nextInt();
             if (command == 1) {
-                presenter.print("What event would you like to register for?");
+                presenter.print(this.allAttending());
+                presenter.print(3);
                 String talk = scan.nextLine();
                 //assuming they enter in a valid talk
                 Talk toRegister = null;
@@ -65,7 +70,7 @@ public class UserScheduleController implements Observer {
                     scan.close();
                     return this.signUp(toRegister);
                 }
-                presenter.print("Not a valid talk");
+                presenter.print(4);
             } else if (command == 2) {
                 scan.close();
                 return this.allAttending();
@@ -73,7 +78,7 @@ public class UserScheduleController implements Observer {
                 scan.close();
                 return this.allRegistered();
             } else if (command == 4) {
-                presenter.print("What event would you like to cancel for?");
+                presenter.print(5);
                 String talk = scan.nextLine();
                 //assuming they enter in a valid talk
                 Talk toCancel = null;
@@ -87,7 +92,7 @@ public class UserScheduleController implements Observer {
                     scan.close();
                     return this.cancelRegistration(toCancel);
                 }
-                presenter.print("Not a valid talk.");
+                presenter.print(4);
                 //duplicate code, should I make a private method?
             }
         }
