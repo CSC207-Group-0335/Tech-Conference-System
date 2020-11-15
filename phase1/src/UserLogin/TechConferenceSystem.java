@@ -36,6 +36,8 @@ public class TechConferenceSystem extends Observable {
         this.addObserver(roomSystem.talkSystem.messagingSystem.SpeakerMessagingController); //Daniel: would work soon, left it here in the meantime
         this.logInController.addObserver(roomSystem.talkSystem.messagingSystem); //Daniel: same thing
         this.logInController.addObserver(roomSystem.talkSystem);
+        this.logInController.addObserver(roomSystem.talkSystem.scheduleSystem);
+        this.addObserver(roomSystem.talkSystem.scheduleSystem);
     }
 
     public void setUserList(ArrayList<User> userlst) {

@@ -14,15 +14,13 @@ public class SpeakerScheduleController implements Observer {
     TalkManager talkManager;
     SignUpAttendeesManager signUpList;
     MainMenuController mainMenuController;
-    public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
-                                     SignUpAttendeesManager signUpList){
+
+    public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager){
         this.speaker = speaker;
         this.talkManager = talkManager;
-        this.signUpList = signUpList;
     }
 
     public ArrayList<Talk> allSpeakingAt() {
-
         return speaker.talkList;
     }
 
