@@ -1,6 +1,8 @@
 package Schedule;
 
 import MessagingPresenters.MessagingSystem;
+import UserLogin.Attendee;
+import UserLogin.Organizer;
 import UserLogin.Speaker;
 import UserLogin.User;
 
@@ -25,16 +27,27 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(messagingSystem.SpeakerMessengerController); //would be created
         this.scheduleSystem = new ScheduleSystem();
         this.addObserver(scheduleSystem);
-        this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
-        this.orgScheduleController = new OrgScheduleController(talkManager); //Do we not want only one instance -
-        this.addObserver(orgScheduleController); // - of controllers in the program?
-        this.userScheduleController = new UserScheduleController(talkManager);
-        this.addObserver(userScheduleController); //do controllers need to
-        this.speakerScheduleController = new SpeakerScheduleController(talkManager);
-        this.addObserver(speakerScheduleController);
+
+    }
+    public void instantiateControllers(User user){
+        if (user instanceof Attendee){
+            UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
+            this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager);
+            this.addObserver(userScheduleController); }
+        else if (user instanceof Organizer){
+            UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
+            this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager);
+            this.addObserver(orgScheduleController);
+        }
+        else{
+            SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleMap.get(user);
+            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager);
+            this.addObserver(speakerScheduleController);
+        }
     }
 
     public void run(){
+        this.instantiateControllers(user);
         CSVReader fileReader = new CSVReader("Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
@@ -76,11 +89,10 @@ public class TalkSystem extends Observable implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof HashMap){
-            if(!((HashMap<?, ?>) arg).isEmpty()){
-
+            if(((HashMap<?, ?>) arg).keySet().toArray()[0] instanceof Speaker){
+                this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
             }
-            else{}
-            this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
+            else{this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;}
         }
         if (arg instanceof User){
             this.user = (User) arg;
