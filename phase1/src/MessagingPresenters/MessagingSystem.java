@@ -25,7 +25,6 @@ public class MessagingSystem extends Observable implements Observer {
      */
 
     public MessagingSystem() {
-        // parameters?
         this.conversationStorage = new ConversationStorage();
         this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
         this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);

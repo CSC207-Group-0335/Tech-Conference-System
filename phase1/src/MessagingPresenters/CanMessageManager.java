@@ -51,18 +51,23 @@ public class CanMessageManager implements Observer{
 
     /**
      * Returns true if and only if this user is able to message </friend>.
-     * @param friendemail the other user's email who this user can or cannot message
+     * @param friendEmail the other user's email who this user can or cannot message
      * @return a boolean representing whether or not this user can message </friend>
      */
 
-    public boolean canMessage(String friendemail) {
+    public boolean canMessage(String friendEmail) {
         for (User friend: this.getFriendsList()){
-            if (friend.getEmail().equals(friendemail)){
+            if (friend.getEmail().equals(friendEmail)){
                 return true;
             }
         }
         return false;
     }
+
+    /**
+     * Returns a list of all users who are attendees.
+     * @return an arraylist containing all attendees
+     */
 
     public ArrayList<User> getAttendees(){
         ArrayList<User> friends = new ArrayList<User>();
@@ -74,6 +79,11 @@ public class CanMessageManager implements Observer{
         return friends;
     }
 
+    /**
+     * Returns a list of all users who are speakers.
+     * @return an arraylist containing all speakers
+     */
+
     public ArrayList<User> getSpeakers(){
         ArrayList<User> friends = new ArrayList<User>();
         for (int i = 0; i < allUsers.userList.size(); i++){
@@ -84,6 +94,11 @@ public class CanMessageManager implements Observer{
         return friends;
     }
 
+    /**
+     * Updates </allUsers> if and only if </arg> is an instance of UserStorage.
+     * @param o an observable parameter
+     * @param arg an Object
+     */
 
     @Override
     public void update(Observable o, Object arg) {

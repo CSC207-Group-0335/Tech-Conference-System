@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A class representing a conversation storage.
+ */
+
 public class ConversationStorage{
     private ArrayList<ConversationManager> conversationManagers;
 
@@ -33,12 +37,14 @@ public class ConversationStorage{
 
     /**
      * Gets instance of ConversationManager.
+     * @param senderEmail a String representing the email of the sender
+     * @param recipientEmail a String representing the email of the recipient
      * @return instance of ConversationManager
      */
-    public ConversationManager getConversationManager(String senderEmail, String receipientEmail) {
+    public ConversationManager getConversationManager(String senderEmail, String recipientEmail) {
         Set<String> participants = new HashSet<String>();
         participants.add(senderEmail);
-        participants.add(receipientEmail);
+        participants.add(recipientEmail);
         for (ConversationManager c : conversationManagers) {
             if (c.getParticipants().equals(participants)) {
                 return c;
@@ -50,16 +56,23 @@ public class ConversationStorage{
 
     /**
      * Adds instance of ConversationManager if not stored already.
+     * @param senderEmail a String representing the email of the sender
+     * @param recipientEmail a String representing the email of the recipient
      * @return instance of ConversationManager that is added.
      */
-    public ConversationManager addConversationManager(String senderEmail, String receipientEmail){
-        if (!this.contains(senderEmail, receipientEmail)){
-            ConversationManager c = new ConversationManager(senderEmail, receipientEmail);
+    public ConversationManager addConversationManager(String senderEmail, String recipientEmail){
+        if (!this.contains(senderEmail, recipientEmail)){
+            ConversationManager c = new ConversationManager(senderEmail, recipientEmail);
             conversationManagers.add(c);
             return c;
         }
         return null;
     }
+
+    /**
+     * Returns a list of all instances of ConversationManager.
+     * @return an ArrayList containing all instances of ConversationManager
+     */
 
     public ArrayList<ConversationManager> getConversationManagers() {
         return conversationManagers;
