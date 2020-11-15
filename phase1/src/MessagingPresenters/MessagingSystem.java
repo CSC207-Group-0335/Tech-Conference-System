@@ -52,6 +52,8 @@ public class MessagingSystem extends Observable implements Observer {
         }
     }
 
+    /* runs and loads all old data */
+
     public void run(){
         this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
         this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);
@@ -76,5 +78,5 @@ public class MessagingSystem extends Observable implements Observer {
             }
         }
     }
-}
+
 
