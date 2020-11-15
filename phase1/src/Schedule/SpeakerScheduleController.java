@@ -36,6 +36,7 @@ public class SpeakerScheduleController{
             }
             if (command == 0){
                 doContinue = false;
+                presenter.printGoodbye();
                 mainMenuController.runMainMenu(speaker.getSpeaker());
             }
         }

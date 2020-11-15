@@ -4,6 +4,7 @@ import Schedule.ScheduleManager;
 import Schedule.Talk;
 import UserLogin.User;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 
 public class UserScheduleManager extends ScheduleManager {
@@ -14,7 +15,7 @@ public class UserScheduleManager extends ScheduleManager {
         this.user = user;
     }
 
-    public Object getUser() {
+    public User getUser() {
         return user;
     }
 }
