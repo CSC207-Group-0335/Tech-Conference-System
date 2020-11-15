@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ConversationManager {
-    private HashSet<String> participants;
+    private ArrayList<String> participants;
     private ArrayList<Message> messages;
 
     /**
@@ -19,7 +19,7 @@ public class ConversationManager {
      */
 
     public ConversationManager(String sender, String recipient) {
-        this.participants = new HashSet<String>();
+        this.participants = new ArrayList<>();
         this.participants.add(sender);
         this.participants.add(recipient);
     }
@@ -63,7 +63,7 @@ public class ConversationManager {
      * Returns set of participants.
      */
 
-    public HashSet<String> getParticipants(){
+    public ArrayList<String> getParticipants(){
         return this.participants;
     }
 
