@@ -11,7 +11,7 @@ public class CSVReader {
     private ArrayList<ArrayList<String>> data;
     private int numParameters;
 
-    public CSVReader(String csv, int numParameters){
+    public CSVReader(String csv){
         data = new ArrayList<>();
         this.numParameters = numParameters;
         this.csv = csv;
@@ -23,11 +23,11 @@ public class CSVReader {
 
                 String[] column; column = l.split(splitter);
 
-                ArrayList<String> rowdata = new ArrayList<>();
-                for(int i = 0; i < this.numParameters; i++){
-                rowdata.add(column[i]);
+                ArrayList<String> rowData = new ArrayList<>();
+                for(String columnData:column){
+                rowData.add(columnData);
                 }
-                data.add(rowdata);
+                data.add(rowData);
             }
 
         }
