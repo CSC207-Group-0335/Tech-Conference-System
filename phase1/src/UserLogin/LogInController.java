@@ -15,8 +15,9 @@ public class LogInController extends Observable {
     public LogInManager logInManager;
     public User user;
     public LogInPresenter presenter;
+    public MainMenuController mainMenuController; //Daniel: added a parameter for Mainmenu and call its run method from run login
 
-    public LogInController(){
+    public LogInController(MainMenuController mainMenuController){
         //we need a method like set-user that returns a user object based on the info entered and then we instantiate
         //the user parameter with this User object. Since LogInController is now Observable, we need to set observers
         //that will rely on the information that is provided in this User (ex. UserScheduleManager would need to know
@@ -24,6 +25,7 @@ public class LogInController extends Observable {
         //this.logInManager = new LogInManager(user.getEmail(), user.getPassword());
         this.logInManager = null;
         this.presenter = new LogInPresenter();
+        this.mainMenuController = mainMenuController;
 
 
     }
@@ -44,6 +46,7 @@ public class LogInController extends Observable {
                 this.user = this.logInManager.findUser();
                 setUser(this.user);
                 presenter.printLoginInfo(3); //Login Successful
+                mainMenuController.runMainMenu(this.user);
             }
             else{
                 presenter.printLoginInfo(4); //Something went wrong

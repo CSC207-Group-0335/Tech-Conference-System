@@ -1,18 +1,19 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
+import UserLogin.Speaker;
 import UserLogin.User;
 import sun.security.tools.keytool.Main;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
-public class SpeakerScheduleController implements Observer {
+public class SpeakerScheduleController{
 
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
-    SignUpAttendeesManager signUpList;
     MainMenuController mainMenuController;
 
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
@@ -22,12 +23,22 @@ public class SpeakerScheduleController implements Observer {
         this.mainMenuController = mainMenuController;
     }
 
-    public ArrayList<Talk> allSpeakingAt() {
-        return speaker.talkList;
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-
+    public void run(){
+        SpeakerSchedulePresenter presenter = new SpeakerSchedulePresenter();
+        presenter.printHelloMessage(speaker);
+        Scanner scan = new Scanner(System.in);
+        boolean doContinue = true;
+        while(doContinue) {
+            int command = scan.nextInt();
+            //if they want to register for a talk
+            if (command == 1) {
+                presenter.printSchedule(speaker, talkManager);
+            }
+            if (command == 0){
+                doContinue = false;
+                presenter.printGoodbye();
+                mainMenuController.runMainMenu(speaker.getSpeaker());
+            }
+        }
     }
 }

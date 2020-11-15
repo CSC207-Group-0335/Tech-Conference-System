@@ -26,13 +26,19 @@ public class TechConferenceSystem extends Observable {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.logInController = new LogInController();
+        this.mainMenuController = new MainMenuController();
+        this.logInController = new LogInController(this.mainMenuController);
         this.addObserver(logInController.logInManager);
         this.roomSystem = new RoomSystem();
         this.addObserver(roomSystem.talkSystem.talkManager);
         this.logInController.addObserver(roomSystem.talkSystem);
-        this.mainMenuController = new MainMenuController();
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
+        this.addObserver(roomSystem.talkSystem.orgScheduleController);
+    }
+
+    public void setUserStorage(){
+        setChanged();
+        notifyObservers(userStorage);
     }
 
     public void setUserList(ArrayList<User> userlst) {

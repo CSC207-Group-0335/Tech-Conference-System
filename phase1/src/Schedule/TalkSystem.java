@@ -31,17 +31,19 @@ public class TalkSystem extends Observable implements Observer{
     public void instantiateControllers(User user){
         if (user instanceof Attendee){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager);
-            this.addObserver(userScheduleController); }
+            this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager,
+                    mainMenuController, signUpMap);
+            }
         else if (user instanceof Organizer){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager);
+            this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager,
+                    mainMenuController, signUpMap);
             this.addObserver(orgScheduleController);
         }
         else{
             SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleMap.get(user);
-            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager);
-            this.addObserver(speakerScheduleController);
+            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager,
+                    mainMenuController);
         }
     }
 
@@ -83,6 +85,8 @@ public class TalkSystem extends Observable implements Observer{
         setChanged();
         notifyObservers(signUpMap);
     }
+
+    //Add Setters for controllers!!
 
 
     @Override

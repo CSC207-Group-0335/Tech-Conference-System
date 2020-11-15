@@ -11,4 +11,8 @@ public class MainMenuPresenter {
         System.out.println("Welcome to our Tech Conference. This is the main menu. Navigate to different " +
                 "screens by typing: \"1 -> Schedules\", \"2 -> Messages\"");
     }
+
+    public void printHello(User user){
+        System.out.println("Hello, " + user.getName());
+    }
 }

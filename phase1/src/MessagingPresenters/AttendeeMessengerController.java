@@ -30,6 +30,12 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
         this.userInfo = new CanMessageManager(attendee);
     }
 
+    /**
+     * Sends a message containing </messageContent> to a user registered under the email </email> if and only if this
+     * attendee is allowed to message that user.
+     * @param email a String representing the email of the recipient
+     * @param messageContent a String representing the content of the message
+     */
 
     public void message(String email, String messageContent){
         if (userInfo.canMessage(email)){
@@ -43,6 +49,13 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
             }
         }
     }
+
+    /**
+     * Returns an arraylist containing all message history between this organizer and the user registered under the
+     * email </email>.
+     * @param email a String representing the email of the recipient
+     * @return an arraylist containing all messages between this organizer and the user
+     */
 
     public ArrayList<Message> viewMessages(String email){
         if (userInfo.canMessage(email)){
@@ -58,6 +71,11 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
         return null;
     }
 
+    /**
+     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
+     * @param o an observable parameter
+     * @param arg an Object
+     */
 
     @Override
     public void update(Observable o, Object arg) {

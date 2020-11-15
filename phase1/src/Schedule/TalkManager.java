@@ -66,6 +66,28 @@ public class TalkManager implements Observer {
         }
     }
 
+    public boolean createTalk(String talkTitle, String speakerEmail, String roomName, LocalDateTime d){
+        Room talkRoom = findRoom(roomName);
+        Speaker talkSpeaker = findSpeaker(speakerEmail);
+        if (talkRoom != null && talkSpeaker != null){
+            if ( d.getHour() >= 9 && d.getHour() < 17 &&
+                    this.speakerScheduleMap.get(talkSpeaker).checkDoubleBooking(d) &&
+                    this.roomScheduleMap.get(talkRoom).checkDoubleBooking(d)){
+                Talk t = new Talk(talkTitle, d);
+                this.addTalk(t, talkRoom, talkSpeaker, d);
+                this.speakerScheduleMap.get(talkSpeaker).addTalk(t);
+                this.roomScheduleMap.get(talkRoom).addTalk(t);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     public boolean removeTalk(Talk t){
         boolean found = this.talkMap.containsKey(t) ;
         if (found){
@@ -85,6 +107,12 @@ public class TalkManager implements Observer {
 
     public LocalDateTime getTalkTime(Talk t){
         return (LocalDateTime) this.talkMap.get(t).get(2);
+    }
+
+    public String toStringTalk(Talk t){
+        String line = "Talk: " + t.getTitle() + "Room: " + this.getTalkRoom(t).getRoomName() + "Speaker: "
+                + this.getTalkSpeaker(t).getName() + "Time: " + this.getTalkTime(t).toString();
+        return line;
     }
 
     public String talkMapStringRepresentation(){

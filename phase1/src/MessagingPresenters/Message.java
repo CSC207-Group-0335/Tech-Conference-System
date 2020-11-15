@@ -12,13 +12,12 @@ public class Message {
     private String messageId;
     private String recipientEmail;
     private String senderEmail;
-    private int conversationId;
     private LocalDateTime timestamp;
     private String messageContent;
 
     /**
-     * A conversation ID, recipient and sender email address, and a timestamp are required to create an
-     * instance of Message. This Message has a uniquely generated ID.
+     * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
+     * Message has a uniquely generated ID.
      * @param recipientEmail the email address of the recipient
      * @param senderEmail the email address of the sender
      * @param timestamp the time and date this message was sent
@@ -36,7 +35,7 @@ public class Message {
 
     /**
      * Returns the message ID of this message.
-     * @return the message ID of the message
+     * @return a String representing the message ID of the message
      */
 
     public String getMessageId() {
@@ -62,8 +61,8 @@ public class Message {
     }
 
     /**
-     * Returns the message ID of the conversation in which this message belongs.
-     * @return the message ID of the conversation in which this message is located
+     * Returns the time at which this message was sent.
+     * @return a LocalDateTime object representing the time at which this message was sent
      */
 
 
@@ -73,7 +72,7 @@ public class Message {
 
     /**
      * Returns the content of the message sent.
-     * @return the content of message that was sent
+     * @return a String representing the content of message that was sent
      */
 
     public String getMessageContent(){
