@@ -1,5 +1,6 @@
 package UserLogin;
 
+import MessagingPresenters.CanMessageManager;
 import Schedule.*;
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -33,6 +34,9 @@ public class TechConferenceSystem extends Observable {
         this.logInController.addObserver(roomSystem.talkSystem);
         this.mainMenuController = new MainMenuController();
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
+        this.addObserver(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
+        this.addObserver(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
+        this.addObserver(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
     }
 
     public void setUserList(ArrayList<User> userlst) {

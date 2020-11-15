@@ -16,7 +16,7 @@ import java.util.Observer;
 
 public class OrganizerMessengerController implements Observer {
     private Organizer organizer;
-    private CanMessageManager userInfo;
+    public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
 
     /**

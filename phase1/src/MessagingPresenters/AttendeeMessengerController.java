@@ -17,7 +17,7 @@ import java.util.Observer;
 
 public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
     private Attendee attendee;
-    private CanMessageManager userInfo;
+    public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
 
     /**

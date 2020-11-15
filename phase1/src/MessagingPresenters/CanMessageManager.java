@@ -1,7 +1,9 @@
 package MessagingPresenters;
+import Schedule.SpeakerScheduleManager;
 import UserLogin.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -44,13 +46,6 @@ public class CanMessageManager implements Observer{
                 }
             }
         }
-        else {
-            for (int i = 0; i < allUsers.userList.size(); i++){
-                if (allUsers.getUserList().get(i) instanceof Attendee){
-                    friends.add(allUsers.getUserList().get(i));
-                }
-            }
-        }
         return friends;
     }
 
@@ -88,6 +83,7 @@ public class CanMessageManager implements Observer{
         }
         return friends;
     }
+
 
     @Override
     public void update(Observable o, Object arg) {

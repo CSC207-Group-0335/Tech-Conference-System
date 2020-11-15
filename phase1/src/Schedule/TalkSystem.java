@@ -32,6 +32,7 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(userScheduleController); //do controllers need to
         this.speakerScheduleController = new SpeakerScheduleController(talkManager);
         this.addObserver(speakerScheduleController);
+        this.addObserver(messagingSystem.speakerMessengerController.userInfo);
     }
 
     public void run(){

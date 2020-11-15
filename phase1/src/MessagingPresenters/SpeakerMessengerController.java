@@ -13,11 +13,11 @@ import java.util.Observer;
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController implements Observer {
-    private CanMessageManager userInfo;
+public class SpeakerMessengerController implements Observer{
+    public SpeakerMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private Speaker speaker;
-    private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
+
 
     /**
      * A speaker is required to create an instance of this class.
@@ -26,7 +26,7 @@ public class SpeakerMessengerController implements Observer {
      */
 
     public SpeakerMessengerController(Speaker speaker) {
-        this.userInfo = new CanMessageManager(speaker);
+        this.userInfo = new SpeakerMessageManager(speaker);
     }
 
 
@@ -34,9 +34,6 @@ public class SpeakerMessengerController implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof ConversationStorage) {
             this.conversationStorage = (ConversationStorage) arg;
-        }
-        else if (arg instanceof HashMap){
-            this.speakerScheduleManagerHashMap = (HashMap) arg;
         }
     }
 }
