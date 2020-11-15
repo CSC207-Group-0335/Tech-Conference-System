@@ -14,7 +14,7 @@ import java.util.Scanner;
  * allow the user to navigate to different "screens" based on input.
  */
 
-public class MainMenuController implements Observer {
+public class MainMenuController implements Observer{
     private User user; //This user is gotten from LogInController
     public MainMenuPresenter presenter;
     public UserScheduleController userScheduleController;
@@ -33,6 +33,7 @@ public class MainMenuController implements Observer {
      * @param user the user provided
      */
     public void runMainMenu(User user) {
+        presenter.printHello(user);
         if (user instanceof Attendee) {
             runMainMenuAttendee();
         } else if (user instanceof Speaker) {
