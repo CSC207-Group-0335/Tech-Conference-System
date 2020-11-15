@@ -61,4 +61,7 @@ public class ConversationStorage{
         return null;
     }
 
+    public ArrayList<ConversationManager> getConversationManagers() {
+        return conversationManagers;
+    }
 }
