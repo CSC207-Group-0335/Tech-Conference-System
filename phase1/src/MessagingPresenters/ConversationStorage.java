@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ConversationStorage{
@@ -19,7 +20,7 @@ public class ConversationStorage{
      */
 
     public boolean contains(String senderEmail, String receipientEmail){
-        Set<String> participants;
+        Set<String> participants = new HashSet<String>();
         participants.add(senderEmail);
         participants.add(receipientEmail);
         for (ConversationManager c: conversationManagers){
@@ -35,7 +36,7 @@ public class ConversationStorage{
      * @return instance of ConversationManager
      */
     public ConversationManager getConversationManager(String senderEmail, String receipientEmail) {
-        Set<String> participants;
+        Set<String> participants = new HashSet<String>();
         participants.add(senderEmail);
         participants.add(receipientEmail);
         for (ConversationManager c : conversationManagers) {
