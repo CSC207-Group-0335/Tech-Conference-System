@@ -37,7 +37,7 @@ public class TalkSystem extends Observable implements Observer{
         else if (user instanceof Organizer){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
             this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager,
-                    mainMenuController);
+                    mainMenuController, signUpMap);
             this.addObserver(orgScheduleController);
         }
         else{
