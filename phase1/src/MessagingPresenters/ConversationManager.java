@@ -28,6 +28,10 @@ public class ConversationManager {
         return messages;
     }
 
+    public String getLastSenderEmail(){
+        return messages.get(messages.size()-1).getSenderEmail();
+    }
+
     /**
      * Adds a message to conversation manager.
      */
