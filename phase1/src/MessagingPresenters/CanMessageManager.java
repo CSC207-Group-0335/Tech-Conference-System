@@ -30,7 +30,6 @@ public class CanMessageManager implements Observer{
 
     public ArrayList<User> getFriendsList() {
         ArrayList<User> friends = new ArrayList<User>();
-        UserStorage allUsers = new UserStorage();
 
         if (user instanceof Organizer) {
             for (int i = 0; i < allUsers.userList.size(); i++){
@@ -68,6 +67,26 @@ public class CanMessageManager implements Observer{
             }
         }
         return false;
+    }
+
+    public ArrayList<User> getAttendees(){
+        ArrayList<User> friends = new ArrayList<User>();
+        for (int i = 0; i < allUsers.userList.size(); i++){
+            if (allUsers.getUserList().get(i) instanceof Attendee){
+                friends.add(allUsers.getUserList().get(i));
+            }
+        }
+        return friends;
+    }
+
+    public ArrayList<User> getSpeakers(){
+        ArrayList<User> friends = new ArrayList<User>();
+        for (int i = 0; i < allUsers.userList.size(); i++){
+            if (allUsers.getUserList().get(i) instanceof Speaker){
+                friends.add(allUsers.getUserList().get(i));
+            }
+        }
+        return friends;
     }
 
     @Override

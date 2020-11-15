@@ -37,6 +37,7 @@ public class ConversationManager {
         }
     }
 
+
     /**
      * Returns set of participants.
      */

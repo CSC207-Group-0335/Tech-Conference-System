@@ -32,11 +32,6 @@ public class SpeakerMessengerController implements Observer {
      * @param friend the given user to be added to the friend list
      */
 
-    public void addToFriendList(User friend) {
-        if (userInfo.canMessage(friend)) {
-            userInfo.getFriendsList().add(friend);
-        }
-    }
 
     @Override
     public void update(Observable o, Object arg) {
