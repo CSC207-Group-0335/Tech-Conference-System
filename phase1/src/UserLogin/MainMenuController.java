@@ -1,6 +1,6 @@
 package UserLogin;
 
-import MessagingPresenters.MessengerController;
+import MessagingPresenters.AttendeeMessengerController;
 import MessagingPresenters.OrganizerMessengerController;
 import MessagingPresenters.SpeakerMessengerController;
 import Schedule.*;
@@ -18,7 +18,7 @@ public class MainMenuController implements Observer {
     private User user; //This user is gotten from LogInController
     public MainMenuPresenter presenter;
     public UserScheduleController userScheduleController;
-    public MessengerController messengerController;
+    public AttendeeMessengerController attendeeMessengerController;
     public SpeakerScheduleController speakerScheduleController;
     public SpeakerMessengerController speakerMessengerController;
     public OrgScheduleController orgScheduleController;
@@ -52,7 +52,7 @@ public class MainMenuController implements Observer {
         if (choice == 1) {
             this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
         } else if (choice == 2) {
-            this.messengerController.run();
+            this.attendeeMessengerController.run();
         }
     }
 
@@ -91,8 +91,8 @@ public class MainMenuController implements Observer {
             this.user = (User) arg;
         } else if (arg instanceof UserScheduleController) {
             this.userScheduleController = (UserScheduleController) arg;
-        } else if (arg instanceof MessengerController) {
-            this.messengerController = (MessengerController) arg;
+        } else if (arg instanceof AttendeeMessengerController) {
+            this.attendeeMessengerController = (AttendeeMessengerController) arg;
         } else if (arg instanceof SpeakerScheduleController) {
             this.speakerScheduleController = (SpeakerScheduleController) arg;
         } else if (arg instanceof SpeakerMessengerController) {
