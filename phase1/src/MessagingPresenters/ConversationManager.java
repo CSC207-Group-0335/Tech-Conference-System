@@ -4,10 +4,12 @@ import UserLogin.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ConversationManager {
-    private Set<String> participants;
+    private HashSet<String> participants;
     private ArrayList<Message> messages;
 
     /**
@@ -17,6 +19,7 @@ public class ConversationManager {
      */
 
     public ConversationManager(String sender, String recipient) {
+        this.participants = new HashSet<String>();
         this.participants.add(sender);
         this.participants.add(recipient);
     }
@@ -41,7 +44,7 @@ public class ConversationManager {
     /**
      * Returns set of participants.
      */
-    public Set<String> getParticipants(){
+    public HashSet<String> getParticipants(){
         return this.participants;
     }
 

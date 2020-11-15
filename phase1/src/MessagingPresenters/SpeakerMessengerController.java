@@ -4,6 +4,7 @@ import Schedule.SpeakerScheduleManager;
 import UserLogin.Speaker;
 import UserLogin.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -27,6 +28,26 @@ public class SpeakerMessengerController implements Observer{
 
     public SpeakerMessengerController(Speaker speaker) {
         this.userInfo = new SpeakerMessageManager(speaker);
+    }
+
+    private void message(String email, String messageContent){
+        ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
+        c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
+    }
+
+    public void messageAllAttendees(String messageContent){
+        for (String email: userInfo.getAllAttendees()){
+            message(email, messageContent);
+        }
+    }
+
+    public boolean reply(String email, String messageContent){
+        if (userInfo.canReply(email)){
+            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
+            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
+            return true;
+        }
+        return false;
     }
 
 
