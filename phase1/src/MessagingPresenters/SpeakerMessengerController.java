@@ -29,12 +29,6 @@ public class SpeakerMessengerController implements Observer {
         this.userInfo = new CanMessageManager(speaker);
     }
 
-    /**
-     * Adds the given user to this speaker's friend list if and only if this speaker can message them.
-     *
-     * @param friend the given user to be added to the friend list
-     */
-
 
     @Override
     public void update(Observable o, Object arg) {
