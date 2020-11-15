@@ -32,6 +32,7 @@ public class ConversationStorage{
 
     /**
      * Gets instance of ConversationManager.
+     * @return instance of ConversationManager
      */
     public ConversationManager getConversationManager(String senderEmail, String receipientEmail) {
         Set<String> participants;

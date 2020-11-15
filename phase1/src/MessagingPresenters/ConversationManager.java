@@ -21,6 +21,10 @@ public class ConversationManager {
         this.participants.add(recipient);
     }
 
+    public ArrayList<Message> getMessages(){
+        return messages;
+    }
+
     /**
      * Adds a message to conversation manager.
      */

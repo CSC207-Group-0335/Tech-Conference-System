@@ -5,6 +5,7 @@ import Schedule.SpeakerScheduleController;
 import Schedule.UserScheduleController;
 import UserLogin.Attendee;
 import UserLogin.User;
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -29,25 +30,34 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
         this.userInfo = new CanMessageManager(attendee);
     }
 
-    /**
-     * Adds the given user to this user's friend list if and only if this user can message them.
-     * @param friend the given user to be added to the friend list
-     */
 
-    public void addToFriendList(String email) {
-        if (userInfo.canMessage(email)){
-            userInfo.getFriendsList().add(email);
-        }
-    }
-
-    public void message(String email){
+    public void message(String email, String messageContent){
         if (userInfo.canMessage(email)){
             if (conversationStorage.contains(attendee.getEmail(), email)){
-
+                ConversationManager c = conversationStorage.getConversationManager(attendee.getEmail(), email);
+                c.addMessage(email, attendee.getEmail(), LocalDateTime.now(), messageContent);
+            }
+            else{
+                ConversationManager c = conversationStorage.addConversationManager(attendee.getEmail(), email);
+                c.addMessage(email, attendee.getEmail(), LocalDateTime.now(), messageContent);
             }
         }
-
     }
+
+    public ArrayList<Message> viewMessages(String email){
+        if (userInfo.canMessage(email)){
+            if (conversationStorage.contains(attendee.getEmail(), email)){
+                ConversationManager c = conversationStorage.getConversationManager(attendee.getEmail(), email);
+                return c.getMessages();
+            }
+            else{
+                ConversationManager c = conversationStorage.addConversationManager(attendee.getEmail(), email);
+                return c.getMessages();
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {
