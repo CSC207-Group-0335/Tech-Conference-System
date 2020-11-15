@@ -87,6 +87,12 @@ public class TalkManager implements Observer {
         return (LocalDateTime) this.talkMap.get(t).get(2);
     }
 
+    public String toStringTalk(Talk t){
+        String line = "Talk: " + t.getTitle() + "Room: " + this.getTalkRoom(t).getRoomName() + "Speaker: "
+                + this.getTalkSpeaker(t).getName() + "Time: " + this.getTalkTime(t).toString();
+        return line;
+    }
+
     public String talkMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Talk t: talkMap.keySet()){

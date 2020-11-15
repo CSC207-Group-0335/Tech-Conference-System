@@ -107,7 +107,8 @@ public class UserScheduleController implements Observer {
         presenter.print(4);
     }
 //changed the method name to go because there already other methods named run in the MessagingPresenterPackage
-    public void go(){
+//Daniel: its ok its good that run means the same thing in the whole program so I changed back
+    public void run(){
         Presenter presenter = new Presenter();
         presenter.print(1);
         presenter.print(2);
