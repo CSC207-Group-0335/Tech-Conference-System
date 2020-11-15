@@ -1,9 +1,11 @@
 package MessagingPresenters;
 
+import Schedule.SpeakerScheduleManager;
 import UserLogin.Speaker;
 import UserLogin.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +17,7 @@ public class SpeakerMessengerController implements Observer {
     private CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private Speaker speaker;
+    private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
 
     /**
      * A speaker is required to create an instance of this class.
@@ -37,6 +40,9 @@ public class SpeakerMessengerController implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof ConversationStorage) {
             this.conversationStorage = (ConversationStorage) arg;
+        }
+        else if (arg instanceof HashMap){
+            this.speakerScheduleManagerHashMap = (HashMap) arg;
         }
     }
 }
