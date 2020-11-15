@@ -13,12 +13,14 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     UserScheduleManager organizer;
     TalkManager talkManager;
     RoomStorage roomStorage;
+    MainMenuController mainMenuController;
 
 
-    public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager){
-        super(organizer, talkManager);
-        roomStorage = null;
+    public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager,
+                                 MainMenuController mainMenuController){
+        super(organizer, talkManager, mainMenuController);
         this.talkManager = talkManager;
+        this.mainMenuController = mainMenuController;
     }
 
     public boolean requestTalks(String title, String talkId,  String speakerEmail, String roomName, LocalDateTime time) {

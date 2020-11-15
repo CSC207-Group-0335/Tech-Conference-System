@@ -53,6 +53,11 @@ public class TechConferenceSystem extends Observable {
         notifyObservers(speakerScheduleMap);
     }
 
+    public void SetMainMenuController(){
+        setChanged();
+        notifyObservers(mainMenuController);
+    }
+
     //Edit this method to read from .csv file and creates an updated version of UserStorage
     //public void setUserStorage(String usertype, String name, String password, String email) {
         //this.userStorage.createUser(usertype, name, password, email);

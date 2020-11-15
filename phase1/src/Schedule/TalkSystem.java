@@ -1,10 +1,7 @@
 package Schedule;
 
 import MessagingPresenters.MessagingSystem;
-import UserLogin.Attendee;
-import UserLogin.Organizer;
-import UserLogin.Speaker;
-import UserLogin.User;
+import UserLogin.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +17,7 @@ public class TalkSystem extends Observable implements Observer{
     public HashMap<User, UserScheduleManager> userScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    public MainMenuController mainMenuController;
 
     public TalkSystem(){
         this.talkManager = new TalkManager();
@@ -97,6 +95,9 @@ public class TalkSystem extends Observable implements Observer{
         }
         if (arg instanceof User){
             this.user = (User) arg;
+        }
+        if (arg instanceof MainMenuController){
+            this.mainMenuController = (MainMenuController) arg;
         }
     }
 }
