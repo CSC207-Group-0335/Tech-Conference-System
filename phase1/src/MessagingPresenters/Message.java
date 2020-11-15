@@ -32,7 +32,6 @@ public class Message {
         this.senderEmail = senderEmail;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
-        this.messageId = UUID.randomUUID().toString();
     }
 
     /**

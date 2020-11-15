@@ -1,12 +1,19 @@
 package MessagingPresenters;
 
+import Schedule.CSVReader;
+import Schedule.Talk;
+import Schedule.UserScheduleManager;
 import UserLogin.Attendee;
 import UserLogin.Organizer;
 import UserLogin.Speaker;
 import UserLogin.User;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.UUID;
 
 /**
  * A class that represents a messaging system.
@@ -27,9 +34,6 @@ public class MessagingSystem extends Observable implements Observer {
     public MessagingSystem() {
         // parameters?
         this.conversationStorage = new ConversationStorage();
-        this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
-        this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);
-        this.organizerMessengerController = new OrganizerMessengerController((Organizer) this.user);
         this.addObserver(this.attendeeMessengerController);
         this.addObserver(this.speakerMessengerController);
         this.addObserver(this.organizerMessengerController);
@@ -50,7 +54,28 @@ public class MessagingSystem extends Observable implements Observer {
     }
 
     public void run(){
-        /* runs code */
+        this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
+        this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);
+        this.organizerMessengerController = new OrganizerMessengerController((Organizer) this.user);
+        CSVReader fileReader = new CSVReader("Conversations.csv");
+        for(ArrayList<String> scheduleData: fileReader.getData()){
+            String participantOne = scheduleData.get(0);
+            String partipantTwo = scheduleData.get(1);
+            ConversationManager c = conversationStorage.addConversationManager(participantOne, partipantTwo);
+            String messages = scheduleData.get(2);
+            String[] individualMessages = messages.split(";");
+            for (String entry: individualMessages){
+                String[] singleMessage = entry.split(",");
+                String recipient = singleMessage[0];
+                String sender = singleMessage[1];
+                String timestampString = singleMessage[2];
+                String messageContent = singleMessage[3];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
+                c.addMessage(recipient, sender, timestamp, messageContent);
+            }
+            }
+        }
     }
 }
 
