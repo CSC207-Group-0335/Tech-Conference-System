@@ -5,11 +5,14 @@ import Schedule.SpeakerScheduleController;
 import Schedule.UserScheduleController;
 import UserLogin.Attendee;
 import UserLogin.User;
+
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 /**
  * A class that represents the messenger controller.
@@ -19,6 +22,7 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
     private Attendee attendee;
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
+    private AttendeeMessengerControllerPresenter presenter;
 
     /**
      * A user is required to create an instance of this class.
@@ -28,6 +32,7 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
     public AttendeeMessengerController(Attendee attendee) {
         this.attendee = attendee;
         this.userInfo = new CanMessageManager(attendee);
+        presenter = new AttendeeMessengerControllerPresenter();
     }
 
     /**
@@ -51,7 +56,7 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
     }
 
     /**
-     * Returns an arraylist containing all message history between this organizer and the user registered under the
+     * Returns an arraylist containing all message history between this attendee and the user registered under the
      * email </email>.
      * @param email a String representing the email of the recipient
      * @return an arraylist containing all messages between this organizer and the user
@@ -69,6 +74,43 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
             }
         }
         return null;
+    }
+
+    public ArrayList<String> getRecipients() {
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
+        for (ConversationManager manager: managers) {
+            ArrayList<String> participants = manager.getParticipants();
+            participants.remove(attendee.getEmail());
+            emails.add(participants.get(0));
+        }
+        return emails;
+    }
+
+    public void run() {
+        boolean flag = true;
+        Scanner scan = new Scanner(System.in);
+        while (flag) {
+            presenter.printMenu(0);
+            int option = scan.nextInt();
+
+            if (option == 1) {
+                presenter.printMenu(1);
+                String email = scan.nextLine();
+                presenter.printMenu(2);
+                String body = scan.nextLine();
+
+                message(email, body);
+            }
+            else if (option == 2) {
+                ArrayList<String> emails = getRecipients();
+                presenter.viewChats(emails);
+                int index = Integer.parseInt(scan.nextLine());
+                String email = emails.get(index - 1);
+                ArrayList<Message> messages = viewMessages(email);
+                presenter.viewConversation(messages);
+            }
+        }
     }
 
     /**
