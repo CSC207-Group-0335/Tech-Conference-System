@@ -49,7 +49,7 @@ public class TalkManager implements Observer {
         Room talkRoom = findRoom(roomName);
         Speaker talkSpeaker = findSpeaker(speakerEmail);
         if (talkRoom != null && talkSpeaker != null){
-            if (this.speakerScheduleMap.get(talkSpeaker).checkDoubleBooking(d) &&
+            if ( d.getHour() >= 9 && d.getHour() < 17 && this.speakerScheduleMap.get(talkSpeaker).checkDoubleBooking(d) &&
                 this.roomScheduleMap.get(talkRoom).checkDoubleBooking(d)){
                 Talk t = new Talk(talkTitle, d, UUID.fromString(talkId));
                 this.addTalk(t, talkRoom, talkSpeaker, d);
