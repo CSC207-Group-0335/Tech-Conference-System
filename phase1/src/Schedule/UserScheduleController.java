@@ -1,5 +1,8 @@
 package Schedule;
 
+import UserLogin.MainMenuController;
+import sun.security.tools.keytool.Main;
+
 import java.util.*;
 
 /**
@@ -11,14 +14,17 @@ public class UserScheduleController implements Observer {
      */
     UserScheduleManager attendee ;
     TalkManager talkManager;
+    MainMenuController mainMenuController;
 
     /**
      * Initializes a new controller for the user
      * @param user the user of the program
      */
-    public UserScheduleController(UserScheduleManager user, TalkManager talkManager){
+    public UserScheduleController(UserScheduleManager user, TalkManager talkManager,
+                                  MainMenuController mainMenuController){
         this.attendee = user;
         this.talkManager = talkManager;
+        this.mainMenuController = mainMenuController;
     }
 //should all these methods return void?
     public void signUp(Talk talk) {
