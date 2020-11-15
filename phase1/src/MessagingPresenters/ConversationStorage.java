@@ -1,11 +1,5 @@
 package MessagingPresenters;
 
-import UserLogin.Attendee;
-import UserLogin.Organizer;
-import UserLogin.Speaker;
-import UserLogin.User;
-import jdk.internal.icu.text.UnicodeSet;
-
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -37,15 +31,32 @@ public class ConversationStorage{
     }
 
     /**
-     * Adds instance of ConversationManager if not stored already.
-     * @return True if instance of ConversationManager is added.
+     * Gets instance of ConversationManager.
      */
-
-    public boolean addConversationManager(String senderEmail, String receipientEmail){
-        if (!this.contains(senderEmail, receipientEmail)){
-            conversationManagers.add(new ConversationManager(senderEmail, receipientEmail));
-            return true;
+    public ConversationManager getConversationManager(String senderEmail, String receipientEmail) {
+        Set<String> participants;
+        participants.add(senderEmail);
+        participants.add(receipientEmail);
+        for (ConversationManager c : conversationManagers) {
+            if (c.getParticipants().equals(participants)) {
+                return c;
+            }
         }
-        return false;
+        return null;
     }
+
+
+    /**
+     * Adds instance of ConversationManager if not stored already.
+     * @return instance of ConversationManager that is added.
+     */
+    public ConversationManager addConversationManager(String senderEmail, String receipientEmail){
+        if (!this.contains(senderEmail, receipientEmail)){
+            ConversationManager c = new ConversationManager(senderEmail, receipientEmail);
+            conversationManagers.add(c);
+            return c;
+        }
+        return null;
+    }
+
 }

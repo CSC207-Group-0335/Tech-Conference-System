@@ -9,7 +9,7 @@ import java.util.*;
  * A Use Case class that handles the creation and storage of all users in the database.
  */
 
-public class UserStorage {
+public class UserStorage extends Observable {
     //made these public (NOV 12) - Nathan
     public ArrayList<User> userList;
     public HashMap<User, UserScheduleManager> userScheduleMap; //CHANGED FOR TESTING PURPOSES
@@ -102,6 +102,7 @@ public class UserStorage {
         return true;
 
     }
+
 }
 
 

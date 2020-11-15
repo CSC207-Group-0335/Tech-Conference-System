@@ -1,5 +1,7 @@
 package MessagingPresenters;
 
+import UserLogin.User;
+
 import java.util.Observable;
 
 /**
@@ -8,9 +10,6 @@ import java.util.Observable;
 
 public class MessagingSystem extends Observable {
     public ConversationStorage conversationStorage;
-    public SpeakerMessengerController speakerMessengerController;
-    public OrganizerMessengerController organizerMessengerController;
-    public AttendeeMessengerController attendeeMessengerController;
 
     /**
      * Instantiates OrganizerMessengerController, SpeakerMessengerController, MessengerController, and
@@ -19,18 +18,18 @@ public class MessagingSystem extends Observable {
 
     public MessagingSystem() {
         // parameters?
-        this.organizerMessengerController = new OrganizerMessengerController();
-        this.speakerMessengerController = new SpeakerMessengerController();
         this.conversationStorage = new ConversationStorage();
-        this.attendeeMessengerController = new AttendeeMessengerController();
+        setStorage(conversationStorage);
     }
 
-    /**
-     * Requests conversationStorage to create a ConversationManager.
-     */
+    //Method to notify that ConversationStorage has been updated
+    public void setStorage(ConversationStorage conversationStorage) {
+        setChanged();
+        notifyObservers(conversationStorage);
+    }
 
-    public void createConversationManager(){
-        //request conversationStorage to create conversation manager
+    public void run(){
+        /* runs code */
     }
 }
 

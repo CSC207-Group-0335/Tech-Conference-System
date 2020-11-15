@@ -4,15 +4,18 @@ import UserLogin.Organizer;
 import UserLogin.User;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController {
+public class OrganizerMessengerController implements Observer {
     private Organizer organizer;
     private CanMessageManager userInfo;
+    private ConversationStorage conversationStorage;
 
     /**
      * An organizer is required to create an instance of this class.
@@ -31,6 +34,13 @@ public class OrganizerMessengerController {
     public void addToFriendList(User friend) {
         if (userInfo.canMessage(friend)){
             userInfo.getFriendsList().add(friend);
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof ConversationStorage) {
+            this.conversationStorage = (ConversationStorage) arg;
         }
     }
 

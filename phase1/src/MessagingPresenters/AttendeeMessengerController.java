@@ -1,17 +1,23 @@
 package MessagingPresenters;
 
+import Schedule.OrgScheduleController;
+import Schedule.SpeakerScheduleController;
+import Schedule.UserScheduleController;
 import UserLogin.Attendee;
 import UserLogin.User;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController { //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
+public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
     private Attendee attendee;
     private CanMessageManager userInfo;
+    private ConversationStorage conversationStorage;
 
     /**
      * A user is required to create an instance of this class.
@@ -28,12 +34,26 @@ public class AttendeeMessengerController { //NOTE, MADE NOT ABSTRACT NOV 14 EARL
      * @param friend the given user to be added to the friend list
      */
 
-    public void addToFriendList(User friend) {
-        if (userInfo.canMessage(friend)){
-            userInfo.getFriendsList().add(friend);
+    public void addToFriendList(String email) {
+        if (userInfo.canMessage(email)){
+            userInfo.getFriendsList().add(email);
         }
     }
 
+    public void message(String email){
+        if (userInfo.canMessage(email)){
+            if (conversationStorage.contains(attendee.getEmail(), email)){
 
+            }
+        }
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof ConversationStorage) {
+            this.conversationStorage = (ConversationStorage) arg;
+        }
+    }
 
 }

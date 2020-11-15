@@ -2,13 +2,16 @@ package MessagingPresenters;
 import UserLogin.*;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * A class that manages who a user can or cannot message.
  */
 
-public class CanMessageManager {
+public class CanMessageManager implements Observer{
     private User user;
+    private UserStorage allUsers;
 
     /**
      * A user is needed to create an instance of CanMessageManager.
@@ -54,26 +57,23 @@ public class CanMessageManager {
 
     /**
      * Returns true if and only if this user is able to message </friend>.
-     * @param friend the other user who this user can or cannot message
+     * @param friendemail the other user's email who this user can or cannot message
      * @return a boolean representing whether or not this user can message </friend>
      */
 
-    public boolean canMessage(User friend) {
-        if (this.user instanceof Attendee) {
-            if (friend instanceof Attendee || friend instanceof Speaker) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (this.user instanceof Organizer) {
-            return true;
-        } else {
-            if (friend instanceof Organizer || friend instanceof Speaker) {
-                return false;
-            }
-            else {
+    public boolean canMessage(String friendemail) {
+        for (User friend: this.getFriendsList()){
+            if (friend.getEmail().equals(friendemail)){
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof UserStorage) {
+            this.allUsers = (UserStorage) arg;
         }
     }
 }

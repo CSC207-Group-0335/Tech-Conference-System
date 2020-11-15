@@ -65,6 +65,7 @@ public class TechConferenceSystem extends Observable {
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }
         setUserList(this.userStorage.userList);
+        setUserList();
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
         }
@@ -73,5 +74,10 @@ public class TechConferenceSystem extends Observable {
     public void saveUserImage(){
         new UsersCSVWriter("Users.csv",this.userList);
 
+    }
+
+    public void setUserList(){
+        setChanged();
+        notifyObservers(this.userList);
     }
 }
