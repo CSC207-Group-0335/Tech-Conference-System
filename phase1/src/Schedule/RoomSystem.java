@@ -29,6 +29,8 @@ public class RoomSystem extends Observable{
         setRoomStorage();
         setRoomList(this.roomStorage.getRoomList());
         setRoomScheduleManagerList(this.roomStorage.getScheduleList());
+
+        talkSystem.run();
     }
 
     public void setRoomList(ArrayList<Room> roomlst) {

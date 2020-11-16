@@ -56,6 +56,8 @@ public class TalkSystem extends Observable implements Observer{
                     talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter));
         }
         setTalkManager();
+        messagingSystem.run();
+        scheduleSystem.run();
     }
 
     public void writeToFile(){}
