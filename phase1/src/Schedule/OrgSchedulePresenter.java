@@ -63,6 +63,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         }
     }
 
+
     public void printAllSpeakers(ArrayList<Speaker> speakerList) {
         //print index + 1
         Integer i = 1;
