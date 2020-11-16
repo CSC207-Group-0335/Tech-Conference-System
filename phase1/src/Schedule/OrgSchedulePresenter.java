@@ -36,9 +36,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                     "to each talk" + System.lineSeparator() +
                     "Press 0 to go back to the scheduling menu");
         } else if (i==7){
-            System.out.println("What room would you like to add the list of rooms?");
+            System.out.println("Pick room by Index, press 0 to go back");
         } else if (i == 8){
-            System.out.println("Which speaker would you like to add to the list of speakers?");
+            System.out.println("Pick speaker by Index, press 0 to go back");
         }
         else if (i == 9){
             System.out.println("Success");
@@ -46,22 +46,37 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         else if (i==10){
             System.out.println("Invalid talk number, try again");
         }
-        else if (i==11){
-            System.out.println("Invalid command, try again");
+        else if (i == 11){
+            System.out.println("Invalid room number, try again");
         }
-        else if (i==12){
-            System.out.println("Returning to main menu...");
+        else if (i == 12){
+            System.out.println("Invalid speaker number, try again");
         }
         else if (i==13){
+            System.out.println("Invalid command, try again");
+        }
+        else if (i==14){
+            System.out.println("Returning to main menu...");
+        }
+        else if (i==15){
             System.out.println("Returning to scheduling menu...");
         }
     }
 
-
-//    public void printIndexList(ArrayList<Object> objectList) {
-//    }
-//
-//    public void printAllSpeakers(ArrayList<Speaker> speakerList) {
-//    }
+    public void printAllSpeakers(ArrayList<Speaker> speakerList) {
+        //print index + 1
+        Integer i = 1;
+        for (Speaker s : speakerList){
+            System.out.println(Integer.toString(i) + ")" + s.getName());
+            i++;
+        }
+    }
+    public void printAllRooms(ArrayList<Room> roomList){
+        Integer i = 1;
+        for (Room r : roomList){
+            System.out.println(Integer.toString(i) + ")" + r.getRoomName());
+            i++;
+        }
+    }
 }
 

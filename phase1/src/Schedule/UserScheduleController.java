@@ -72,7 +72,7 @@ public class UserScheduleController{
     //    }
     //    return registeredFor;}
 
-    private void registerTalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void registerTalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         // show them a list of all available talks
         userSchedulePresenter.printAllTalks(talkManager);
         //they will pick the number corresponding to each talk
@@ -99,11 +99,11 @@ public class UserScheduleController{
                 return;
             }
     }}
-    private void seeAllTalks(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void seeAllTalks(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         //use the string representation in TalkManager
         userSchedulePresenter.printAllTalks(talkManager);
     }
-    private void seeAllRegistered(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void seeAllRegistered(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         //each line shows talk, time, speaker, room
         //Daniel: changed it bc I added a talktostring mathod in talkmanager that makes this more simple
         Integer i = 1;
@@ -112,7 +112,7 @@ public class UserScheduleController{
             i++;
         }
     }
-    private void cancelATalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void cancelATalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         userSchedulePresenter.printAllTalks(talkManager);
         userSchedulePresenter.printMenu(5);
         boolean doContinue  = true;
