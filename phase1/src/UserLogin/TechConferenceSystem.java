@@ -2,6 +2,7 @@ package UserLogin;
 
 import Schedule.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -37,7 +38,7 @@ public class TechConferenceSystem extends Observable {
     public void setUserList(ArrayList<User> userlst) {
         this.userList = userlst;
         setChanged();
-        notifyObservers(userList);
+        notifyObservers(this.userList);
     }
 
     public void setUserScheduleMap(HashMap<User, UserScheduleManager> userSchedMap) {
@@ -52,15 +53,16 @@ public class TechConferenceSystem extends Observable {
         notifyObservers(speakerScheduleMap);
     }
 
-    public void SetMainMenuController(){
+    public void setMainMenuController(){
         setChanged();
         notifyObservers(mainMenuController);
     }
 
     public void run() {
         //Added all Observers NOV 15
-        this.addObserver(logInController.logInManager);
         this.addObserver(roomSystem.talkSystem.talkManager);
+        this.addObserver(logInController.logInManager);
+        //System.out.println(this.countObservers());
         this.logInController.addObserver(roomSystem);
         this.logInController.addObserver(roomSystem.talkSystem);
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
@@ -75,6 +77,8 @@ public class TechConferenceSystem extends Observable {
 
 
         logInController.runLogIn();
+        setUserStorage();
+        setMainMenuController();
         this.addObserver(roomSystem.talkSystem.orgScheduleController);
         roomSystem.run();
         mainMenuController.runMainMenu(this.logInController.user);
@@ -84,10 +88,5 @@ public class TechConferenceSystem extends Observable {
     public void saveUserImage(){
         new UsersCSVWriter("phase1/src/Resources/Users.csv",this.userList);
 
-    }
-
-    public void setUserList(){
-        setChanged();
-        notifyObservers(this.userList);
     }
 }
