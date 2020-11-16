@@ -79,6 +79,9 @@ public class TechConferenceSystem extends Observable {
         setUserList();
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
+
+        roomSystem.run();
+        logInController.runLogIn();
         }
 
 
