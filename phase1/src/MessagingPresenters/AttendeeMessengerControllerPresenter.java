@@ -11,6 +11,7 @@ public class AttendeeMessengerControllerPresenter{
         switch (i) {
             case 0:
                 System.out.println("Welcome to the attendee messenger client" + System.lineSeparator() +
+                        "Press 0 to quit the attendee messenger client" + System.lineSeparator() +
                         "Press 1 to send a message to a user" + System.lineSeparator() +
                         "Press 2 to view all of your conversations");
                 break;
@@ -22,6 +23,10 @@ public class AttendeeMessengerControllerPresenter{
                 break;
             case 3:
                 System.out.println("Message successfully sent!");
+                break;
+            case 4:
+                System.out.println("Quitting the attendee messenger client");
+                break;
         }
     }
 

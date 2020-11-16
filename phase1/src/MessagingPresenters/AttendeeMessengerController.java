@@ -94,7 +94,11 @@ public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT A
             presenter.printMenu(0);
             int option = scan.nextInt();
 
-            if (option == 1) {
+            if (option == 0) {
+                flag = false;
+                presenter.printMenu(4);
+            }
+            else if (option == 1) {
                 presenter.printMenu(1);
                 String email = scan.nextLine();
                 presenter.printMenu(2);

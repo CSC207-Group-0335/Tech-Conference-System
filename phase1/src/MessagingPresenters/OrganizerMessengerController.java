@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 
 /**
@@ -18,6 +19,7 @@ public class OrganizerMessengerController implements Observer {
     private Organizer organizer;
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
+    private OrgMessengerControllerPresenter presenter;
 
     /**
      * An organizer is required to create an instance of this class.
@@ -26,6 +28,7 @@ public class OrganizerMessengerController implements Observer {
 
     public OrganizerMessengerController(Organizer organizer) {
         this.userInfo = new CanMessageManager(organizer);
+        this.presenter = new OrgMessengerControllerPresenter();
     }
 
     /**
@@ -90,6 +93,57 @@ public class OrganizerMessengerController implements Observer {
             }
         }
         return null;
+    }
+
+    public ArrayList<String> getRecipients() {
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
+        for (ConversationManager manager: managers) {
+            ArrayList<String> participants = manager.getParticipants();
+            participants.remove(organizer.getEmail());
+            emails.add(participants.get(0));
+        }
+        return emails;
+    }
+
+    public void run() {
+        boolean flag = true;
+        Scanner scan = new Scanner(System.in);
+        while (flag) {
+            presenter.printMenu(0);
+            int option = scan.nextInt();
+
+            if (option == 0) {
+                flag = false;
+                presenter.printMenu(1);
+            }
+            else if (option == 1) {
+                presenter.printMenu(2);
+                String email = scan.nextLine();
+                presenter.printMenu(3);
+                String body = scan.nextLine();
+
+                messageOneUser(email, body);
+            }
+            else if (option == 2) {
+                presenter.printMenu(3);
+                String body = scan.nextLine();
+                messageAllSpeakers(body);
+            }
+            else if (option == 3) {
+                presenter.printMenu(3);
+                String body = scan.nextLine();
+                messageAllAttendees(body);
+            }
+            else if (option == 4) {
+                ArrayList<String> emails = getRecipients();
+                presenter.viewChats(emails);
+                int index = Integer.parseInt(scan.nextLine());
+                String email = emails.get(index - 1);
+                ArrayList<Message> messages = viewMessages(email);
+                presenter.viewConversation(messages);
+            }
+        }
     }
 
     /**
