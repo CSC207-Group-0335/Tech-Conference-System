@@ -18,7 +18,7 @@ import java.util.Scanner;
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController implements Observer{ //NOTE, MADE NOT ABSTRACT NOV 14 EARLY MORNING - NATHAN
+public class AttendeeMessengerController implements Observer{
     private Attendee attendee;
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;

@@ -22,11 +22,7 @@ public class TalkSystem extends Observable implements Observer{
     public TalkSystem(){
         this.talkManager = new TalkManager();
         this.messagingSystem = new MessagingSystem();
-        this.addObserver(messagingSystem.speakerMessengerController); //would be created
         this.scheduleSystem = new ScheduleSystem();
-        this.addObserver(scheduleSystem);
-        this.addObserver(messagingSystem.speakerMessengerController.userInfo);
-
     }
     public void instantiateControllers(User user){
         if (user instanceof Attendee){
@@ -48,7 +44,10 @@ public class TalkSystem extends Observable implements Observer{
     }
 
     public void run(){
-        this.instantiateControllers(user);
+        //Moved Observers NOV 15
+        this.addObserver(messagingSystem.speakerMessengerController); //would be created
+        this.addObserver(scheduleSystem);
+        this.addObserver(messagingSystem.speakerMessengerController.userInfo);
         CSVReader fileReader = new CSVReader("Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
@@ -99,11 +98,13 @@ public class TalkSystem extends Observable implements Observer{
             }
             else{this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;}
         }
-        if (arg instanceof User){
-            this.user = (User) arg;
-        }
+        //No longer need to observe user, because of changes made in the LogInController
+        //if (arg instanceof User){
+          //  this.user = (User) arg;
+        //}
         if (arg instanceof MainMenuController){
             this.mainMenuController = (MainMenuController) arg;
         }
+
     }
 }

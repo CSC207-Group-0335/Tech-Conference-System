@@ -12,16 +12,15 @@ public class RoomSystem extends Observable{
     public RoomSystem(){
         this.roomStorage = new RoomStorage();
         this.talkSystem = new TalkSystem();
-        this.addObserver(this.talkSystem.talkManager);
-        this.addObserver(this.talkSystem.orgScheduleController);
         this.scheduleSystem = new ScheduleSystem();
-        this.addObserver(this.scheduleSystem);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
-        this.run();
     }
 
     public void run(){
+        this.addObserver(this.talkSystem.talkManager);
+        this.addObserver(this.talkSystem.orgScheduleController);
+        this.addObserver(this.scheduleSystem);
         TxtIterator txtIterator = new TxtIterator("RoomFile.txt");
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);

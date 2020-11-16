@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class LogInManager implements Observer {
     private String email;
-    private String password;
+    //private String password;
     private User usertype;
     public ArrayList<User> userList;
 
@@ -21,9 +21,9 @@ public class LogInManager implements Observer {
      * A user will login with their email and password and the LogInManager will process the login attempt.
      */
 
-    public LogInManager(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public LogInManager() {
+        //this.email = email;
+        //this.password = password;
         this.usertype = null;
         this.userList = new ArrayList<User>();
     }
@@ -33,10 +33,11 @@ public class LogInManager implements Observer {
      * @return the user associated with the email, or null if no such user is found. Currently attempting to
      * use an Optional Parameter in order to accomplish this task, instead of a null value.
      */
-    public User findUser() {
+    public User findUser(String email) {
         //iterate through userList and check the email associated with each user to see if there is a match.
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getEmail().equals(this.email)) {
+            if (userList.get(i).getEmail().equals(email)) {
+                this.email = email;
                 return userList.get(i); //return the user associated with this email.
             }
         }
@@ -48,16 +49,16 @@ public class LogInManager implements Observer {
      * @return a boolean value representing whether or not the login was successful.
      */
 
-    public boolean login() {
+    public boolean login(String email, String password) {
         //find the user in UserStorage using the provided email
-        User user = findUser();
+        User user = findUser(email);
         if (user != null) {
             //A user has been found, now check the password
 
             //NOTE should we return a string that says "Incorrect password" vs "User not found" in order to
             //differentiate the problem if the result is false?
 
-            return user.getPassword().equals(this.password);
+            return user.getPassword().equals(password);
         } else {
             return false;
         }

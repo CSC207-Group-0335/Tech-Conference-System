@@ -33,9 +33,6 @@ public class MessagingSystem extends Observable implements Observer {
 
     public MessagingSystem() {
         this.conversationStorage = new ConversationStorage();
-        this.addObserver(this.attendeeMessengerController);
-        this.addObserver(this.speakerMessengerController);
-        this.addObserver(this.organizerMessengerController);
         setStorage(conversationStorage);
     }
 
@@ -58,6 +55,9 @@ public class MessagingSystem extends Observable implements Observer {
         this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
         this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);
         this.organizerMessengerController = new OrganizerMessengerController((Organizer) this.user);
+        this.addObserver(this.attendeeMessengerController); //Moved AddObservers NOV 15
+        this.addObserver(this.speakerMessengerController);
+        this.addObserver(this.organizerMessengerController);
         CSVReader fileReader = new CSVReader("Conversations.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String participantOne = scheduleData.get(0);

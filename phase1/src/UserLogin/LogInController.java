@@ -1,7 +1,10 @@
 package UserLogin;
 
 
+import Schedule.TalkSystem;
+
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
 /**
@@ -16,20 +19,18 @@ public class LogInController extends Observable {
     public User user;
     public LogInPresenter presenter;
     public MainMenuController mainMenuController; //Daniel: added a parameter for Mainmenu and call its run method from run login
+    public TalkSystem talkSystem;
 
-    public LogInController(MainMenuController mainMenuController){
-        //we need a method like set-user that returns a user object based on the info entered and then we instantiate
-        //the user parameter with this User object. Since LogInController is now Observable, we need to set observers
-        //that will rely on the information that is provided in this User (ex. UserScheduleManager would need to know
-        //the type of the User to properly display the correct type of schedule) - Nathan, NOV 13
-        //this.logInManager = new LogInManager(user.getEmail(), user.getPassword());
-        this.logInManager = null;
+    public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem){
+        this.talkSystem = talkSystem;
+        this.logInManager = new LogInManager();
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
 
 
     }
-    public boolean runLogIn(){
+    //Made method void NOV 15
+    public void runLogIn(){
         boolean check = true;
         while (check){
 
@@ -40,19 +41,18 @@ public class LogInController extends Observable {
             String password = in.nextLine();
             in.close();
 
-            this.logInManager = new LogInManager(email, password);
-            if (this.logInManager.login()){
+            this.logInManager = new LogInManager();
+            if (this.logInManager.login(email, password)){
                 check = false;
-                this.user = this.logInManager.findUser();
-                setUser(this.user);
+                this.user = this.logInManager.findUser(email);
+                setUser(this.user); //set the user
+                this.talkSystem.instantiateControllers(this.user); //Instantiate controllers for the found user
                 presenter.printLoginInfo(3); //Login Successful
-                mainMenuController.runMainMenu(this.user);
             }
             else{
                 presenter.printLoginInfo(4); //Something went wrong
             }
         }
-        return true;
     }
 
     //Method to notify the observers of the user that has logged in

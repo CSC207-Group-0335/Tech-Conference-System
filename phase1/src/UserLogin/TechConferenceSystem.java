@@ -27,13 +27,8 @@ public class TechConferenceSystem extends Observable {
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
         this.mainMenuController = new MainMenuController();
-        this.logInController = new LogInController(this.mainMenuController);
-        this.addObserver(logInController.logInManager);
         this.roomSystem = new RoomSystem();
-        this.addObserver(roomSystem.talkSystem.talkManager);
-        this.logInController.addObserver(roomSystem.talkSystem);
-        this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
-        this.addObserver(roomSystem.talkSystem.orgScheduleController);
+        this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem);
     }
 
     public void setUserStorage(){
@@ -71,6 +66,12 @@ public class TechConferenceSystem extends Observable {
         //setUserScheduleMap(this.userStorage.getUserScheduleMap());
     //}
     public void run() {
+        //Added all Observers NOV 15
+        this.addObserver(logInController.logInManager);
+        this.addObserver(roomSystem.talkSystem.talkManager);
+        this.logInController.addObserver(roomSystem.talkSystem);
+        this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
+
         UsersCSVReader file = new UsersCSVReader("Users.csv");
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
@@ -82,6 +83,8 @@ public class TechConferenceSystem extends Observable {
 
         roomSystem.run();
         logInController.runLogIn();
+        this.addObserver(roomSystem.talkSystem.orgScheduleController);
+        mainMenuController.runMainMenu(this.logInController.user);
         }
 
 
