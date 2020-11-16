@@ -43,11 +43,10 @@ public class LogInController extends Observable {
             String email = in.nextLine();
             presenter.printLoginInfo(2); //Ask for password
             String password = in.nextLine();
-            in.close();
 
-            this.logInManager = new LogInManager();
             if (this.logInManager.login(email, password)){
                 check = false;
+                in.close();
                 this.user = this.logInManager.findUser(email);
                 setUser(this.user); //set the user
                 this.talkSystem.instantiateControllers(this.user); //Instantiate controllers for the found user
