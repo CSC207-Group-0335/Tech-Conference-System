@@ -57,7 +57,7 @@ public class SpeakerMessageManager implements Observer{
         ArrayList<String> senders = new ArrayList<String>();
         for (ConversationManager c: conversationStorage.getConversationManagers()){
             if (c.getParticipants().contains(speaker.getEmail()) && !c.getLastSenderEmail().equals(speaker.getEmail())){
-                HashSet<String> participants = c.getParticipants();
+                ArrayList<String> participants = c.getParticipants();
                 for (String email: participants){
                     if (!(email.equals(speaker.getEmail()))){
                         senders.add(email);
