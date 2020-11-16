@@ -42,12 +42,12 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         while (doContinue){
             int speakerIndex = scan.nextInt();
             if (speakerIndex == 0){
-                orgSchedulePresenter.printMenu(15);
+                orgSchedulePresenter.printMenu(16);
                 orgSchedulePresenter.printMenu(1);
                 return null;
             }
             else if (speakerIndex >= getSpeakerList().size()){
-                orgSchedulePresenter.printMenu(12);
+                orgSchedulePresenter.printMenu(13);
             }
             else{
                 Speaker chosenSpeaker = getSpeakerList().get(speakerIndex - 1);
@@ -63,12 +63,12 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         while (doContinue){
             int RoomIndex = scan.nextInt();
             if (RoomIndex == 0){
-                orgSchedulePresenter.printMenu(15);
+                orgSchedulePresenter.printMenu(16);
                 orgSchedulePresenter.printMenu(1);
                 return null;
             }
             else if (RoomIndex >= roomStorage.getRoomList().size()){
-                orgSchedulePresenter.printMenu(11);
+                orgSchedulePresenter.printMenu(12);
             }
             else{
                 Room chosenRoom = roomStorage.getRoomList().get(RoomIndex - 1);
@@ -100,13 +100,15 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         return null;
     }
 
-    public boolean requestTalk(Scanner scan, Talk t){
-        Speaker s = pickSpeaker(scan);
-        Room r = pickRoom(scan);
-        LocalDateTime availableTime = pickTime(scan, s, r);
-        talkManager.addTalk(t, r, s, availableTime);
-        return true;
-    }
+//    public boolean requestTalk(Scanner scan){
+//        Speaker s = pickSpeaker(scan);
+//        Room r = pickRoom(scan);
+//        LocalDateTime availableTime = pickTime(scan, s, r);
+//        String talkId = scan.nextLine();
+//        String talk
+//        //talkManager.addTalk(t, r, s, availableTime);
+//        return true;
+//    }
 
 
     //there's also a createRoom in RoomStorage with the parameter capacity
@@ -117,6 +119,21 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     //can't put anything here since speakerStorage hasn't been made
     public boolean requestSpeaker(String name, String password, String email) {
         return this.userStorage.createUser("Speaker", name, password, email);
+    }
+
+    public void registerRoom(Scanner scan){
+        orgSchedulePresenter.printMenu(9);
+        String roomName = scan.nextLine();
+        this.addRoom(roomName);
+    }
+    public void registerSpeaker(Scanner scan){
+        orgSchedulePresenter.printMenu(10);
+        String name = scan.nextLine();
+        String password = scan.nextLine();
+        String email = scan.nextLine();
+        if (this.requestSpeaker(name, password, email)){
+            orgSchedulePresenter.printMenu(11);
+        }
     }
     public void run(){
         orgSchedulePresenter.printHello(organizer);
@@ -138,14 +155,13 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 // if they want to cancel a registration
             }else if (command == 4) {
                 this.cancelATalk(orgSchedulePresenter, scan);
+            }else if (command == 5){
+                //this.requestTalk(scan);
+            }else if (command == 6){
+                this.registerRoom(scan);
+            }else if (command == 7){
+                this.registerSpeaker(scan);
             }
-//            }else if (command == 5){
-//                this.requestTalk(scan);
-//            }else if (command == 6){
-//
-//            }else if (command == 7){
-//                this.requestSpeaker();
-//            }
             else if (command ==0){
                 scan.close();
                 doContinue = false;

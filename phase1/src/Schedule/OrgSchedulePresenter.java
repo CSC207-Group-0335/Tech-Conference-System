@@ -13,9 +13,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                     "Press 2 to see the schedule of events " + System.lineSeparator() +
                     "Press 3 see all talks currently registered for " + System.lineSeparator() +
                     "Press 4 to  cancel a registration" + System.lineSeparator()+
-                    "Press 5 to add a talk " + System.lineSeparator() +
-                    "Press 6 to add a room " + System.lineSeparator() +
-                    "Press 7 to add a speaker" + System.lineSeparator()+
+                    "Press 5 to request to add a talk " + System.lineSeparator() +
+                    "Press 6 to register a room " + System.lineSeparator() +
+                    "Press 7 to request to add a speaker" + System.lineSeparator()+
                     "Press 0 to go back to the main menu");
         } else if (i==2){
             System.out.println("Please input a command");
@@ -39,26 +39,33 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
             System.out.println("Pick room by Index, press 0 to go back");
         } else if (i == 8){
             System.out.println("Pick speaker by Index, press 0 to go back");
-        }
-        else if (i == 9){
-            System.out.println("Success");
-        }
-        else if (i==10){
-            System.out.println("Invalid talk number, try again");
+        } else if (i == 9){
+            System.out.println("Enter the name of the new room to register");
+        } else if (i == 10){
+            System.out.println("Enter the credentials of the new speaker to register" + System.lineSeparator()+
+                    "Enter the name" + System.lineSeparator()+
+                    "Enter the password" + System.lineSeparator()+
+                    "Enter the e-mail");
         }
         else if (i == 11){
+            System.out.println("Success");
+        }
+        else if (i==12){
+            System.out.println("Invalid talk number, try again");
+        }
+        else if (i == 13){
             System.out.println("Invalid room number, try again");
         }
-        else if (i == 12){
+        else if (i == 14){
             System.out.println("Invalid speaker number, try again");
         }
-        else if (i==13){
+        else if (i==15){
             System.out.println("Invalid command, try again");
         }
-        else if (i==14){
+        else if (i==16){
             System.out.println("Returning to main menu...");
         }
-        else if (i==15){
+        else if (i==17){
             System.out.println("Returning to scheduling menu...");
         }
     }
