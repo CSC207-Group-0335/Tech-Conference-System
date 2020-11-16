@@ -42,8 +42,19 @@ public class MessagingSystem extends Observable implements Observer {
         notifyObservers(conversationStorage);
     }
 
+    public void instantiateControllers(User user) {
+        if (user instanceof Attendee)
+        this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user);
+        this.speakerMessengerController = new SpeakerMessengerController((Speaker) user);
+        this.organizerMessengerController = new OrganizerMessengerController((Organizer) user);
+        this.addObserver(this.attendeeMessengerController); //Moved AddObservers NOV 15
+        this.addObserver(this.speakerMessengerController);
+        this.addObserver(this.organizerMessengerController);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+        //Probably no longer needed
         if (arg instanceof User) {
             this.user = (User) arg;
         }
@@ -52,13 +63,7 @@ public class MessagingSystem extends Observable implements Observer {
     /* runs and loads all old data */
 
     public void run(){
-        this.attendeeMessengerController = new AttendeeMessengerController((Attendee) this.user);
-        this.speakerMessengerController = new SpeakerMessengerController((Speaker) this.user);
-        this.organizerMessengerController = new OrganizerMessengerController((Organizer) this.user);
-        this.addObserver(this.attendeeMessengerController); //Moved AddObservers NOV 15
-        this.addObserver(this.speakerMessengerController);
-        this.addObserver(this.organizerMessengerController);
-        CSVReader fileReader = new CSVReader("Conversations.csv");
+        CSVReader fileReader = new CSVReader("phase1/src/Resources/Conversations.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String participantOne = scheduleData.get(0);
             String partipantTwo = scheduleData.get(1);

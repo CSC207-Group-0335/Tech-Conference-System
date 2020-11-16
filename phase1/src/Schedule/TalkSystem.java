@@ -41,6 +41,7 @@ public class TalkSystem extends Observable implements Observer{
             this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager,
                     mainMenuController);
         }
+
     }
 
     public void run(){
@@ -48,6 +49,7 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(messagingSystem.speakerMessengerController); //would be created
         this.addObserver(scheduleSystem);
         this.addObserver(messagingSystem.speakerMessengerController.userInfo);
+
         CSVReader fileReader = new CSVReader("Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){

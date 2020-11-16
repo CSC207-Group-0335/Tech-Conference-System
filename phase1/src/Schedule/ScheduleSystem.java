@@ -31,7 +31,7 @@ public class ScheduleSystem implements Observer {
     }
 
     public void run(){
-        CSVReader fileReader = new CSVReader("Registration.csv");
+        CSVReader fileReader = new CSVReader("phase1/src/Resources/Registration.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
             User user = findUser(email);

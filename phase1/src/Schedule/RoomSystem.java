@@ -1,7 +1,7 @@
 package Schedule;
 
 import java.util.*;
-public class RoomSystem extends Observable{
+public class RoomSystem extends Observable implements Observer {
 
     public ArrayList<Room> roomList;
     public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
@@ -19,9 +19,9 @@ public class RoomSystem extends Observable{
 
     public void run(){
         this.addObserver(this.talkSystem.talkManager);
-        this.addObserver(this.talkSystem.orgScheduleController);
+
         this.addObserver(this.scheduleSystem);
-        TxtIterator txtIterator = new TxtIterator("RoomFile.txt");
+        TxtIterator txtIterator = new TxtIterator("phase1/src/Resources/RoomFile");
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);
         }
@@ -47,5 +47,10 @@ public class RoomSystem extends Observable{
     public void setRoomStorage(){
         setChanged();
         notifyObservers(this.roomStorage);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.addObserver(this.talkSystem.orgScheduleController);
     }
 }

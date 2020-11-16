@@ -1,10 +1,7 @@
 package UserLogin;
 
 import Schedule.*;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+
 import java.util.*;
 
 /**
@@ -28,7 +25,8 @@ public class TechConferenceSystem extends Observable {
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
         this.mainMenuController = new MainMenuController();
         this.roomSystem = new RoomSystem();
-        this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem);
+        this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
+                this.roomSystem.talkSystem.messagingSystem);
     }
 
     public void setUserStorage(){
@@ -59,37 +57,32 @@ public class TechConferenceSystem extends Observable {
         notifyObservers(mainMenuController);
     }
 
-    //Edit this method to read from .csv file and creates an updated version of UserStorage
-    //public void setUserStorage(String usertype, String name, String password, String email) {
-        //this.userStorage.createUser(usertype, name, password, email);
-        //setUserList(this.userStorage.getUserList());
-        //setUserScheduleMap(this.userStorage.getUserScheduleMap());
-    //}
     public void run() {
         //Added all Observers NOV 15
         this.addObserver(logInController.logInManager);
         this.addObserver(roomSystem.talkSystem.talkManager);
+        this.logInController.addObserver(roomSystem);
         this.logInController.addObserver(roomSystem.talkSystem);
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
 
-        CSVReader file = new CSVReader("Resources/Users.csv"); //Changed to CSV reader Nov 15
+        CSVReader file = new CSVReader("phase1/src/Resources/Users.csv"); //Changed to CSV reader Nov 15
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }
         setUserList(this.userStorage.userList);
-        setUserList();
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
 
-        roomSystem.run();
+
         logInController.runLogIn();
         this.addObserver(roomSystem.talkSystem.orgScheduleController);
+        roomSystem.run();
         mainMenuController.runMainMenu(this.logInController.user);
         }
 
 
     public void saveUserImage(){
-        new UsersCSVWriter("Users.csv",this.userList);
+        new UsersCSVWriter("phase1/src/Resources/Users.csv",this.userList);
 
     }
 

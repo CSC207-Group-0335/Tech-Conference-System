@@ -134,10 +134,15 @@ public class TalkManager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if(o instanceof RoomSystem){
-            this.roomScheduleMap = (HashMap<Room, RoomScheduleManager>) arg;
+            if (arg instanceof HashMap) {
+                this.roomScheduleMap = (HashMap<Room, RoomScheduleManager>) arg;
+            }
         }
         else if(o instanceof TechConferenceSystem){
-            this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
+            if (arg instanceof HashMap) {
+                this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
+            }
         }
+
     }
 }

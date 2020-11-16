@@ -1,6 +1,7 @@
 package UserLogin;
 
 
+import MessagingPresenters.MessagingSystem;
 import Schedule.TalkSystem;
 
 import java.util.Observable;
@@ -20,9 +21,12 @@ public class LogInController extends Observable {
     public LogInPresenter presenter;
     public MainMenuController mainMenuController; //Daniel: added a parameter for Mainmenu and call its run method from run login
     public TalkSystem talkSystem;
+    public MessagingSystem messagingSystem;
 
-    public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem){
+    public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem,
+                           MessagingSystem messagingSystem){
         this.talkSystem = talkSystem;
+        this.messagingSystem = messagingSystem;
         this.logInManager = new LogInManager();
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
@@ -47,6 +51,7 @@ public class LogInController extends Observable {
                 this.user = this.logInManager.findUser(email);
                 setUser(this.user); //set the user
                 this.talkSystem.instantiateControllers(this.user); //Instantiate controllers for the found user
+                this.messagingSystem.instantiateControllers(this.user);
                 presenter.printLoginInfo(3); //Login Successful
             }
             else{
