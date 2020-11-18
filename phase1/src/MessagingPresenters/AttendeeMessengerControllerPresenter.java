@@ -27,6 +27,8 @@ public class AttendeeMessengerControllerPresenter{
             case 4:
                 System.out.println("Quitting the attendee messenger client");
                 break;
+            case 5:
+                System.out.println("Email address not found. Please try again.");
         }
     }
 

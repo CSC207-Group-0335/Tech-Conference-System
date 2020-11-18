@@ -79,7 +79,15 @@ public class SpeakerMessengerController implements Observer{
             }
             else if (option == 1) {
                 presenter.printMenu(2);
-                String email = scan.nextLine();
+                String email = new String();
+                boolean valid_recipient = false;
+                while (!valid_recipient) {
+                    email = scan.nextLine();
+                    if (userInfo.canReply(email)) {
+                        valid_recipient = true;
+                    }
+                    else { presenter.printMenu(5); }
+                }
                 presenter.printMenu(3);
                 String body = scan.nextLine();
 
