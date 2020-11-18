@@ -1,6 +1,5 @@
 package MessagingPresenters;
 
-import UserLogin.Attendee;
 import UserLogin.Organizer;
 import UserLogin.User;
 
@@ -111,7 +110,7 @@ public class OrganizerMessengerController implements Observer {
         Scanner scan = new Scanner(System.in);
         while (flag) {
             presenter.printMenu(0);
-            int option = scan.nextInt();
+            int option = Integer.parseInt(scan.nextLine());
 
             if (option == 0) {
                 flag = false;
@@ -119,21 +118,32 @@ public class OrganizerMessengerController implements Observer {
             }
             else if (option == 1) {
                 presenter.printMenu(2);
-                String email = scan.nextLine();
+                String email = new String();
+                boolean valid_recipient = false;
+                while (!valid_recipient) {
+                    email = scan.nextLine();
+                    if (userInfo.canMessage(email)) {
+                        valid_recipient = true;
+                    }
+                    else { presenter.printMenu(5); }
+                }
                 presenter.printMenu(3);
                 String body = scan.nextLine();
 
                 messageOneUser(email, body);
+                presenter.printMenu(4);
             }
             else if (option == 2) {
                 presenter.printMenu(3);
                 String body = scan.nextLine();
                 messageAllSpeakers(body);
+                presenter.printMenu(4);
             }
             else if (option == 3) {
                 presenter.printMenu(3);
                 String body = scan.nextLine();
                 messageAllAttendees(body);
+                presenter.printMenu(4);
             }
             else if (option == 4) {
                 ArrayList<String> emails = getRecipients();

@@ -29,6 +29,8 @@ public class OrgMessengerControllerPresenter {
             case 4:
                 System.out.println("Message successfully sent!");
                 break;
+            case 5:
+                System.out.println("Email address not found. Please try again.");
         }
     }
 

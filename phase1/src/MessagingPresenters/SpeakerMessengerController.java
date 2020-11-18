@@ -1,11 +1,11 @@
 package MessagingPresenters;
 
-import Schedule.SpeakerScheduleManager;
 import UserLogin.Speaker;
-import UserLogin.User;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Scanner;
 
 /**
  * A class that represents a speaker message controller.
@@ -71,7 +71,7 @@ public class SpeakerMessengerController implements Observer{
         Scanner scan = new Scanner(System.in);
         while (flag) {
             presenter.printMenu(0);
-            int option = scan.nextInt();
+            int option = Integer.parseInt(scan.nextLine());
 
             if (option == 0) {
                 flag = false;
@@ -79,16 +79,26 @@ public class SpeakerMessengerController implements Observer{
             }
             else if (option == 1) {
                 presenter.printMenu(2);
-                String email = scan.nextLine();
+                String email = new String();
+                boolean valid_recipient = false;
+                while (!valid_recipient) {
+                    email = scan.nextLine();
+                    if (userInfo.canReply(email)) {
+                        valid_recipient = true;
+                    }
+                    else { presenter.printMenu(5); }
+                }
                 presenter.printMenu(3);
                 String body = scan.nextLine();
 
                 message(email, body);
+                presenter.printMenu(4);
             }
             else if (option == 2) {
                 presenter.printMenu(3);
                 String body = scan.nextLine();
                 messageAllAttendees(body);
+                presenter.printMenu(4);
             }
         }
     }

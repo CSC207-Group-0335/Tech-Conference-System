@@ -1,14 +1,8 @@
 package MessagingPresenters;
 
-import Schedule.OrgScheduleController;
-import Schedule.SpeakerScheduleController;
-import Schedule.UserScheduleController;
 import UserLogin.Attendee;
-import UserLogin.User;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -92,7 +86,7 @@ public class AttendeeMessengerController implements Observer{
         Scanner scan = new Scanner(System.in);
         while (flag) {
             presenter.printMenu(0);
-            int option = scan.nextInt();
+            int option = Integer.parseInt(scan.nextLine());
 
             if (option == 0) {
                 flag = false;
@@ -100,11 +94,20 @@ public class AttendeeMessengerController implements Observer{
             }
             else if (option == 1) {
                 presenter.printMenu(1);
-                String email = scan.nextLine();
+                String email = new String();
+                boolean valid_recipient = false;
+                while (!valid_recipient) {
+                    email = scan.nextLine();
+                    if (userInfo.canMessage(email)) {
+                        valid_recipient = true;
+                    }
+                    else { presenter.printMenu(5); }
+                }
                 presenter.printMenu(2);
                 String body = scan.nextLine();
 
                 message(email, body);
+                presenter.printMenu(3);
             }
             else if (option == 2) {
                 ArrayList<String> emails = getRecipients();
