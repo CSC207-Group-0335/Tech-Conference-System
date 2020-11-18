@@ -15,25 +15,33 @@ public class UserScheduleController{
     TalkManager talkManager;
     MainMenuController mainMenuController;
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    UserSchedulePresenter presenter;
 
     /**
      * Initializes a new controller for the user
      * @param user the user of the program
      */
     public UserScheduleController(UserScheduleManager user, TalkManager talkManager,
-                                  MainMenuController mainMenuController,
-                                  HashMap<Talk, SignUpAttendeesManager> signUpMap){
+                                  MainMenuController mainMenuController){
         this.attendee = user;
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
-        this.signUpMap = signUpMap;
+        presenter = new UserSchedulePresenter();
     }
 
-    public void signUp(Talk talk) {
+    public String signUp(Talk talk) {
         if (signUpMap.get(talk).addUser(attendee.getUser())) {
             attendee.addTalk(talk);
+            return "User added.";
         }
-    }
+        else{
+                if(signUpMap.get(talk).userList.contains(attendee.getUser())){
+                    return "User already registered for the requested talk.";
+                }
+                else{
+                    return "Event is at full capacity.";
+                }}
+            }
 
     public void cancelRegistration(Talk talk) {
         if (signUpMap.get(talk).removeUser(attendee.getUser())) {
@@ -50,27 +58,22 @@ public class UserScheduleController{
         return t;
         }
     }
-    
-    //public ArrayList<ArrayList<Object>> allRegistered() {
-        //list of all the talks they're enrolled for
-    //    ArrayList<Talk> talkList = attendee.getTalkList();
-        // new list with the same length as talkList
-    //    ArrayList<ArrayList<Object>> registeredFor = new ArrayList<>();
-        //for loop to populate the new list
-    //    for (int i = 0; i < talkList.size(); i++) {
-            //this will be the "tuple" that's stored
-            // the 0 index will contain the string representation of talk
-            // the 1 index will have the speaker name
-            // the 2 index will have the room name
-            // we will append this to the new list
-    //        ArrayList<Object> talkSpeakerRoom = new ArrayList<>();
-    //Talk speech = talkList.get(i);
-    //        talkSpeakerRoom.set(0, speech.toString());
-    //        talkSpeakerRoom.set(1, talkManager.getTalkSpeaker(speech).getName());
-    //        talkSpeakerRoom.set(2, talkManager.getTalkRoom(speech).getRoomName());
-    //        registeredFor.set(i, talkSpeakerRoom);
-    //    }
-    //    return registeredFor;}
+
+    public ArrayList<Talk> getRegisteredTalks(){
+        ArrayList<Talk> registeredTalks = new ArrayList<Talk>();
+        if(attendee.getTalkList().size() == 0){
+            presenter.printMenu(13);
+            presenter.printMenu(11);
+        }
+        else{
+            Integer i = 1;
+            for (Talk t: attendee.getTalkList()){
+                presenter.printTalk(i, t , talkManager);
+                registeredTalks.add(t);
+                i++;
+            }}
+        return registeredTalks;
+    }
 
     protected void registerTalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         // show them a list of all available talks
@@ -91,30 +94,58 @@ public class UserScheduleController{
             }
             else{
                 Talk talkToRegister = getTalkByIndex(talkIndex);
-                this.signUp(talkToRegister);
-                // prints "Success"
-                userSchedulePresenter.printMenu(6);
-                userSchedulePresenter.printMenu(10);
-                userSchedulePresenter.printMenu(1);
-                return;
+                if (this.signUp(talkToRegister) == "User added.") {
+                    // prints "Success"
+                    userSchedulePresenter.printMenu(6);
+                    userSchedulePresenter.printMenu(10);
+                    userSchedulePresenter.printMenu(1);
+                    return;
+                }
+                else{
+                    if (this.signUp(talkToRegister) == "User already registered for the requested talk."){
+                        userSchedulePresenter.printRegistrationBlocked(1);
+                    }
+                    else{
+                        userSchedulePresenter.printRegistrationBlocked(2);
+                    }
+                }
             }
     }}
     protected void seeAllTalks(UserSchedulePresenter userSchedulePresenter, Scanner scan){
         //use the string representation in TalkManager
         userSchedulePresenter.printAllTalks(talkManager);
-    }
-    protected void seeAllRegistered(UserSchedulePresenter userSchedulePresenter, Scanner scan){
-        //each line shows talk, time, speaker, room
-        //Daniel: changed it bc I added a talktostring mathod in talkmanager that makes this more simple
-        Integer i = 1;
-        for (Talk t: attendee.talkList){
-            userSchedulePresenter.printTalk(i, t , talkManager);
-            i++;
+        userSchedulePresenter.printMenu(11);
+        boolean doContinue  = true;
+        while (doContinue){
+            int talkIndex = scan.nextInt();
+            if (talkIndex == 0){
+                userSchedulePresenter.printMenu(10);
+                userSchedulePresenter.printMenu(1);
+                return;
+            }
+            else{userSchedulePresenter.printMenu(8);}
         }
     }
+
+    protected void seeAllRegistered(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+        getRegisteredTalks();
+        userSchedulePresenter.printMenu(11);
+        boolean doContinue  = true;
+        while (doContinue){
+            int talkIndex = scan.nextInt();
+            if (talkIndex == 0){
+                userSchedulePresenter.printMenu(10);
+                userSchedulePresenter.printMenu(1);
+                return;
+            }
+        else{userSchedulePresenter.printMenu(8);
+            }}
+    }
+
     protected void cancelATalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
-        userSchedulePresenter.printAllTalks(talkManager);
-        userSchedulePresenter.printMenu(5);
+        ArrayList<Talk> registeredTalks = getRegisteredTalks();
+        if (registeredTalks.size() != 0) {
+            userSchedulePresenter.printMenu(5);
         boolean doContinue  = true;
         while (doContinue){
         int cancelTalkIndex = scan.nextInt();
@@ -123,19 +154,31 @@ public class UserScheduleController{
             userSchedulePresenter.printMenu(1);
             return;
         }
-        else if (getTalkByIndex(cancelTalkIndex) == null){
+        else if (registeredTalks.size() <= cancelTalkIndex - 1){
             userSchedulePresenter.printMenu(7);
         }
         else{
-            Talk talkToCancel = getTalkByIndex(cancelTalkIndex);
+            Talk talkToCancel = registeredTalks.get(cancelTalkIndex - 1);
             this.cancelRegistration(talkToCancel);
             // prints "Success"
             userSchedulePresenter.printMenu(6);
             userSchedulePresenter.printMenu(10);
             userSchedulePresenter.printMenu(1);
             return;
+        }}}
+        else{
+            boolean doContinue  = true;
+            while (doContinue){
+                int cancelTalkIndex = scan.nextInt();
+                if (cancelTalkIndex == 0){
+                    userSchedulePresenter.printMenu(10);
+                    userSchedulePresenter.printMenu(1);
+                    return;
+                }
+                else{userSchedulePresenter.printMenu(8);}
         }
     }}
+
 //changed the method name to go because there already other methods named run in the MessagingPresenterPackage
 //Daniel: its ok its good that run means the same thing in the whole program so I changed back
     public void run(){
@@ -167,5 +210,9 @@ public class UserScheduleController{
             }
             else{userSchedulePresenter.printMenu(8);}
         }
+    }
+
+    public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
+        this.signUpMap = signUpMap;
     }
 }
