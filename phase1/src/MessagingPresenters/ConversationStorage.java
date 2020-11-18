@@ -25,11 +25,8 @@ public class ConversationStorage{
      */
 
     public boolean contains(String senderEmail, String receipientEmail){
-        ArrayList<String> participants = new ArrayList<String>();
-        participants.add(senderEmail);
-        participants.add(receipientEmail);
         for (ConversationManager c: conversationManagers){
-            if (c.getParticipants().equals(participants)){
+            if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(receipientEmail)){
                 return true;
             }
         }
