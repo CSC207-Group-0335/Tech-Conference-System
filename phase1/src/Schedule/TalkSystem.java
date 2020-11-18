@@ -25,25 +25,25 @@ public class TalkSystem extends Observable implements Observer{
         this.scheduleSystem = new ScheduleSystem(talkManager);
         this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
     }
-    public void instantiateControllers(User user){
+    public void instantiateControllers(User user, Scanner scanner){
         this.addObserver(mainMenuController);
         if (user instanceof Attendee){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
             this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager,
-                    mainMenuController);
+                    mainMenuController, scanner);
             setUserScheduleController();
             }
         else if (user instanceof Organizer){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
             this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager,
-                    mainMenuController);
+                    mainMenuController, scanner);
             this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
         else{
             SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleMap.get(user);
             this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager,
-                    mainMenuController);
+                    mainMenuController, scanner);
             setSpeakerScheduleController();
         }
 

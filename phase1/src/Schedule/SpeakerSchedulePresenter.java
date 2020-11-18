@@ -3,7 +3,7 @@ package Schedule;
 public class SpeakerSchedulePresenter {
 
     public void printSchedule(SpeakerScheduleManager speaker, TalkManager talkManager){
-        for(Talk t: speaker.talkList) {
+        for(Talk t: speaker.getTalkList()) {
             System.out.println(talkManager.toStringTalk(t));
         }
     }
@@ -17,4 +17,13 @@ public class SpeakerSchedulePresenter {
     public void printGoodbye(){
         System.out.println("Returning to main menu...");
     }
+
+public void printTryAgain(){
+    System.out.println("Invalid command, please try again.");
 }
+
+public void printNoTalks(){
+    System.out.println("You are not currently booked to give any talks at the conference.");
+}
+}
+

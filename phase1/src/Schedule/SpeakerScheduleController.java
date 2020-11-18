@@ -15,30 +15,43 @@ public class SpeakerScheduleController{
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
     MainMenuController mainMenuController;
+    Scanner scan;
+    SpeakerSchedulePresenter presenter;
 
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
-                                     MainMenuController mainMenuController){
+                                     MainMenuController mainMenuController, Scanner scanner){
         this.speaker = speaker;
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
+        this.scan = scanner;
+        this.presenter = new SpeakerSchedulePresenter();
     }
 
+
     public void run(){
-        SpeakerSchedulePresenter presenter = new SpeakerSchedulePresenter();
         presenter.printHelloMessage(speaker);
-        Scanner scan = new Scanner(System.in);
         boolean doContinue = true;
         while(doContinue) {
-            int command = scan.nextInt();
-            //if they want to register for a talk
+            String choice = scan.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
             if (command == 1) {
-                presenter.printSchedule(speaker, talkManager);
+                if (speaker.getTalkList().size() == 0){
+                    presenter.printNoTalks();
+                }
+                else {
+                    presenter.printSchedule(speaker, talkManager);
+                }
             }
-            if (command == 0){
+            else if (command == 0){
                 doContinue = false;
                 presenter.printGoodbye();
                 mainMenuController.runMainMenu(speaker.getSpeaker());
             }
+            else{presenter.printTryAgain();}
+            }
+            catch (NumberFormatException nfe){
+                presenter.printTryAgain();;}
         }
     }
 }

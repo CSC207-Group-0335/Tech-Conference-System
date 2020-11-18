@@ -13,13 +13,15 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     MainMenuController mainMenuController;
     HashMap<Talk, SignUpAttendeesManager> signUpMap;
     OrgSchedulePresenter orgSchedulePresenter;
+    Scanner scanner;
 
 
     public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager,
-                                 MainMenuController mainMenuController){
-        super(organizer, talkManager, mainMenuController);
+                                 MainMenuController mainMenuController, Scanner scanner){
+        super(organizer, talkManager, mainMenuController, scanner);
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
+        this.scanner = scanner;
         orgSchedulePresenter = new OrgSchedulePresenter();
     }
 

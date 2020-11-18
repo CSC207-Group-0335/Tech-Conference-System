@@ -1,9 +1,6 @@
 package Schedule;
 
-import UserLogin.Attendee;
-import UserLogin.Organizer;
-import UserLogin.User;
-import UserLogin.UserStorage;
+import UserLogin.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +16,7 @@ public class ScheduleSystem implements Observer {
     }
 
     public User findUser(String email) {
-        for (User user : storage.userList) {
+        for (User user : storage.getUserList()) {
             if (user.getEmail().equals(email)) {
                 return user;
             }
@@ -42,13 +39,13 @@ public class ScheduleSystem implements Observer {
             String email = scheduleData.get(0);
             User user = findUser(email);
             UserScheduleManager userSchedule = userScheduleMap.get(user);
+            if (user instanceof Organizer || user instanceof Attendee){
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
                 userSchedule.addTalk(talk);
-            }
+            }}}
         }
-    }
 
     @Override
     public void update(Observable o, Object arg) {
