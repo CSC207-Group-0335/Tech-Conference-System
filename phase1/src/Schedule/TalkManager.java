@@ -119,7 +119,7 @@ public class TalkManager implements Observer {
         ArrayList<String> lines = new ArrayList<String>();
         for(Talk t: talkMap.keySet()){
             String line = "Talk: " + t.getTitle() + " Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
-                    + this.getTalkSpeaker(t).getName() + ", Time: " + this.getTalkTime(t).toString();
+                    + this.getTalkSpeaker(t).getName() + ", Time: " + dateToString(this.getTalkTime(t));
             lines.add(line);
         }
         String totalString = "";
@@ -130,6 +130,14 @@ public class TalkManager implements Observer {
         }
         return totalString;
     }
+
+    public String dateToString(LocalDateTime localDateTime){
+        String str = localDateTime.toString();
+        String[] split = str.split("T");
+        String newString = split[0] + " " +split[1];
+        return newString;
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {

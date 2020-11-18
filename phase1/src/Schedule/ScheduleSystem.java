@@ -14,6 +14,10 @@ public class ScheduleSystem implements Observer {
     HashMap<User, UserScheduleManager> userScheduleMap;
     TalkManager talkManager;
 
+    public ScheduleSystem(TalkManager talkManager){
+        this.talkManager = talkManager;
+    }
+
     public User findUser(String email) {
         for (User user : storage.userList) {
             if (user.getEmail().equals(email)) {
@@ -42,6 +46,7 @@ public class ScheduleSystem implements Observer {
                 String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
                 userSchedule.addTalk(talk);
+                System.out.println(userSchedule.getTalkList());
             }
         }
     }

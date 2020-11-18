@@ -12,7 +12,6 @@ public class RoomSystem extends Observable {
     public RoomSystem(){
         this.roomStorage = new RoomStorage();
         this.talkSystem = new TalkSystem();
-        this.scheduleSystem = new ScheduleSystem();
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
@@ -22,7 +21,6 @@ public class RoomSystem extends Observable {
         if (this.talkSystem.orgScheduleController != null) {
             this.addObserver(this.talkSystem.orgScheduleController);
         }
-        this.addObserver(this.scheduleSystem);
         TxtIterator txtIterator = new TxtIterator("phase1/src/Resources/RoomFile");
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);

@@ -22,7 +22,8 @@ public class TalkSystem extends Observable implements Observer{
     public TalkSystem(){
         this.talkManager = new TalkManager();
         this.messagingSystem = new MessagingSystem();
-        this.scheduleSystem = new ScheduleSystem();
+        this.scheduleSystem = new ScheduleSystem(talkManager);
+        this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
     }
     public void instantiateControllers(User user){
         this.addObserver(mainMenuController);
@@ -53,7 +54,6 @@ public class TalkSystem extends Observable implements Observer{
         if (messagingSystem.speakerMessengerController != null) {
             this.addObserver(messagingSystem.speakerMessengerController); //would be created
         }
-        this.addObserver(scheduleSystem);
         if (messagingSystem.speakerMessengerController != null) {
             this.addObserver(messagingSystem.speakerMessengerController.userInfo);
         }
@@ -66,12 +66,14 @@ public class TalkSystem extends Observable implements Observer{
         setTalkManager();
         messagingSystem.run();
         scheduleSystem.run();
+        createSignUpAttendees();
     }
 
     public void writeToFile(){}
 
     public void createSignUpAttendees(){
         for(UserScheduleManager schedule: userScheduleMap.values()){
+            if (schedule.talkList != null){
             for(Talk t: schedule.talkList){
                 if(signUpMap.keySet().contains(t)){
                     signUpMap.get(t).addUser(schedule.user);
@@ -80,11 +82,10 @@ public class TalkSystem extends Observable implements Observer{
                     SignUpAttendeesManager signup = new SignUpAttendeesManager(t, talkManager.getTalkRoom(t).capacity);
                     signup.addUser(schedule.user);
                     signUpMap.put(t, signup);
-                }
-            }
+                }}
+            }}
             setSignUpMap();
         }
-    }
 
     public void setTalkManager() {
         setChanged();

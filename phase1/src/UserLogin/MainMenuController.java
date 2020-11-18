@@ -14,7 +14,7 @@ import java.util.Scanner;
  * allow the user to navigate to different "screens" based on input.
  */
 
-public class MainMenuController implements Observer{
+public class MainMenuController implements Observer {
     private User user; //This user is gotten from LogInController
     public MainMenuPresenter presenter;
     public UserScheduleController userScheduleController;
@@ -25,7 +25,7 @@ public class MainMenuController implements Observer{
     public OrganizerMessengerController orgMessengerController;
     public Scanner scanner;
 
-    public MainMenuController(Scanner scanner){
+    public MainMenuController(Scanner scanner) {
 
         this.presenter = new MainMenuPresenter();
         this.scanner = scanner;
@@ -33,6 +33,7 @@ public class MainMenuController implements Observer{
 
     /**
      * This method will run the Main Menu based on the type of the user that is provided.
+     *
      * @param user the user provided
      */
     public void runMainMenu(User user) {
@@ -52,11 +53,15 @@ public class MainMenuController implements Observer{
     private void runMainMenuAttendee() {
         presenter.printMainMenuInfo(); //Display Main Menu
         boolean check = true; // fix create while loop
-        int choice = scanner.nextInt();
-        if (choice == 1) {
-            this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
-        }  else if (choice == 2) {
-            this.attendeeMessengerController.run();
+        while (check) {
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
+            } else if (choice == 2) {
+                this.attendeeMessengerController.run();
+            } else {
+                presenter.tryAgain();
+            }
         }
     }
 
@@ -64,47 +69,55 @@ public class MainMenuController implements Observer{
      * Helper method for presenting a Speakers' Main Menu
      */
     private void runMainMenuSpeaker() {
-        Scanner in = new Scanner(System.in);
         presenter.printMainMenuInfo(); //Display Main Menu
-        int choice = Integer.parseInt(in.nextLine());
-        if (choice == 1) {
-            this.speakerScheduleController.run(); //Currently being implemented, early morning Nov 14
-        } else if (choice == 2) {
-            this.speakerMessengerController.run();
+        boolean check = true; // fix create while loop
+        while (check) {
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                this.speakerScheduleController.run(); //Currently being implemented, early morning Nov 14
+            } else if (choice == 2) {
+                this.speakerMessengerController.run();
+            }
+         else {
+            presenter.tryAgain();
+        }
+        }}
+
+        /**
+         * Helper method for presenting a Organizers' Main Menu
+         */
+        private void getRunMainMenuOrganizer () {
+            presenter.printMainMenuInfo(); //Display Main Menu
+            boolean check = true; // fix create while loop
+            while (check) {
+                int choice = scanner.nextInt();
+                if (choice == 1) {
+                this.orgScheduleController.run(); //Currently being implemented, early morning Nov 14
+            } else if (choice == 2) {
+                this.orgMessengerController.run();
+            }
+                else {
+                    presenter.tryAgain();
+                }
+        }}
+
+
+        @Override
+        public void update (Observable o, Object arg){
+            if (arg instanceof User) {
+                this.user = (User) arg;
+            } else if (arg instanceof UserScheduleController) {
+                this.userScheduleController = (UserScheduleController) arg;
+            } else if (arg instanceof AttendeeMessengerController) {
+                this.attendeeMessengerController = (AttendeeMessengerController) arg;
+            } else if (arg instanceof SpeakerScheduleController) {
+                this.speakerScheduleController = (SpeakerScheduleController) arg;
+            } else if (arg instanceof SpeakerMessengerController) {
+                this.speakerMessengerController = (SpeakerMessengerController) arg;
+            } else if (arg instanceof OrgScheduleController) {
+                this.orgScheduleController = (OrgScheduleController) arg;
+            } else if (arg instanceof OrganizerMessengerController) {
+                this.orgMessengerController = (OrganizerMessengerController) arg;
+            }
         }
     }
-
-    /**
-     * Helper method for presenting a Organizers' Main Menu
-     */
-    private void getRunMainMenuOrganizer() {
-        Scanner in = new Scanner(System.in);
-        presenter.printMainMenuInfo(); //Display Main Menu
-        int choice = Integer.parseInt(in.nextLine());
-        if (choice == 1) {
-            this.orgScheduleController.run(); //Currently being implemented, early morning Nov 14
-        } else if (choice == 2) {
-            this.orgMessengerController.run();
-        }
-    }
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof User) {
-            this.user = (User) arg;
-        } else if (arg instanceof UserScheduleController) {
-            this.userScheduleController = (UserScheduleController) arg;
-        } else if (arg instanceof AttendeeMessengerController) {
-            this.attendeeMessengerController = (AttendeeMessengerController) arg;
-        } else if (arg instanceof SpeakerScheduleController) {
-            this.speakerScheduleController = (SpeakerScheduleController) arg;
-        } else if (arg instanceof SpeakerMessengerController) {
-            this.speakerMessengerController = (SpeakerMessengerController) arg;
-        } else if (arg instanceof OrgScheduleController) {
-            this.orgScheduleController = (OrgScheduleController) arg;
-        } else if (arg instanceof OrganizerMessengerController) {
-            this.orgMessengerController = (OrganizerMessengerController) arg;
-        }
-    }
-}
