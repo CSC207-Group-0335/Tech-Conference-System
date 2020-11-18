@@ -25,11 +25,8 @@ public class ConversationStorage{
      */
 
     public boolean contains(String senderEmail, String receipientEmail){
-        ArrayList<String> participants = new ArrayList<String>();
-        participants.add(senderEmail);
-        participants.add(receipientEmail);
         for (ConversationManager c: conversationManagers){
-            if (c.getParticipants().equals(participants)){
+            if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(receipientEmail)){
                 return true;
             }
         }
@@ -43,11 +40,8 @@ public class ConversationStorage{
      * @return instance of ConversationManager
      */
     public ConversationManager getConversationManager(String senderEmail, String recipientEmail) {
-        Set<String> participants = new HashSet<String>();
-        participants.add(senderEmail);
-        participants.add(recipientEmail);
         for (ConversationManager c : conversationManagers) {
-            if (c.getParticipants().equals(participants)) {
+            if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(recipientEmail)) {
                 return c;
             }
         }

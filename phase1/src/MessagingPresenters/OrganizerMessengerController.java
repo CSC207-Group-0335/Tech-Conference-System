@@ -98,9 +98,11 @@ public class OrganizerMessengerController implements Observer {
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
         for (ConversationManager manager: managers) {
-            ArrayList<String> participants = manager.getParticipants();
-            participants.remove(organizer.getEmail());
-            emails.add(participants.get(0));
+            if (manager.getParticipants().contains(organizer.getEmail())) {
+                ArrayList<String> participants = manager.getParticipants();
+                participants.remove(organizer.getEmail());
+                emails.add(participants.get(0));
+            }
         }
         return emails;
     }

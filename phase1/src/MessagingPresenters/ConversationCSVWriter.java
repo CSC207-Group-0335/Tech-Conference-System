@@ -21,8 +21,8 @@ public class ConversationCSVWriter {
                 csvWriter.append(",");
                 String s = "";
                 for (Message m : c.getMessages()) {
-                    s = s + m.getRecipientEmail() + "," + m.getSenderEmail() + "," + m.getTimestamp().toString() + ","
-                            + m.getMessageContent() + "," + m.getMessageId() + ";";
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().toString() + "~"
+                            + m.getMessageContent() + "~" + m.getMessageId() + ";";
                 }
                 csvWriter.append(s);
                 i++;
