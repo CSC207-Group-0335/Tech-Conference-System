@@ -1,9 +1,13 @@
 package UserLogin;
 
-import Schedule.*;
+import Schedule.CSVReader;
+import Schedule.RoomSystem;
+import Schedule.SpeakerScheduleManager;
+import Schedule.UserScheduleManager;
 
-import java.sql.SQLOutput;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Observable;
 
 /**
  * A Gateway class that interacts with an external file (.csv) that stores a collection of all accounts currently
@@ -35,6 +39,15 @@ public class TechConferenceSystem extends Observable {
     public void setUserStorage(){
         setChanged();
         notifyObservers(userStorage);
+        if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
+            notifyObservers(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
+        }
+        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
+            notifyObservers(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
+        }
+        if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
+            notifyObservers(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
+        }
     }
 
     public void setUserList(ArrayList<User> userlst) {
@@ -105,6 +118,15 @@ public class TechConferenceSystem extends Observable {
 
 
         logInController.runLogIn();
+        if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
+            this.addObserver(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
+        }
+        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
+            this.addObserver(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
+        }
+        if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
+            this.addObserver(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
+        }
         setUserStorage();
         setMainMenuController();
         if (roomSystem.talkSystem.orgScheduleController !=null) {
