@@ -189,7 +189,9 @@ public class UserScheduleController{
         presenter.printMenu(2);
         boolean doContinue = true;
         while(doContinue) {
-            int command = scan.nextInt();
+            String choice = scan.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
                 this.registerTalk(presenter, scan);
@@ -208,8 +210,10 @@ public class UserScheduleController{
                 mainMenuController.runMainMenu(attendee.getUser());
             }
             else{presenter.printMenu(8);}
-        }
+        } catch (NumberFormatException nfe){
+        presenter.printMenu(8);;
     }
+    }}
 
     public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
         this.signUpMap = signUpMap;
