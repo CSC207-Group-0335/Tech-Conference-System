@@ -1,5 +1,7 @@
 package Schedule;
 
+import UserLogin.Attendee;
+import UserLogin.Organizer;
 import UserLogin.User;
 import UserLogin.UserStorage;
 
@@ -9,7 +11,7 @@ import java.util.*;
 
 public class ScheduleSystem implements Observer {
     UserStorage storage;
-    HashMap<User, UserScheduleManager> userUserScheduleMap;
+    HashMap<User, UserScheduleManager> userScheduleMap;
     TalkManager talkManager;
 
     public User findUser(String email) {
@@ -35,7 +37,7 @@ public class ScheduleSystem implements Observer {
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
             User user = findUser(email);
-            UserScheduleManager userSchedule = userUserScheduleMap.get(user);
+            UserScheduleManager userSchedule = userScheduleMap.get(user);
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
@@ -50,7 +52,10 @@ public class ScheduleSystem implements Observer {
             this.storage = (UserStorage) arg;
         }
         if (arg instanceof HashMap){
-            this.userUserScheduleMap = (HashMap<User, UserScheduleManager>) arg;
+            if (((HashMap<User, UserScheduleManager>) arg).keySet().toArray()[0] instanceof Organizer ||
+            ((HashMap<User, UserScheduleManager>) arg).keySet().toArray()[0] instanceof Attendee) {
+                this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
+            }
         }
         if(arg instanceof TalkManager){
             this.talkManager = (TalkManager) arg;

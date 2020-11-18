@@ -23,9 +23,12 @@ public class MainMenuController implements Observer{
     public SpeakerMessengerController speakerMessengerController;
     public OrgScheduleController orgScheduleController;
     public OrganizerMessengerController orgMessengerController;
+    public Scanner scanner;
 
-    public MainMenuController(){
+    public MainMenuController(Scanner scanner){
+
         this.presenter = new MainMenuPresenter();
+        this.scanner = scanner;
     }
 
     /**
@@ -47,12 +50,12 @@ public class MainMenuController implements Observer{
      * Helper method for presenting a Attendee' Main Menu
      */
     private void runMainMenuAttendee() {
-        Scanner in = new Scanner(System.in);
         presenter.printMainMenuInfo(); //Display Main Menu
-        int choice = Integer.parseInt(in.nextLine());
+        boolean check = true; // fix create while loop
+        int choice = scanner.nextInt();
         if (choice == 1) {
             this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
-        } else if (choice == 2) {
+        }  else if (choice == 2) {
             this.attendeeMessengerController.run();
         }
     }

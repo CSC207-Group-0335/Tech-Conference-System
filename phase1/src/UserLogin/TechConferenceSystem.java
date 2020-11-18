@@ -26,10 +26,10 @@ public class TechConferenceSystem extends Observable {
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.mainMenuController = new MainMenuController();
         this.roomSystem = new RoomSystem();
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
                 this.roomSystem.talkSystem.messagingSystem);
+        this.mainMenuController = new MainMenuController(logInController.scanner);
     }
 
     public void setUserStorage(){
@@ -88,7 +88,9 @@ public class TechConferenceSystem extends Observable {
         //this.observerList.add(roomSystem.talkSystem.talkManager); //Fake fix
         this.addObserver(logInController.logInManager);
         //this.observerList.add(logInController.logInManager); //Fake fix
-        System.out.println(observerList);
+        this.addObserver(roomSystem.talkSystem.scheduleSystem);
+        this.addObserver(roomSystem.talkSystem.messagingSystem);
+        this.setMainMenuController();
         //System.out.println(this.countObservers());
         this.logInController.addObserver(roomSystem.talkSystem);
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC

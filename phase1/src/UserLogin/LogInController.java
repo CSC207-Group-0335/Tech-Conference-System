@@ -22,6 +22,7 @@ public class LogInController extends Observable {
     public MainMenuController mainMenuController; //Daniel: added a parameter for Mainmenu and call its run method from run login
     public TalkSystem talkSystem;
     public MessagingSystem messagingSystem;
+    public Scanner scanner;
 
     public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem,
                            MessagingSystem messagingSystem){
@@ -30,6 +31,7 @@ public class LogInController extends Observable {
         this.logInManager = new LogInManager();
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
+        this.scanner = new Scanner(System.in);
 
 
     }
@@ -38,7 +40,7 @@ public class LogInController extends Observable {
         boolean check = true;
         while (check){
 
-            Scanner in = new Scanner(System.in);
+            Scanner in = scanner;
             presenter.printLoginInfo(1); //Ask for email
             String email = in.nextLine();
             presenter.printLoginInfo(2); //Ask for password
@@ -46,7 +48,6 @@ public class LogInController extends Observable {
 
             if (this.logInManager.login(email, password)){
                 check = false;
-                in.close();
                 this.user = this.logInManager.findUser(email);
                 setUser(this.user); //set the user
                 this.talkSystem.instantiateControllers(this.user); //Instantiate controllers for the found user

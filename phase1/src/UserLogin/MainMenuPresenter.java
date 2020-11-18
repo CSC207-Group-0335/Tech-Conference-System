@@ -15,4 +15,8 @@ public class MainMenuPresenter {
     public void printHello(User user){
         System.out.println("Hello, " + user.getName());
     }
+
+    public void tryAgain(){
+        System.out.println("Invalid command, please try again");
+    }
 }

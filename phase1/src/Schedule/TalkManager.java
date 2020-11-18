@@ -118,8 +118,8 @@ public class TalkManager implements Observer {
     public String talkMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Talk t: talkMap.keySet()){
-            String line = "Talk: " + t.getTitle() + "Room: " + this.getTalkRoom(t).getRoomName() + "Speaker: "
-                    + this.getTalkSpeaker(t).getName() + "Time: " + this.getTalkTime(t).toString();
+            String line = "Talk: " + t.getTitle() + " Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
+                    + this.getTalkSpeaker(t).getName() + ", Time: " + this.getTalkTime(t).toString();
             lines.add(line);
         }
         String totalString = "";
