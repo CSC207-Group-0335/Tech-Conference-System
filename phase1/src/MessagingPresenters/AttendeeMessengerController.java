@@ -74,9 +74,11 @@ public class AttendeeMessengerController implements Observer{
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
         for (ConversationManager manager: managers) {
-            ArrayList<String> participants = manager.getParticipants();
-            participants.remove(attendee.getEmail());
-            emails.add(participants.get(0));
+            if (manager.getParticipants().contains(attendee.getEmail())){
+                ArrayList<String> participants = manager.getParticipants();
+                participants.remove(attendee.getEmail());
+                emails.add(participants.get(0));
+            }
         }
         return emails;
     }

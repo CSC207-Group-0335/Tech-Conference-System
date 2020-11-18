@@ -32,11 +32,11 @@ public class MessagingSystem extends Observable implements Observer {
 
     public MessagingSystem() {
         this.conversationStorage = new ConversationStorage();
-        setStorage(conversationStorage);
+        setStorage();
     }
 
     //Method to notify that ConversationStorage has been updated
-    public void setStorage(ConversationStorage conversationStorage) {
+    public void setStorage() {
         setChanged();
         notifyObservers(conversationStorage);
     }
@@ -47,16 +47,19 @@ public class MessagingSystem extends Observable implements Observer {
             this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user);
             this.addObserver(this.attendeeMessengerController);
             setAttendeeMessengerController();
+            setStorage();
         }
         if (user instanceof Speaker) {
             this.speakerMessengerController = new SpeakerMessengerController((Speaker) user);
             this.addObserver(this.speakerMessengerController);
             setOrganizerMessengerController();
+            setStorage();
         }
         if (user instanceof Organizer) {
             this.organizerMessengerController = new OrganizerMessengerController((Organizer) user);
             this.addObserver(this.organizerMessengerController);
             setSpeakerMessengerController();
+            setStorage();
         }
         //Moved AddObservers NOV 15
     }
@@ -93,6 +96,7 @@ public class MessagingSystem extends Observable implements Observer {
                 c.addMessage(recipient, sender, timestamp, messageContent);
             }
         }
+        setStorage();
     }
 
     public void setAttendeeMessengerController() {
