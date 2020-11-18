@@ -54,13 +54,18 @@ public class MainMenuController implements Observer {
         presenter.printMainMenuInfo(); //Display Main Menu
         boolean check = true; // fix create while loop
         while (check) {
-            int choice = scanner.nextInt();
-            if (choice == 1) {
-                this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
-            } else if (choice == 2) {
-                this.attendeeMessengerController.run();
-            } else {
-                presenter.tryAgain();
+            String choice = scanner.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
+                if (command == 1) {
+                    this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
+                } else if (command == 2) {
+                    this.attendeeMessengerController.run();
+                } else {
+                    presenter.tryAgain();
+                }
+            }catch (NumberFormatException nfe){
+                presenter.tryAgain();;
             }
         }
     }
@@ -72,15 +77,19 @@ public class MainMenuController implements Observer {
         presenter.printMainMenuInfo(); //Display Main Menu
         boolean check = true; // fix create while loop
         while (check) {
-            int choice = scanner.nextInt();
-            if (choice == 1) {
-                this.speakerScheduleController.run(); //Currently being implemented, early morning Nov 14
-            } else if (choice == 2) {
-                this.speakerMessengerController.run();
+            String choice = scanner.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
+                if (command == 1) {
+                    this.speakerScheduleController.run(); //Currently being implemented, early morning Nov 14
+                } else if (command == 2) {
+                    this.speakerMessengerController.run();
+                } else {
+                    presenter.tryAgain();
+                }
+            }catch (NumberFormatException nfe){
+                presenter.tryAgain();;
             }
-         else {
-            presenter.tryAgain();
-        }
         }}
 
         /**
@@ -90,14 +99,18 @@ public class MainMenuController implements Observer {
             presenter.printMainMenuInfo(); //Display Main Menu
             boolean check = true; // fix create while loop
             while (check) {
-                int choice = scanner.nextInt();
-                if (choice == 1) {
-                this.orgScheduleController.run(); //Currently being implemented, early morning Nov 14
-            } else if (choice == 2) {
-                this.orgMessengerController.run();
-            }
-                else {
-                    presenter.tryAgain();
+                String choice = scanner.nextLine();
+                try {
+                    int command = Integer.parseInt(choice);
+                    if (command == 1) {
+                        this.orgScheduleController.run(); //Currently being implemented, early morning Nov 14
+                    } else if (command == 2) {
+                        this.orgMessengerController.run();
+                    } else {
+                        presenter.tryAgain();
+                    }
+                }catch (NumberFormatException nfe){
+                    presenter.tryAgain();;
                 }
         }}
 
