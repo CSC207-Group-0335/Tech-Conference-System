@@ -44,13 +44,16 @@ public class TalkSystem extends Observable implements Observer{
 
     }
 
-    public void run(){
+    public void run() {
         //Moved Observers NOV 15
-        this.addObserver(messagingSystem.speakerMessengerController); //would be created
+        if (messagingSystem.speakerMessengerController != null) {
+            this.addObserver(messagingSystem.speakerMessengerController); //would be created
+        }
         this.addObserver(scheduleSystem);
-        this.addObserver(messagingSystem.speakerMessengerController.userInfo);
-
-        CSVReader fileReader = new CSVReader("Talks.csv");
+        if (messagingSystem.speakerMessengerController != null) {
+            this.addObserver(messagingSystem.speakerMessengerController.userInfo);
+        }
+        CSVReader fileReader = new CSVReader("phase1/src/Resources/Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
             this.talkManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),

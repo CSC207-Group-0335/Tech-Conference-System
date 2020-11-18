@@ -43,13 +43,19 @@ public class MessagingSystem extends Observable implements Observer {
     }
 
     public void instantiateControllers(User user) {
-        if (user instanceof Attendee)
-        this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user);
-        this.speakerMessengerController = new SpeakerMessengerController((Speaker) user);
-        this.organizerMessengerController = new OrganizerMessengerController((Organizer) user);
-        this.addObserver(this.attendeeMessengerController); //Moved AddObservers NOV 15
-        this.addObserver(this.speakerMessengerController);
-        this.addObserver(this.organizerMessengerController);
+        if (user instanceof Attendee) {
+            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user);
+            this.addObserver(this.attendeeMessengerController);
+        }
+        if (user instanceof Speaker) {
+            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user);
+            this.addObserver(this.speakerMessengerController);
+        }
+        if (user instanceof Organizer) {
+            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user);
+            this.addObserver(this.organizerMessengerController);
+        }
+        //Moved AddObservers NOV 15
     }
 
     @Override

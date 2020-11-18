@@ -51,7 +51,7 @@ public class TalkManager implements Observer {
         if (talkRoom != null && talkSpeaker != null){
             if ( d.getHour() >= 9 && d.getHour() < 17 && this.speakerScheduleMap.get(talkSpeaker).checkDoubleBooking(d) &&
                 this.roomScheduleMap.get(talkRoom).checkDoubleBooking(d)){
-                Talk t = new Talk(talkTitle, d, UUID.fromString(talkId));
+                Talk t = new Talk(talkTitle, d, talkId);
                 this.addTalk(t, talkRoom, talkSpeaker, d);
                 this.speakerScheduleMap.get(talkSpeaker).addTalk(t);
                 this.roomScheduleMap.get(talkRoom).addTalk(t);
@@ -140,9 +140,9 @@ public class TalkManager implements Observer {
         }
         else if(o instanceof TechConferenceSystem){
             if (arg instanceof HashMap) {
-                this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
+                    this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
+                }
             }
         }
 
     }
-}

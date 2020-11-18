@@ -7,15 +7,15 @@ import java.util.UUID;
 public class Talk {
     String title;
     LocalDateTime startTime;
-    UUID talkId;
+    String talkId;
 
     public Talk(String title, LocalDateTime startTime){
         this.title = title;
         this.startTime = startTime;
-        this.talkId = UUID.randomUUID();
+        this.talkId = UUID.randomUUID().toString();
     }
 
-    public Talk(String title, LocalDateTime startTime, UUID talkId){
+    public Talk(String title, LocalDateTime startTime, String talkId){
         this.title = title;
         this.startTime = startTime;
         this.talkId = talkId;
@@ -29,7 +29,7 @@ public class Talk {
         return startTime;
     }
 
-    public UUID getTalkId() {
+    public String getTalkId() {
         return talkId;
     }
 

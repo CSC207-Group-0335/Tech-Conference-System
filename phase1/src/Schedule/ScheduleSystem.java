@@ -21,7 +21,7 @@ public class ScheduleSystem implements Observer {
         return null;
     }
 
-    public Talk findTalk(UUID id){
+    public Talk findTalk(String id){
         for (Talk t: talkManager.talkMap.keySet()){
             if(t.getTalkId().equals(id)){
                 return t;
@@ -37,7 +37,7 @@ public class ScheduleSystem implements Observer {
             User user = findUser(email);
             UserScheduleManager userSchedule = userUserScheduleMap.get(user);
             for(int i =1; i< scheduleData.size(); i++){
-                UUID id = UUID.fromString(scheduleData.get(i));
+                String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
                 userSchedule.addTalk(talk);
             }

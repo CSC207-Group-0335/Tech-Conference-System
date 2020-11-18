@@ -1,6 +1,2 @@
-04678,Coding101,nathan@mail.com,Bahen,2020-11-15 09:00:00
-12987,English101,dantheman@hotmail.com,Myhal,2020-11-15 10:00:00
-
-
-//String talkId, String talkTitle, String speakerEmail, String roomName, LocalDateTime d
-//yyyy-MM-dd HH:mm:ss
+04678,Coding101,nathan@mail.com,Bahen,2020-11-15 09:00
+12987,English101,dantheman@hotmail.com,Myhal,2020-11-15 10:00

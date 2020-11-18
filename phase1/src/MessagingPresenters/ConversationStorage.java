@@ -24,7 +24,7 @@ public class ConversationStorage{
      */
 
     public boolean contains(String senderEmail, String receipientEmail){
-        Set<String> participants = new HashSet<String>();
+        ArrayList<String> participants = new ArrayList<String>();
         participants.add(senderEmail);
         participants.add(receipientEmail);
         for (ConversationManager c: conversationManagers){

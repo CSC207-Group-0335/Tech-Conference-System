@@ -19,7 +19,9 @@ public class RoomSystem extends Observable {
 
     public void run(){
         this.addObserver(this.talkSystem.talkManager);
-        this.addObserver(this.talkSystem.orgScheduleController);
+        if (this.talkSystem.orgScheduleController != null) {
+            this.addObserver(this.talkSystem.orgScheduleController);
+        }
         this.addObserver(this.scheduleSystem);
         TxtIterator txtIterator = new TxtIterator("phase1/src/Resources/RoomFile");
         for(String room: txtIterator.getProperties()){

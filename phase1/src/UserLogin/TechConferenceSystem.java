@@ -41,41 +41,40 @@ public class TechConferenceSystem extends Observable {
         this.userList = userlst;
         //setChanged();
         //notifyObservers(userList); //Not notifying all observers for some reason...MUST FIX Nov 15
-        for (Object obj: this.observerList) {
-            this.addObserver((Observer) obj);
-            setChanged();
-            notifyObservers(userList);
+        //for (Object obj: this.observerList) {
+        //    this.addObserver((Observer) obj);
+        setChanged();
+        notifyObservers(userList);
         }
-        for (Object obj: this.observerList) {
-            this.deleteObserver((Observer) obj);
-        }
-    }
+        //for (Object obj: this.observerList) {
+        //    this.deleteObserver((Observer) obj);
+        //}
+    //}
 
     public void setUserScheduleMap(HashMap<User, UserScheduleManager> userSchedMap) {
         this.userScheduleMap = userSchedMap;
         //setChanged();
         //notifyObservers(userScheduleMap);
-        for (Object obj: this.observerList) {
-            this.addObserver((Observer) obj);
-            setChanged();
-            notifyObservers(userScheduleMap);
+        //for (Object obj: this.observerList) {
+        //    this.addObserver((Observer) obj);
+        setChanged();
+        notifyObservers(userScheduleMap);
         }
-        for (Object obj: this.observerList) {
-            this.deleteObserver((Observer) obj);
-        }
-    }
+        //for (Object obj: this.observerList) {
+        //    this.deleteObserver((Observer) obj);
+        //}
+    //}
 
     public void setSpeakerScheduleMap(HashMap<Speaker, SpeakerScheduleManager> speakerSchedMap) {
         this.speakerScheduleMap = speakerSchedMap;
         //setChanged();
         //notifyObservers(speakerScheduleMap); //Not notifying all observers for some reason...MUST FIX Nov 15
         //FAKE FIX
-        for (Object obj: this.observerList) {
-            this.addObserver((Observer) obj);
-            setChanged();
-            notifyObservers(speakerSchedMap);
+        //for (Object obj: this.observerList) {
+        //    this.addObserver((Observer) obj);
+        setChanged();
+        notifyObservers(speakerSchedMap);
         }
-    }
 
     public void setMainMenuController(){
         setChanged();
@@ -84,10 +83,11 @@ public class TechConferenceSystem extends Observable {
 
     public void run() {
         //Added all Observers NOV 15
-        //this.addObserver(roomSystem.talkSystem.talkManager); FAKE FIX
-        this.observerList.add(roomSystem.talkSystem.talkManager); //Fake fix
-        //this.addObserver(logInController.logInManager); FAKE FIX
-        this.observerList.add(logInController.logInManager); //Fake fix
+        this.addObserver(roomSystem.talkSystem);
+        this.addObserver(roomSystem.talkSystem.talkManager);
+        //this.observerList.add(roomSystem.talkSystem.talkManager); //Fake fix
+        this.addObserver(logInController.logInManager);
+        //this.observerList.add(logInController.logInManager); //Fake fix
         System.out.println(observerList);
         //System.out.println(this.countObservers());
         this.logInController.addObserver(roomSystem.talkSystem);
@@ -105,7 +105,9 @@ public class TechConferenceSystem extends Observable {
         logInController.runLogIn();
         setUserStorage();
         setMainMenuController();
-        this.addObserver(roomSystem.talkSystem.orgScheduleController);
+        if (roomSystem.talkSystem.orgScheduleController !=null) {
+            this.addObserver(roomSystem.talkSystem.orgScheduleController);
+        }
         roomSystem.run();
         mainMenuController.runMainMenu(this.logInController.user);
         }
