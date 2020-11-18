@@ -46,7 +46,6 @@ public class ScheduleSystem implements Observer {
                 String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
                 userSchedule.addTalk(talk);
-                System.out.println(userSchedule.getTalkList());
             }
         }
     }

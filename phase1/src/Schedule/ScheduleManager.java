@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class ScheduleManager {
-    ArrayList<Talk> talkList;
+    public ArrayList<Talk> talkList;
 
     public ScheduleManager(){
         this.talkList = new ArrayList<Talk>();

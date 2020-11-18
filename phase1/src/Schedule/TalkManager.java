@@ -110,8 +110,8 @@ public class TalkManager implements Observer {
     }
 
     public String toStringTalk(Talk t){
-        String line = "Talk: " + t.getTitle() + "Room: " + this.getTalkRoom(t).getRoomName() + "Speaker: "
-                + this.getTalkSpeaker(t).getName() + "Time: " + this.getTalkTime(t).toString();
+        String line = "Talk: " + t.getTitle() + " Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
+                + this.getTalkSpeaker(t).getName() + ", Time: " + dateToString(this.getTalkTime(t));
         return line;
     }
 

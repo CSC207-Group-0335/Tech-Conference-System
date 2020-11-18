@@ -30,13 +30,13 @@ public class TalkSystem extends Observable implements Observer{
         if (user instanceof Attendee){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
             this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager,
-                    mainMenuController, signUpMap);
+                    mainMenuController);
             setUserScheduleController();
             }
         else if (user instanceof Organizer){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
             this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager,
-                    mainMenuController, signUpMap);
+                    mainMenuController);
             this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
@@ -67,14 +67,20 @@ public class TalkSystem extends Observable implements Observer{
         messagingSystem.run();
         scheduleSystem.run();
         createSignUpAttendees();
+        if (this.user instanceof Attendee) {
+            userScheduleController.setSignUpMap(signUpMap);
+        }
+        if (this.user instanceof Organizer) {
+            orgScheduleController.setSignUpMap(signUpMap);
+        }
     }
 
     public void writeToFile(){}
 
     public void createSignUpAttendees(){
         for(UserScheduleManager schedule: userScheduleMap.values()){
-            if (schedule.talkList != null){
-            for(Talk t: schedule.talkList){
+            if (schedule.getTalkList() != null){
+            for(Talk t: schedule.getTalkList()){
                 if(signUpMap.keySet().contains(t)){
                     signUpMap.get(t).addUser(schedule.user);
                 }

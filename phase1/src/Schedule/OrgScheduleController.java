@@ -11,14 +11,13 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     RoomStorage roomStorage;
     UserStorage userStorage;
     MainMenuController mainMenuController;
-    HashMap<Talk, SignUpAttendeesManager> signUpAttendeesManager;
+    HashMap<Talk, SignUpAttendeesManager> signUpMap;
     OrgSchedulePresenter orgSchedulePresenter;
 
 
     public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager,
-                                 MainMenuController mainMenuController, HashMap<Talk, SignUpAttendeesManager>
-                                         signUpAttendeesManager){
-        super(organizer, talkManager, mainMenuController, signUpAttendeesManager);
+                                 MainMenuController mainMenuController){
+        super(organizer, talkManager, mainMenuController);
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
         orgSchedulePresenter = new OrgSchedulePresenter();
@@ -176,5 +175,9 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             this.roomStorage = roomStorage;
         }
 
+    }
+
+    public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
+        this.signUpMap = signUpMap;
     }
 }
