@@ -16,17 +16,19 @@ public class UserScheduleController{
     MainMenuController mainMenuController;
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
     UserSchedulePresenter presenter;
+    Scanner scan;
 
     /**
      * Initializes a new controller for the user
      * @param user the user of the program
      */
     public UserScheduleController(UserScheduleManager user, TalkManager talkManager,
-                                  MainMenuController mainMenuController){
+                                  MainMenuController mainMenuController, Scanner scanner){
         this.attendee = user;
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
         presenter = new UserSchedulePresenter();
+        this.scan = scanner;
     }
 
     public String signUp(Talk talk) {
@@ -75,95 +77,95 @@ public class UserScheduleController{
         return registeredTalks;
     }
 
-    protected void registerTalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
         // show them a list of all available talks
-        userSchedulePresenter.printAllTalks(talkManager);
+        presenter.printAllTalks(talkManager);
         //they will pick the number corresponding to each talk
-        userSchedulePresenter.printMenu(3);
+        presenter.printMenu(3);
         //assuming they will have asked to see all talks they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
             int talkIndex = scan.nextInt();
             if (talkIndex == 0){
-                userSchedulePresenter.printMenu(10);
-                userSchedulePresenter.printMenu(1);
+                presenter.printMenu(10);
+                presenter.printMenu(1);
                 return;
             }
             else if (getTalkByIndex(talkIndex) == null){
-                userSchedulePresenter.printMenu(7);
+                presenter.printMenu(7);
             }
             else{
                 Talk talkToRegister = getTalkByIndex(talkIndex);
                 if (this.signUp(talkToRegister) == "User added.") {
                     // prints "Success"
-                    userSchedulePresenter.printMenu(6);
-                    userSchedulePresenter.printMenu(10);
-                    userSchedulePresenter.printMenu(1);
+                    presenter.printMenu(6);
+                    presenter.printMenu(10);
+                    presenter.printMenu(1);
                     return;
                 }
                 else{
                     if (this.signUp(talkToRegister) == "User already registered for the requested talk."){
-                        userSchedulePresenter.printRegistrationBlocked(1);
+                        presenter.printRegistrationBlocked(1);
                     }
                     else{
-                        userSchedulePresenter.printRegistrationBlocked(2);
+                        presenter.printRegistrationBlocked(2);
                     }
                 }
             }
     }}
-    protected void seeAllTalks(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void seeAllTalks(UserSchedulePresenter presenter, Scanner scan){
         //use the string representation in TalkManager
-        userSchedulePresenter.printAllTalks(talkManager);
-        userSchedulePresenter.printMenu(11);
+        presenter.printAllTalks(talkManager);
+        presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
             int talkIndex = scan.nextInt();
             if (talkIndex == 0){
-                userSchedulePresenter.printMenu(10);
-                userSchedulePresenter.printMenu(1);
+                presenter.printMenu(10);
+                presenter.printMenu(1);
                 return;
             }
-            else{userSchedulePresenter.printMenu(8);}
+            else{presenter.printMenu(8);}
         }
     }
 
-    protected void seeAllRegistered(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void seeAllRegistered(UserSchedulePresenter presenter, Scanner scan){
         getRegisteredTalks();
-        userSchedulePresenter.printMenu(11);
+        presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
             int talkIndex = scan.nextInt();
             if (talkIndex == 0){
-                userSchedulePresenter.printMenu(10);
-                userSchedulePresenter.printMenu(1);
+                presenter.printMenu(10);
+                presenter.printMenu(1);
                 return;
             }
-        else{userSchedulePresenter.printMenu(8);
+        else{presenter.printMenu(8);
             }}
     }
 
-    protected void cancelATalk(UserSchedulePresenter userSchedulePresenter, Scanner scan){
+    protected void cancelATalk(UserSchedulePresenter presenter, Scanner scan){
         ArrayList<Talk> registeredTalks = getRegisteredTalks();
         if (registeredTalks.size() != 0) {
-            userSchedulePresenter.printMenu(5);
+            presenter.printMenu(5);
         boolean doContinue  = true;
         while (doContinue){
         int cancelTalkIndex = scan.nextInt();
         if (cancelTalkIndex == 0){
-            userSchedulePresenter.printMenu(10);
-            userSchedulePresenter.printMenu(1);
+            presenter.printMenu(10);
+            presenter.printMenu(1);
             return;
         }
         else if (registeredTalks.size() <= cancelTalkIndex - 1){
-            userSchedulePresenter.printMenu(7);
+            presenter.printMenu(7);
         }
         else{
             Talk talkToCancel = registeredTalks.get(cancelTalkIndex - 1);
             this.cancelRegistration(talkToCancel);
             // prints "Success"
-            userSchedulePresenter.printMenu(6);
-            userSchedulePresenter.printMenu(10);
-            userSchedulePresenter.printMenu(1);
+            presenter.printMenu(6);
+            presenter.printMenu(10);
+            presenter.printMenu(1);
             return;
         }}}
         else{
@@ -171,44 +173,41 @@ public class UserScheduleController{
             while (doContinue){
                 int cancelTalkIndex = scan.nextInt();
                 if (cancelTalkIndex == 0){
-                    userSchedulePresenter.printMenu(10);
-                    userSchedulePresenter.printMenu(1);
+                    presenter.printMenu(10);
+                    presenter.printMenu(1);
                     return;
                 }
-                else{userSchedulePresenter.printMenu(8);}
+                else{presenter.printMenu(8);}
         }
     }}
 
 //changed the method name to go because there already other methods named run in the MessagingPresenterPackage
 //Daniel: its ok its good that run means the same thing in the whole program so I changed back
     public void run(){
-        UserSchedulePresenter userSchedulePresenter = new UserSchedulePresenter();
-        userSchedulePresenter.printHello(attendee);
-        userSchedulePresenter.printMenu(1);
-        userSchedulePresenter.printMenu(2);
-        Scanner scan = new Scanner(System.in);
+        presenter.printHello(attendee);
+        presenter.printMenu(1);
+        presenter.printMenu(2);
         boolean doContinue = true;
         while(doContinue) {
             int command = scan.nextInt();
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(userSchedulePresenter, scan);
+                this.registerTalk(presenter, scan);
                 //If they want to see all available talks
             }else if (command == 2) {
-                this.seeAllTalks(userSchedulePresenter, scan);
+                this.seeAllTalks(presenter, scan);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(userSchedulePresenter, scan);
+                this.seeAllRegistered(presenter, scan);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(userSchedulePresenter, scan);
+                this.cancelATalk(presenter, scan);
             }
             else if (command ==0){
-                scan.close();
                 doContinue = false;
                 mainMenuController.runMainMenu(attendee.getUser());
             }
-            else{userSchedulePresenter.printMenu(8);}
+            else{presenter.printMenu(8);}
         }
     }
 

@@ -15,12 +15,14 @@ public class SpeakerScheduleController{
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
     MainMenuController mainMenuController;
+    Scanner scanner;
 
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
-                                     MainMenuController mainMenuController){
+                                     MainMenuController mainMenuController, Scanner scanner){
         this.speaker = speaker;
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
+        this.scanner = scanner;
     }
 
     public void run(){

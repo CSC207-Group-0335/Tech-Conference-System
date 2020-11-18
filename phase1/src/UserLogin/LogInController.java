@@ -50,7 +50,7 @@ public class LogInController extends Observable {
                 check = false;
                 this.user = this.logInManager.findUser(email);
                 setUser(this.user); //set the user
-                this.talkSystem.instantiateControllers(this.user); //Instantiate controllers for the found user
+                this.talkSystem.instantiateControllers(this.user, scanner); //Instantiate controllers for the found user
                 this.talkSystem.user = user;
                 this.messagingSystem.instantiateControllers(this.user);
                 presenter.printLoginInfo(3); //Login Successful
