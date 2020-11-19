@@ -93,6 +93,7 @@ public class AttendeeMessengerController implements Observer{
             if (option == 0) {
                 flag = false;
                 presenter.printMenu(4);
+                //THIS SHOULD RETURN THE USER TO THE MAIN MENU - NOTE NOV 18
             }
             else if (option == 1) {
                 presenter.printMenu(1);

@@ -53,19 +53,25 @@ public class MainMenuController implements Observer {
     private void runMainMenuAttendee() {
         presenter.printMainMenuInfo(); //Display Main Menu
         boolean check = true; // fix create while loop
+        //present an option that allows the user to logout from the main menu
+        //which would then turn check to false
         while (check) {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
-                    this.userScheduleController.run(); //Currently being implemented, early morning Nov 14
+                    this.userScheduleController.run();
                 } else if (command == 2) {
                     this.attendeeMessengerController.run();
+                } else if (command == 0) {
+                    //Run a log out sequence
+                    //Call all of the write signals to "save" everything that has been done by the user
+                    System.out.println("Logging Out...");
                 } else {
                     presenter.tryAgain();
                 }
             }catch (NumberFormatException nfe){
-                presenter.tryAgain();;
+                presenter.tryAgain();
             }
         }
     }
@@ -81,14 +87,14 @@ public class MainMenuController implements Observer {
             try {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
-                    this.speakerScheduleController.run(); //Currently being implemented, early morning Nov 14
+                    this.speakerScheduleController.run();
                 } else if (command == 2) {
                     this.speakerMessengerController.run();
                 } else {
                     presenter.tryAgain();
                 }
             }catch (NumberFormatException nfe){
-                presenter.tryAgain();;
+                presenter.tryAgain();
             }
         }}
 
@@ -103,14 +109,14 @@ public class MainMenuController implements Observer {
                 try {
                     int command = Integer.parseInt(choice);
                     if (command == 1) {
-                        this.orgScheduleController.run(); //Currently being implemented, early morning Nov 14
+                        this.orgScheduleController.run();
                     } else if (command == 2) {
                         this.orgMessengerController.run();
                     } else {
                         presenter.tryAgain();
                     }
                 }catch (NumberFormatException nfe){
-                    presenter.tryAgain();;
+                    presenter.tryAgain();
                 }
         }}
 
