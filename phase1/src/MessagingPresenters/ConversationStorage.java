@@ -1,8 +1,6 @@
 package MessagingPresenters;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A class representing a conversation storage.
@@ -24,9 +22,9 @@ public class ConversationStorage{
      * @return True if conversation is add and false if it already exists.
      */
 
-    public boolean contains(String senderEmail, String receipientEmail){
+    public boolean contains(String senderEmail, String recipientEmail){
         for (ConversationManager c: conversationManagers){
-            if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(receipientEmail)){
+            if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(recipientEmail)){
                 return true;
             }
         }
