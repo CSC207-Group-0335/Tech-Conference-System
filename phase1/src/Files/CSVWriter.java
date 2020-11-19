@@ -127,4 +127,19 @@ public class CSVWriter {
         }
 
     }
+    public void writeToRooms(String csv, ArrayList<Room> roomlist){
+        try (FileWriter csvWriter = new FileWriter(csv)) {
+            int i = 0;
+            while (i < roomlist.size()) {
+                csvWriter.append(roomlist.get(i).getRoomName());
+                csvWriter.append("\n");
+                csvWriter.flush();
+                i++;
+            }
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
 }
