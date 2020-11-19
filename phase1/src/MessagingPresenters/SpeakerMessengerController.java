@@ -54,20 +54,17 @@ public class SpeakerMessengerController implements Observer{
         }
     }
 
-    /**
-     * Returns a boolean representing whether or not a reply containing </messageContent> was sent.
-     * @param email a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     * @return a boolean representing whether or not the reply was sent
-     */
-
-    public boolean reply(String email, String messageContent){
-        if (userInfo.canReply(email)){
-            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
-            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
-            return true;
+    public ArrayList<String> getRecipients() {
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
+        for (ConversationManager manager: managers) {
+            if (manager.getParticipants().contains(speaker.getEmail())){
+                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
+                participants.remove(speaker.getEmail());
+                emails.add(participants.get(0));
+            }
         }
-        return false;
+        return emails;
     }
 
     public ArrayList<Message> viewMessages(String email){
@@ -110,6 +107,14 @@ public class SpeakerMessengerController implements Observer{
                 String body = scan.nextLine();
                 messageAllAttendees(body);
                 presenter.printMenu(4);
+            }
+            else if (option == 3){
+                ArrayList<String> emails = getRecipients();
+                presenter.viewChats(emails);
+                int index = Integer.parseInt(scan.nextLine());
+                String email = emails.get(index - 1);
+                ArrayList<Message> messages = viewMessages(email);
+                presenter.viewConversation(messages);
             }
         }
     }
