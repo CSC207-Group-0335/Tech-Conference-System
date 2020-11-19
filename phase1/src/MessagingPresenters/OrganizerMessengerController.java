@@ -30,6 +30,7 @@ public class OrganizerMessengerController implements Observer {
         this.userInfo = new CanMessageManager(organizer);
         this.presenter = new OrgMessengerControllerPresenter();
         this.scan = scanner;
+        this.organizer = organizer;
     }
 
     /**

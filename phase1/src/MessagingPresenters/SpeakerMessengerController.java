@@ -3,6 +3,7 @@ package MessagingPresenters;
 import UserLogin.Speaker;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -27,6 +28,7 @@ public class SpeakerMessengerController implements Observer{
     public SpeakerMessengerController(Speaker speaker, Scanner scanner) {
         this.userInfo = new SpeakerMessageManager(speaker);
         this.presenter = new SpeakerMessengerControllerPresenter();
+        this.speaker = speaker;
         this.scan = scanner;
     }
 
@@ -66,6 +68,14 @@ public class SpeakerMessengerController implements Observer{
             return true;
         }
         return false;
+    }
+
+    public ArrayList<Message> viewMessages(String email){
+        if (conversationStorage.contains(speaker.getEmail(), email)){
+            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
+            return c.getMessages();
+            }
+        return null;
     }
 
     public void run() {

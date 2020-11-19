@@ -85,34 +85,25 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         //orgSchedulePresenter.printAllSpeakers(getSpeakerList());
         //orgSchedulePresenter.printMenu("Pick speaker");
         boolean doContinue  = true;
-//        while (doContinue){
-//            int hours = scan.nextInt();
-//            int minutes = scan.nextInt();
-//            if (speakerIndex == 0){
-//                orgSchedulePresenter.printMenu(10);
-//                orgSchedulePresenter.printMenu(1);
-//                return null;
-//            }
-//            else if (speakerIndex >= getSpeakerList().size()){
-//                orgSchedulePresenter.printMenu(7);
-//            }
-//            else{
-//                Speaker chosenSpeaker = getSpeakerList().get(speakerIndex - 1);
-//                return chosenSpeaker;
-//            }
-//        }
+        while(doContinue){
+            int hours = scan.nextInt();
+            int minutes = scan.nextInt();
+            if (hours >= 9 && hours <= 17){
+                if (minutes >= 0 && minutes <= 60){
+
+                }
+            }
+        }
         return null;
     }
 
-//    public boolean requestTalk(Scanner scan){
-//        Speaker s = pickSpeaker(scan);
-//        Room r = pickRoom(scan);
-//        LocalDateTime availableTime = pickTime(scan, s, r);
-//        String talkId = scan.nextLine();
-//        String talk
-//        //talkManager.addTalk(t, r, s, availableTime);
-//        return true;
-//    }
+    public boolean requestTalk(Scanner scan){
+        Speaker s = pickSpeaker(scan);
+        Room r = pickRoom(scan);
+        LocalDateTime availableTime = pickTime(scan, s, r);
+        String talkTitle = scan.nextLine();
+        return talkManager.createTalk(talkTitle, s.getEmail(), r.roomName, availableTime);
+    }
 
 
     //there's also a createRoom in RoomStorage with the parameter capacity
@@ -162,7 +153,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }else if (command == 4) {
                 this.cancelATalk(userSchedulePresenter, scan, organizer);
             }else if (command == 5){
-                //this.requestTalk(scan);
+                this.requestTalk(scan);
             }else if (command == 6){
                 this.registerRoom(scan);
             }else if (command == 7){
