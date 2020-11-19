@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import java.io.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ConversationCSVWriter {
@@ -10,7 +11,7 @@ public class ConversationCSVWriter {
     public ConversationCSVWriter(String csv, ArrayList<ConversationManager> storage) {
         this.csv = csv;
 
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         try (FileWriter csvWriter = new FileWriter(this.csv)) {
             int i = 0;
             while (i < storage.size()) {
@@ -21,8 +22,10 @@ public class ConversationCSVWriter {
                 csvWriter.append(",");
                 String s = "";
                 for (Message m : c.getMessages()) {
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().toString() + "~"
-                            + m.getMessageContent().replace(",","commaseparator")+ ";";
+                    String message = m.getMessageContent();
+                    message = message.replace(",", "commaseparator");
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().format(formatter).replace("T",  " ") + "~"
+                            + message+ ";";
                 }
                 csvWriter.append(s);
                 i++;
