@@ -2,11 +2,14 @@ package Files;
 
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.Message;
+import Schedule.Talk;
+import Schedule.UserScheduleManager;
 import UserLogin.User;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CSVWriter {
     public CSVWriter() {
@@ -36,12 +39,12 @@ public class CSVWriter {
         }
     }
 
-    public void writeToConversations(String csv, ArrayList<ConversationManager> storage) {
+    public void writeToConversations(String csv, ArrayList<ConversationManager> conversationstorage) {
 
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
-            while (i < storage.size()) {
-                ConversationManager c = storage.get(i);
+            while (i < conversationstorage.size()) {
+                ConversationManager c = conversationstorage.get(i);
                 csvWriter.append(c.getParticipants().get(0));
                 csvWriter.append(",");
                 csvWriter.append(c.getParticipants().get(1));
@@ -62,6 +65,32 @@ public class CSVWriter {
         }
 
     }
-    public void writeToRegistration(String csv, ArrayList<ConversationManager> storage){}
+    public void writeToRegistration(String csv,  HashMap<User, UserScheduleManager> talksignup){
+
+        try (FileWriter csvWriter = new FileWriter(csv)) {
+            int i = 0;
+            while (i < talksignup.size()) {
+                UserScheduleManager userschedule = talksignup.get(i);
+                User user = userschedule.getUser();
+                csvWriter.append(user.getEmail());
+                csvWriter.append(",");
+                int j = 0;
+                while (j < userschedule.getTalkList().size() - 1){
+                    csvWriter.append(userschedule.getTalkList().get(j).getTalkId());
+                    csvWriter.append(',');
+                    j ++;
+                }
+                csvWriter.append(userschedule.getTalkList().get(userschedule.getTalkList().size()).getTalkId());
+                csvWriter.append("\n");
+                i++;
+                csvWriter.flush();
+            }
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+
+    }
 
 }
