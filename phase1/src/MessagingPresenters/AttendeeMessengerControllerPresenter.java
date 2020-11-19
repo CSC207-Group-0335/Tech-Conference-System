@@ -33,12 +33,17 @@ public class AttendeeMessengerControllerPresenter{
     }
 
     public void viewChats(ArrayList<String> emails) {
-        int i = 1;
-        for (String email: emails) {
-            System.out.println(i + " - " + email);
-            i++;
+        if (emails.size() == 0) {
+            System.out.println("No chats found");
         }
-        System.out.println("Input the number corresponding to the email address with the conversation you wish to view:");
+        else {
+            int i = 1;
+            for (String email : emails) {
+                System.out.println(i + " - " + email);
+                i++;
+            }
+            System.out.println("Input the number corresponding to the email address with the conversation you wish to view:");
+        }
     }
 
     public void viewConversation(ArrayList<Message> messages) {

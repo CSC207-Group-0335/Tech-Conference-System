@@ -1,17 +1,14 @@
 package MessagingPresenters;
 
 import Schedule.CSVReader;
-import Schedule.Talk;
-import Schedule.UserScheduleManager;
 import UserLogin.*;
-import sun.security.tools.keytool.Main;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.UUID;
+import java.util.Scanner;
 
 /**
  * A class that represents a messaging system.
@@ -41,22 +38,23 @@ public class MessagingSystem extends Observable implements Observer {
         notifyObservers(conversationStorage);
     }
 
-    public void instantiateControllers(User user) {
+    public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
-            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user);
+            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user, scanner);
             this.addObserver(this.attendeeMessengerController);
             setAttendeeMessengerController();
             setStorage();
         }
         if (user instanceof Speaker) {
-            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user);
+            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user, scanner);
             this.addObserver(this.speakerMessengerController);
             setOrganizerMessengerController();
             setStorage();
         }
+        this.addObserver(this.speakerMessengerController.userInfo);
         if (user instanceof Organizer) {
-            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user);
+            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user, scanner);
             this.addObserver(this.organizerMessengerController);
             setSpeakerMessengerController();
             setStorage();

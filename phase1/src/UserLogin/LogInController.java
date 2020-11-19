@@ -5,7 +5,6 @@ import MessagingPresenters.MessagingSystem;
 import Schedule.TalkSystem;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
@@ -52,7 +51,7 @@ public class LogInController extends Observable {
                 setUser(this.user); //set the user
                 this.talkSystem.instantiateControllers(this.user, scanner); //Instantiate controllers for the found user
                 this.talkSystem.user = user;
-                this.messagingSystem.instantiateControllers(this.user);
+                this.messagingSystem.instantiateControllers(this.user, scanner);
                 presenter.printLoginInfo(3); //Login Successful
             }
             else{

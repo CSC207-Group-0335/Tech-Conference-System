@@ -16,6 +16,7 @@ public class SpeakerMessengerController implements Observer{
     private ConversationStorage conversationStorage;
     private Speaker speaker;
     private SpeakerMessengerControllerPresenter presenter;
+    public Scanner scan;
 
 
     /**
@@ -23,9 +24,10 @@ public class SpeakerMessengerController implements Observer{
      * @param speaker the speaker
      */
 
-    public SpeakerMessengerController(Speaker speaker) {
+    public SpeakerMessengerController(Speaker speaker, Scanner scanner) {
         this.userInfo = new SpeakerMessageManager(speaker);
         this.presenter = new SpeakerMessengerControllerPresenter();
+        this.scan = scanner;
     }
 
     /**
@@ -68,7 +70,6 @@ public class SpeakerMessengerController implements Observer{
 
     public void run() {
         boolean flag = true;
-        Scanner scan = new Scanner(System.in);
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());

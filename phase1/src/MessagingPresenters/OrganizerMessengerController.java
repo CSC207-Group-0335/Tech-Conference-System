@@ -19,15 +19,17 @@ public class OrganizerMessengerController implements Observer {
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private OrgMessengerControllerPresenter presenter;
+    public Scanner scan;
 
     /**
      * An organizer is required to create an instance of this class.
      * @param organizer the organizer
      */
 
-    public OrganizerMessengerController(Organizer organizer) {
+    public OrganizerMessengerController(Organizer organizer, Scanner scanner) {
         this.userInfo = new CanMessageManager(organizer);
         this.presenter = new OrgMessengerControllerPresenter();
+        this.scan = scanner;
     }
 
     /**
@@ -109,7 +111,6 @@ public class OrganizerMessengerController implements Observer {
 
     public void run() {
         boolean flag = true;
-        Scanner scan = new Scanner(System.in);
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());

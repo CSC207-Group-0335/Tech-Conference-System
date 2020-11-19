@@ -17,16 +17,18 @@ public class AttendeeMessengerController implements Observer{
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private AttendeeMessengerControllerPresenter presenter;
+    public Scanner scan;
 
     /**
      * A user is required to create an instance of this class.
      * @param attendee the attendee
      */
 
-    public AttendeeMessengerController(Attendee attendee) {
+    public AttendeeMessengerController(Attendee attendee, Scanner scanner) {
         this.attendee = attendee;
         this.userInfo = new CanMessageManager(attendee);
-        presenter = new AttendeeMessengerControllerPresenter();
+        this.presenter = new AttendeeMessengerControllerPresenter();
+        this.scan = scanner;
     }
 
     /**
@@ -85,7 +87,7 @@ public class AttendeeMessengerController implements Observer{
 
     public void run() {
         boolean flag = true;
-        Scanner scan = new Scanner(System.in);
+
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());
