@@ -30,7 +30,7 @@ public class OrgMessengerControllerPresenter {
                 System.out.println("Message successfully sent!");
                 break;
             case 5:
-                System.out.println("Email address not found. Please try again or press 0 to go back.");
+                System.out.println("Email address not found or access denied. Please try again or press 0 to go back.");
             case 6:
                 System.out.println("Invalid option. Try again.");
         }
