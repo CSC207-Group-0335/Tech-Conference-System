@@ -74,36 +74,25 @@ public class CSVWriter {
 
     }
     public void writeToRegistration(String csv,  HashMap<User, UserScheduleManager> talksignup){
-
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            int i = 0;
             for(User u: talksignup.keySet()) {
-                //if(talksignup.get(i) != null){
                     UserScheduleManager userschedule = talksignup.get(u);
                     User user = userschedule.getUser();
                     csvWriter.append(user.getEmail());
                     csvWriter.append(",");
                     int j = 0;
-                    while (j < userschedule.getTalkList().size() - 1){
+                    while (j <= userschedule.getTalkList().size() - 1){
                         csvWriter.append(userschedule.getTalkList().get(j).getTalkId());
                         csvWriter.append(',');
                         j ++;
                     }
-                    csvWriter.append(userschedule.getTalkList().get(userschedule.getTalkList().size()).getTalkId());
                     csvWriter.append("\n");
-                    i++;
                     csvWriter.flush();
-
-                //}
-                //i++;
-
             }
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-
-
     }
 
     public void writeToTalks(String csv, TalkManager talkmanage){
