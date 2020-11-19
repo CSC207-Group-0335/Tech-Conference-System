@@ -29,8 +29,7 @@ public class SpeakerMessageManager implements Observer{
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){
-        return speakerScheduleManagerHashMap.get(speaker).getTalkList();
+    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get(speaker).getTalkList();
     }
 
     /**

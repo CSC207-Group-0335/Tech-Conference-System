@@ -110,7 +110,7 @@ public class TalkManager implements Observer {
     }
 
     public String toStringTalk(Talk t){
-        String line = "Talk: " + t.getTitle() + " Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
+        String line = "Talk: " + t.getTitle() + ", Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
                 + this.getTalkSpeaker(t).getName() + ", Time: " + dateToString(this.getTalkTime(t));
         return line;
     }
@@ -118,7 +118,7 @@ public class TalkManager implements Observer {
     public String talkMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Talk t: talkMap.keySet()){
-            String line = "Talk: " + t.getTitle() + " Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
+            String line = "Talk: " + t.getTitle() + ", Room: " + this.getTalkRoom(t).getRoomName() + ", Speaker: "
                     + this.getTalkSpeaker(t).getName() + ", Time: " + dateToString(this.getTalkTime(t));
             lines.add(line);
         }

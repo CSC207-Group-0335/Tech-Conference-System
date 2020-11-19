@@ -68,6 +68,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         else if (i==17){
             System.out.println("Returning to scheduling menu...");
         }
+        else if (i == 18){
+            System.out.println("Invalid day number, try again");
+        }
     }
 
 
@@ -84,6 +87,47 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         for (Room r : roomList){
             System.out.println(Integer.toString(i) + ")" + r.getRoomName());
             i++;
+        }
+    }
+
+    public void PrintRequestTalkProcess(int i){
+        if (i == 1) {
+            System.out.println("Please choose a day of the conference for your requested talk (By indicating day 1,2 or 3)");
+        }
+        else if (i==2){
+            System.out.println("Choose a starting time (by hour) for your requested talk." + System.lineSeparator()+
+                    "Talks may start from 9:00 to 16:00" + System.lineSeparator()+
+                    "Indicate your chosen start time by a number from 9 to 16.");
+        }
+        else if(i==3){
+            System.out.println("Chosen speaker is not available in the chosen hour and day.");
+        }
+        else if (i==4){
+            System.out.println("Chosen room is not available in the chosen hour and day.");
+        }
+        else if(i==5){
+            System.out.println("Pick again or press 0 to go back to the scheduling menu");
+        }
+        else if (i ==6){
+            System.out.println("Both chosen room and speaker are not available in the chosen hour and day.");
+        }
+        else if (i==7){
+            System.out.println("Talk added successfully");
+        }
+        else if (i==8){
+            System.out.println("An error occurred, a talk was not added");
+        }
+    }
+
+    public void printSchedule(ArrayList<Talk> talkArrayList, TalkManager talkManager, int i){
+        if(i==1) {
+            System.out.println("Schedule for the chosen room:");
+        }
+        else if (i==2){
+            System.out.println("Schedule for the chosen speaker:");
+        }
+        for (Talk t: talkArrayList){
+            System.out.println(talkManager.toStringTalk(t) + System.lineSeparator());
         }
     }
 }
