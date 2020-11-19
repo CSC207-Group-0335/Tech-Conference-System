@@ -1,10 +1,13 @@
 package UserLogin;
 
+import Files.CSVWriter;
 import MessagingPresenters.AttendeeMessengerController;
+import MessagingPresenters.MessagingSystem;
 import MessagingPresenters.OrganizerMessengerController;
 import MessagingPresenters.SpeakerMessengerController;
 import Schedule.*;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -24,9 +27,21 @@ public class MainMenuController implements Observer {
     public OrgScheduleController orgScheduleController;
     public OrganizerMessengerController orgMessengerController;
     public Scanner scanner;
+    private RoomSystem roomSystem;
+    private TalkSystem talkSystem;
+    private MessagingSystem messagingSystem;
+    private ScheduleSystem scheduleSystem;
+    private ArrayList<User> userList;
 
-    public MainMenuController(Scanner scanner) {
+    public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
+                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem,
+                              ArrayList<User> userList) {
 
+        this.roomSystem = roomSystem;
+        this.talkSystem = talkSystem;
+        this.messagingSystem = messagingSystem;
+        this.scheduleSystem = scheduleSystem;
+        this.userList = userList;
         this.presenter = new MainMenuPresenter();
         this.scanner = scanner;
     }
@@ -43,7 +58,7 @@ public class MainMenuController implements Observer {
         } else if (user instanceof Speaker) {
             runMainMenuSpeaker();
         } else if (user instanceof Organizer) {
-            getRunMainMenuOrganizer();
+            runMainMenuOrganizer();
         }
     }
 
@@ -66,7 +81,9 @@ public class MainMenuController implements Observer {
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
+                    logout();
                     System.out.println("Logging Out...");
+                    check = false; //Exit the while loop
                 } else {
                     presenter.tryAgain();
                 }
@@ -90,6 +107,12 @@ public class MainMenuController implements Observer {
                     this.speakerScheduleController.run();
                 } else if (command == 2) {
                     this.speakerMessengerController.run();
+                } else if (command == 0) {
+                    //Run a log out sequence
+                    //Call all of the write signals to "save" everything that has been done by the user
+                    logout();
+                    System.out.println("Logging Out...");
+                    check = false; //Exit the while loop
                 } else {
                     presenter.tryAgain();
                 }
@@ -98,27 +121,53 @@ public class MainMenuController implements Observer {
             }
         }}
 
-        /**
-         * Helper method for presenting a Organizers' Main Menu
-         */
-        private void getRunMainMenuOrganizer () {
-            presenter.printMainMenuInfo(); //Display Main Menu
-            boolean check = true; // fix create while loop
-            while (check) {
-                String choice = scanner.nextLine();
-                try {
-                    int command = Integer.parseInt(choice);
-                    if (command == 1) {
-                        this.orgScheduleController.run();
-                    } else if (command == 2) {
-                        this.orgMessengerController.run();
-                    } else {
-                        presenter.tryAgain();
-                    }
-                }catch (NumberFormatException nfe){
+    /**
+     * Helper method for presenting a Organizers' Main Menu
+     */
+    private void runMainMenuOrganizer () {
+        presenter.printMainMenuInfo(); //Display Main Menu
+        boolean check = true; // fix create while loop
+        while (check) {
+            String choice = scanner.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
+                if (command == 1) {
+                    this.orgScheduleController.run();
+                } else if (command == 2) {
+                    this.orgMessengerController.run();
+                } else if (command == 0) {
+                    //Run a log out sequence
+                    //Call all of the write signals to "save" everything that has been done by the user
+                    logout();
+                    System.out.println("Logging Out...");
+                    check = false; //Exit the while loop
+                } else {
                     presenter.tryAgain();
                 }
-        }}
+            }catch (NumberFormatException nfe){
+                presenter.tryAgain();
+            }
+    }}
+
+
+    /**
+     * Helper method that will call all of the save methods to update the database before logging out.
+     */
+    private void logout() {
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.talkSystem.talkManager);
+        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv",
+                this.scheduleSystem.userScheduleMap);
+        csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv",
+                messagingSystem.conversationStorage.getConversationManagers());
+        csvWriter.writeToUsers("phase1/src/Resources/Talks.csv", this.userList); //save the users
+        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.roomSystem.getRoomList());
+        //this.roomSystem.save();
+        //this.talkSystem.save();
+        //this.messagingSystem.save();
+        //this.scheduleSystem.save();
+
+        }
 
 
         @Override

@@ -60,7 +60,7 @@ public class CSVWriter {
                     String formatted = time.format(formatter);
 
                     s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + formatted + "~"
-                            + m.getMessageContent() + "~" + m.getMessageId() + ";";
+                            + m.getMessageContent() + ";";
                 }
                 csvWriter.append(s);
                 i++;
@@ -78,7 +78,7 @@ public class CSVWriter {
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
             while (i < talksignup.size()) {
-                if(talksignup.get(i) != null){
+                //if(talksignup.get(i) != null){
                     UserScheduleManager userschedule = talksignup.get(i);
                     User user = userschedule.getUser();
                     csvWriter.append(user.getEmail());
@@ -94,8 +94,8 @@ public class CSVWriter {
                     i++;
                     csvWriter.flush();
 
-                }
-                i++;
+                //}
+                //i++;
 
             }
 
@@ -105,45 +105,29 @@ public class CSVWriter {
 
 
     }
+
     public void writeToTalks(String csv, TalkManager talkmanage){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-
-            for(SpeakerScheduleManager speakersched: talkmanage.speakerScheduleMap.values()){
-                String email = speakersched.getSpeaker().getEmail();
-                ArrayList<Talk> talks = speakersched.getTalkList();
-                for(Talk talk: talks){
-                    for(RoomScheduleManager roomsched: talkmanage.roomScheduleMap.values()){
-                        String roomname = roomsched.getRoom().getRoomName();
-                        ArrayList<Talk> comparetalks = roomsched.getTalkList();
-                        for(Talk compared: comparetalks){
-                            if(talk == compared){
-                                csvWriter.append(compared.getTalkId());
-                                csvWriter.append(",");
-                                csvWriter.append(compared.getTitle());
-                                csvWriter.append(",");
-                                csvWriter.append(email);
-                                csvWriter.append(",");
-                                csvWriter.append(roomname);
-                                csvWriter.append(",");
-                                LocalDateTime time;
-                                time = compared.getStartTime();
-                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                                String formatted = time.format(formatter);
-                                csvWriter.append(formatted);
-                                csvWriter.append("\n");
-                                csvWriter.flush();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-         catch (IOException ioException) {
+            for (Talk t:talkmanage.getTalkMap().keySet()) {
+                csvWriter.append(t.getTalkId());
+                csvWriter.append(",");
+                csvWriter.append(t.getTitle());
+                csvWriter.append(",");
+                csvWriter.append(talkmanage.getTalkSpeaker(t).getEmail());
+                csvWriter.append(",");
+                csvWriter.append(talkmanage.getTalkRoom(t).getRoomName());
+                csvWriter.append(",");
+                LocalDateTime time;
+                time = t.getStartTime();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String formatted = time.format(formatter);
+                csvWriter.append(formatted);
+                csvWriter.append("\n");
+                csvWriter.flush();
+            }}catch (IOException ioException) {
             ioException.printStackTrace();
-        }
+        }}
 
-    }
     public void writeToRooms(String csv, ArrayList<Room> roomlist){
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;

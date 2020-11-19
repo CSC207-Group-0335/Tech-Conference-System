@@ -33,7 +33,9 @@ public class TechConferenceSystem extends Observable {
         this.roomSystem = new RoomSystem();
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
                 this.roomSystem.talkSystem.messagingSystem);
-        this.mainMenuController = new MainMenuController(logInController.scanner);
+        this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
+                roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
+                userList);
     }
 
     public void setUserStorage(){
