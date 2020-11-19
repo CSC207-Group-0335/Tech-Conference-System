@@ -70,20 +70,25 @@ public class CSVWriter {
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
             while (i < talksignup.size()) {
-                UserScheduleManager userschedule = talksignup.get(i);
-                User user = userschedule.getUser();
-                csvWriter.append(user.getEmail());
-                csvWriter.append(",");
-                int j = 0;
-                while (j < userschedule.getTalkList().size() - 1){
-                    csvWriter.append(userschedule.getTalkList().get(j).getTalkId());
-                    csvWriter.append(',');
-                    j ++;
+                if(talksignup.get(i) != null){
+                    UserScheduleManager userschedule = talksignup.get(i);
+                    User user = userschedule.getUser();
+                    csvWriter.append(user.getEmail());
+                    csvWriter.append(",");
+                    int j = 0;
+                    while (j < userschedule.getTalkList().size() - 1){
+                        csvWriter.append(userschedule.getTalkList().get(j).getTalkId());
+                        csvWriter.append(',');
+                        j ++;
+                    }
+                    csvWriter.append(userschedule.getTalkList().get(userschedule.getTalkList().size()).getTalkId());
+                    csvWriter.append("\n");
+                    i++;
+                    csvWriter.flush();
+
                 }
-                csvWriter.append(userschedule.getTalkList().get(userschedule.getTalkList().size()).getTalkId());
-                csvWriter.append("\n");
                 i++;
-                csvWriter.flush();
+
             }
 
         } catch (IOException ioException) {
