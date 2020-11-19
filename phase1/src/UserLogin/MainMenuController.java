@@ -156,12 +156,14 @@ public class MainMenuController implements Observer {
     private void logout() {
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.talkSystem.getTalkManager());
-        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv",
-                this.scheduleSystem.getUserScheduleMap());
         csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv",
                 messagingSystem.conversationStorage.getConversationManagers());
-        //csvWriter.writeToUsers("phase1/src/Resources/Talks.csv", this.userList); //save the users
         csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.roomSystem.getRoomList());
+        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv",
+                this.scheduleSystem.getUserScheduleMap());
+        csvWriter.writeToUsers("phase1/src/Resources/Users.csv", this.userList); //save the users
+
+
         //this.roomSystem.save();
         //this.talkSystem.save();
         //this.messagingSystem.save();
