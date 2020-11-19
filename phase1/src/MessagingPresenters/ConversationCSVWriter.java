@@ -26,6 +26,7 @@ public class ConversationCSVWriter {
                 }
                 csvWriter.append(s);
                 i++;
+                csvWriter.append("\n");
                 csvWriter.flush();
                 }
 
