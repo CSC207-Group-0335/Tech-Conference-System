@@ -50,13 +50,13 @@ public class MessagingSystem extends Observable implements Observer {
             this.speakerMessengerController = new SpeakerMessengerController((Speaker) user, scanner);
             this.addObserver(this.speakerMessengerController);
             this.addObserver(this.speakerMessengerController.userInfo);
-            setOrganizerMessengerController();
+            setSpeakerMessengerController();
             setStorage();
         }
         if (user instanceof Organizer) {
             this.organizerMessengerController = new OrganizerMessengerController((Organizer) user, scanner);
             this.addObserver(this.organizerMessengerController);
-            setSpeakerMessengerController();
+            setOrganizerMessengerController();
             setStorage();
         }
         //Moved AddObservers NOV 15
