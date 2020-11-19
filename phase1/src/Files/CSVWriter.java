@@ -55,7 +55,7 @@ public class CSVWriter {
                     String time = "";
                     time += m.getTimestamp().getYear();
                     time += "-";
-                    time += m.getTimestamp().getMonth();
+                    time += m.getTimestamp().getMonthValue();
                     time += "-";
                     time += m.getTimestamp().getDayOfMonth();
                     time += " ";
