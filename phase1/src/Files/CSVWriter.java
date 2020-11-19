@@ -56,7 +56,7 @@ public class CSVWriter {
 
                     LocalDateTime time;
                     time = m.getTimestamp();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     String formatted = time.format(formatter);
 
                     s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + formatted + "~"
