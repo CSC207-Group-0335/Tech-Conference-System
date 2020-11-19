@@ -77,9 +77,9 @@ public class CSVWriter {
 
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
-            while (i < talksignup.size()) {
+            for(User u: talksignup.keySet()) {
                 //if(talksignup.get(i) != null){
-                    UserScheduleManager userschedule = talksignup.get(i);
+                    UserScheduleManager userschedule = talksignup.get(u);
                     User user = userschedule.getUser();
                     csvWriter.append(user.getEmail());
                     csvWriter.append(",");
