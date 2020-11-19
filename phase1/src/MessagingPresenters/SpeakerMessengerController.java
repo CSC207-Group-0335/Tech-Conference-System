@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import Schedule.Talk;
 import UserLogin.MainMenuController;
 import UserLogin.Speaker;
 
@@ -134,6 +135,25 @@ public class SpeakerMessengerController implements Observer{
                     String email = emails.get(index - 1);
                     ArrayList<Message> messages = viewMessages(email);
                     presenter.viewConversation(messages);
+                }
+                else if (option == 4){
+                    ArrayList<Talk> talks = userInfo.getSpeakerTalks();
+                    presenter.viewTalks(talks);
+                    int index = Integer.parseInt(scan.nextLine());
+                    if (index == 0 || talks.size() == 0) {
+                        continue;
+                    }
+                    Talk talk = talks.get(index - 1);
+                    ArrayList<String> emails = userInfo.getAttendeesOfTalk(talk);
+                    presenter.printMenu(3);
+                    String body = scan.nextLine();
+                    if (body.equals("0")) {
+                        continue;
+                    }
+                    for (String email: emails){
+                        message(email, body);
+                    }
+                    presenter.printMenu(4);
                 }
             } catch (NumberFormatException nfe) {
                 presenter.printMenu(6); }

@@ -48,6 +48,19 @@ public class SpeakerMessageManager implements Observer{
     }
 
     /**
+     * Returns a set of the emails of all attendees signed up for this speaker's talks.
+     * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's talks
+     */
+
+    public ArrayList<String> getAttendeesOfTalk(Talk talk){
+        ArrayList<String> emails = new ArrayList<String>();
+        for (User user: signUpMap.get(talk).userList){
+                emails.add(user.getEmail());
+            }
+        return emails;
+    }
+
+    /**
      * Returns a list containing the emails of all senders in conversations involving this speaker.
      * @return an ArrayList containing the emails of all senders
      */
