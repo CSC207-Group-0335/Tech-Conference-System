@@ -8,6 +8,8 @@ import UserLogin.User;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,23 +54,12 @@ public class CSVWriter {
                 String s = "";
                 for (Message m : c.getMessages()) {
 
-                    String time = "";
-                    time += m.getTimestamp().getYear();
-                    time += "-";
-                    time += m.getTimestamp().getMonthValue();
-                    time += "-";
-                    if(m.getTimestamp().getDayOfMonth() < 10){
-                        time += 0;
-                        time += m.getTimestamp().getDayOfMonth();
-                    }
-                    else if(m.getTimestamp().getDayOfMonth() >= 10) {
-                        time += m.getTimestamp().getDayOfMonth();
-                    }
-                    time += " ";
-                    time += m.getTimestamp().getHour();
-                    time += ":";
-                    time += m.getTimestamp().getMinute();
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + time + "~"
+                    LocalDateTime time;
+                    time = m.getTimestamp();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String formatted = time.format(formatter);
+
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + formatted + "~"
                             + m.getMessageContent() + "~" + m.getMessageId() + ";";
                 }
                 csvWriter.append(s);
