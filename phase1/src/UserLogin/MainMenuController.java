@@ -160,7 +160,7 @@ public class MainMenuController implements Observer {
                 this.scheduleSystem.getUserScheduleMap());
         csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv",
                 messagingSystem.conversationStorage.getConversationManagers());
-        csvWriter.writeToUsers("phase1/src/Resources/Talks.csv", this.userList); //save the users
+        //csvWriter.writeToUsers("phase1/src/Resources/Talks.csv", this.userList); //save the users
         csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.roomSystem.getRoomList());
         //this.roomSystem.save();
         //this.talkSystem.save();

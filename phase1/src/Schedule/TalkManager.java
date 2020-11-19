@@ -13,11 +13,13 @@ public class TalkManager implements Observer {
     LinkedHashMap<Talk, ArrayList<Object>> talkMap;
     public HashMap<Room, RoomScheduleManager> roomScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+    public HashMap<Talk, SignUpAttendeesManager> signUpMap;
 
     public TalkManager(){
         this.roomScheduleMap = new HashMap<Room, RoomScheduleManager>();
         this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
         this.talkMap = new LinkedHashMap<Talk, ArrayList<Object>>();
+        this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
     }
 
     public void addTalk(Talk t, Room r, Speaker s, LocalDateTime d){
@@ -56,6 +58,8 @@ public class TalkManager implements Observer {
                 this.addTalk(t, talkRoom, talkSpeaker, d);
                 this.speakerScheduleMap.get(talkSpeaker).addTalk(t);
                 this.roomScheduleMap.get(talkRoom).addTalk(t);
+                SignUpAttendeesManager signUpAttendeesManager = new SignUpAttendeesManager(t, talkRoom.capacity);
+                this.signUpMap.put(t, signUpAttendeesManager);
                 return true;
             }
             else{
@@ -78,6 +82,8 @@ public class TalkManager implements Observer {
                 this.addTalk(t, talkRoom, talkSpeaker, d);
                 this.speakerScheduleMap.get(talkSpeaker).addTalk(t);
                 this.roomScheduleMap.get(talkRoom).addTalk(t);
+                SignUpAttendeesManager signUpAttendeesManager = new SignUpAttendeesManager(t, talkRoom.capacity);
+                this.signUpMap.put(t, signUpAttendeesManager);
                 return true;
             }
             else{
@@ -112,6 +118,10 @@ public class TalkManager implements Observer {
 
     public LocalDateTime getTalkTime(Talk t){
         return (LocalDateTime) this.talkMap.get(t).get(2);
+    }
+
+    public HashMap<Talk, SignUpAttendeesManager> getSignUpMap() {
+        return signUpMap;
     }
 
     public String toStringTalk(Talk t){

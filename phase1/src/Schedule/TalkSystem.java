@@ -25,7 +25,7 @@ public class TalkSystem extends Observable implements Observer{
         this.talkManager = new TalkManager();
         this.messagingSystem = new MessagingSystem();
         this.scheduleSystem = new ScheduleSystem(talkManager);
-        this.signUpMap = new HashMap<Talk, SignUpAttendeesManager>();
+        this.signUpMap = talkManager.getSignUpMap();
     }
     public void instantiateControllers(User user, Scanner scanner){
         this.addObserver(mainMenuController);
@@ -89,7 +89,7 @@ public class TalkSystem extends Observable implements Observer{
                 if(signUpMap.keySet().contains(t)){
                     signUpMap.get(t).addUser(schedule.user);
                 }
-                else{ //We need a method in talk manager to match every talk with its room/speaker
+                else{
                     SignUpAttendeesManager signup = new SignUpAttendeesManager(t, talkManager.getTalkRoom(t).capacity);
                     signup.addUser(schedule.user);
                     signUpMap.put(t, signup);
