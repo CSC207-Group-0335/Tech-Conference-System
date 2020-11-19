@@ -117,7 +117,17 @@ public class CSVWriter {
                                 csvWriter.append(",");
                                 csvWriter.append(roomname);
                                 csvWriter.append(",");
-                                csvWriter.append(compared.getStartTime().toString());
+                                String time = "";
+                                time += compared.getStartTime().getYear();
+                                time += "-";
+                                time += compared.getStartTime().getMonth();
+                                time += "-";
+                                time += compared.getStartTime().getDayOfMonth();
+                                time += " ";
+                                time += compared.getStartTime().getHour();
+                                time += ":";
+                                time += compared.getStartTime().getMinute();
+                                csvWriter.append(time);
                                 csvWriter.append("\n");
                                 csvWriter.flush();
                             }
