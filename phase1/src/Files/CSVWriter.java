@@ -51,7 +51,24 @@ public class CSVWriter {
                 csvWriter.append(",");
                 String s = "";
                 for (Message m : c.getMessages()) {
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().toString() + "~"
+
+                    String time = "";
+                    time += m.getTimestamp().getYear();
+                    time += "-";
+                    time += m.getTimestamp().getMonthValue();
+                    time += "-";
+                    if(m.getTimestamp().getDayOfMonth() < 10){
+                        time += 0;
+                        time += m.getTimestamp().getDayOfMonth();
+                    }
+                    else if(m.getTimestamp().getDayOfMonth() >= 10) {
+                        time += m.getTimestamp().getDayOfMonth();
+                    }
+                    time += " ";
+                    time += m.getTimestamp().getHour();
+                    time += ":";
+                    time += m.getTimestamp().getMinute();
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + time + "~"
                             + m.getMessageContent() + "~" + m.getMessageId() + ";";
                 }
                 csvWriter.append(s);
@@ -117,7 +134,17 @@ public class CSVWriter {
                                 csvWriter.append(",");
                                 csvWriter.append(roomname);
                                 csvWriter.append(",");
-                                csvWriter.append(compared.getStartTime().toString());
+                                String time = "";
+                                time += compared.getStartTime().getYear();
+                                time += "-";
+                                time += compared.getStartTime().getMonth();
+                                time += "-";
+                                time += compared.getStartTime().getDayOfMonth();
+                                time += " ";
+                                time += compared.getStartTime().getHour();
+                                time += ":";
+                                time += compared.getStartTime().getMinute();
+                                csvWriter.append(time);
                                 csvWriter.append("\n");
                                 csvWriter.flush();
                             }
