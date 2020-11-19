@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class Message {
 
-    private String messageId;
     private String recipientEmail;
     private String senderEmail;
     private LocalDateTime timestamp;
@@ -33,14 +32,6 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    /**
-     * Returns the message ID of this message.
-     * @return a String representing the message ID of the message
-     */
-
-    public String getMessageId() {
-        return messageId;
-    }
 
     /**
      * Returns the email address of the user to which this message is being sent.

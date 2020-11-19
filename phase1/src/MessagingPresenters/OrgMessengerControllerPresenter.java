@@ -24,7 +24,7 @@ public class OrgMessengerControllerPresenter {
                 System.out.println("Please enter the recipient's email address or 0 to go back:");
                 break;
             case 3:
-                System.out.println("Please enter the content of your text or 0 to go back:");
+                System.out.println("Do not use ';'. Please enter the content of your text or 0 to go back:");
                 break;
             case 4:
                 System.out.println("Message successfully sent!");
