@@ -38,7 +38,7 @@ public class TechConferenceSystem extends Observable {
 
     public void setUserStorage(){
         setChanged();
-        notifyObservers(userStorage);
+        notifyObservers(this.userStorage);
         if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
             notifyObservers(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
         }
@@ -115,8 +115,6 @@ public class TechConferenceSystem extends Observable {
         setUserList(this.userStorage.userList);
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
-
-
         logInController.runLogIn();
         if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
             this.addObserver(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
@@ -127,14 +125,14 @@ public class TechConferenceSystem extends Observable {
         if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
             this.addObserver(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
         }
-        setUserStorage();
-        setMainMenuController();
         if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
             setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
         }
         if (roomSystem.talkSystem.orgScheduleController !=null) {
             this.addObserver(roomSystem.talkSystem.orgScheduleController);
         }
+        setUserStorage();
+        setMainMenuController();
         roomSystem.run();
         mainMenuController.runMainMenu(this.logInController.user);
         }

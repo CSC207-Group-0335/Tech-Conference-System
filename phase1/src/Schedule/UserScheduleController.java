@@ -46,7 +46,7 @@ public class UserScheduleController{
                 }}
             }
 
-    public void cancelRegistration(Talk talk) {
+    public void cancelRegistration(Talk talk, HashMap<Talk, SignUpAttendeesManager> signUpMap) {
         if (signUpMap.get(talk).removeUser(attendee.getUser())) {
             attendee.removeTalk(talk);
         }
@@ -88,10 +88,11 @@ public class UserScheduleController{
         //assuming they will have asked to see all talks they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
-            int talkIndex = scan.nextInt();
+            String choice = scan.nextLine();
+            try {
+                int talkIndex = Integer.parseInt(choice);
             if (talkIndex == 0){
                 presenter.printMenu(10);
-                presenter.printMenu(1);
                 return;
             }
             else if (getTalkByIndex(talkIndex) == null){
@@ -103,7 +104,6 @@ public class UserScheduleController{
                     // prints "Success"
                     presenter.printMenu(6);
                     presenter.printMenu(10);
-                    presenter.printMenu(1);
                     return;
                 }
                 else{
@@ -114,23 +114,29 @@ public class UserScheduleController{
                         presenter.printRegistrationBlocked(2);
                     }
                 }
-            }
-    }}
+            }}
+            catch (NumberFormatException nfe){
+        presenter.printMenu(8);;
+    }}}
+
     protected void seeAllTalks(UserSchedulePresenter presenter, Scanner scan){
         //use the string representation in TalkManager
         presenter.printAllTalks(talkManager);
         presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
-            int talkIndex = scan.nextInt();
+            String choice = scan.nextLine();
+            try {
+                int talkIndex = Integer.parseInt(choice);
             if (talkIndex == 0){
                 presenter.printMenu(10);
-                presenter.printMenu(1);
                 return;
             }
-            else{presenter.printMenu(8);}
+            else{presenter.printMenu(8);}}
+            catch (NumberFormatException nfe){
+       presenter.printMenu(8);;
         }
-    }
+    }}
 
     protected void seeAllRegistered(UserSchedulePresenter presenter,
                                     Scanner scan, UserScheduleManager userScheduleManager){
@@ -138,56 +144,60 @@ public class UserScheduleController{
         presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
-            int talkIndex = scan.nextInt();
+            String choice = scan.nextLine();
+            try { int talkIndex = Integer.parseInt(choice);
             if (talkIndex == 0){
                 presenter.printMenu(10);
-                presenter.printMenu(1);
                 return;
             }
         else{presenter.printMenu(8);
-            }}
-    }
+            }}catch (NumberFormatException nfe){
+        presenter.printMenu(8);;
+    }}}
 
     protected void cancelATalk(UserSchedulePresenter presenter,
-                               Scanner scan, UserScheduleManager userScheduleManager){
+                               Scanner scan, UserScheduleManager userScheduleManager,
+                               HashMap<Talk, SignUpAttendeesManager> signUpMap){
         ArrayList<Talk> registeredTalks = getRegisteredTalks(userScheduleManager);
         if (registeredTalks.size() != 0) {
             presenter.printMenu(5);
         boolean doContinue  = true;
         while (doContinue){
-        int cancelTalkIndex = scan.nextInt();
-        if (cancelTalkIndex == 0){
+            String choice = scan.nextLine();
+            try {
+                int cancelTalkIndex = Integer.parseInt(choice);
+            if (cancelTalkIndex == 0){
             presenter.printMenu(10);
-            presenter.printMenu(1);
             return;
         }
-        else if (registeredTalks.size() <= cancelTalkIndex - 1){
+        else if (registeredTalks.size() <= Math.abs(cancelTalkIndex - 1)){
             presenter.printMenu(7);
         }
         else{
             Talk talkToCancel = registeredTalks.get(cancelTalkIndex - 1);
-            this.cancelRegistration(talkToCancel);
+            this.cancelRegistration(talkToCancel, signUpMap);
             // prints "Success"
             presenter.printMenu(6);
             presenter.printMenu(10);
-            presenter.printMenu(1);
             return;
-        }}}
-        else{
+        }}catch (NumberFormatException nfe){
+        presenter.printMenu(8);;
+    }}}
+    else{
             boolean doContinue  = true;
             while (doContinue){
-                int cancelTalkIndex = scan.nextInt();
-                if (cancelTalkIndex == 0){
-                    presenter.printMenu(10);
-                    presenter.printMenu(1);
-                    return;
-                }
-                else{presenter.printMenu(8);}
-        }
-    }}
+                String choice = scan.nextLine();
+                try {
+                    int cancelTalkIndex = Integer.parseInt(choice);
+                    if (cancelTalkIndex == 0) {
+                        presenter.printMenu(10);
+                        return;
+                    }}catch (NumberFormatException nfe){
+                        presenter.printMenu(8);;
+            }
+        }}}
 
-//changed the method name to go because there already other methods named run in the MessagingPresenterPackage
-//Daniel: its ok its good that run means the same thing in the whole program so I changed back
+
     public void run(){
         presenter.printHello(attendee);
         presenter.printMenu(1);
@@ -200,15 +210,19 @@ public class UserScheduleController{
             //if they want to register for a talk
             if (command == 1) {
                 this.registerTalk(presenter, scan, attendee, signUpMap);
+                presenter.printMenu(1);
                 //If they want to see all available talks
             }else if (command == 2) {
                 this.seeAllTalks(presenter, scan);
+                presenter.printMenu(1);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
                 this.seeAllRegistered(presenter, scan, attendee);
+                presenter.printMenu(1);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(presenter, scan, attendee);
+                this.cancelATalk(presenter, scan, attendee, signUpMap);
+                presenter.printMenu(1);
             }
             else if (command ==0){
                 doContinue = false;
@@ -222,5 +236,13 @@ public class UserScheduleController{
 
     public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
         this.signUpMap = signUpMap;
-    }
-}
+    }}
+
+
+
+//String choice = scan.nextLine();
+//            try {
+//                int command = Integer.parseInt(choice);}
+// catch (NumberFormatException nfe){
+//        presenter.printMenu(8);;
+
