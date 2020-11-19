@@ -51,7 +51,18 @@ public class CSVWriter {
                 csvWriter.append(",");
                 String s = "";
                 for (Message m : c.getMessages()) {
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().toString() + "~"
+
+                    String time = "";
+                    time += m.getTimestamp().getYear();
+                    time += "-";
+                    time += m.getTimestamp().getMonth();
+                    time += "-";
+                    time += m.getTimestamp().getDayOfMonth();
+                    time += " ";
+                    time += m.getTimestamp().getHour();
+                    time += ":";
+                    time += m.getTimestamp().getMinute();
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + time + "~"
                             + m.getMessageContent() + "~" + m.getMessageId() + ";";
                 }
                 csvWriter.append(s);
