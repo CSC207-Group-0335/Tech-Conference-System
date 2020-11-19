@@ -23,18 +23,37 @@ public abstract class User {
         this.email = email;
     }
 
+    /**
+     * a getter for the Name of the User
+     * @return the name of the user.
+     */
 
     public String getName() {
         return name;
     }
 
+    /**
+     * a getter for the email of the User
+     * @return the email of the user.
+     */
+
     public String getEmail() {
         return email;
     }
 
+    /**
+     * a getter for the password of the User
+     * @return the password of the user.
+     */
+
     public String getPassword() {
         return password;
     }
+
+    /**
+     * an abstract getter for the type of the User
+     * @return the type of the user.
+     */
 
     public abstract String getType();
 }

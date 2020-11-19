@@ -3,7 +3,6 @@ package Files;
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.Message;
 import Schedule.*;
-import UserLogin.Speaker;
 import UserLogin.User;
 
 import java.io.FileWriter;

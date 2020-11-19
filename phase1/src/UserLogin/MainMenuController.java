@@ -1,13 +1,11 @@
 package UserLogin;
 
-import Files.CSVWriter;
 import MessagingPresenters.AttendeeMessengerController;
 import MessagingPresenters.MessagingSystem;
 import MessagingPresenters.OrganizerMessengerController;
 import MessagingPresenters.SpeakerMessengerController;
 import Schedule.*;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -48,7 +46,6 @@ public class MainMenuController implements Observer {
 
     /**
      * This method will run the Main Menu based on the type of the user that is provided.
-     *
      * @param user the user provided
      */
     public void runMainMenu(User user) {
@@ -84,7 +81,7 @@ public class MainMenuController implements Observer {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
-                    System.out.println("Logging Out...");
+                    presenter.loggingOut();
                     return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
@@ -115,7 +112,7 @@ public class MainMenuController implements Observer {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
-                    System.out.println("Logging Out...");
+                    presenter.loggingOut();
                     return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
@@ -145,7 +142,7 @@ public class MainMenuController implements Observer {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
-                    System.out.println("Logging Out...");
+                    presenter.loggingOut();
                     return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
