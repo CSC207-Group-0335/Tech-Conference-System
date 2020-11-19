@@ -5,6 +5,7 @@ import Schedule.Talk;
 import UserLogin.Speaker;
 import UserLogin.TechConferenceSystem;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -95,6 +96,10 @@ public class TalkManager implements Observer {
             return true;
         }
         return false;
+    }
+
+    public HashMap<Talk, ArrayList<Object>> getTalkMap(){
+        return this.talkMap;
     }
 
     public Speaker getTalkSpeaker(Talk t){
