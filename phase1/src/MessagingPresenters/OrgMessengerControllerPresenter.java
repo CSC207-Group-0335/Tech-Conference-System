@@ -10,7 +10,7 @@ public class OrgMessengerControllerPresenter {
     public void printMenu(int i) {
         switch (i) {
             case 0:
-                System.out.println("Welcome to the organizer messenger client" + System.lineSeparator() +
+                System.out.println("\nWelcome to the organizer messenger client" + System.lineSeparator() +
                         "Press 0 to quit the organizer messenger client" + System.lineSeparator() +
                         "Press 1 to message one user" + System.lineSeparator() +
                         "Press 2 to message all speakers" + System.lineSeparator() +
@@ -21,26 +21,31 @@ public class OrgMessengerControllerPresenter {
                 System.out.println("Quitting the organizer messenger client");
                 break;
             case 2:
-                System.out.println("Please enter the recipient's email address:");
+                System.out.println("Please enter the recipient's email address or 0 to go back:");
                 break;
             case 3:
-                System.out.println("Please enter the content of your text:");
+                System.out.println("Please enter the content of your text or 0 to go back:");
                 break;
             case 4:
                 System.out.println("Message successfully sent!");
                 break;
             case 5:
-                System.out.println("Email address not found. Please try again.");
+                System.out.println("Email address not found. Please try again or press 0 to go back.");
         }
     }
 
     public void viewChats(ArrayList<String> emails) {
-        int i = 1;
-        for (String email: emails) {
-            System.out.println(i + " - " + email);
-            i++;
+        if (emails.size() == 0) {
+            System.out.println("No chats found");
         }
-        System.out.println("Input the number corresponding to the email address with the conversation you wish to view:");
+        else {
+            int i = 1;
+            for (String email : emails) {
+                System.out.println(i + " - " + email);
+                i++;
+            }
+            System.out.println("Input the number corresponding to the email address with the conversation you wish to view or 0 to go back:");
+        }
     }
 
     public void viewConversation(ArrayList<Message> messages) {

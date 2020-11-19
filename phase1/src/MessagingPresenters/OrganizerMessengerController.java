@@ -112,6 +112,7 @@ public class OrganizerMessengerController implements Observer {
 
     public void run() {
         boolean flag = true;
+        OUTER_LOOP:
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());
@@ -119,6 +120,7 @@ public class OrganizerMessengerController implements Observer {
             if (option == 0) {
                 flag = false;
                 presenter.printMenu(1);
+                //THIS SHOULD RETURN THE USER TO THE MAIN MENU - NOTE NOV 18
             }
             else if (option == 1) {
                 presenter.printMenu(2);
@@ -126,6 +128,7 @@ public class OrganizerMessengerController implements Observer {
                 boolean valid_recipient = false;
                 while (!valid_recipient) {
                     email = scan.nextLine();
+                    if (email.equals("0")) { continue OUTER_LOOP; }
                     if (userInfo.canMessage(email)) {
                         valid_recipient = true;
                     }
@@ -133,6 +136,7 @@ public class OrganizerMessengerController implements Observer {
                 }
                 presenter.printMenu(3);
                 String body = scan.nextLine();
+                if (body.equals("0")) { continue; }
 
                 messageOneUser(email, body);
                 presenter.printMenu(4);
@@ -140,18 +144,21 @@ public class OrganizerMessengerController implements Observer {
             else if (option == 2) {
                 presenter.printMenu(3);
                 String body = scan.nextLine();
+                if (body.equals("0")) { continue; }
                 messageAllSpeakers(body);
                 presenter.printMenu(4);
             }
             else if (option == 3) {
                 presenter.printMenu(3);
                 String body = scan.nextLine();
+                if (body.equals("0")) { continue; }
                 messageAllAttendees(body);
                 presenter.printMenu(4);
             }
             else if (option == 4) {
                 ArrayList<String> emails = getRecipients();
                 presenter.viewChats(emails);
+                if (emails.size() == 0) { continue; }
                 int index = Integer.parseInt(scan.nextLine());
                 String email = emails.get(index - 1);
                 ArrayList<Message> messages = viewMessages(email);
