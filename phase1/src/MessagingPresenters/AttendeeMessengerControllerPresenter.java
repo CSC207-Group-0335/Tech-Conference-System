@@ -10,16 +10,16 @@ public class AttendeeMessengerControllerPresenter{
     public void printMenu(int i) {
         switch (i) {
             case 0:
-                System.out.println("Welcome to the attendee messenger client" + System.lineSeparator() +
+                System.out.println("\nWelcome to the attendee messenger client" + System.lineSeparator() +
                         "Press 0 to quit the attendee messenger client" + System.lineSeparator() +
                         "Press 1 to send a message to a user" + System.lineSeparator() +
                         "Press 2 to view all of your conversations");
                 break;
             case 1:
-                System.out.println("Please enter the recipient's email address:");
+                System.out.println("Please enter the recipient's email address or 0 to go back:");
                 break;
             case 2:
-                System.out.println("Please enter the content of your text:");
+                System.out.println("Please enter the content of your text or 0 to go back:");
                 break;
             case 3:
                 System.out.println("Message successfully sent!");
@@ -28,7 +28,7 @@ public class AttendeeMessengerControllerPresenter{
                 System.out.println("Quitting the attendee messenger client");
                 break;
             case 5:
-                System.out.println("Email address not found. Please try again.");
+                System.out.println("Email address not found. Please try again or press 0 to go back.");
         }
     }
 
@@ -42,7 +42,7 @@ public class AttendeeMessengerControllerPresenter{
                 System.out.println(i + " - " + email);
                 i++;
             }
-            System.out.println("Input the number corresponding to the email address with the conversation you wish to view:");
+            System.out.println("Input the number corresponding to the email address with the conversation you wish to view or 0 to go back:");
         }
     }
 
