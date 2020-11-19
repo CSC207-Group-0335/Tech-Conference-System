@@ -42,7 +42,9 @@ public class ScheduleSystem implements Observer {
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
                 Talk talk = findTalk(id);
-                userSchedule.addTalk(talk);
+                if (talk != null) {
+                    userSchedule.addTalk(talk);
+                }
             }}}
         }
 
