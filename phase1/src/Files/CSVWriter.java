@@ -57,7 +57,13 @@ public class CSVWriter {
                     time += "-";
                     time += m.getTimestamp().getMonthValue();
                     time += "-";
-                    time += m.getTimestamp().getDayOfMonth();
+                    if(m.getTimestamp().getDayOfMonth() < 10){
+                        time += 0;
+                        time += m.getTimestamp().getDayOfMonth();
+                    }
+                    else if(m.getTimestamp().getDayOfMonth() >= 10) {
+                        time += m.getTimestamp().getDayOfMonth();
+                    }
                     time += " ";
                     time += m.getTimestamp().getHour();
                     time += ":";
