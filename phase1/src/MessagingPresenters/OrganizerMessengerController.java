@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import UserLogin.MainMenuController;
 import UserLogin.Organizer;
 import UserLogin.User;
 
@@ -20,17 +21,19 @@ public class OrganizerMessengerController implements Observer {
     private ConversationStorage conversationStorage;
     private OrgMessengerControllerPresenter presenter;
     public Scanner scan;
+    public MainMenuController mainMenuController;
 
     /**
      * An organizer is required to create an instance of this class.
      * @param organizer the organizer
      */
 
-    public OrganizerMessengerController(Organizer organizer, Scanner scanner) {
+    public OrganizerMessengerController(Organizer organizer, Scanner scanner, MainMenuController mainMenuController) {
         this.userInfo = new CanMessageManager(organizer);
         this.presenter = new OrgMessengerControllerPresenter();
         this.scan = scanner;
         this.organizer = organizer;
+        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -116,54 +119,63 @@ public class OrganizerMessengerController implements Observer {
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());
-
-            if (option == 0) {
-                flag = false;
-                presenter.printMenu(1);
-                //THIS SHOULD RETURN THE USER TO THE MAIN MENU - NOTE NOV 18
-            }
-            else if (option == 1) {
-                presenter.printMenu(2);
-                String email = new String();
-                boolean valid_recipient = false;
-                while (!valid_recipient) {
-                    email = scan.nextLine();
-                    if (email.equals("0")) { continue OUTER_LOOP; }
-                    if (userInfo.canMessage(email)) {
-                        valid_recipient = true;
+            try {
+                if (option == 0) {
+                    flag = false;
+                    presenter.printMenu(1);
+                    mainMenuController.runMainMenu(organizer);
+                } else if (option == 1) {
+                    presenter.printMenu(2);
+                    String email = new String();
+                    boolean valid_recipient = false;
+                    while (!valid_recipient) {
+                        email = scan.nextLine();
+                        if (email.equals("0")) {
+                            continue OUTER_LOOP;
+                        }
+                        if (userInfo.canMessage(email)) {
+                            valid_recipient = true;
+                        } else {
+                            presenter.printMenu(5);
+                        }
                     }
-                    else { presenter.printMenu(5); }
-                }
-                presenter.printMenu(3);
-                String body = scan.nextLine();
-                if (body.equals("0")) { continue; }
+                    presenter.printMenu(3);
+                    String body = scan.nextLine();
+                    if (body.equals("0")) {
+                        continue;
+                    }
 
-                messageOneUser(email, body);
-                presenter.printMenu(4);
-            }
-            else if (option == 2) {
-                presenter.printMenu(3);
-                String body = scan.nextLine();
-                if (body.equals("0")) { continue; }
-                messageAllSpeakers(body);
-                presenter.printMenu(4);
-            }
-            else if (option == 3) {
-                presenter.printMenu(3);
-                String body = scan.nextLine();
-                if (body.equals("0")) { continue; }
-                messageAllAttendees(body);
-                presenter.printMenu(4);
-            }
-            else if (option == 4) {
-                ArrayList<String> emails = getRecipients();
-                presenter.viewChats(emails);
-                if (emails.size() == 0) { continue; }
-                int index = Integer.parseInt(scan.nextLine());
-                String email = emails.get(index - 1);
-                ArrayList<Message> messages = viewMessages(email);
-                presenter.viewConversation(messages);
-            }
+                    messageOneUser(email, body);
+                    presenter.printMenu(4);
+                } else if (option == 2) {
+                    presenter.printMenu(3);
+                    String body = scan.nextLine();
+                    if (body.equals("0")) {
+                        continue;
+                    }
+                    messageAllSpeakers(body);
+                    presenter.printMenu(4);
+                } else if (option == 3) {
+                    presenter.printMenu(3);
+                    String body = scan.nextLine();
+                    if (body.equals("0")) {
+                        continue;
+                    }
+                    messageAllAttendees(body);
+                    presenter.printMenu(4);
+                } else if (option == 4) {
+                    ArrayList<String> emails = getRecipients();
+                    presenter.viewChats(emails);
+                    int index = Integer.parseInt(scan.nextLine());
+                    if (index == 0 || emails.size() == 0) {
+                        continue;
+                    }
+                    String email = emails.get(index - 1);
+                    ArrayList<Message> messages = viewMessages(email);
+                    presenter.viewConversation(messages);
+                }
+            } catch (NumberFormatException nfe) {
+                presenter.printMenu(6); }
         }
     }
 

@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import UserLogin.Attendee;
+import UserLogin.MainMenuController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,17 +19,19 @@ public class AttendeeMessengerController implements Observer{
     private ConversationStorage conversationStorage;
     private AttendeeMessengerControllerPresenter presenter;
     public Scanner scan;
+    public MainMenuController mainMenuController;
 
     /**
      * A user is required to create an instance of this class.
      * @param attendee the attendee
      */
 
-    public AttendeeMessengerController(Attendee attendee, Scanner scanner) {
+    public AttendeeMessengerController(Attendee attendee, Scanner scanner, MainMenuController mainMenuController) {
         this.attendee = attendee;
         this.userInfo = new CanMessageManager(attendee);
         this.presenter = new AttendeeMessengerControllerPresenter();
         this.scan = scanner;
+        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -91,40 +94,49 @@ public class AttendeeMessengerController implements Observer{
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());
+            try {
+                if (option == 0) {
+                    flag = false;
+                    presenter.printMenu(4);
+                    mainMenuController.runMainMenu(attendee);
+                } else if (option == 1) {
+                    presenter.printMenu(1);
+                    String email = new String();
+                    boolean valid_recipient = false;
 
-            if (option == 0) {
-                flag = false;
-                presenter.printMenu(4);
-                //THIS SHOULD RETURN THE USER TO THE MAIN MENU - NOTE NOV 18
-            }
-            else if (option == 1) {
-                presenter.printMenu(1);
-                String email = new String();
-                boolean valid_recipient = false;
-                while (!valid_recipient) {
-                    email = scan.nextLine();
-                    if (email.equals("0")) { continue OUTER_LOOP; }
-                    if (userInfo.canMessage(email)) {
-                        valid_recipient = true;
+                    while (!valid_recipient) {
+                        email = scan.nextLine();
+                        if (email.equals("0")) {
+                            continue OUTER_LOOP;
+                        }
+                        if (userInfo.canMessage(email)) {
+                            valid_recipient = true;
+                        } else {
+                            presenter.printMenu(5);
+                        }
                     }
-                    else { presenter.printMenu(5); }
-                }
-                presenter.printMenu(2);
-                String body = scan.nextLine();
-                if (body.equals("0")) { continue; }
 
-                message(email, body);
-                presenter.printMenu(3);
-            }
-            else if (option == 2) {
-                ArrayList<String> emails = getRecipients();
-                presenter.viewChats(emails);
-                if (emails.size() == 0) { continue; }
-                int index = Integer.parseInt(scan.nextLine());
-                String email = emails.get(index - 1);
-                ArrayList<Message> messages = viewMessages(email);
-                presenter.viewConversation(messages);
-            }
+                    presenter.printMenu(2);
+                    String body = scan.nextLine();
+                    if (body.equals("0")) {
+                        continue;
+                    }
+
+                    message(email, body);
+                    presenter.printMenu(3);
+                } else if (option == 2) {
+                    ArrayList<String> emails = getRecipients();
+                    presenter.viewChats(emails);
+                    int index = Integer.parseInt(scan.nextLine());
+                    if (index == 0 || emails.size() == 0) {
+                        continue;
+                    }
+                    String email = emails.get(index - 1);
+                    ArrayList<Message> messages = viewMessages(email);
+                    presenter.viewConversation(messages);
+                }
+            } catch (NumberFormatException nfe) {
+                presenter.printMenu(6); }
         }
     }
 

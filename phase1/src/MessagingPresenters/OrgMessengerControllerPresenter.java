@@ -18,7 +18,7 @@ public class OrgMessengerControllerPresenter {
                         "Press 4 to view all of your conversations");
                 break;
             case 1:
-                System.out.println("Quitting the organizer messenger client");
+                System.out.println("Quitting the organizer messenger client\n");
                 break;
             case 2:
                 System.out.println("Please enter the recipient's email address or 0 to go back:");
@@ -31,6 +31,8 @@ public class OrgMessengerControllerPresenter {
                 break;
             case 5:
                 System.out.println("Email address not found. Please try again or press 0 to go back.");
+            case 6:
+                System.out.println("Invalid option. Try again.");
         }
     }
 

@@ -41,20 +41,20 @@ public class MessagingSystem extends Observable implements Observer {
     public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
-            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user, scanner);
+            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user, scanner, mainMenuController);
             this.addObserver(this.attendeeMessengerController);
             setAttendeeMessengerController();
             setStorage();
         }
         if (user instanceof Speaker) {
-            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user, scanner);
+            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user, scanner, mainMenuController);
             this.addObserver(this.speakerMessengerController);
             this.addObserver(this.speakerMessengerController.userInfo);
             setSpeakerMessengerController();
             setStorage();
         }
         if (user instanceof Organizer) {
-            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user, scanner);
+            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user, scanner, mainMenuController);
             this.addObserver(this.organizerMessengerController);
             setOrganizerMessengerController();
             setStorage();
