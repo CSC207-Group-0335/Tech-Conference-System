@@ -103,6 +103,7 @@ public class AttendeeMessengerController implements Observer{
                 boolean valid_recipient = false;
                 while (!valid_recipient) {
                     email = scan.nextLine();
+                    if (email.equals("0")) { continue; }
                     if (userInfo.canMessage(email)) {
                         valid_recipient = true;
                     }
@@ -110,6 +111,7 @@ public class AttendeeMessengerController implements Observer{
                 }
                 presenter.printMenu(2);
                 String body = scan.nextLine();
+                if (body.equals("0")) { continue; }
 
                 message(email, body);
                 presenter.printMenu(3);
@@ -117,6 +119,7 @@ public class AttendeeMessengerController implements Observer{
             else if (option == 2) {
                 ArrayList<String> emails = getRecipients();
                 presenter.viewChats(emails);
+                if (emails.size() == 0) { continue; }
                 int index = Integer.parseInt(scan.nextLine());
                 String email = emails.get(index - 1);
                 ArrayList<Message> messages = viewMessages(email);
