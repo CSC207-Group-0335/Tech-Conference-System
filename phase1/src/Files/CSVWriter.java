@@ -13,10 +13,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A general Gateway class that handles writing to the assorted files in the program
+ */
+
 public class CSVWriter {
     public CSVWriter() {
 
     }
+
+    /**
+     * A method to specifically write to the Users.csv, in the proper format that the program requires for Users.csv
+     * @param csv the csv file that is being written to.
+     * @param storage an array of Users that will be written to the csv.
+     */
 
     public void writeToUsers(String csv, ArrayList<User> storage) {
 
@@ -41,12 +51,18 @@ public class CSVWriter {
         }
     }
 
-    public void writeToConversations(String csv, ArrayList<ConversationManager> conversationstorage) {
+    /**
+     * A method to specifically write to Conversations.csv, in the proper format that the program requires
+     * @param csv the csv file that is being written to.
+     * @param conversationStorage an array of ConversationManagers that will be written to the csv.
+     */
+
+    public void writeToConversations(String csv, ArrayList<ConversationManager> conversationStorage) {
 
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
-            while (i < conversationstorage.size()) {
-                ConversationManager c = conversationstorage.get(i);
+            while (i < conversationStorage.size()) {
+                ConversationManager c = conversationStorage.get(i);
                 csvWriter.append(c.getParticipants().get(0));
                 csvWriter.append(",");
                 csvWriter.append(c.getParticipants().get(1));
@@ -73,16 +89,23 @@ public class CSVWriter {
         }
 
     }
-    public void writeToRegistration(String csv,  HashMap<User, UserScheduleManager> talksignup){
+
+    /**
+     * A method to specifically write to Registration.csv, in the proper format that the program.
+     * @param csv the csv file that is being written to.
+     * @param talkSignup a hashmap mapping each User to the correct UserScheduleManager.
+     */
+
+    public void writeToRegistration(String csv,  HashMap<User, UserScheduleManager> talkSignup){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for(User u: talksignup.keySet()) {
-                    UserScheduleManager userschedule = talksignup.get(u);
-                    User user = userschedule.getUser();
+            for(User u: talkSignup.keySet()) {
+                    UserScheduleManager userSchedule = talkSignup.get(u);
+                    User user = userSchedule.getUser();
                     csvWriter.append(user.getEmail());
                     csvWriter.append(",");
                     int j = 0;
-                    while (j <= userschedule.getTalkList().size() - 1){
-                        csvWriter.append(userschedule.getTalkList().get(j).getTalkId());
+                    while (j <= userSchedule.getTalkList().size() - 1){
+                        csvWriter.append(userSchedule.getTalkList().get(j).getTalkId());
                         csvWriter.append(',');
                         j ++;
                     }
@@ -95,16 +118,22 @@ public class CSVWriter {
         }
     }
 
-    public void writeToTalks(String csv, TalkManager talkmanage){
+    /**
+     * A method to specifically write to the Talks.csv, in the proper format that the program requires.
+     * @param csv the csv file that is being written to.
+     * @param talkManage a TalkManager that will be used to get the information for the Talks that will be written.
+     */
+
+    public void writeToTalks(String csv, TalkManager talkManage){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for (Talk t:talkmanage.getTalkMap().keySet()) {
+            for (Talk t:talkManage.getTalkMap().keySet()) {
                 csvWriter.append(t.getTalkId());
                 csvWriter.append(",");
                 csvWriter.append(t.getTitle());
                 csvWriter.append(",");
-                csvWriter.append(talkmanage.getTalkSpeaker(t).getEmail());
+                csvWriter.append(talkManage.getTalkSpeaker(t).getEmail());
                 csvWriter.append(",");
-                csvWriter.append(talkmanage.getTalkRoom(t).getRoomName());
+                csvWriter.append(talkManage.getTalkRoom(t).getRoomName());
                 csvWriter.append(",");
                 LocalDateTime time;
                 time = t.getStartTime();
@@ -117,13 +146,19 @@ public class CSVWriter {
             ioException.printStackTrace();
         }}
 
-    public void writeToRooms(String csv, ArrayList<Room> roomlist){
-        try (FileWriter csvWriter = new FileWriter(csv)) {
+    /**
+     * A method to specifically write to the Rooms.txt, in the proper format that the program requires
+     * @param f the file that is being written to.
+     * @param roomList an array of Rooms that will be written to the file.
+     */
+
+    public void writeToRooms(String f, ArrayList<Room> roomList){
+        try (FileWriter fileWriter = new FileWriter(f)) {
             int i = 0;
-            while (i < roomlist.size()) {
-                csvWriter.append(roomlist.get(i).getRoomName());
-                csvWriter.append("\n");
-                csvWriter.flush();
+            while (i < roomList.size()) {
+                fileWriter.append(roomList.get(i).getRoomName());
+                fileWriter.append("\n");
+                fileWriter.flush();
                 i++;
             }
 
