@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import Files.CSVReader;
+import Files.CSVWriter;
 import UserLogin.*;
 
 import java.time.LocalDateTime;
@@ -89,12 +90,17 @@ public class MessagingSystem extends Observable implements Observer {
                 String sender = singleMessage[1];
                 String timestampString = singleMessage[2];
                 String messageContent = singleMessage[3];
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
                 c.addMessage(recipient, sender, timestamp, messageContent);
             }
         }
         setStorage();
+    }
+
+    public void save() {
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv", this.conversationStorage.getConversationManagers());
     }
 
     public void setAttendeeMessengerController() {

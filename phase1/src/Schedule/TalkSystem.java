@@ -1,6 +1,7 @@
 package Schedule;
 
 import Files.CSVReader;
+import Files.CSVWriter;
 import MessagingPresenters.MessagingSystem;
 import UserLogin.*;
 
@@ -76,7 +77,10 @@ public class TalkSystem extends Observable implements Observer{
         }
     }
 
-    public void writeToFile(){}
+    public void save() {
+        CSVWriter csvWriter = new CSVWriter();
+        //csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.talkManager.talkMap); //Not implemented yet
+    }
 
     public void createSignUpAttendees(){
         for(UserScheduleManager schedule: userScheduleMap.values()){
@@ -97,6 +101,10 @@ public class TalkSystem extends Observable implements Observer{
     public void setTalkManager() {
         setChanged();
         notifyObservers(talkManager);
+    }
+
+    public TalkManager getTalkManager() {
+        return talkManager;
     }
 
     public void setSignUpMap(){

@@ -48,6 +48,10 @@ public class ScheduleSystem implements Observer {
             }}}
         }
 
+    public HashMap<User, UserScheduleManager> getUserScheduleMap() {
+        return userScheduleMap;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof UserStorage){

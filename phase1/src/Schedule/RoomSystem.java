@@ -48,4 +48,8 @@ public class RoomSystem extends Observable {
         setChanged();
         notifyObservers(this.roomStorage);
     }
+
+    public ArrayList<Room> getRoomList() {
+        return roomList;
+    }
 }
