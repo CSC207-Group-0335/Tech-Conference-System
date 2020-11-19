@@ -129,6 +129,9 @@ public class TechConferenceSystem extends Observable {
         }
         setUserStorage();
         setMainMenuController();
+        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
+            setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
+        }
         if (roomSystem.talkSystem.orgScheduleController !=null) {
             this.addObserver(roomSystem.talkSystem.orgScheduleController);
         }
