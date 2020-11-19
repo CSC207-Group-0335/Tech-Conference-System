@@ -19,7 +19,7 @@ public class AttendeeMessengerControllerPresenter{
                 System.out.println("Please enter the recipient's email address or 0 to go back:");
                 break;
             case 2:
-                System.out.println("Please enter the content of your text or 0 to go back:");
+                System.out.println("Do not use ';'. Please enter the content of your text or 0 to go back:");
                 break;
             case 3:
                 System.out.println("Message successfully sent!");
@@ -28,7 +28,7 @@ public class AttendeeMessengerControllerPresenter{
                 System.out.println("Quitting the attendee messenger client\n");
                 break;
             case 5:
-                System.out.println("Do not use ';'. Email address not found or access denied. Please try again or press 0 to go back.");
+                System.out.println("Email address not found or access denied. Please try again or press 0 to go back.");
             case 6:
                 System.out.println("Invalid option. Try again.");
         }

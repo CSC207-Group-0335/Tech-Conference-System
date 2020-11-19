@@ -35,14 +35,18 @@ public class CanMessageManager implements Observer{
 
         if (user instanceof Organizer) {
             for (int i = 0; i < allUsers.userList.size(); i++){
-                friends.add(allUsers.getUserList().get(i));
+                if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                    friends.add(allUsers.getUserList().get(i));
+                }
             }
         }
         else if (user instanceof Attendee) {
             for (int i = 0; i < allUsers.userList.size(); i++){
                 if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i)
                         instanceof Speaker){
-                    friends.add(allUsers.getUserList().get(i));
+                    if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                        friends.add(allUsers.getUserList().get(i));
+                    }
                 }
             }
         }

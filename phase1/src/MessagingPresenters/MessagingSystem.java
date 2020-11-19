@@ -89,7 +89,7 @@ public class MessagingSystem extends Observable implements Observer {
                 String recipient = singleMessage[0];
                 String sender = singleMessage[1];
                 String timestampString = singleMessage[2];
-                String messageContent = singleMessage[3];
+                String messageContent = singleMessage[3].replace("commaseparator",  ",");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
                 c.addMessage(recipient, sender, timestamp, messageContent);

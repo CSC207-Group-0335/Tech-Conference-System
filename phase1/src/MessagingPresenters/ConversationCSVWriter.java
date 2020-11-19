@@ -22,7 +22,7 @@ public class ConversationCSVWriter {
                 String s = "";
                 for (Message m : c.getMessages()) {
                     s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().toString() + "~"
-                            + '"'+ m.getMessageContent()+'"' + ";";
+                            + m.getMessageContent().replace(",","commaseparator")+ ";";
                 }
                 csvWriter.append(s);
                 i++;
