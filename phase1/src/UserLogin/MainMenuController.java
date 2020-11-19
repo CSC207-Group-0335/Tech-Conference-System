@@ -119,16 +119,16 @@ public class MainMenuController implements Observer {
         public void update (Observable o, Object arg){
             if (arg instanceof User) {
                 this.user = (User) arg;
-            } else if (arg instanceof UserScheduleController) {
-                this.userScheduleController = (UserScheduleController) arg;
+            } else if (arg instanceof OrgScheduleController) {
+                this.orgScheduleController = (OrgScheduleController) arg;
             } else if (arg instanceof AttendeeMessengerController) {
                 this.attendeeMessengerController = (AttendeeMessengerController) arg;
             } else if (arg instanceof SpeakerScheduleController) {
                 this.speakerScheduleController = (SpeakerScheduleController) arg;
             } else if (arg instanceof SpeakerMessengerController) {
                 this.speakerMessengerController = (SpeakerMessengerController) arg;
-            } else if (arg instanceof OrgScheduleController) {
-                this.orgScheduleController = (OrgScheduleController) arg;
+            } else if (arg instanceof UserScheduleController) {
+                this.userScheduleController = (UserScheduleController) arg;
             } else if (arg instanceof OrganizerMessengerController) {
                 this.orgMessengerController = (OrganizerMessengerController) arg;
             }

@@ -13,6 +13,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     MainMenuController mainMenuController;
     HashMap<Talk, SignUpAttendeesManager> signUpMap;
     OrgSchedulePresenter orgSchedulePresenter;
+    UserSchedulePresenter userSchedulePresenter;
     Scanner scanner;
 
 
@@ -22,7 +23,9 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         this.talkManager = talkManager;
         this.mainMenuController = mainMenuController;
         this.scanner = scanner;
+        this.organizer = organizer;
         orgSchedulePresenter = new OrgSchedulePresenter();
+        userSchedulePresenter = new UserSchedulePresenter();
     }
 
     public ArrayList<Speaker> getSpeakerList(){
@@ -143,19 +146,21 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         Scanner scan = new Scanner(System.in);
         boolean doContinue = true;
         while(doContinue) {
-            int command = scan.nextInt();
+            String choice = scan.nextLine();
+            try {
+                int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(orgSchedulePresenter, scan);
+                this.registerTalk(userSchedulePresenter, scan, organizer, signUpMap);
                 //If they want to see all available talks
             }else if (command == 2) {
-                this.seeAllTalks(orgSchedulePresenter, scan);
+                this.seeAllTalks(userSchedulePresenter, scan);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(orgSchedulePresenter, scan);
+                this.seeAllRegistered(userSchedulePresenter, scan, organizer);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(orgSchedulePresenter, scan);
+                this.cancelATalk(userSchedulePresenter, scan, organizer);
             }else if (command == 5){
                 //this.requestTalk(scan);
             }else if (command == 6){
@@ -168,7 +173,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 doContinue = false;
                 mainMenuController.runMainMenu(organizer.getUser());
             }
-            else{orgSchedulePresenter.printMenu(13);}
+            else{orgSchedulePresenter.printMenu(15);}}
+            catch (NumberFormatException nfe){
+                orgSchedulePresenter.printMenu(15);;
+            }
+
         }
     }
     @Override

@@ -31,9 +31,10 @@ public class UserScheduleController{
         this.scan = scanner;
     }
 
-    public String signUp(Talk talk) {
-        if (signUpMap.get(talk).addUser(attendee.getUser())) {
-            attendee.addTalk(talk);
+    public String signUp(Talk talk, UserScheduleManager userScheduleManager,
+                         HashMap<Talk, SignUpAttendeesManager> signUpMap) {
+        if (signUpMap.get(talk).addUser(userScheduleManager.getUser())) {
+            userScheduleManager.addTalk(talk);
             return "User added.";
         }
         else{
@@ -61,15 +62,15 @@ public class UserScheduleController{
         }
     }
 
-    public ArrayList<Talk> getRegisteredTalks(){
+    public ArrayList<Talk> getRegisteredTalks(UserScheduleManager userScheduleManager){
         ArrayList<Talk> registeredTalks = new ArrayList<Talk>();
-        if(attendee.getTalkList().size() == 0){
+        if(userScheduleManager.getTalkList().size() == 0){
             presenter.printMenu(13);
             presenter.printMenu(11);
         }
         else{
             Integer i = 1;
-            for (Talk t: attendee.getTalkList()){
+            for (Talk t: userScheduleManager.getTalkList()){
                 presenter.printTalk(i, t , talkManager);
                 registeredTalks.add(t);
                 i++;
@@ -77,7 +78,9 @@ public class UserScheduleController{
         return registeredTalks;
     }
 
-    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
+    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan,
+                                UserScheduleManager userScheduleManager,
+                                HashMap<Talk, SignUpAttendeesManager> signUpMap){
         // show them a list of all available talks
         presenter.printAllTalks(talkManager);
         //they will pick the number corresponding to each talk
@@ -96,7 +99,7 @@ public class UserScheduleController{
             }
             else{
                 Talk talkToRegister = getTalkByIndex(talkIndex);
-                if (this.signUp(talkToRegister) == "User added.") {
+                if (this.signUp(talkToRegister,userScheduleManager, signUpMap ) == "User added.") {
                     // prints "Success"
                     presenter.printMenu(6);
                     presenter.printMenu(10);
@@ -104,7 +107,7 @@ public class UserScheduleController{
                     return;
                 }
                 else{
-                    if (this.signUp(talkToRegister) == "User already registered for the requested talk."){
+                    if (this.signUp(talkToRegister, userScheduleManager, signUpMap) == "User already registered for the requested talk."){
                         presenter.printRegistrationBlocked(1);
                     }
                     else{
@@ -129,8 +132,9 @@ public class UserScheduleController{
         }
     }
 
-    protected void seeAllRegistered(UserSchedulePresenter presenter, Scanner scan){
-        getRegisteredTalks();
+    protected void seeAllRegistered(UserSchedulePresenter presenter,
+                                    Scanner scan, UserScheduleManager userScheduleManager){
+        getRegisteredTalks(userScheduleManager);
         presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
@@ -144,8 +148,9 @@ public class UserScheduleController{
             }}
     }
 
-    protected void cancelATalk(UserSchedulePresenter presenter, Scanner scan){
-        ArrayList<Talk> registeredTalks = getRegisteredTalks();
+    protected void cancelATalk(UserSchedulePresenter presenter,
+                               Scanner scan, UserScheduleManager userScheduleManager){
+        ArrayList<Talk> registeredTalks = getRegisteredTalks(userScheduleManager);
         if (registeredTalks.size() != 0) {
             presenter.printMenu(5);
         boolean doContinue  = true;
@@ -194,16 +199,16 @@ public class UserScheduleController{
                 int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(presenter, scan);
+                this.registerTalk(presenter, scan, attendee, signUpMap);
                 //If they want to see all available talks
             }else if (command == 2) {
                 this.seeAllTalks(presenter, scan);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(presenter, scan);
+                this.seeAllRegistered(presenter, scan, attendee);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(presenter, scan);
+                this.cancelATalk(presenter, scan, attendee);
             }
             else if (command ==0){
                 doContinue = false;
