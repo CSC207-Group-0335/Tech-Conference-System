@@ -5,10 +5,22 @@ import UserLogin.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * A controller class describing the actions an organizer can perform in the program
+ */
 public class OrgScheduleController extends UserScheduleController implements Observer {
     UserScheduleManager organizer;
+    /**
+     * Stores all the talks for the conference
+     */
     TalkManager talkManager;
+    /**
+     * Stores all the rooms for the conference
+     */
     RoomStorage roomStorage;
+    /**
+     * Stores all the uses for the conference
+     */
     UserStorage userStorage;
     MainMenuController mainMenuController;
     HashMap<Talk, SignUpAttendeesManager> signUpMap;

@@ -6,22 +6,40 @@ import UserLogin.MainMenuController;
 import java.util.*;
 
 /**
- * A controller class describing the actions a user can perform in the program
+ * A controller class describing the actions a user can perform in the program.
  */
 public class UserScheduleController{
     /**
-     * The user of the program
+     * The user of the program.
      */
     UserScheduleManager attendee ;
+    /**
+     * The TalkManager for the conference.
+     */
     TalkManager talkManager;
+    /**
+     * The menu for the conference.
+     */
     MainMenuController mainMenuController;
+    /**
+     * A mapping of talks to its corresponding SignUpAttendeesManager.
+     */
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    /**
+     * The presenter of the controller.
+     */
     UserSchedulePresenter presenter;
+    /**
+     * The scanner for the conference.
+     */
     Scanner scan;
 
     /**
-     * Initializes a new controller for the user
-     * @param user the user of the program
+     * Initializes a new controller for the user.
+     * @param user The user of the program.
+     * @param talkManager The talkManager of the conference.
+     * @param mainMenuController The menu of the conference.
+     * @param scanner The scanner of MainMenuController.
      */
     public UserScheduleController(UserScheduleManager user, TalkManager talkManager,
                                   MainMenuController mainMenuController, Scanner scanner){
@@ -32,6 +50,14 @@ public class UserScheduleController{
         this.scan = scanner;
     }
 
+    /**
+     * Let a user sign up for an event.
+     * @param talk The talk they want to register for.
+     * @param userScheduleManager The userScheduleManager.
+     * @param signUpMap The signUpMap.
+     * @return A string notifying the user if they have successfully enrolled in
+     * the talk or if talk was at full capacity.
+     */
     public String signUp(Talk talk, UserScheduleManager userScheduleManager,
                          HashMap<Talk, SignUpAttendeesManager> signUpMap) {
         if (signUpMap.get(talk).addUser(userScheduleManager.getUser())) {
@@ -47,12 +73,22 @@ public class UserScheduleController{
                 }}
             }
 
+    /**
+     * Let a user cancel their enrollment in an event.
+     * @param talk They talk they no longer want to attend.
+     * @param signUpMap The signUpMap.
+     */
     public void cancelRegistration(Talk talk, HashMap<Talk, SignUpAttendeesManager> signUpMap) {
         if (signUpMap.get(talk).removeUser(attendee.getUser())) {
             attendee.removeTalk(talk);
         }
     }
 
+    /**
+     * Get the talk that corresponds to the specified int. Since talk is stored in an ordered map this is possible.
+     * @param talkIndex The position of the talk.
+     * @return A talk representing the talk at the specified index.
+     */
     public Talk getTalkByIndex(int talkIndex){
         Set<Talk> keys = talkManager.talkMap.keySet();
         ArrayList<Talk> talkList = new ArrayList<Talk>();
@@ -63,6 +99,11 @@ public class UserScheduleController{
         }
     }
 
+    /**
+     * Let the user see the schedule of events for which they signed up.
+     * @param userScheduleManager The userScheduleManager of the user.
+     * @return An ArrayList representing the talks the user has signed up for.
+     */
     public ArrayList<Talk> getRegisteredTalks(UserScheduleManager userScheduleManager){
         ArrayList<Talk> registeredTalks = new ArrayList<Talk>();
         if(userScheduleManager.getTalkList().size() == 0){
