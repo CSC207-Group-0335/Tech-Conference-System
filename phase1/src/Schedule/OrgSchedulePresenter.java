@@ -40,7 +40,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         } else if (i == 8){
             System.out.println("Pick speaker by Index, press 0 to go back");
         } else if (i == 9){
-            System.out.println("Enter the name of the new room to register");
+            System.out.println("Enter the name of the new room to register, press 0 to go back:");
         } else if (i == 10){
             System.out.println("Enter the credentials of the new speaker to register" + System.lineSeparator()+
                     "Enter the name" + System.lineSeparator()+
@@ -70,6 +70,15 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         }
         else if (i == 18){
             System.out.println("Invalid day number, try again");
+        }
+        else if (i==19){
+            System.out.println("Invalid hour number, try again");
+        }
+        else if (i==20){
+            System.out.println("Room already exists in the system, try registering a different room.");
+        }
+        else if (i==21){
+            System.out.println("Invalid email address, try again.");
         }
     }
 
@@ -117,6 +126,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         else if (i==8){
             System.out.println("An error occurred, a talk was not added");
         }
+        else if(i==9){
+            System.out.println("Enter talk title:");
+        }
     }
 
     public void printSchedule(ArrayList<Talk> talkArrayList, TalkManager talkManager, int i){
@@ -126,9 +138,13 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         else if (i==2){
             System.out.println("Schedule for the chosen speaker:");
         }
+        if (talkArrayList.size() ==0){
+            System.out.println("The schedule is empty.");
+        }
+        else{
         for (Talk t: talkArrayList){
             System.out.println(talkManager.toStringTalk(t) + System.lineSeparator());
-        }
+        }}
     }
 }
 

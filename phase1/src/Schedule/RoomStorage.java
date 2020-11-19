@@ -14,10 +14,10 @@ public class RoomStorage {
         this.scheduleList = new HashMap<Room, RoomScheduleManager>();
     }
 
-    public void createRoom(String roomName) {
+    public boolean createRoom(String roomName) {
         boolean bool = true;
         for (Room r : roomList) {
-            if (r.getRoomName() == roomName) {
+            if (r.getRoomName().equals(roomName)) {
                 bool = false;
             }
         }
@@ -26,7 +26,9 @@ public class RoomStorage {
             roomList.add(room);
             RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
             scheduleList.put(room, rScheduleManager);
+            return true;
         }
+        return false;
     }
 
     public void createRoom(String roomName, int capacity) {

@@ -50,8 +50,8 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 orgSchedulePresenter.printMenu(16);
                 return null;
             }
-            else if (speakerIndex >= getSpeakerList().size()){
-                orgSchedulePresenter.printMenu(13);
+            else if (speakerIndex -1 >= getSpeakerList().size()){
+                orgSchedulePresenter.printMenu(14);
             }
             else{
                 Speaker chosenSpeaker = getSpeakerList().get(speakerIndex - 1);
@@ -74,7 +74,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 orgSchedulePresenter.printMenu(16);
                 return null;
             }
-            else if (roomIndex >= roomStorage.getRoomList().size()){
+            else if (roomIndex -1 >= roomStorage.getRoomList().size()){
                 orgSchedulePresenter.printMenu(12);
             }
             else{
@@ -117,7 +117,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                     return null;
                 }
                 else if (hours > 16 || hours < 9) {
-                    orgSchedulePresenter.printMenu(18);
+                    orgSchedulePresenter.printMenu(19);
                 }
                 else {
                     return hours;
@@ -128,8 +128,10 @@ public class OrgScheduleController extends UserScheduleController implements Obs
 
     public LocalDateTime pickTime(Scanner scan, Speaker speaker, Room room) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        int day = pickDay(scan);
-        int hour = pickHour(scan);
+        Integer day = pickDay(scan);
+        if (day == null){return null;}
+        Integer hour = pickHour(scan);
+        if(hour == null){return null;}
         LocalDateTime dateTime = LocalDateTime.of(2020, 11,20+day,hour,0);
         return dateTime;}
 
@@ -171,6 +173,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             if (dateTime==null){ return false;}
         doubleBookingChecker = checkDoubleBooking(speaker, room, dateTime);
         };
+        orgSchedulePresenter.PrintRequestTalkProcess(9);
         String talkTitle = scan.nextLine();
         if (talkManager.createTalk(talkTitle, speaker.getEmail(), room.roomName, dateTime)){
             orgSchedulePresenter.PrintRequestTalkProcess(7);
@@ -180,8 +183,8 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     }
 
     //there's also a createRoom in RoomStorage with the parameter capacity
-    public void addRoom(String roomName) {
-        this.roomStorage.createRoom(roomName);
+    public boolean addRoom(String roomName) {
+        return this.roomStorage.createRoom(roomName);
     }
 
     //can't put anything here since speakerStorage hasn't been made
@@ -191,14 +194,31 @@ public class OrgScheduleController extends UserScheduleController implements Obs
 
     public void registerRoom(Scanner scan){
         orgSchedulePresenter.printMenu(9);
+        boolean doContinue = true;
+        while(doContinue){
         String roomName = scan.nextLine();
-        this.addRoom(roomName);
-    }
+        try{
+        if (Integer.parseInt(roomName) == 0){
+            return;
+        }
+    }catch (NumberFormatException nfe){
+            if (this.addRoom(roomName)){
+                orgSchedulePresenter.printMenu(11);
+                return;}
+            else{
+                orgSchedulePresenter.printMenu(20);
+            }}
+        }}
+
     public void registerSpeaker(Scanner scan){
         orgSchedulePresenter.printMenu(10);
         String name = scan.nextLine();
         String password = scan.nextLine();
         String email = scan.nextLine();
+        while(!email.contains("@")){
+            orgSchedulePresenter.printMenu(21);
+            email = scan.nextLine();
+        }
         if (this.requestSpeaker(name, password, email)){
             orgSchedulePresenter.printMenu(11);
         }
