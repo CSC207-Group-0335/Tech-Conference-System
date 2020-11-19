@@ -87,7 +87,7 @@ public class AttendeeMessengerController implements Observer{
 
     public void run() {
         boolean flag = true;
-
+        OUTER_LOOP:
         while (flag) {
             presenter.printMenu(0);
             int option = Integer.parseInt(scan.nextLine());
@@ -103,7 +103,7 @@ public class AttendeeMessengerController implements Observer{
                 boolean valid_recipient = false;
                 while (!valid_recipient) {
                     email = scan.nextLine();
-                    if (email.equals("0")) { continue; }
+                    if (email.equals("0")) { continue OUTER_LOOP; }
                     if (userInfo.canMessage(email)) {
                         valid_recipient = true;
                     }
