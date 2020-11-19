@@ -39,14 +39,15 @@ public class SpeakerMessengerController implements Observer{
      */
 
     private void message(String email, String messageContent){
-        if (userInfo.canReply(email)){
-            if (conversationStorage.contains(speaker.getEmail(), email)){
-                ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(speaker.getEmail(), email);
-            }
+        if (conversationStorage.contains(speaker.getEmail(), email)){
+            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
+            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
         }
+        else{
+            ConversationManager c = conversationStorage.addConversationManager(speaker.getEmail(), email);
+            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
+        }
+
     }
 
     /**
