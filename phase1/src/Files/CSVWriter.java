@@ -125,17 +125,11 @@ public class CSVWriter {
                                 csvWriter.append(",");
                                 csvWriter.append(roomname);
                                 csvWriter.append(",");
-                                String time = "";
-                                time += compared.getStartTime().getYear();
-                                time += "-";
-                                time += compared.getStartTime().getMonth();
-                                time += "-";
-                                time += compared.getStartTime().getDayOfMonth();
-                                time += " ";
-                                time += compared.getStartTime().getHour();
-                                time += ":";
-                                time += compared.getStartTime().getMinute();
-                                csvWriter.append(time);
+                                LocalDateTime time;
+                                time = compared.getStartTime();
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                                String formatted = time.format(formatter);
+                                csvWriter.append(formatted);
                                 csvWriter.append("\n");
                                 csvWriter.flush();
                             }
