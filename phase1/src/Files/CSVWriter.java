@@ -2,8 +2,8 @@ package Files;
 
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.Message;
-import Schedule.Talk;
-import Schedule.UserScheduleManager;
+import Schedule.*;
+import UserLogin.Speaker;
 import UserLogin.User;
 
 import java.io.FileWriter;
@@ -92,5 +92,54 @@ public class CSVWriter {
 
 
     }
+    public void writeToTalks(String csv, TalkManager talkmanage){
+        try (FileWriter csvWriter = new FileWriter(csv)) {
 
+            for(SpeakerScheduleManager speakersched: talkmanage.speakerScheduleMap.values()){
+                String email = speakersched.getSpeaker().getEmail();
+                ArrayList<Talk> talks = speakersched.getTalkList();
+                for(Talk talk: talks){
+                    for(RoomScheduleManager roomsched: talkmanage.roomScheduleMap.values()){
+                        String roomname = roomsched.getRoom().getRoomName();
+                        ArrayList<Talk> comparetalks = roomsched.getTalkList();
+                        for(Talk compared: comparetalks){
+                            if(talk == compared){
+                                csvWriter.append(compared.getTalkId());
+                                csvWriter.append(",");
+                                csvWriter.append(compared.getTitle());
+                                csvWriter.append(",");
+                                csvWriter.append(email);
+                                csvWriter.append(",");
+                                csvWriter.append(roomname);
+                                csvWriter.append(",");
+                                csvWriter.append(compared.getStartTime().toString());
+                                csvWriter.append("\n");
+                                csvWriter.flush();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+         catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+    public void writeToRooms(String csv, ArrayList<Room> roomlist){
+        try (FileWriter csvWriter = new FileWriter(csv)) {
+            int i = 0;
+            while (i < roomlist.size()) {
+                csvWriter.append(roomlist.get(i).getRoomName());
+                csvWriter.append("\n");
+                csvWriter.flush();
+                i++;
+            }
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
 }

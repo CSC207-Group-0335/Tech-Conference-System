@@ -13,4 +13,5 @@ public class RoomScheduleManager extends ScheduleManager {
     public Room getRoom() {
         return room;
     }
+
 }
