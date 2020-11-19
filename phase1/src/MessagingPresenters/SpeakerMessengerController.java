@@ -27,6 +27,7 @@ public class SpeakerMessengerController implements Observer{
     public SpeakerMessengerController(Speaker speaker, Scanner scanner) {
         this.userInfo = new SpeakerMessageManager(speaker);
         this.presenter = new SpeakerMessengerControllerPresenter();
+        this.speaker = speaker;
         this.scan = scanner;
     }
 
