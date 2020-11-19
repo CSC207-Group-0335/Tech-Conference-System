@@ -31,17 +31,17 @@ public class MainMenuController implements Observer {
     private TalkSystem talkSystem;
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
-    private ArrayList<User> userList;
+    private TechConferenceSystem techConferenceSystem;
 
     public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
                               MessagingSystem messagingSystem, ScheduleSystem scheduleSystem,
-                              ArrayList<User> userList) {
+                              TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
         this.talkSystem = talkSystem;
         this.messagingSystem = messagingSystem;
         this.scheduleSystem = scheduleSystem;
-        this.userList = userList;
+        this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
         this.scanner = scanner;
     }
@@ -76,14 +76,16 @@ public class MainMenuController implements Observer {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
                     this.userScheduleController.run();
+                    return;
                 } else if (command == 2) {
                     this.attendeeMessengerController.run();
+                    return;
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
                     System.out.println("Logging Out...");
-                    check = false; //Exit the while loop
+                    return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
                 }
@@ -105,14 +107,16 @@ public class MainMenuController implements Observer {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
                     this.speakerScheduleController.run();
+                    return;
                 } else if (command == 2) {
                     this.speakerMessengerController.run();
+                    return;
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
                     System.out.println("Logging Out...");
-                    check = false; //Exit the while loop
+                    return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
                 }
@@ -133,14 +137,16 @@ public class MainMenuController implements Observer {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
                     this.orgScheduleController.run();
+                    return;
                 } else if (command == 2) {
                     this.orgMessengerController.run();
+                    return;
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
                     logout();
                     System.out.println("Logging Out...");
-                    check = false; //Exit the while loop
+                    return; //Exit the while loop
                 } else {
                     presenter.tryAgain();
                 }
@@ -154,21 +160,11 @@ public class MainMenuController implements Observer {
      * Helper method that will call all of the save methods to update the database before logging out.
      */
     private void logout() {
-        CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.talkSystem.getTalkManager());
-        csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv",
-                messagingSystem.conversationStorage.getConversationManagers());
-        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.roomSystem.getRoomList());
-        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv",
-                this.scheduleSystem.getUserScheduleMap());
-        csvWriter.writeToUsers("phase1/src/Resources/Users.csv", this.userList); //save the users
-
-
-        //this.roomSystem.save();
-        //this.talkSystem.save();
-        //this.messagingSystem.save();
-        //this.scheduleSystem.save();
-
+        this.techConferenceSystem.save();
+        this.roomSystem.save();
+        this.talkSystem.save();
+        this.messagingSystem.save();
+        this.scheduleSystem.save();
         }
 
 

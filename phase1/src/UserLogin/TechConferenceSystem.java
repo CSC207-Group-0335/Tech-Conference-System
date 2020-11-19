@@ -1,6 +1,7 @@
 package UserLogin;
 
 import Files.CSVReader;
+import Files.CSVWriter;
 import Schedule.RoomSystem;
 import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
@@ -35,7 +36,7 @@ public class TechConferenceSystem extends Observable {
                 this.roomSystem.talkSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
                 roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
-                userStorage.userList);
+                this);
     }
 
     public void setUserStorage(){
@@ -139,9 +140,11 @@ public class TechConferenceSystem extends Observable {
         mainMenuController.runMainMenu(this.logInController.user);
         }
 
-
-    public void saveUserImage(){
-        new UsersCSVWriter("phase1/src/Resources/Users.csv",this.userList);
-
+    /**
+     * Method to write the changes to the RoomFile, called in MainMenuController.logout().
+     */
+    public void save() {
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeToUsers("phase1/src/Resources/Users.csv", this.userStorage.getUserList());
     }
 }

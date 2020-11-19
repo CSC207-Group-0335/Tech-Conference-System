@@ -98,9 +98,13 @@ public class MessagingSystem extends Observable implements Observer {
         setStorage();
     }
 
+    /**
+     * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
+     */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv", this.conversationStorage.getConversationManagers());
+        csvWriter.writeToConversations("phase1/src/Resources/Conversations.csv",
+                this.conversationStorage.getConversationManagers());
     }
 
     public void setAttendeeMessengerController() {

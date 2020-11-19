@@ -77,9 +77,12 @@ public class TalkSystem extends Observable implements Observer{
         }
     }
 
+    /**
+     * Method to write the changes to the Talks.csv, called in MainMenuController.logout().
+     */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        //csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.talkManager.talkMap); //Not implemented yet
+        csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.getTalkManager()); //Not implemented yet
     }
 
     public void createSignUpAttendees(){

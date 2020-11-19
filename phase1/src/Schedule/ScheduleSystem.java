@@ -1,6 +1,7 @@
 package Schedule;
 
 import Files.CSVReader;
+import Files.CSVWriter;
 import UserLogin.*;
 
 import java.util.*;
@@ -47,6 +48,14 @@ public class ScheduleSystem implements Observer {
                 }
             }}}
         }
+
+    /**
+     * Method to write the changes to the Registration.csv, called in MainMenuController.logout().
+     */
+    public void save() {
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv", this.getUserScheduleMap());
+    }
 
     public HashMap<User, UserScheduleManager> getUserScheduleMap() {
         return userScheduleMap;

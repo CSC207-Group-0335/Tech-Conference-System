@@ -1,5 +1,7 @@
 package Schedule;
 
+import Files.CSVWriter;
+
 import java.util.*;
 public class RoomSystem extends Observable {
 
@@ -51,5 +53,13 @@ public class RoomSystem extends Observable {
 
     public ArrayList<Room> getRoomList() {
         return roomList;
+    }
+
+    /**
+     * Method to write the changes to the RoomFile, called in MainMenuController.logout().
+     */
+    public void save() {
+        CSVWriter csvWriter = new CSVWriter();
+        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.getRoomList());
     }
 }
