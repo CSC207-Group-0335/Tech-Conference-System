@@ -1,6 +1,15 @@
 package UserLogin;
 
+/**
+ * A Presenter Class used to prompt the user for login credentials
+ */
+
 public class LogInPresenter {
+
+    /**
+     * contains all of the prompts required to obtain the login credentials for the user.
+     * @param i takes in an int value to determine which prompt to present to the user.
+     */
 
     public void printLoginInfo(int i) {
         switch (i) {

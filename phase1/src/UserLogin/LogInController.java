@@ -14,11 +14,10 @@ import java.util.Scanner;
  */
 
 public class LogInController extends Observable {
-    //private UserStorage userStorage;
     public LogInManager logInManager;
     public User user;
     public LogInPresenter presenter;
-    public MainMenuController mainMenuController; //Daniel: added a parameter for Mainmenu and call its run method from run login
+    public MainMenuController mainMenuController;
     public TalkSystem talkSystem;
     public MessagingSystem messagingSystem;
     public Scanner scanner;
@@ -34,7 +33,12 @@ public class LogInController extends Observable {
 
 
     }
-    //Made method void NOV 15
+
+    /**
+     * A method used to run the login procedure by prompting the user for their credentials and verifying the
+     * information entered to login the correct user if it exists.
+     */
+
     public void runLogIn(){
         boolean check = true;
         while (check){
@@ -60,7 +64,11 @@ public class LogInController extends Observable {
         }
     }
 
-    //Method to notify the observers of the user that has logged in
+    /**
+     * Method to notify the observers of the User that has logged in, which will alter the program depending on the
+     * type of the user and teh specific users details.
+     * @param user the User object that has logged in.
+     */
     public void setUser(User user) {
         setChanged();
         notifyObservers(user);

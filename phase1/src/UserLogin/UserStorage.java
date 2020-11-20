@@ -10,9 +10,8 @@ import java.util.*;
  */
 
 public class UserStorage extends Observable {
-    //made these public (NOV 12) - Nathan
     public ArrayList<User> userList;
-    public HashMap<User, UserScheduleManager> userScheduleMap; //CHANGED FOR TESTING PURPOSES
+    public HashMap<User, UserScheduleManager> userScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
 
     /**
@@ -59,12 +58,22 @@ public class UserStorage extends Observable {
 
     }
 
+    /**
+     * @return the list of users registered in the UserStorage
+     */
     public ArrayList<User> getUserList() {
         return userList;
     }
 
+    /**
+     * @return the UserScheduleMap for the User, specfically when the user is not a Speaker and has the
+     * ability to sign up to attend talks.
+     */
     public HashMap<User, UserScheduleManager> getUserScheduleMap() { return userScheduleMap;}
 
+    /**
+     * @return the SpeakerSchedule map for the User, specifically when the user is a Speaker.
+     */
     public HashMap<Speaker, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
 
     /**
@@ -93,6 +102,13 @@ public class UserStorage extends Observable {
         }
         return newuser;
     }
+
+    /**
+     * Helper method to check if the provided email is valid by comparing it to other emails in the userList and
+     * ensuring that the provided email is unique.
+     * @param email the provided email.
+     * @return a boolean value indicating whether or not the Email is valid.
+     */
     private boolean checkIfValidEmail(String email){
         for (User account: this.userList){
             if((account.getEmail()).equals(email)){
