@@ -149,14 +149,14 @@ public class UserScheduleController{
             }
             else{
                 Talk talkToRegister = getTalkByIndex(talkIndex);
-                if (this.signUp(talkToRegister,userScheduleManager, signUpMap ) == "User added.") {
+                if (this.signUp(talkToRegister,userScheduleManager, signUpMap ).equals("User added.")) {
                     // prints "Success"
                     presenter.printMenu(6);
                     presenter.printMenu(10);
                     return;
                 }
                 else{
-                    if (this.signUp(talkToRegister, userScheduleManager, signUpMap) == "User already registered for the requested talk."){
+                    if (this.signUp(talkToRegister, userScheduleManager, signUpMap).equals("User already registered for the requested talk.")){
                         presenter.printRegistrationBlocked(1);
                     }
                     else{
