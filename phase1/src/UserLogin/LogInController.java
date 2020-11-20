@@ -22,6 +22,13 @@ public class LogInController extends Observable {
     public MessagingSystem messagingSystem;
     public Scanner scanner;
 
+    /**
+     * A constructor for a LogInController
+     * @param mainMenuController the MainMenuController that is instantiated with this LogInController
+     * @param talkSystem the TalkSystem that interacts with is instantiated LogInController
+     * @param messagingSystem the MessagingSystem that interacts with is instantiated LogInController
+     */
+
     public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem,
                            MessagingSystem messagingSystem){
         this.talkSystem = talkSystem;
