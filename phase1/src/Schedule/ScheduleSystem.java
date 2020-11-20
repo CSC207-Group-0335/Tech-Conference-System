@@ -16,13 +16,18 @@ public class ScheduleSystem implements Observer {
     TalkManager talkManager;
 
     /**
-     * creates a new ScheduleSystem with the specified talkManager.
+     * Creates a new ScheduleSystem with the specified talkManager.
      * @param talkManager The talkManager.
      */
     public ScheduleSystem(TalkManager talkManager){
         this.talkManager = talkManager;
     }
 
+    /**
+     * Finds a user with the specified email.
+     * @param email The email of the user.
+     * @return A user representing the user with the given email or null if there is no such user.
+     */
     public User findUser(String email) {
         for (User user : storage.getUserList()) {
             if (user.getEmail().equals(email)) {
@@ -32,6 +37,11 @@ public class ScheduleSystem implements Observer {
         return null;
     }
 
+    /**
+     * Finds a talk with the specified id.
+     * @param id The string id of the talk.
+     * @return A talk representing the talk with the given id or null if there is no such talk.
+     */
     public Talk findTalk(String id){
         for (Talk t: talkManager.talkMap.keySet()){
             if(t.getTalkId().equals(id)){
@@ -41,6 +51,9 @@ public class ScheduleSystem implements Observer {
         return null;
     }
 
+    /**
+     * Reads the cvs and creates the userScheduleMap.
+     */
     public void run(){
         CSVReader fileReader = new CSVReader("phase1/src/Resources/Registration.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
@@ -65,10 +78,18 @@ public class ScheduleSystem implements Observer {
         csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv", this.getUserScheduleMap());
     }
 
+    /**
+     * Gets the userScheduleMap.
+     * @return A HashMap representing the userScheduleMap
+     */
     public HashMap<User, UserScheduleManager> getUserScheduleMap() {
         return userScheduleMap;
     }
-
+    /**
+     * Updating ScheduleSystem's storage, userScheduleMap, and talkManager.
+     * @param o An Observable.
+     * @param arg An Object.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof UserStorage){

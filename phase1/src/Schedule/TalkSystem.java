@@ -8,6 +8,11 @@ import UserLogin.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+/**
+ * A gateway class that reads a .csv file for
+ * all accounts with their credentials and requests creating talks (from TalkManager)
+ */
 public class TalkSystem extends Observable implements Observer{
     public OrgScheduleController orgScheduleController;
     public UserScheduleController userScheduleController;
@@ -21,12 +26,21 @@ public class TalkSystem extends Observable implements Observer{
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
     public MainMenuController mainMenuController;
 
+    /**
+     * creates a new TalkSystem.
+     */
     public TalkSystem(){
         this.talkManager = new TalkManager();
         this.messagingSystem = new MessagingSystem();
         this.scheduleSystem = new ScheduleSystem(talkManager);
         this.signUpMap = talkManager.getSignUpMap();
     }
+
+    /**
+     * Instantiates user, speaker, and organizer controllers depending on what instance the user is of.
+     * @param user The user.
+     * @param scanner The scanner to be used for all controllers.
+     */
     public void instantiateControllers(User user, Scanner scanner){
         this.addObserver(mainMenuController);
         if (user instanceof Attendee){
@@ -51,6 +65,9 @@ public class TalkSystem extends Observable implements Observer{
 
     }
 
+    /**
+     * Adds observers, calls the run methods of messagingSystem and scheduleSystem.
+     */
     public void run() {
         //Moved Observers NOV 15
         if (messagingSystem.speakerMessengerController != null) {
@@ -85,6 +102,9 @@ public class TalkSystem extends Observable implements Observer{
         csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.getTalkManager()); //Not implemented yet
     }
 
+    /**
+     * creates the SignUpAttendees.
+     */
     public void createSignUpAttendees(){
         for(UserScheduleManager schedule: userScheduleMap.values()){
             if (schedule.getTalkList() != null){
@@ -101,35 +121,58 @@ public class TalkSystem extends Observable implements Observer{
             setSignUpMap();
         }
 
+    /**
+     * Sets talk manager.
+     */
     public void setTalkManager() {
         setChanged();
         notifyObservers(talkManager);
     }
 
+    /**
+     * Gets talk manager.
+     * @return A TalkManager that represents the talkManager.
+     */
     public TalkManager getTalkManager() {
         return talkManager;
     }
 
+    /**
+     * Sets signUpMap.
+     */
     public void setSignUpMap(){
         setChanged();
         notifyObservers(signUpMap);
     }
 
+    /**
+     * Sets the organizer schedule controller.
+     */
     public void setOrgScheduleController(){
         setChanged();
         notifyObservers(orgScheduleController);
     }
 
+    /**
+     * Sets the user schedule controller.
+     */
     public void setUserScheduleController(){
         setChanged();
         notifyObservers(userScheduleController);
     }
 
+    /**
+     * Sets the speaker schedule controller.
+     */
     public void setSpeakerScheduleController(){
         setChanged();
         notifyObservers(speakerScheduleController);
     }
-
+    /**
+     * Updating TalkSystem's speakerScheduleMap or userScheduleMap and its mainMenuController.
+     * @param o An Observable.
+     * @param arg An Object.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof HashMap){
