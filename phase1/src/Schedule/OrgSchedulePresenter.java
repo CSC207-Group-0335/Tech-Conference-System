@@ -94,7 +94,6 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
      * @param speakerList The list of speakers.
      */
     public void printAllSpeakers(ArrayList<Speaker> speakerList) {
-        //print index + 1
         Integer i = 1;
         for (Speaker s : speakerList){
             System.out.println(Integer.toString(i) + ")" + s.getName());

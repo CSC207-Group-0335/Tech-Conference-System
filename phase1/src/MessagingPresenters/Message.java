@@ -1,7 +1,6 @@
 package MessagingPresenters;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * A class that represents a message.
