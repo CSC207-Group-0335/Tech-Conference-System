@@ -100,6 +100,11 @@ public class OrganizerMessengerController implements Observer {
         return null;
     }
 
+    /**
+     * Returns a list containing all recipients.
+     * @return an ArrayList containing all recipients
+     */
+
     public ArrayList<String> getRecipients() {
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
@@ -112,6 +117,10 @@ public class OrganizerMessengerController implements Observer {
         }
         return emails;
     }
+
+    /**
+     * Runs the presenter.
+     */
 
     public void run() {
         boolean flag = true;

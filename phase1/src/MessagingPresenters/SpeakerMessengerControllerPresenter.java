@@ -9,6 +9,11 @@ import java.util.ArrayList;
  */
 
 public class SpeakerMessengerControllerPresenter{
+
+    /**
+     * Prints the messaging menu.
+     */
+
     public void printMenu(int i) {
         switch (i) {
             case 0:
@@ -38,6 +43,11 @@ public class SpeakerMessengerControllerPresenter{
         }
     }
 
+    /**
+     *Prints the emails this user has messaged or has been messaged by
+     * @param emails an ArrayList containing Strings representing emails
+     */
+
     public void viewChats(ArrayList<String> emails) {
         if (emails.size() == 0) {
             System.out.println("No chats found");
@@ -52,6 +62,11 @@ public class SpeakerMessengerControllerPresenter{
         }
     }
 
+    /**
+     * Prints a list of talks.
+     * @param talks an ArrayList containing talks
+     */
+
     public void viewTalks(ArrayList<Schedule.Talk> talks) {
         if (talks.size() == 0) {
             System.out.println("No talks found");
@@ -59,12 +74,18 @@ public class SpeakerMessengerControllerPresenter{
         else {
             int i = 1;
             for (Talk talk : talks) {
-                System.out.println(i + " - " + talk.getTalkId()+": "+talk.getTitle() + " which starts at " + talk.getStartTime().toString().replace("T", " "));
+                System.out.println(i + " - " + talk.getTalkId()+": "+talk.getTitle() + " which starts at " +
+                        talk.getStartTime().toString().replace("T", " "));
                 i++;
             }
             System.out.println("Input the number corresponding to the talk you wish to view or press 0 to exit:");
         }
     }
+
+    /**
+     * Prints a conversation containing </messages>.
+     * @param messages an ArrayList containing messages
+     */
 
     public void viewConversation(ArrayList<Message> messages) {
         for (Message message: messages) {
