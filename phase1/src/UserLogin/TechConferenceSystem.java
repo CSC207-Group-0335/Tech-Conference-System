@@ -16,7 +16,7 @@ import java.util.Observable;
  */
 
 public class TechConferenceSystem extends Observable {
-    //Variables
+
     public UserStorage userStorage;
     public ArrayList<User> userList;
     public HashMap<User, UserScheduleManager> userScheduleMap;
@@ -24,10 +24,13 @@ public class TechConferenceSystem extends Observable {
     public LogInController logInController;
     public RoomSystem roomSystem;
     public MainMenuController mainMenuController;
-    public ArrayList<Object> observerList;
+
+    /**
+     * A constructor for the TechConferenceSystem that contains an instance of everything needed to run the program,
+     * and everything that should be "common" to all instances of TechConferenceSystem.
+     */
 
     public TechConferenceSystem() {
-        this.observerList = new ArrayList<>(); //FAKE FIX
         this.userStorage = new UserStorage();
         this.userList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
@@ -38,6 +41,10 @@ public class TechConferenceSystem extends Observable {
                 roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
                 this);
     }
+
+    /**
+     * Sets the UserStorage and updates the observers.
+     */
 
     public void setUserStorage(){
         setChanged();
@@ -53,65 +60,66 @@ public class TechConferenceSystem extends Observable {
         }
     }
 
+    /**
+     * Sets the UserList and updates the observers.
+     */
+
     public void setUserList(ArrayList<User> userlst) {
         this.userList = userlst;
-        //setChanged();
-        //notifyObservers(userList); //Not notifying all observers for some reason...MUST FIX Nov 15
-        //for (Object obj: this.observerList) {
-        //    this.addObserver((Observer) obj);
         setChanged();
         notifyObservers(userList);
         }
-        //for (Object obj: this.observerList) {
-        //    this.deleteObserver((Observer) obj);
-        //}
-    //}
+
+    /**
+     * Sets the UserScheduleMap and updates the observers.
+     * @param userSchedMap a given UserScheduleMap.
+     */
 
     public void setUserScheduleMap(HashMap<User, UserScheduleManager> userSchedMap) {
         this.userScheduleMap = userSchedMap;
-        //setChanged();
-        //notifyObservers(userScheduleMap);
-        //for (Object obj: this.observerList) {
-        //    this.addObserver((Observer) obj);
         setChanged();
         notifyObservers(userScheduleMap);
         }
-        //for (Object obj: this.observerList) {
-        //    this.deleteObserver((Observer) obj);
-        //}
-    //}
+
+    /**
+     * Sets the SpeakerScheduleMap and updates the observers.
+     * @param speakerSchedMap a given SpeakerScheduleMap.
+     */
 
     public void setSpeakerScheduleMap(HashMap<Speaker, SpeakerScheduleManager> speakerSchedMap) {
         this.speakerScheduleMap = speakerSchedMap;
-        //setChanged();
-        //notifyObservers(speakerScheduleMap); //Not notifying all observers for some reason...MUST FIX Nov 15
-        //FAKE FIX
-        //for (Object obj: this.observerList) {
-        //    this.addObserver((Observer) obj);
         setChanged();
         notifyObservers(speakerSchedMap);
         }
+
+    /**
+     * Sets the MainMenuController and updates the observers.
+     */
 
     public void setMainMenuController(){
         setChanged();
         notifyObservers(mainMenuController);
     }
 
+    /**
+     * The main run method for the entire program. Observers are initialized so that everything is running over the
+     * same systems. The above set methods are called to update everything and notify all observers.
+     * The system is run starting with Login, which, if successful, prompts a main menu, which the user can navigate
+     * to prompt the different screens and do specific actions. The program will quit when the user logs out, and
+     * update any files with possible changes taht were made during the active session.
+     */
+
     public void run() {
-        //Added all Observers NOV 15
         this.addObserver(roomSystem.talkSystem);
         this.addObserver(roomSystem.talkSystem.talkManager);
-        //this.observerList.add(roomSystem.talkSystem.talkManager); //Fake fix
         this.addObserver(logInController.logInManager);
-        //this.observerList.add(logInController.logInManager); //Fake fix
         this.addObserver(roomSystem.talkSystem.scheduleSystem);
         this.addObserver(roomSystem.talkSystem.messagingSystem);
         this.setMainMenuController();
-        //System.out.println(this.countObservers());
         this.logInController.addObserver(roomSystem.talkSystem);
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
 
-        CSVReader file = new CSVReader("phase1/src/Resources/Users.csv"); //Changed to CSV reader Nov 15
+        CSVReader file = new CSVReader("phase1/src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }

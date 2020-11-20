@@ -1,30 +1,21 @@
 package UserLogin;
 
-import Schedule.UserScheduleManager;
-
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Optional;
 
 /**
  * A Use Case class that handles the back-end of the login process for a user attempting to login to their account.
  */
 
 public class LogInManager implements Observer {
-    private String email;
-    //private String password;
-    private User usertype;
     public ArrayList<User> userList;
 
     /**
-     * A user will login with their email and password and the LogInManager will process the login attempt.
+     * A constructor for a LogInManager, which initializes a new UserList.
      */
 
     public LogInManager() {
-        //this.email = email;
-        //this.password = password;
-        this.usertype = null;
         this.userList = new ArrayList<User>();
     }
 
@@ -37,7 +28,6 @@ public class LogInManager implements Observer {
         //iterate through userList and check the email associated with each user to see if there is a match.
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getEmail().equals(email)) {
-                this.email = email;
                 return userList.get(i); //return the user associated with this email.
             }
         }
@@ -54,17 +44,18 @@ public class LogInManager implements Observer {
         User user = findUser(email);
         if (user != null) {
             //A user has been found, now check the password
-
-            //NOTE should we return a string that says "Incorrect password" vs "User not found" in order to
-            //differentiate the problem if the result is false?
-
             return user.getPassword().equals(password);
         } else {
             return false;
         }
     }
 
-
+    /**
+     * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
+     * in linked Observable classes. This one updates the UserList of this class.
+     * @param o the Observable class where the change is made and this function is called.
+     * @param arg the argument that is being updated.
+     */
     @Override
     public void update(Observable o, Object arg) {
         //check the type of arg (if it is a map, we do not update it here since it is referring to the

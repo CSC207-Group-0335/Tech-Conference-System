@@ -31,6 +31,17 @@ public class MainMenuController implements Observer {
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
 
+    /**
+     * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
+     * MainMenu.
+     * @param scanner A Scanner object that allows the user to interact with the console.
+     * @param roomSystem A RoomSystem object that is used to save data concerning Rooms.
+     * @param talkSystem A TalkSystem object that is used to save data concerning Talks.
+     * @param messagingSystem A MessagingSystem object that is used to save data concerning Messages and Conversations.
+     * @param scheduleSystem A ScheduleSystem object that is used to save data concerning Schedules.
+     * @param techConferenceSystem A TechConferenceSystem object that is used to save data concerning the UserList.
+     */
+
     public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
                               MessagingSystem messagingSystem, ScheduleSystem scheduleSystem,
                               TechConferenceSystem techConferenceSystem) {
@@ -164,23 +175,30 @@ public class MainMenuController implements Observer {
         this.scheduleSystem.save();
         }
 
+    /**
+     * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
+     * in linked Observable classes. This one updates different Controllers based on which Observable is calling it
+     * (and what the argument is an instance of).
+     * @param o the Observable class where the change is made and this function is called.
+     * @param arg the argument that is being updated.
+     */
 
-        @Override
-        public void update (Observable o, Object arg){
-            if (arg instanceof User) {
-                this.user = (User) arg;
-            } else if (arg instanceof OrgScheduleController) {
-                this.orgScheduleController = (OrgScheduleController) arg;
-            } else if (arg instanceof AttendeeMessengerController) {
-                this.attendeeMessengerController = (AttendeeMessengerController) arg;
-            } else if (arg instanceof SpeakerScheduleController) {
-                this.speakerScheduleController = (SpeakerScheduleController) arg;
-            } else if (arg instanceof SpeakerMessengerController) {
-                this.speakerMessengerController = (SpeakerMessengerController) arg;
-            } else if (arg instanceof UserScheduleController) {
-                this.userScheduleController = (UserScheduleController) arg;
-            } else if (arg instanceof OrganizerMessengerController) {
-                this.orgMessengerController = (OrganizerMessengerController) arg;
-            }
+    @Override
+    public void update (Observable o, Object arg){
+        if (arg instanceof User) {
+            this.user = (User) arg;
+        } else if (arg instanceof OrgScheduleController) {
+            this.orgScheduleController = (OrgScheduleController) arg;
+        } else if (arg instanceof AttendeeMessengerController) {
+            this.attendeeMessengerController = (AttendeeMessengerController) arg;
+        } else if (arg instanceof SpeakerScheduleController) {
+            this.speakerScheduleController = (SpeakerScheduleController) arg;
+        } else if (arg instanceof SpeakerMessengerController) {
+            this.speakerMessengerController = (SpeakerMessengerController) arg;
+        } else if (arg instanceof UserScheduleController) {
+            this.userScheduleController = (UserScheduleController) arg;
+        } else if (arg instanceof OrganizerMessengerController) {
+            this.orgMessengerController = (OrganizerMessengerController) arg;
         }
+    }
     }
