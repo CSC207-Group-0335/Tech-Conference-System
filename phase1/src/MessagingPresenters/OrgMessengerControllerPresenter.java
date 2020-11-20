@@ -7,6 +7,11 @@ import java.util.ArrayList;
  */
 
 public class OrgMessengerControllerPresenter {
+
+    /**
+     * Prints the messaging menu.
+     */
+
     public void printMenu(int i) {
         switch (i) {
             case 0:
@@ -36,6 +41,11 @@ public class OrgMessengerControllerPresenter {
         }
     }
 
+    /**
+     *Prints the emails this user has messaged or has been messaged by
+     * @param emails an ArrayList containing Strings representing emails
+     */
+
     public void viewChats(ArrayList<String> emails) {
         if (emails.size() == 0) {
             System.out.println("No chats found");
@@ -49,6 +59,11 @@ public class OrgMessengerControllerPresenter {
             System.out.println("Input the number corresponding to the email address with the conversation you wish to view or 0 to go back:");
         }
     }
+
+    /**
+     * Prints a conversation.
+     * @param messages an ArrayList containing messages sent to or by this user.
+     */
 
     public void viewConversation(ArrayList<Message> messages) {
         for (Message message: messages) {

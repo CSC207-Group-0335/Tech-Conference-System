@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class ConversationCSVWriter {
     private String csv;
 
+    /**
+     * Initializes ConversationCSVWriter.
+     */
 
     public ConversationCSVWriter(String csv, ArrayList<ConversationManager> storage) {
         this.csv = csv;

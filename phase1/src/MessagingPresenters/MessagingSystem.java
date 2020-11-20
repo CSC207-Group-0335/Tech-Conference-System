@@ -34,10 +34,20 @@ public class MessagingSystem extends Observable implements Observer {
     }
 
     //Method to notify that ConversationStorage has been updated
+
+    /**
+     * Notifies when ConversationStorage has been updated.
+     */
     public void setStorage() {
         setChanged();
         notifyObservers(conversationStorage);
     }
+
+    /**
+     * Instantiates controller classes.
+     * @param user a User
+     * @param scanner a Scanner
+     */
 
     public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
@@ -74,7 +84,9 @@ public class MessagingSystem extends Observable implements Observer {
         }
     }
 
-    /* runs and loads all old data */
+    /**
+     * Runs and loads data.
+     */
 
     public void run() {
         CSVReader fileReader = new CSVReader("phase1/src/Resources/Conversations.csv");
@@ -101,19 +113,33 @@ public class MessagingSystem extends Observable implements Observer {
     /**
      * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
      */
+
     public void save() {
-        ConversationCSVWriter csvWriter = new ConversationCSVWriter("phase1/src/Resources/Conversations.csv", this.conversationStorage.getConversationManagers());
+        ConversationCSVWriter csvWriter = new ConversationCSVWriter("phase1/src/Resources/Conversations.csv",
+                this.conversationStorage.getConversationManagers());
     }
+
+    /**
+     * Sets AttendeeMessengerController.
+     */
 
     public void setAttendeeMessengerController() {
         setChanged();
         notifyObservers(attendeeMessengerController);
     }
 
+    /**
+     * Sets SpeakerMessengerController.
+     */
+
     public void setSpeakerMessengerController(){
         setChanged();
         notifyObservers(speakerMessengerController);
     }
+
+    /**
+     * Sets OrganizerMessengerController.
+     */
 
     public void setOrganizerMessengerController(){
         setChanged();

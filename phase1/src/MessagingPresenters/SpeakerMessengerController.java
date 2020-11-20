@@ -65,6 +65,11 @@ public class SpeakerMessengerController implements Observer{
         }
     }
 
+    /**
+     * Returns a list containing all recipients.
+     * @return an ArrayList containing all recipients
+     */
+
     public ArrayList<String> getRecipients() {
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
@@ -78,6 +83,12 @@ public class SpeakerMessengerController implements Observer{
         return emails;
     }
 
+    /**
+     * Returns a list of messages between this speaker and the user with email </email>.
+     * @param email a String representing an email
+     * @return an ArrayList containing messages
+     */
+
     public ArrayList<Message> viewMessages(String email){
         if (conversationStorage.contains(speaker.getEmail(), email)){
             ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
@@ -85,6 +96,10 @@ public class SpeakerMessengerController implements Observer{
             }
         return null;
     }
+
+    /**
+     * Runs the presenters.
+     */
 
     public void run() {
         boolean flag = true;
