@@ -1,12 +1,7 @@
 package MessagingPresenters;
 
-import UserLogin.User;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ConversationManager {
     private ArrayList<String> participants;

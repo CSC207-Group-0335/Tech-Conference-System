@@ -1,7 +1,6 @@
 package MessagingPresenters;
 
 import Files.CSVReader;
-import Files.CSVWriter;
 import UserLogin.*;
 
 import java.time.LocalDateTime;
@@ -32,8 +31,6 @@ public class MessagingSystem extends Observable implements Observer {
         this.conversationStorage = new ConversationStorage();
         setStorage();
     }
-
-    //Method to notify that ConversationStorage has been updated
 
     /**
      * Notifies when ConversationStorage has been updated.
@@ -70,12 +67,17 @@ public class MessagingSystem extends Observable implements Observer {
             setOrganizerMessengerController();
             setStorage();
         }
-        //Moved AddObservers NOV 15
     }
+
+    /**
+     * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
+     * in linked Observable classes. This one updates the User and the MainMenuController, based on the arg type.
+     * @param o the Observable class where the change is made and this function is called.
+     * @param arg the argument that is being updated.
+     */
 
     @Override
     public void update(Observable o, Object arg) {
-        //Probably no longer needed
         if (arg instanceof User) {
             this.user = (User) arg;
         }
