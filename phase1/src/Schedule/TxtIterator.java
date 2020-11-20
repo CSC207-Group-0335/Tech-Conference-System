@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * A helper class to read from a .cvs file.
+ */
 public class TxtIterator implements Iterator<String> {
     String fileName;
     private List<String> properties = new ArrayList<>();
@@ -31,15 +34,27 @@ public class TxtIterator implements Iterator<String> {
         }
     }
 
+    /**
+     * Get properties.
+     * @return A list that represents the list of properties.
+     */
     public List<String> getProperties() {
         return properties;
     }
 
+    /**
+     * Overrides the hasNext method.
+     * @return A boolean.
+     */
     @Override
     public boolean hasNext() {
         return current < properties.size();
     }
 
+    /**
+     * Overrides the next method.
+     * @return A string.
+     */
     @Override
     public String next() {
         String res;
