@@ -27,7 +27,7 @@ public abstract class ScheduleManager {
      */
     public boolean checkDoubleBooking(LocalDateTime date){
         for(Talk t: talkList){
-            if(t.getStartTime() == date){
+            if(t.getStartTime().equals(date)){
                 return false;
             }}
         return true;
