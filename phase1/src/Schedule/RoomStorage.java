@@ -56,7 +56,7 @@ public class RoomStorage {
     public void createRoom(String roomName, int capacity) {
         boolean bool = true;
         for (Room r : roomList) {
-            if (r.getRoomName() == roomName) {
+            if (r.getRoomName().equals(roomName)) {
                 bool = false;
             }
         }
