@@ -311,11 +311,3 @@ public class UserScheduleController{
         this.signUpMap = signUpMap;
     }}
 
-
-
-//String choice = scan.nextLine();
-//            try {
-//                int command = Integer.parseInt(choice);}
-// catch (NumberFormatException nfe){
-//        presenter.printMenu(8);;
-
