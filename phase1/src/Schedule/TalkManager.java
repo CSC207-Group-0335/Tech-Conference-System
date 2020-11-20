@@ -1,11 +1,9 @@
 package Schedule;
-import Schedule.Room;
-import Schedule.RoomScheduleManager;
-import Schedule.Talk;
+
 import UserLogin.Speaker;
 import UserLogin.TechConferenceSystem;
 
-import java.lang.reflect.Array;
+
 import java.time.LocalDateTime;
 import java.util.*;
 

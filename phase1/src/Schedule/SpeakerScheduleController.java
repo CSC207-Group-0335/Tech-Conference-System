@@ -1,13 +1,7 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
-import UserLogin.Speaker;
-import UserLogin.User;
-import sun.security.tools.keytool.Main;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
