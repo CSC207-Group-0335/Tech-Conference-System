@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class UserScheduleController{
     /**
-     * The user of the program.
+     * A user of the conference.
      */
     UserScheduleManager attendee ;
     /**
@@ -26,7 +26,7 @@ public class UserScheduleController{
      */
     public HashMap<Talk, SignUpAttendeesManager> signUpMap;
     /**
-     * The presenter of the controller.
+     * The presenter of the user controller.
      */
     UserSchedulePresenter presenter;
     /**
@@ -120,6 +120,13 @@ public class UserScheduleController{
         return registeredTalks;
     }
 
+    /**
+     * Takes in a user input and registers them for an event/talk.
+     * @param presenter The presenter.
+     * @param scan The scanner.
+     * @param userScheduleManager The UserScheduleManager.
+     * @param signUpMap The signUpMap.
+     */
     protected void registerTalk(UserSchedulePresenter presenter, Scanner scan,
                                 UserScheduleManager userScheduleManager,
                                 HashMap<Talk, SignUpAttendeesManager> signUpMap){
@@ -161,6 +168,11 @@ public class UserScheduleController{
         presenter.printMenu(8);;
     }}}
 
+    /**
+     * Takes in a user's input and shows them all the talks offered.
+     * @param presenter The presenter.
+     * @param scan The scanner.
+     */
     protected void seeAllTalks(UserSchedulePresenter presenter, Scanner scan){
         //use the string representation in TalkManager
         presenter.printAllTalks(talkManager);
@@ -180,6 +192,12 @@ public class UserScheduleController{
         }
     }}
 
+    /**
+     * Takes in a user's input and shows them all the talks they are currently registered for.
+     * @param presenter The presenter.
+     * @param scan The scanner.
+     * @param userScheduleManager The UserScheduleManager.
+     */
     protected void seeAllRegistered(UserSchedulePresenter presenter,
                                     Scanner scan, UserScheduleManager userScheduleManager){
         getRegisteredTalks(userScheduleManager);
@@ -197,6 +215,13 @@ public class UserScheduleController{
         presenter.printMenu(8);;
     }}}
 
+    /**
+     * Takes in a user's input and cancels their registration for a specified talk.
+     * @param presenter The presenter.
+     * @param scan The scanner.
+     * @param userScheduleManager The userScheduleManager.
+     * @param signUpMap The signUpMap.
+     */
     protected void cancelATalk(UserSchedulePresenter presenter,
                                Scanner scan, UserScheduleManager userScheduleManager,
                                HashMap<Talk, SignUpAttendeesManager> signUpMap){
@@ -239,7 +264,9 @@ public class UserScheduleController{
             }
         }}}
 
-
+    /**
+     * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
+     */
     public void run(){
         presenter.printHello(attendee);
         presenter.printMenu(1);
@@ -276,6 +303,10 @@ public class UserScheduleController{
     }
     }}
 
+    /**
+     * Sets the signUpMap for UserScheduleController.
+     * @param signUpMap The signUpMap.
+     */
     public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
         this.signUpMap = signUpMap;
     }}

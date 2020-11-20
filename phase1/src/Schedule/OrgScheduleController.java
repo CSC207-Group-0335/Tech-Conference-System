@@ -9,6 +9,9 @@ import java.util.*;
  * A controller class describing the actions an organizer can perform in the program
  */
 public class OrgScheduleController extends UserScheduleController implements Observer {
+    /**
+     * An organizer for the conferece.
+     */
     UserScheduleManager organizer;
     /**
      * Stores all the talks for the conference
@@ -22,13 +25,34 @@ public class OrgScheduleController extends UserScheduleController implements Obs
      * Stores all the uses for the conference
      */
     UserStorage userStorage;
+    /**
+     * The menu for the conference.
+     */
     MainMenuController mainMenuController;
+    /**
+     * A mapping of talks to its corresponding SignUpAttendeesManager.
+     */
     HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    /**
+     * The presenter of the organizer controller.
+     */
     OrgSchedulePresenter orgSchedulePresenter;
+    /**
+     * The presenter of the user controller.
+     */
     UserSchedulePresenter userSchedulePresenter;
+    /**
+     * The scanner for the conference.
+     */
     Scanner scanner;
 
-
+    /**
+     * Creates a new controller for the organizer.
+     * @param organizer The organizer.
+     * @param talkManager The talkManager.
+     * @param mainMenuController The mainMenuController.
+     * @param scanner The scanner.
+     */
     public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager,
                                  MainMenuController mainMenuController, Scanner scanner){
         super(organizer, talkManager, mainMenuController, scanner);
@@ -40,6 +64,10 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         userSchedulePresenter = new UserSchedulePresenter();
     }
 
+    /**
+     * gets the list of all speakers giving a talk.
+     * @return An ArrayList represent the list of all speakers.
+     */
     public ArrayList<Speaker> getSpeakerList(){
         ArrayList<Speaker> speakerList = new ArrayList<Speaker>();
         for(User u: userStorage.getUserList()){
@@ -50,6 +78,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         return speakerList;
     }
 
+    /**
+     * Allows the organizer to choose a speaker from a list of speakers.
+     * @param scan The scanner.
+     * @return Returns a Speaker representing the speaker chosen by the organizer.
+     */
     public Speaker pickSpeaker(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
         orgSchedulePresenter.printAllSpeakers(getSpeakerList());
@@ -73,7 +106,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }}catch (NumberFormatException nfe){
                 userSchedulePresenter.printMenu(8);}}
     return null;}
-
+    /**
+     * Allows the organizer to choose a room from a list of rooms.
+     * @param scan The scanner.
+     * @return Returns a Room representing the room chosen by the organizer.
+     */
     public Room pickRoom(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
         orgSchedulePresenter.printAllRooms(roomStorage.getRoomList());
@@ -97,7 +134,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }} catch (NumberFormatException nfe){
             userSchedulePresenter.printMenu(8);}}
     return null;}
-
+    /**
+     * Allows the organizer to choose a day - in this case our conference is three-days long.
+     * @param scan The scanner.
+     * @return Returns a int representing the day chosen by the organizer.
+     */
     public Integer pickDay(Scanner scan){
         boolean doContinue  = true;
         while(doContinue){
@@ -116,7 +157,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 }}catch (NumberFormatException nfe){
                 userSchedulePresenter.printMenu(8);}}
     return null;}
-
+    /**
+     * Allows the organizer to choose an hour between 9am and 5pm.
+     * @param scan The scanner.
+     * @return Returns a int representing the hour chosen by the organizer.
+     */
     public Integer pickHour(Scanner scan){
         boolean doContinue = true;
         while(doContinue) {
@@ -137,7 +182,13 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 userSchedulePresenter.printMenu(8);}}
     return null;}
 
-
+    /**
+     * Allows the organizer to choose a day and hour for the start time of the talk.
+     * @param scan The scanner.
+     * @param speaker The speaker chosen by the organizer.
+     * @param room The room chosen by the organizer.
+     * @return A LocalDateTime representing the start time chosen by the organizer.
+     */
     public LocalDateTime pickTime(Scanner scan, Speaker speaker, Room room) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
         Integer day = pickDay(scan);
@@ -147,6 +198,14 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         LocalDateTime dateTime = LocalDateTime.of(2020, 11,20+day,hour,0);
         return dateTime;}
 
+    /**
+     * Check if the room and speaker are double-booked, or if just the speaker is double-booked, or if just the room
+     * is double booked.
+     * @param speaker The speaker.
+     * @param room The room.
+     * @param dateTime The start time.
+     * @return An int representing one of the three aforementioned options.
+     */
     public int checkDoubleBooking(Speaker speaker, Room room, LocalDateTime dateTime){
          if(!userStorage.getSpeakerScheduleMap().get(speaker).checkDoubleBooking(dateTime)
                 && !roomStorage.getScheduleList().get(room).checkDoubleBooking(dateTime)){return 1;}
@@ -157,6 +216,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         else{return 0;}
     }
 
+    /**
+     * Allows the organizer to create talk.
+     * @param scan The scanner.
+     * @return A boolean notifying the organizer that they have successfully created a talk.
+     */
     public boolean requestTalk(Scanner scan){
         Speaker speaker = pickSpeaker(scan);
         if (speaker == null){return false;}
@@ -194,16 +258,32 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         else{return  false;}
     }
 
+    /**
+     * Allows the organizer to create a room with the specified name.
+     * @param roomName The name of the room.
+     * @return A boolean notifying the organizer if they have successfully created a room.
+     */
     //there's also a createRoom in RoomStorage with the parameter capacity
     public boolean addRoom(String roomName) {
         return this.roomStorage.createRoom(roomName);
     }
 
+    /**
+     * Allows the organizer to create a speaker with the specified name, password, and email.
+     * @param name The name of the speaker.
+     * @param password The password of the speaker.
+     * @param email The email of the speaker.
+     * @return A boolean notifying the organizer if they have successfully created a speaker.
+     */
     //can't put anything here since speakerStorage hasn't been made
     public boolean requestSpeaker(String name, String password, String email) {
         return this.userStorage.createUser("Speaker", name, password, email);
     }
 
+    /**
+     * Uses the addRoom method to register a room.
+     * @param scan The scanner.
+     */
     public void registerRoom(Scanner scan){
         orgSchedulePresenter.printMenu(9);
         boolean doContinue = true;
@@ -222,6 +302,10 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }}
         }}
 
+    /**
+     * Uses the requestSpeaker to create a speaker.
+     * @param scan The Scanner.
+     */
     public void registerSpeaker(Scanner scan){
         orgSchedulePresenter.printMenu(10);
         String name = scan.nextLine();
@@ -235,6 +319,9 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             orgSchedulePresenter.printMenu(11);
         }
     }
+    /**
+     * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
+     */
     public void run(){
         orgSchedulePresenter.printHello(organizer);
         orgSchedulePresenter.printMenu(1);
@@ -282,6 +369,11 @@ public class OrgScheduleController extends UserScheduleController implements Obs
 
         }
     }
+    /**
+     * Updating OrScheduleController's roomStorage and userStorage.
+     * @param o An Observable.
+     * @param arg An Object.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof RoomStorage){
@@ -292,7 +384,10 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         }
 
     }
-
+    /**
+     * Sets the signUpMap for OrgScheduleController.
+     * @param signUpMap The signUpMap.
+     */
     public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
         this.signUpMap = signUpMap;
     }
