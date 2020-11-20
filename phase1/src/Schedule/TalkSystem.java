@@ -181,10 +181,6 @@ public class TalkSystem extends Observable implements Observer{
             }
             else{this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;}
         }
-        //No longer need to observe user, because of changes made in the LogInController
-        //if (arg instanceof User){
-          //  this.user = (User) arg;
-        //}
         if (arg instanceof MainMenuController){
             this.mainMenuController = (MainMenuController) arg;
         }

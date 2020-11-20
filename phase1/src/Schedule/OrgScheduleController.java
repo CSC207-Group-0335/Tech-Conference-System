@@ -263,7 +263,6 @@ public class OrgScheduleController extends UserScheduleController implements Obs
      * @param roomName The name of the room.
      * @return A boolean notifying the organizer if they have successfully created a room.
      */
-    //there's also a createRoom in RoomStorage with the parameter capacity
     public boolean addRoom(String roomName) {
         return this.roomStorage.createRoom(roomName);
     }
@@ -275,7 +274,6 @@ public class OrgScheduleController extends UserScheduleController implements Obs
      * @param email The email of the speaker.
      * @return A boolean notifying the organizer if they have successfully created a speaker.
      */
-    //can't put anything here since speakerStorage hasn't been made
     public boolean requestSpeaker(String name, String password, String email) {
         return this.userStorage.createUser("Speaker", name, password, email);
     }
