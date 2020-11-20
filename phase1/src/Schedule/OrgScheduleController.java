@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class OrgScheduleController extends UserScheduleController implements Observer {
     /**
-     * An organizer for the conferece.
+     * An organizer for the conference.
      */
     UserScheduleManager organizer;
     /**

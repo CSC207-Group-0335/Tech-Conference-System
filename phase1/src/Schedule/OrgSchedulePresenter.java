@@ -5,7 +5,14 @@ import UserLogin.User;
 
 import java.util.ArrayList;
 
+/**
+ * Prints to the console so that the organizer can have something to interact with.
+ */
 public class OrgSchedulePresenter extends UserSchedulePresenter{
+    /**
+     * A series of phrases output depending on what the organizer does.
+     * @param i An int corresponding to specific output.
+     */
     public void printMenu(int i){
         if (i==1){
             System.out.println("Welcome to the scheduling Menu" + System.lineSeparator() +
@@ -82,7 +89,10 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         }
     }
 
-
+    /**
+     * A string representation of the speaker's name and corresponding position in the speaker list.
+     * @param speakerList The list of speakers.
+     */
     public void printAllSpeakers(ArrayList<Speaker> speakerList) {
         //print index + 1
         Integer i = 1;
@@ -91,6 +101,11 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
             i++;
         }
     }
+
+    /**
+     * A string representation of the room's name and corresponding position in the room list.
+     * @param roomList
+     */
     public void printAllRooms(ArrayList<Room> roomList){
         Integer i = 1;
         for (Room r : roomList){
@@ -98,7 +113,10 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
             i++;
         }
     }
-
+    /**
+     * A series of phrases output depending on what the organizer does.
+     * @param i An int corresponding to specific output.
+     */
     public void PrintRequestTalkProcess(int i){
         if (i == 1) {
             System.out.println("Please choose a day of the conference for your requested talk (By indicating day 1,2 or 3)");
@@ -131,6 +149,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         }
     }
 
+    /**
+     * Output the schedule for the chosen room or chosen speaker if the talkArrayList is not empty.
+     * @param talkArrayList The talkArraylist.
+     * @param talkManager The TalkManager.
+     * @param i The integer corresponding to a specific action.
+     */
     public void printSchedule(ArrayList<Talk> talkArrayList, TalkManager talkManager, int i){
         if(i==1) {
             System.out.println("Schedule for the chosen room:");

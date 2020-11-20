@@ -10,14 +10,26 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+/**
+ * A controller class describing the actions an organizer can perform in the program
+ */
 public class SpeakerScheduleController{
-
+    /**
+     * An speaker for the conference.
+     */
     SpeakerScheduleManager speaker;
     TalkManager talkManager;
     MainMenuController mainMenuController;
     Scanner scan;
     SpeakerSchedulePresenter presenter;
 
+    /**
+     * Creates a new controller for the speaker.
+     * @param speaker The speaker.
+     * @param talkManager The talKManager.
+     * @param mainMenuController The mainMenuController.
+     * @param scanner The scanner.
+     */
     public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
                                      MainMenuController mainMenuController, Scanner scanner){
         this.speaker = speaker;
@@ -27,7 +39,9 @@ public class SpeakerScheduleController{
         this.presenter = new SpeakerSchedulePresenter();
     }
 
-
+    /**
+     * Lists all the available actions a speaker can perform and choose from, takes their input and outputs a text UI.
+     */
     public void run(){
         presenter.printHelloMessage(speaker);
         boolean doContinue = true;

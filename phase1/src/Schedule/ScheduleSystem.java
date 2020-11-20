@@ -6,11 +6,19 @@ import UserLogin.*;
 
 import java.util.*;
 
+/**
+ * Gateway Class that reads a .csv file for all user schedules and adds talks to the appropriate user schedule manager
+ * and speaker schedule manager for for every user/speaker.
+ */
 public class ScheduleSystem implements Observer {
     UserStorage storage;
     HashMap<User, UserScheduleManager> userScheduleMap;
     TalkManager talkManager;
 
+    /**
+     * creates a new ScheduleSystem with the specified talkManager.
+     * @param talkManager The talkManager.
+     */
     public ScheduleSystem(TalkManager talkManager){
         this.talkManager = talkManager;
     }

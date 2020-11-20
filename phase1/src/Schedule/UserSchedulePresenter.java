@@ -1,6 +1,12 @@
 package Schedule;
-
+/**
+ * Prints to the console so that the user can have something to interact with.
+ */
 public class UserSchedulePresenter {
+    /**
+     * A series of phrases output depending on what the organizer does.
+     * @param i An int corresponding to specific output.
+     */
     public void printMenu(int i) {
         if (i == 1) {
             System.out.println("Welcome to the scheduling Menu" + System.lineSeparator() +
@@ -48,17 +54,36 @@ public class UserSchedulePresenter {
         }
     }
 
+    /**
+     * Prints the specified talk, with a specified number attached to it.
+     * @param num The integer attached to the string representation of talk.
+     * @param t The talk.
+     * @param talkManager The talkManager.
+     */
     public void printTalk(Integer num, Talk t, TalkManager talkManager){
         System.out.println(num.toString() + ") " + talkManager.toStringTalk(t));
     }
 
+    /**
+     * Prints al the talks in the conference.
+     * @param talkManager The talkManager.
+     */
     public void printAllTalks(TalkManager talkManager){
         System.out.println(talkManager.talkMapStringRepresentation());
     }
 
+    /**
+     * Greets the user with their name.
+     * @param userScheduleManager The userScheduleManager.
+     */
     public void printHello(UserScheduleManager userScheduleManager){
         System.out.println("Hello " + userScheduleManager.getUser().getName());
     }
+
+    /**
+     * If the registration was not successful lets the user know.
+     * @param i An integer corresponding to a specific action.
+     */
     public void printRegistrationBlocked(int i){
         if (i==1){
             System.out.println("You have already registered for this talk," +System.lineSeparator()+
