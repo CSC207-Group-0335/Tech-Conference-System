@@ -91,7 +91,7 @@ public class MessagingSystem extends Observable implements Observer {
      */
 
     public void run() {
-        CSVReader fileReader = new CSVReader("phase1/src/Resources/Conversations.csv");
+        CSVReader fileReader = new CSVReader("src/Resources/Conversations.csv");
         for (ArrayList<String> scheduleData : fileReader.getData()) {
             String participantOne = scheduleData.get(0);
             String participantTwo = scheduleData.get(1);

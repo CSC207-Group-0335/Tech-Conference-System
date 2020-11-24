@@ -55,7 +55,7 @@ public class ScheduleSystem implements Observer {
      * Reads the cvs and creates the userScheduleMap.
      */
     public void run(){
-        CSVReader fileReader = new CSVReader("phase1/src/Resources/Registration.csv");
+        CSVReader fileReader = new CSVReader("src/Resources/Registration.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
             User user = findUser(email);

@@ -76,7 +76,7 @@ public class TalkSystem extends Observable implements Observer{
         if (messagingSystem.speakerMessengerController != null) {
             this.addObserver(messagingSystem.speakerMessengerController.userInfo);
         }
-        CSVReader fileReader = new CSVReader("phase1/src/Resources/Talks.csv");
+        CSVReader fileReader = new CSVReader("src/Resources/Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
             this.talkManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),

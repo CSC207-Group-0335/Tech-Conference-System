@@ -119,7 +119,7 @@ public class TechConferenceSystem extends Observable {
         this.logInController.addObserver(roomSystem.talkSystem);
         this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
 
-        CSVReader file = new CSVReader("phase1/src/Resources/Users.csv");
+        CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }
