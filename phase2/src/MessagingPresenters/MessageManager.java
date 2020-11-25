@@ -7,16 +7,13 @@ import UserLogin.User;
 import UserLogin.UserStorage;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public abstract class MessageManager implements Observer {
     public User user;
     public UserStorage allUsers;
-    private ConversationStorage conversationStorage;
-    private ArrayList<User> friendsList;
+    public ConversationStorage conversationStorage;
+    public HashSet<User> friendsList;
 
     public MessageManager(String email) {
         User user = null;
@@ -30,7 +27,7 @@ public abstract class MessageManager implements Observer {
         this.friendsList = getFriendsList();
     }
 
-    public abstract ArrayList<User> getFriendsList();
+    public abstract HashSet<User> getFriendsList();
 
     /**
      * Returns true if and only if this user is able to message </friend>.
