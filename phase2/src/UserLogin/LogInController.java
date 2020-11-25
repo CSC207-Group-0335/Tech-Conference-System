@@ -61,9 +61,9 @@ public class LogInController extends Observable {
 
                 //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem
                 //and messagingSystem.
+                this.talkSystem.userEmail = this.email;
                 this.talkSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
                 //this.talkSystem.user = user;
-                this.talkSystem.email = this.email;
                 this.messagingSystem.instantiateControllers(this.email, scanner);
                 presenter.printLoginInfo(3); //Login Successful
             }

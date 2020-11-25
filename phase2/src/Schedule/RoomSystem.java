@@ -2,6 +2,7 @@ package Schedule;
 
 import Files.CSVWriter;
 import Files.TxtIterator;
+import UserLogin.MainMenuController;
 import UserLogin.UserStorage;
 
 import java.util.*;
@@ -21,9 +22,9 @@ public class RoomSystem extends Observable {
     /**
      * Creates a new RoomSystem.
      */
-    public RoomSystem(UserStorage userStorage){
+    public RoomSystem(UserStorage userStorage, MainMenuController mainMenuController){
         this.roomStorage = new RoomStorage();
-        this.talkSystem = new TalkSystem(userStorage, this.roomStorage);
+        this.talkSystem = new TalkSystem(userStorage, this.roomStorage, mainMenuController);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }

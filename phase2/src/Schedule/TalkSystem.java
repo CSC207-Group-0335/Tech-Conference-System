@@ -27,11 +27,12 @@ public class TalkSystem extends Observable implements Observer{
     /**
      * creates a new TalkSystem.
      */
-    public TalkSystem(UserStorage userStorage, RoomStorage roomStorage){
+    public TalkSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
         this.eventManager = new EventManager(userStorage, roomStorage);
         this.userStorage = userStorage;
         this.messagingSystem = new MessagingSystem();
         this.scheduleSystem = new ScheduleSystem(eventManager);
+        this.mainMenuController = mainMenuController;
     }
 
     /**
