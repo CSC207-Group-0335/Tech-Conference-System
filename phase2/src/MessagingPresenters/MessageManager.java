@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MessageManager implements Observer {
+public abstract class MessageManager implements Observer {
     private UserStorage allUsers;
     private ConversationStorage conversationStorage;
 
