@@ -2,7 +2,6 @@ package UserLogin;
 import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -11,8 +10,6 @@ import java.util.*;
 
 public class UserStorage extends Observable {
     public ArrayList<User> userList;
-    public HashMap<User, UserScheduleManager> userScheduleMap;
-    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public ArrayList<Speaker> speakerList;
 
     /**
@@ -22,8 +19,6 @@ public class UserStorage extends Observable {
     public UserStorage() {
         this.userList = new ArrayList<>();
         this.speakerList = new ArrayList<>();
-        this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
 
     }
 
@@ -43,22 +38,13 @@ public class UserStorage extends Observable {
         if (newuser == null) {
             return false;
         }
-
         //Add the user to the UserList
         this.userList.add(newuser);
         //Add the Attendee/Organizer user to UserScheduleList
-        if (newuser instanceof Attendee || newuser instanceof Organizer){
-            UserScheduleManager newuserschedulemanager = new UserScheduleManager(newuser);
-            this.userScheduleMap.put(newuser, newuserschedulemanager);
-        }
         if (newuser instanceof Speaker){
             this.speakerList.add((Speaker) newuser);
-            SpeakerScheduleManager newspeakerschedulemanager = new SpeakerScheduleManager((Speaker) newuser);
-            this.speakerScheduleMap.put((Speaker) newuser, newspeakerschedulemanager);
         }
-
         return true;
-
     }
 
     /**
@@ -67,17 +53,18 @@ public class UserStorage extends Observable {
     public ArrayList<User> getUserList() {
         return userList;
     }
+    public ArrayList<Speaker> getSpeakerList() {
+        return speakerList;
+    }
 
     /**
      * @return the UserScheduleMap for the User, specfically when the user is not a Speaker and has the
      * ability to sign up to attend talks.
      */
-    public HashMap<User, UserScheduleManager> getUserScheduleMap() { return userScheduleMap;}
 
     /**
      * @return the SpeakerSchedule map for the User, specifically when the user is a Speaker.
      */
-    public HashMap<Speaker, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
 
     /**
      * Used to find the user object that is associated with the inputted email.
