@@ -12,13 +12,13 @@ import java.util.Observer;
  * A class that manages messaging.
  */
 
-public class AttendeeMessageManager extends MessageManager {
+public class OrganizerMessageManager extends MessageManager {
     /**
-     * A user is needed to create an instance of AttendeeMessageManager.
+     * A user is needed to create an instance of OrganizerMessageManager.
      * @param user the user whose messages will be managed
      */
 
-    public AttendeeMessageManager(String email) {
+    public OrganizerMessageManager(String email) {
         super(email);
     }
 
@@ -31,10 +31,8 @@ public class AttendeeMessageManager extends MessageManager {
     public ArrayList<User> getFriendsList() {
         ArrayList<User> friends = new ArrayList<User>();
         for (int i = 0; i < allUsers.userList.size(); i++){
-            if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i) instanceof Speaker){
-                if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
-                    friends.add(allUsers.getUserList().get(i));
-                }
+            if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                friends.add(allUsers.getUserList().get(i));
             }
         }
         return friends;

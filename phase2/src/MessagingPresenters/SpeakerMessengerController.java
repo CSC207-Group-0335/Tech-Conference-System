@@ -14,12 +14,7 @@ import java.util.Scanner;
  */
 
 public class SpeakerMessengerController extends MessengerController{
-    public SpeakerMessageManager userInfo;
-    public String email;
     private SpeakerMessengerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
-
 
     /**
      * A speaker is required to create an instance of this class.
@@ -28,8 +23,7 @@ public class SpeakerMessengerController extends MessengerController{
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(speakerEmail, scanner, mainMenuController);
-        this.messageManager = new SpeakerMessageManager(speakerEmail);
+        super(speakerEmail, scanner, mainMenuController, new SpeakerMessageManager(speakerEmail));
         this.presenter = new SpeakerMessengerPresenter();
     }
 
@@ -57,7 +51,7 @@ public class SpeakerMessengerController extends MessengerController{
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);
@@ -66,7 +60,7 @@ public class SpeakerMessengerController extends MessengerController{
                     presenter.printMenu(3);
                     String body = scan.nextLine();
 
-                    userInfo.message(email, body);
+                     messageManager.message(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);
@@ -74,34 +68,34 @@ public class SpeakerMessengerController extends MessengerController{
                     if (body.equals("0")) {
                         continue;
                     }
-                    userInfo.messageAllAttendees(body);
+                    messageManager.messageAllAttendees(body);
                     presenter.printMenu(4);
                 } else if (option == 3) {
-                    ArrayList<String> emails = userInfo.getRecipients();
+                    ArrayList<String> emails = messageManager.getRecipients();
                     presenter.viewChats(emails);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || emails.size() == 0) {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = userInfo.viewMessages(email);
+                    ArrayList<Message> messages = messageManager.viewMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
-                    ArrayList<Talk> talks = userInfo.getSpeakerTalks();
+                    ArrayList<Talk> talks = messageManager.getSpeakerTalks();
                     presenter.viewTalks(talks);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || talks.size() == 0) {
                         continue;
                     }
                     Talk talk = talks.get(index - 1);
-                    ArrayList<String> emails = userInfo.getAttendeesOfTalk(talk);
+                    ArrayList<String> emails = messageManager.getAttendeesOfTalk(talk);
                     presenter.printMenu(3);
                     String body = scan.nextLine();
                     if (body.equals("0")) {
                         continue;
                     }
                     for (String email : emails) {
-                        userInfo.message(email, body);
+                        messageManager.message(email, body);
                     }
                     presenter.printMenu(4);
                 }
