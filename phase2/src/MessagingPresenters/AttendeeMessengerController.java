@@ -10,14 +10,16 @@ import java.util.Scanner;
  */
 
 public class AttendeeMessengerController extends MessengerController {
-    private AttendeeMessengerPresenter presenter;
+    private final AttendeeMessengerPresenter presenter;
+    private final AttendeeMessageManager messageManager;
 
     /**
      * A user is required to create an instance of this class.\
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(attendeeEmail, scanner, mainMenuController, new AttendeeMessageManager(attendeeEmail));
+        super(attendeeEmail, scanner, mainMenuController);
+        messageManager = new AttendeeMessageManager(attendeeEmail);
         this.presenter = new AttendeeMessengerPresenter();
     }
 

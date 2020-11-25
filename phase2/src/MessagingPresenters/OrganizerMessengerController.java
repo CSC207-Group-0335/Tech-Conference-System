@@ -13,14 +13,16 @@ import java.util.Scanner;
  */
 
 public class OrganizerMessengerController extends MessengerController {
-    private OrganizerMessengerPresenter presenter;
+    private final OrganizerMessengerPresenter presenter;
+    private final OrganizerMessageManager messageManager;
 
     /**
      * An organizer is required to create an instance of this class.\
      */
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(orgEmail, scanner, mainMenuController, new OrganizerMessageManager(orgEmail));
+        super(orgEmail, scanner, mainMenuController);
+        this.messageManager = new OrganizerMessageManager(orgEmail);
         this.presenter = new OrganizerMessengerPresenter();
     }
 
