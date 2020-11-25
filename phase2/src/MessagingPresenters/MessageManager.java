@@ -1,6 +1,4 @@
 package MessagingPresenters;
-
-import Schedule.TalkSystem;
 import UserLogin.Attendee;
 import UserLogin.Speaker;
 import UserLogin.User;
@@ -52,7 +50,7 @@ public abstract class MessageManager implements Observer {
      */
 
     public ArrayList<User> getAttendees() {
-        ArrayList<User> attendees = new ArrayList<User>();
+        ArrayList<User> attendees = new ArrayList<>();
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (allUsers.getUserList().get(i) instanceof Attendee) {
                 attendees.add(allUsers.getUserList().get(i));
@@ -68,7 +66,7 @@ public abstract class MessageManager implements Observer {
      */
 
     public ArrayList<User> getSpeakers() {
-        ArrayList<User> speakers = new ArrayList<User>();
+        ArrayList<User> speakers = new ArrayList<>();
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (allUsers.getUserList().get(i) instanceof Speaker) {
                 speakers.add(allUsers.getUserList().get(i));

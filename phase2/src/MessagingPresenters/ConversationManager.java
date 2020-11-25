@@ -18,7 +18,7 @@ public class ConversationManager {
         this.participants = new ArrayList<>();
         this.participants.add(sender);
         this.participants.add(recipient);
-        this.messages = new ArrayList<Message>();
+        this.messages = new ArrayList<>();
     }
 
     /**

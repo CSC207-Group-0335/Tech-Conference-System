@@ -74,7 +74,7 @@ public class AttendeeMessengerController extends MessengerController {
                     mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(1);
-                    String email = new String();
+                    String email = "";
                     boolean valid_recipient = false;
 
                     while (!valid_recipient) {

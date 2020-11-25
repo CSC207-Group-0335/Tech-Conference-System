@@ -14,7 +14,7 @@ public class ConversationStorage {
      */
 
     public ConversationStorage() {
-        conversationManagers = new ArrayList<ConversationManager>();
+        conversationManagers = new ArrayList<>();
     }
 
     /**
