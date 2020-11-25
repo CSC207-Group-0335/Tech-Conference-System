@@ -1,10 +1,6 @@
 package MessagingPresenters;
-
-import Schedule.TalkSystem;
-import UserLogin.Attendee;
-import UserLogin.Speaker;
-import UserLogin.User;
-import UserLogin.UserStorage;
+import Schedule.SpeakerScheduleManager;
+import UserLogin.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,13 +8,22 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public abstract class MessageManager implements Observer {
-    public User user;
-    public UserStorage allUsers;
-    private ConversationStorage conversationStorage;
-    private ArrayList<User> friendsList;
+/**
+ * A class that manages messaging.
+ */
 
-    public MessageManager(String email) {
+public class OrganizerMessageManager extends MessageManager {
+    private User user;
+    private UserStorage allUsers;
+    private ArrayList<User> friendsList;
+    private ConversationStorage conversationStorage;
+
+    /**
+     * A user is needed to create an instance of CanMessageManager.
+     * @param user the user whose messages will be managed
+     */
+
+    public OrganizerMessageManager(String email) {
         User user = null;
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (allUsers.userList.get(i).getEmail().equals(email)) {
@@ -30,7 +35,34 @@ public abstract class MessageManager implements Observer {
         this.friendsList = getFriendsList();
     }
 
-    public abstract ArrayList<User> getFriendsList();
+    /**
+     * Returns a list of users that this user is allowed to message. Attendees can message all attendees and speakers,
+     * organizers can message all users, and speakers can message all attendees.
+     * @return the list of users that user can message
+     */
+
+    public ArrayList<User> getFriendsList() {
+        ArrayList<User> friends = new ArrayList<User>();
+
+        if (user instanceof Organizer) {
+            for (int i = 0; i < allUsers.userList.size(); i++){
+                if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                    friends.add(allUsers.getUserList().get(i));
+                }
+            }
+        }
+        else if (user instanceof Attendee) {
+            for (int i = 0; i < allUsers.userList.size(); i++){
+                if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i)
+                        instanceof Speaker){
+                    if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                        friends.add(allUsers.getUserList().get(i));
+                    }
+                }
+            }
+        }
+        return friends;
+    }
 
     /**
      * Returns true if and only if this user is able to message </friend>.
@@ -117,13 +149,9 @@ public abstract class MessageManager implements Observer {
         return emails;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof UserStorage) {
-            this.allUsers = (UserStorage) arg;
-        }
-        else if (arg instanceof  ConversationStorage){
-            this.conversationStorage = (ConversationStorage) arg;
-        }
-    }
+    /**
+     * Updates </allUsers> if and only if </arg> is an instance of UserStorage.
+     * @param o an observable parameter
+     * @param arg an Object
+     */
 }

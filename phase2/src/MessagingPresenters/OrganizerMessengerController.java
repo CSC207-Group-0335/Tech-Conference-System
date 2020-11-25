@@ -13,19 +13,15 @@ import java.util.Scanner;
  */
 
 public class OrganizerMessengerController extends MessengerController {
-    private String organizerEmail;
-    public AttendeeMessageManager messageManager;
-    private ConversationStorage conversationStorage;
+    public OrganizerMessengerController messageManager;
     private OrganizerMessengerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
 
     /**
      * An organizer is required to create an instance of this class.\
      */
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(orgEmail, scanner, mainMenuController);
+        super(orgEmail, scanner, mainMenuController, new OrganizerMessageManager(orgEmail));
         this.presenter = new OrganizerMessengerPresenter();
     }
 
@@ -97,7 +93,7 @@ public class OrganizerMessengerController extends MessengerController {
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(organizerEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
