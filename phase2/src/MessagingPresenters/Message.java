@@ -12,6 +12,7 @@ public class Message {
     private final String senderEmail;
     private final LocalDateTime timestamp;
     private final String messageContent;
+    private Boolean read;
 
     /**
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
@@ -30,6 +31,7 @@ public class Message {
         this.senderEmail = senderEmail;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
+        this.read = false;
     }
 
 
@@ -74,4 +76,7 @@ public class Message {
         return messageContent;
     }
 
+    public void toggleRead() {
+        this.read = !read;
+    }
 }

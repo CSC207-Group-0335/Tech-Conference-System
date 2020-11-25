@@ -7,7 +7,8 @@ import java.util.ArrayList;
  */
 
 public class ConversationStorage {
-    private final ArrayList<ConversationManager> conversationManagers;
+    private ArrayList<ConversationManager> conversationManagers;
+    private ArrayList<ConversationManager> archived;
 
     /**
      * Nothing is needed to create an instance of ConversationStorage.
@@ -15,6 +16,7 @@ public class ConversationStorage {
 
     public ConversationStorage() {
         conversationManagers = new ArrayList<>();
+        archived = new ArrayList<>();
     }
 
     /**
@@ -73,5 +75,13 @@ public class ConversationStorage {
 
     public ArrayList<ConversationManager> getConversationManagers() {
         return conversationManagers;
+    }
+
+    public void archiveConversationWith(String senderEmail, String recipientEmail) {
+        ConversationManager c = getConversationManager(senderEmail, recipientEmail);
+        if (c != null) {
+            conversationManagers.remove(c);
+            archived.add(c);
+        }
     }
 }

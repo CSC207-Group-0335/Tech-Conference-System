@@ -75,9 +75,18 @@ public abstract class MessageManager implements Observer {
         return speakers;
     }
 
+    private Boolean containsConversationWith(String email) {
+        if (conversationStorage.contains(user.getEmail(), email)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public void messageOne(String email, String messageContent) {
         if (this.canMessage(email)) {
-            if (conversationStorage.contains(user.getEmail(), email)) {
+            if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
                 c.addMessage(email, user.getEmail(), LocalDateTime.now(), messageContent);
             } else {
@@ -87,9 +96,27 @@ public abstract class MessageManager implements Observer {
         }
     }
 
+    public void deleteMessage(String email, Integer index) {
+        if (containsConversationWith(email)) {
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            c.deleteMessage(index);
+        }
+    }
+
+    public void toggleRead(String email, Integer index) {
+        if (containsConversationWith(email)) {
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            c.toggleRead(index);
+        }
+    }
+
+    public void archiveConversationWith(String email) {
+        conversationStorage.archiveConversationWith(user.getEmail(), email);
+    }
+
     public ArrayList<Message> viewMessages(String email) {
         if (this.canMessage(email)) {
-            if (conversationStorage.contains(user.getEmail(), email)) {
+            if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
                 return c.getMessages();
             } else {
