@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class MessagingSystem extends Observable implements Observer {
     public ConversationStorage conversationStorage;
-    public User user;
+    public String  userEmail;
     public AttendeeMessengerController attendeeMessengerController;
     public SpeakerMessengerController speakerMessengerController;
     public OrganizerMessengerController organizerMessengerController;
@@ -50,19 +50,18 @@ public class MessagingSystem extends Observable implements Observer {
     public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
-            this.attendeeMessengerController = new AttendeeMessengerController(user.getEmail(), scanner, mainMenuController);
-            this.addObserver(this.attendeeMessengerController);
+            this.attendeeMessengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
+            this.addObserver(this.attendeeMessengerController.userInfo);
             setStorage();
         }
         if (user instanceof Speaker) {
-            this.speakerMessengerController = new SpeakerMessengerController(user.getEmail(), scanner, mainMenuController);
-            this.addObserver(this.speakerMessengerController);
+            this.speakerMessengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
             this.addObserver(this.speakerMessengerController.userInfo);
             setStorage();
         }
         if (user instanceof Organizer) {
-            this.organizerMessengerController = new OrganizerMessengerController(user.getEmail(), scanner, mainMenuController);
-            this.addObserver(this.organizerMessengerController);
+            this.organizerMessengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
+            this.addObserver(this.organizerMessengerController.userInfo);
             setStorage();
         }
     }
@@ -78,7 +77,8 @@ public class MessagingSystem extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof User) {
-            this.user = (User) arg;
+            User user = (User) arg;
+            this.userEmail = user.getEmail();
         }
         if (arg instanceof MainMenuController) {
             this.mainMenuController = (MainMenuController) arg;
