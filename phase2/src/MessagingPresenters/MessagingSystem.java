@@ -17,9 +17,7 @@ import java.util.Scanner;
 public class MessagingSystem extends Observable implements Observer {
     public ConversationStorage conversationStorage;
     public String  userEmail;
-    public AttendeeMessengerController attendeeMessengerController;
-    public SpeakerMessengerController speakerMessengerController;
-    public OrganizerMessengerController organizerMessengerController;
+    public MessengerController messengerController;
     public MainMenuController mainMenuController;
 
     /**
@@ -50,20 +48,16 @@ public class MessagingSystem extends Observable implements Observer {
     public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
-            this.attendeeMessengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(this.attendeeMessengerController.userInfo);
-            setStorage();
+            this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
         }
-        if (user instanceof Speaker) {
-            this.speakerMessengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(this.speakerMessengerController.userInfo);
-            setStorage();
+        else if (user instanceof Speaker) {
+            this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
         }
-        if (user instanceof Organizer) {
-            this.organizerMessengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(this.organizerMessengerController.userInfo);
-            setStorage();
+        else if (user instanceof Organizer) {
+            this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
         }
+        this.addObserver(this.messengerController.userInfo);
+        setStorage();
     }
 
     /**

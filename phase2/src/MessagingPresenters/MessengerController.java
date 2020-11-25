@@ -9,7 +9,7 @@ public abstract class MessengerController {
     public Scanner scan;
     public MainMenuController mainMenuController;
 
-    public void MessengerController(String email, Scanner scan, MainMenuController mainMenuController){
+    public MessengerController(String email, Scanner scan, MainMenuController mainMenuController){
         this.email = email;
         this.scan = scan;
         this.mainMenuController = mainMenuController;

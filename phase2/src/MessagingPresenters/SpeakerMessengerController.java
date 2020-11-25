@@ -28,7 +28,7 @@ public class SpeakerMessengerController extends MessengerController{
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super();
+        super(speakerEmail, scanner, mainMenuController);
         this.userInfo = new SpeakerMessageManager(speakerEmail);
         this.presenter = new SpeakerMessengerPresenter();
     }
