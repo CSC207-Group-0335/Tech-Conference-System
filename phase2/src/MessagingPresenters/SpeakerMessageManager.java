@@ -9,7 +9,7 @@ import UserLogin.*;
 import java.util.*;
 
 public class SpeakerMessageManager implements Observer{
-    private Speaker speaker;
+    private String speakerEmail;
     private UserStorage allUsers;
     private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
     private HashMap<Talk, SignUpAttendeesManager> signUpMap;
@@ -17,19 +17,21 @@ public class SpeakerMessageManager implements Observer{
 
     /**
      * A user is needed to create an instance of SpeakerMessageManager.
-     * @param speaker the speaker whose messages will be managed
+     * @param speakerEmail the email of speaker whose messages will be managed
      */
 
-    public SpeakerMessageManager(Speaker speaker) {
-        this.speaker = speaker;
+    public SpeakerMessageManager(String speakerEmail) {
+        this.speakerEmail = speakerEmail;
     }
+
 
     /**
      * Returns a list of all talks the speaker will be participating in.
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get(speaker).getTalkList();
+    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get("""
+            we are going to use UserStorage to get user""").getTalkList();
     }
 
     /**
@@ -60,39 +62,15 @@ public class SpeakerMessageManager implements Observer{
         return emails;
     }
 
-    /**
-     * Returns a list containing the emails of all senders in conversations involving this speaker.
-     * @return an ArrayList containing the emails of all senders
-     */
-
-    public ArrayList<String> getAllSenders(){
-        ArrayList<String> senders = new ArrayList<String>();
-        for (ConversationManager c: conversationStorage.getConversationManagers()){
-            if (c.getParticipants().contains(speaker.getEmail()) && !c.getLastSenderEmail().equals(speaker.getEmail())){
-                ArrayList<String> participants = c.getParticipants();
-                for (String email: participants){
-                    if (!(email.equals(speaker.getEmail()))){
-                        senders.add(email);
-                    }
-                }
-
+    public boolean canMessage(String friendEmail) {
+        for (String friend: getAllAttendees()){
+            if (friend.equals(friendEmail)){
+                return true;
             }
-        }
-        return senders;
-    }
-
-    /**
-     * Returns True if and only if this speaker can reply to the user registered under the email </email>.
-     * @param email a String representing the email of the user
-     * @return a boolean representing whether or not the speaker can reply
-     */
-
-    public boolean canReply(String email){
-        if (getAllSenders().contains(email)){
-            return true;
         }
         return false;
     }
+
 
     /**
      * Updates </allUsers> if and only if </arg> is an instance of UserStorage, </signUpMap> if and only if </arg> is
