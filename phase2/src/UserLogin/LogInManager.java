@@ -32,6 +32,7 @@ public class LogInManager implements Observer {
             }
         }
         return null; //If we have reached the end of the list and there is no match, return null.
+        // log in manager return user string
     }
 
     /**

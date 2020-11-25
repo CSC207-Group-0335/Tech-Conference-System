@@ -1,7 +1,6 @@
 package Schedule;
 
-import UserLogin.Speaker;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -76,6 +75,12 @@ public class Talk {
     public LocalDateTime getEndTime() {
         return endTime;
     }
+
+    public Duration getDuration() {
+        Duration duration = Duration.between(startTime, endTime);
+        return duration;
+    }
+
     public String getTalkId() {
         return talkId;
     }
@@ -107,18 +112,5 @@ public class Talk {
 
     public ArrayList<String> getSpeakersRunningTalk() {
         return speakers;
-    }
-
-    /**
-     * A string representation of the talk entity.
-     * @return A string representing the talk entity.
-     */
-    @Override
-    public String toString() {
-        return "Talk{" +
-                "title='" + title + '\'' +
-                ", startTime=" + startTime + '\'' +
-                ", endTime=" + endTime +
-                '}';
     }
 }
