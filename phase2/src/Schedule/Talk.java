@@ -20,7 +20,7 @@ public class Talk {
     String talkId;
     String roomName;
     ArrayList<String> usersSignedUp;
-    ArrayList<String> speakersRunningTalk;
+    ArrayList<String> speakers;
 
     /**
      * Creates a talk with the specified title and time.
@@ -34,7 +34,7 @@ public class Talk {
         this.talkId = UUID.randomUUID().toString();
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
-        this.speakersRunningTalk = new ArrayList<>();
+        this.speakers = new ArrayList<>();
     }
 
     /**
@@ -50,7 +50,7 @@ public class Talk {
         this.talkId = talkId;
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
-        this.speakersRunningTalk = new ArrayList<>();
+        this.speakers = new ArrayList<>();
     }
 
     /**
@@ -92,12 +92,12 @@ public class Talk {
         return true;
     }
     public boolean addSpeaker(String speakerId){
-        for (String speaker : speakersRunningTalk){
+        for (String speaker : speakers){
             if (speaker.equals(speakerId)){
                 return false;
             }
         }
-        speakersRunningTalk.add(speakerId);
+        speakers.add(speakerId);
         return true;
     }
 
@@ -106,7 +106,7 @@ public class Talk {
     }
 
     public ArrayList<String> getSpeakersRunningTalk() {
-        return speakersRunningTalk;
+        return speakers;
     }
 
     /**
