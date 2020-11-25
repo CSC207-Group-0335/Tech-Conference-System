@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class SpeakerMessageManager extends MessageManager implements Observer {
-    private String speakerEmail;
-    private UserStorage allUsers;
     private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
     private HashMap<Talk, SignUpAttendeesManager> signUpMap;
-    private ConversationStorage conversationStorage;
 
     /**
      * A user is needed to create an instance of SpeakerMessageManager.
@@ -22,7 +19,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      */
 
     public SpeakerMessageManager(String speakerEmail) {
-        this.speakerEmail = speakerEmail;
+        super(speakerEmail);
     }
 
 
@@ -31,8 +28,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get("""
-            we are going to use UserStorage to get user""").getTalkList();
+    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get((Speaker) user).getTalkList();
     }
 
     /**
@@ -40,12 +36,10 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's talks
      */
 
-    public HashSet<String> getAllAttendees(){
-        HashSet<String> emails = new HashSet<String>();
+    public HashSet<User> getFriendsList(){
+        HashSet<User> emails = new HashSet<>();
         for (Talk talk: getSpeakerTalks()){
-            for (User user: signUpMap.get(talk).userList){
-                emails.add(user.getEmail());
-            }
+            emails.addAll(signUpMap.get(talk).userList);
         }
         return emails;
     }
@@ -55,39 +49,8 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's talks
      */
 
-    public ArrayList<String> getAttendeesOfTalk(Talk talk){
-        ArrayList<String> emails = new ArrayList<String>();
-        for (User user: signUpMap.get(talk).userList){
-                emails.add(user.getEmail());
-            }
-        return emails;
-    }
-
-    public boolean canMessage(String friendEmail) {
-        for (String friend: getAllAttendees()){
-            if (friend.equals(friendEmail)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email>.
-     * @param email a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
-
-    void message(String email, String messageContent){
-        if (conversationStorage.contains(speakerEmail, email)){
-            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
-            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
-        }
-        else{
-            ConversationManager c = conversationStorage.addConversationManager(speakerEmail, email);
-            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
-        }
-
+    public ArrayList<User> getAttendeesOfTalk(Talk talk){
+        return new ArrayList<>(signUpMap.get(talk).userList);
     }
 
 
@@ -97,41 +60,9 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      */
 
     public void messageAllAttendees(String messageContent){
-        for (String email: getAllAttendees()){
-            message(email, messageContent);
+        for (User user: getFriendsList()){
+            messageOne(user.getEmail(), messageContent);
         }
-    }
-
-    /**
-     * Returns a list containing all recipients.
-     * @return an ArrayList containing all recipients
-     */
-
-    public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(speakerEmail)){
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(speakerEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
-    }
-
-    /**
-     * Returns a list of messages between this speaker and the user with email </email>.
-     * @param email a String representing an email
-     * @return an ArrayList containing messages
-     */
-
-    public ArrayList<Message> viewMessages(String email){
-        if (conversationStorage.contains(speakerEmail, email)){
-            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
-            return c.getMessages();
-        }
-        return null;
     }
 
     /**
