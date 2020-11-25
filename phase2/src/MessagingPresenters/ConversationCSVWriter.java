@@ -23,14 +23,13 @@ public class ConversationCSVWriter {
                 csvWriter.append(",");
                 csvWriter.append(c.getParticipants().get(1));
                 csvWriter.append(",");
-                String s = "";
+                StringBuilder s = new StringBuilder();
                 for (Message m : c.getMessages()) {
                     String message = m.getMessageContent();
                     message = message.replace(",", "commaseparator");
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().format(formatter).replace("T", " ") + "~"
-                            + message + ";";
+                    s.append(m.getRecipientEmail()).append("~").append(m.getSenderEmail()).append("~").append(m.getTimestamp().format(formatter).replace("T", " ")).append("~").append(message).append(";");
                 }
-                csvWriter.append(s);
+                csvWriter.append(s.toString());
                 i++;
                 csvWriter.append("\n");
                 csvWriter.flush();

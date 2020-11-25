@@ -1,9 +1,6 @@
 package MessagingPresenters;
 
 import UserLogin.MainMenuController;
-import UserLogin.User;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -96,7 +93,7 @@ public class OrganizerMessengerController extends MessengerController {
                     mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
-                    String email = new String();
+                    String email = "";
                     boolean valid_recipient = false;
                     while (!valid_recipient) {
                         email = scan.nextLine();

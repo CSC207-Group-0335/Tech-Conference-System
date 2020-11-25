@@ -1,9 +1,6 @@
 package MessagingPresenters;
 
-import Schedule.SpeakerScheduleManager;
 import UserLogin.*;
-
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -13,8 +10,6 @@ import java.util.*;
 public class OrganizerMessageManager extends MessageManager {
     /**
      * A user is needed to create an instance of OrganizerMessageManager.
-     *
-     * @param user the user whose messages will be managed
      */
 
     public OrganizerMessageManager(String email) {
@@ -29,7 +24,7 @@ public class OrganizerMessageManager extends MessageManager {
      */
 
     public HashSet<User> getFriendsList() {
-        HashSet<User> friends = new HashSet<User>();
+        HashSet<User> friends = new HashSet<>();
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
                 friends.add(allUsers.getUserList().get(i));
