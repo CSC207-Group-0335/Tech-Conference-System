@@ -1,5 +1,7 @@
 package Schedule;
 
+import java.util.ArrayList;
+
 /**
  * Represents a Room.
  */
@@ -15,9 +17,13 @@ public class Room {
      * @param roomName The name of the room.
      * @param capacity The capacity of the room.
      */
+
+    ArrayList<String> talkList;
+
     public Room(String roomName, int capacity){
         this.roomName = roomName;
         this.capacity = capacity;
+        this.talkList = new ArrayList<>();
     }
 
     /**
@@ -26,6 +32,7 @@ public class Room {
      */
     public Room(String roomName){
         this.roomName = roomName;
+        this.talkList = new ArrayList<>();
     }
 
     /**
@@ -42,6 +49,20 @@ public class Room {
      */
     public int getCapacity() {
         return this.capacity;
+    }
+
+    public boolean addTalk(String talkId){
+        //boolean found = true;
+        for (String id : talkList){
+            if (id.equals(talkId)){
+                return false;
+            }
+        }
+        this.talkList.add(talkId);
+        return true;
+    }
+    public ArrayList<String> getTalkList(){
+        return this.talkList;
     }
 }
 
