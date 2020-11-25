@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 
 public class OrganizerMessengerController implements Observer {
-    private Organizer organizer;
+    private String organizerEmail;
     public CanMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private OrgMessengerControllerPresenter presenter;
@@ -24,15 +24,14 @@ public class OrganizerMessengerController implements Observer {
     public MainMenuController mainMenuController;
 
     /**
-     * An organizer is required to create an instance of this class.
-     * @param organizer the organizer
+     * An organizer is required to create an instance of this class.\
      */
 
-    public OrganizerMessengerController(Organizer organizer, Scanner scanner, MainMenuController mainMenuController) {
-        this.userInfo = new CanMessageManager(organizer);
+    public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
+        this.userInfo = new CanMessageManager(organizerEmail);
         this.presenter = new OrgMessengerControllerPresenter();
         this.scan = scanner;
-        this.organizer = organizer;
+        this.organizerEmail = orgEmail;
         this.mainMenuController = mainMenuController;
     }
 
@@ -44,13 +43,13 @@ public class OrganizerMessengerController implements Observer {
 
     public void messageOneUser(String email, String messageContent){
         if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizer.getEmail(), email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizer.getEmail(), email);
-                c.addMessage(email, organizer.getEmail(), LocalDateTime.now(), messageContent);
+            if (conversationStorage.contains(organizerEmail, email)){
+                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
+                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
             }
             else{
-                ConversationManager c = conversationStorage.addConversationManager(organizer.getEmail(), email);
-                c.addMessage(email, organizer.getEmail(), LocalDateTime.now(), messageContent);
+                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
+                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
             }
         }
     }
@@ -88,12 +87,12 @@ public class OrganizerMessengerController implements Observer {
 
     public ArrayList<Message> viewMessages(String email){
         if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizer.getEmail(), email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizer.getEmail(), email);
+            if (conversationStorage.contains(organizerEmail, email)){
+                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
                 return c.getMessages();
             }
             else{
-                ConversationManager c = conversationStorage.addConversationManager(organizer.getEmail(), email);
+                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
                 return c.getMessages();
             }
         }
@@ -109,9 +108,9 @@ public class OrganizerMessengerController implements Observer {
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
         for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(organizer.getEmail())) {
+            if (manager.getParticipants().contains(organizerEmail)) {
                 ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(organizer.getEmail());
+                participants.remove(organizerEmail);
                 emails.add(participants.get(0));
             }
         }
@@ -132,7 +131,7 @@ public class OrganizerMessengerController implements Observer {
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(organizer);
+                    mainMenuController.runMainMenu(organizerEmail);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
