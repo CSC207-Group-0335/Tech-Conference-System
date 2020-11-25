@@ -16,7 +16,6 @@ import java.util.Scanner;
  */
 
 public class MainMenuController implements Observer {
-    private User user; //This user is gotten from LogInController
     public MainMenuPresenter presenter;
     public UserScheduleController userScheduleController;
     public AttendeeMessengerController attendeeMessengerController;
@@ -59,8 +58,8 @@ public class MainMenuController implements Observer {
      * This method will run the Main Menu based on the type of the user that is provided.
      * @param user the user provided
      */
-    public void runMainMenu(User user) {
-        presenter.printHello(user);
+    public void runMainMenu(String useremail) {
+        presenter.printHello(useremail);
         if (user instanceof Attendee) {
             runMainMenuAttendee();
         } else if (user instanceof Speaker) {
@@ -161,7 +160,7 @@ public class MainMenuController implements Observer {
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
             }
-    }}
+        }}
 
 
     /**Hello world
@@ -173,7 +172,7 @@ public class MainMenuController implements Observer {
         this.talkSystem.save();
         this.messagingSystem.save();
         this.scheduleSystem.save();
-        }
+    }
 
     /**
      * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
@@ -185,9 +184,7 @@ public class MainMenuController implements Observer {
 
     @Override
     public void update (Observable o, Object arg){
-        if (arg instanceof User) {
-            this.user = (User) arg;
-        } else if (arg instanceof OrgScheduleController) {
+        if (arg instanceof OrgScheduleController) {
             this.orgScheduleController = (OrgScheduleController) arg;
         } else if (arg instanceof AttendeeMessengerController) {
             this.attendeeMessengerController = (AttendeeMessengerController) arg;
@@ -201,4 +198,4 @@ public class MainMenuController implements Observer {
             this.orgMessengerController = (OrganizerMessengerController) arg;
         }
     }
-    }
+}

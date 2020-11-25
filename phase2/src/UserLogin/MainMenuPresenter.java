@@ -21,8 +21,8 @@ public class MainMenuPresenter {
      * @param user the User that has logged in to the system.
      */
 
-    public void printHello(User user){
-        System.out.println("Hello, " + user.getName());
+    public void printHello(String user){
+        System.out.println("Hello, " + user);
     }
 
     /**

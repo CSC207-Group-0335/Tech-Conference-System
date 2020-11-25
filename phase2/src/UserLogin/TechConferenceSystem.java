@@ -68,7 +68,7 @@ public class TechConferenceSystem extends Observable {
         this.userList = userlst;
         setChanged();
         notifyObservers(userList);
-        }
+    }
 
     /**
      * Sets the UserScheduleMap and updates the observers.
@@ -79,7 +79,7 @@ public class TechConferenceSystem extends Observable {
         this.userScheduleMap = userSchedMap;
         setChanged();
         notifyObservers(userScheduleMap);
-        }
+    }
 
     /**
      * Sets the SpeakerScheduleMap and updates the observers.
@@ -90,7 +90,7 @@ public class TechConferenceSystem extends Observable {
         this.speakerScheduleMap = speakerSchedMap;
         setChanged();
         notifyObservers(speakerSchedMap);
-        }
+    }
 
     /**
      * Sets the MainMenuController and updates the observers.
@@ -146,13 +146,13 @@ public class TechConferenceSystem extends Observable {
         setMainMenuController();
         roomSystem.run();
         mainMenuController.runMainMenu(this.logInController.user);
-        }
+    }
 
     /**
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToUsers("phase1/src/Resources/Users.csv", this.userStorage.getUserList());
+        csvWriter.writeToUsers("src/Resources/Users.csv", this.userStorage.getUserList());
     }
 }
