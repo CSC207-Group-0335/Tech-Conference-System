@@ -3,10 +3,7 @@ import Schedule.SpeakerScheduleManager;
 import UserLogin.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 /**
  * A class that manages messaging.
@@ -28,8 +25,8 @@ public class AttendeeMessageManager extends MessageManager {
      * @return the list of users that user can message
      */
 
-    public ArrayList<User> getFriendsList() {
-        ArrayList<User> friends = new ArrayList<User>();
+    public HashSet<User> getFriendsList() {
+        HashSet<User> friends = new HashSet<User>();
         for (int i = 0; i < allUsers.userList.size(); i++){
             if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i) instanceof Speaker){
                 if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {

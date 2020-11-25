@@ -13,7 +13,6 @@ import java.util.Scanner;
  */
 
 public class OrganizerMessengerController extends MessengerController {
-    public OrganizerMessengerController messageManager;
     private OrganizerMessengerPresenter presenter;
 
     /**
@@ -41,10 +40,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public void messageAllAttendees(String messageContent){
-        ArrayList<User> attendees = messageManager.getAttendees();
-        for (User attendee: attendees){
-            messageOneUser(attendee.getEmail(), messageContent);
-        }
+        messageManager.messageAllAttendees(messageContent);
     }
 
     /**
@@ -53,10 +49,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public void messageAllSpeakers(String messageContent){
-        ArrayList<User> speakers = messageManager.getSpeakers();
-        for (User speaker: speakers){
-            messageOneUser(speaker.getEmail(), messageContent);
-        }
+        messageManager.messageAllSpeakers(messageContent);
     }
 
     /**
@@ -67,7 +60,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        messageManager.viewMessages(email);
+        return messageManager.viewMessages(email);
     }
 
     /**
@@ -76,7 +69,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public ArrayList<String> getRecipients() {
-        messageManager.getRecipients();
+        return messageManager.getRecipients();
     }
 
     /**
