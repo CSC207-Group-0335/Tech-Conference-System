@@ -93,7 +93,7 @@ public class UserStorage extends Observable {
         return null;
     }
 
-    public boolean addTalk(String email, String talkid){
+    public boolean addEvent(String email, String talkid){
         User user = emailToUser(email);
         if (!user.getTalklist().contains(talkid)) {
             user.getTalklist().add(talkid);
