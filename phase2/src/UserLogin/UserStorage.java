@@ -93,10 +93,13 @@ public class UserStorage extends Observable {
         return null;
     }
 
-    public void signUpForTalk(String email, String talkid){
+    public boolean addTalk(String email, String talkid){
         User user = emailToUser(email);
-        user.getTalklist().add(talkid);
-
+        if (!user.getTalklist().contains(talkid)) {
+            user.getTalklist().add(talkid);
+            return true;
+        }
+        return false;
     }
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
