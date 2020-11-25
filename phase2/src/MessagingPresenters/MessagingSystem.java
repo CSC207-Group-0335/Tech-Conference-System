@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class MessagingSystem extends Observable implements Observer {
     public ConversationStorage conversationStorage;
-    public String  userEmail;
+    public String userEmail;
     public MessengerController messengerController;
     public MainMenuController mainMenuController;
 
