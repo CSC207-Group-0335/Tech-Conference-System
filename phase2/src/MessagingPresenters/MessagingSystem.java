@@ -56,7 +56,7 @@ public class MessagingSystem extends Observable implements Observer {
         else if (user instanceof Organizer) {
             this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
         }
-        this.addObserver(this.messengerController.userInfo);
+        this.addObserver(this.messengerController.messageManager);
         setStorage();
     }
 
