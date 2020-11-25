@@ -13,6 +13,7 @@ public class UserStorage extends Observable {
     public ArrayList<User> userList;
     public HashMap<User, UserScheduleManager> userScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+    public ArrayList<Speaker> speakerList;
 
     /**
      * Each user in UserStorage has an associated instance of UserScheduleManager.
@@ -20,6 +21,7 @@ public class UserStorage extends Observable {
 
     public UserStorage() {
         this.userList = new ArrayList<>();
+        this.speakerList = new ArrayList<>();
         this.userScheduleMap = new HashMap<User, UserScheduleManager>();
         this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
 
@@ -50,6 +52,7 @@ public class UserStorage extends Observable {
             this.userScheduleMap.put(newuser, newuserschedulemanager);
         }
         if (newuser instanceof Speaker){
+            this.speakerList.add((Speaker) newuser);
             SpeakerScheduleManager newspeakerschedulemanager = new SpeakerScheduleManager((Speaker) newuser);
             this.speakerScheduleMap.put((Speaker) newuser, newspeakerschedulemanager);
         }
