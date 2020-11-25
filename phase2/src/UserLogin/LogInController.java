@@ -57,7 +57,6 @@ public class LogInController extends Observable {
             if (this.logInManager.login(email, password)){
                 check = false;
                 this.email = email;
-                //this.user = this.logInManager.userStorage.emailToUser(email);;
                 setUserEmail(this.email); //set the user
 
                 //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem

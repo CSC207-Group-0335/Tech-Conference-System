@@ -123,9 +123,9 @@ public class CSVWriter {
      * @param talkManage a TalkManager that will be used to get the information for the Talks that will be written.
      */
 
-    public void writeToTalks(String csv, TalkManager talkManage){
+    public void writeToTalks(String csv, EventManager talkManage){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for (Talk t:talkManage.getTalkMap().keySet()) {
+            for (Event t:talkManage.getTalkMap().keySet()) {
                 csvWriter.append(t.getTalkId());
                 csvWriter.append(",");
                 csvWriter.append(t.getTitle());

@@ -10,7 +10,6 @@ import java.util.Scanner;
  */
 
 public class AttendeeMessengerController extends MessengerController {
-    public AttendeeMessageManager messageManager;
     private AttendeeMessengerPresenter presenter;
 
     /**

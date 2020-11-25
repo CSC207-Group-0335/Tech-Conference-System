@@ -13,14 +13,14 @@ import java.util.*;
 public class ScheduleSystem implements Observer {
     UserStorage storage;
     HashMap<User, UserScheduleManager> userScheduleMap;
-    TalkManager talkManager;
+    EventManager eventManager;
 
     /**
      * Creates a new ScheduleSystem with the specified talkManager.
-     * @param talkManager The talkManager.
+     * @param eventManager The talkManager.
      */
-    public ScheduleSystem(TalkManager talkManager){
-        this.talkManager = talkManager;
+    public ScheduleSystem(EventManager eventManager){
+        this.eventManager = eventManager;
     }
 
     /**
@@ -42,8 +42,8 @@ public class ScheduleSystem implements Observer {
      * @param id The string id of the talk.
      * @return A talk representing the talk with the given id or null if there is no such talk.
      */
-    public Talk findTalk(String id){
-        for (Talk t: talkManager.talkMap.keySet()){
+    public Event findTalk(String id){
+        for (Event t: eventManager.talkMap.keySet()){
             if(t.getTalkId().equals(id)){
                 return t;
             }
@@ -63,9 +63,9 @@ public class ScheduleSystem implements Observer {
             if (user instanceof Organizer || user instanceof Attendee){
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
-                Talk talk = findTalk(id);
-                if (talk != null) {
-                    userSchedule.addTalk(talk);
+                Event event = findTalk(id);
+                if (event != null) {
+                    userSchedule.addTalk(event);
                 }
             }}}
         }
@@ -101,8 +101,8 @@ public class ScheduleSystem implements Observer {
                 this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
             }
         }
-        if(arg instanceof TalkManager){
-            this.talkManager = (TalkManager) arg;
+        if(arg instanceof EventManager){
+            this.eventManager = (EventManager) arg;
         }
     }
 }

@@ -12,7 +12,7 @@ public class SpeakerScheduleController{
      * An speaker for the conference.
      */
     SpeakerScheduleManager speaker;
-    TalkManager talkManager;
+    EventManager eventManager;
     MainMenuController mainMenuController;
     Scanner scan;
     SpeakerSchedulePresenter presenter;
@@ -20,14 +20,14 @@ public class SpeakerScheduleController{
     /**
      * Creates a new controller for the speaker.
      * @param speaker The speaker.
-     * @param talkManager The talKManager.
+     * @param eventManager The talKManager.
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
-    public SpeakerScheduleController(SpeakerScheduleManager speaker, TalkManager talkManager,
+    public SpeakerScheduleController(SpeakerScheduleManager speaker, EventManager eventManager,
                                      MainMenuController mainMenuController, Scanner scanner){
         this.speaker = speaker;
-        this.talkManager = talkManager;
+        this.eventManager = eventManager;
         this.mainMenuController = mainMenuController;
         this.scan = scanner;
         this.presenter = new SpeakerSchedulePresenter();
@@ -48,7 +48,7 @@ public class SpeakerScheduleController{
                     presenter.printNoTalks();
                 }
                 else {
-                    presenter.printSchedule(speaker, talkManager);
+                    presenter.printSchedule(speaker, eventManager);
                 }
             }
             else if (command == 0){

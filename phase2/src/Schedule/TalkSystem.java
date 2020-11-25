@@ -17,23 +17,23 @@ public class TalkSystem extends Observable implements Observer{
     public OrgScheduleController orgScheduleController;
     public UserScheduleController userScheduleController;
     public SpeakerScheduleController speakerScheduleController;
-    public TalkManager talkManager;
+    public EventManager eventManager;
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
     public User user;
     public HashMap<User, UserScheduleManager> userScheduleMap;
     public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
-    public HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    public HashMap<Event, SignUpAttendeesManager> signUpMap;
     public MainMenuController mainMenuController;
 
     /**
      * creates a new TalkSystem.
      */
     public TalkSystem(){
-        this.talkManager = new TalkManager();
+        this.eventManager = new EventManager();
         this.messagingSystem = new MessagingSystem();
-        this.scheduleSystem = new ScheduleSystem(talkManager);
-        this.signUpMap = talkManager.getSignUpMap();
+        this.scheduleSystem = new ScheduleSystem(eventManager);
+        this.signUpMap = eventManager.getSignUpMap();
     }
 
     /**
@@ -45,20 +45,20 @@ public class TalkSystem extends Observable implements Observer{
         this.addObserver(mainMenuController);
         if (user instanceof Attendee){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.userScheduleController = new UserScheduleController(userScheduleManager, talkManager,
+            this.userScheduleController = new UserScheduleController(userScheduleManager, eventManager,
                     mainMenuController, scanner);
             setUserScheduleController();
             }
         else if (user instanceof Organizer){
             UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.orgScheduleController = new OrgScheduleController(userScheduleManager, talkManager,
+            this.orgScheduleController = new OrgScheduleController(userScheduleManager, eventManager,
                     mainMenuController, scanner);
             this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
         else{
             SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleMap.get(user);
-            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, talkManager,
+            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, eventManager,
                     mainMenuController, scanner);
             setSpeakerScheduleController();
         }
@@ -79,7 +79,7 @@ public class TalkSystem extends Observable implements Observer{
         CSVReader fileReader = new CSVReader("src/Resources/Talks.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
-            this.talkManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),
+            this.eventManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),
                     talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter));
         }
         setTalkManager();
@@ -108,12 +108,12 @@ public class TalkSystem extends Observable implements Observer{
     public void createSignUpAttendees(){
         for(UserScheduleManager schedule: userScheduleMap.values()){
             if (schedule.getTalkList() != null){
-            for(Talk t: schedule.getTalkList()){
+            for(Event t: schedule.getTalkList()){
                 if(signUpMap.keySet().contains(t)){
                     signUpMap.get(t).addUser(schedule.user);
                 }
                 else{
-                    SignUpAttendeesManager signup = new SignUpAttendeesManager(t, talkManager.getTalkRoom(t).capacity);
+                    SignUpAttendeesManager signup = new SignUpAttendeesManager(t, eventManager.getTalkRoom(t).capacity);
                     signup.addUser(schedule.user);
                     signUpMap.put(t, signup);
                 }}
@@ -126,15 +126,15 @@ public class TalkSystem extends Observable implements Observer{
      */
     public void setTalkManager() {
         setChanged();
-        notifyObservers(talkManager);
+        notifyObservers(eventManager);
     }
 
     /**
      * Gets talk manager.
      * @return A TalkManager that represents the talkManager.
      */
-    public TalkManager getTalkManager() {
-        return talkManager;
+    public EventManager getTalkManager() {
+        return eventManager;
     }
 
     /**

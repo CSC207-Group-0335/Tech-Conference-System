@@ -13,7 +13,7 @@ public class SpeakerScheduleManager extends ScheduleManager {
     /**
      * The list of talks the speaker is speaking at.
      */
-    ArrayList<Talk> talkList;
+    ArrayList<Event> eventList;
 
     /**
      * Creates a SpeakerScheduleManager with the specified speaker.

@@ -18,11 +18,11 @@ public class MainMenuPresenter {
 
     /**
      * A method to display a personal greeting to the User.
-     * @param user the User that has logged in to the system.
+     * @param name the name of the User that has logged in to the system.
      */
 
-    public void printHello(String user){
-        System.out.println("Hello, " + user);
+    public void printHello(String name){
+        System.out.println("Hello, " + name);
     }
 
     /**

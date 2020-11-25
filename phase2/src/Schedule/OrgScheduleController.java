@@ -16,7 +16,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     /**
      * Stores all the talks for the conference
      */
-    TalkManager talkManager;
+    EventManager eventManager;
     /**
      * Stores all the rooms for the conference
      */
@@ -32,7 +32,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     /**
      * A mapping of talks to its corresponding SignUpAttendeesManager.
      */
-    HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    HashMap<Event, SignUpAttendeesManager> signUpMap;
     /**
      * The presenter of the organizer controller.
      */
@@ -49,14 +49,14 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     /**
      * Creates a new controller for the organizer.
      * @param organizer The organizer.
-     * @param talkManager The talkManager.
+     * @param eventManager The talkManager.
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
-    public OrgScheduleController(UserScheduleManager organizer, TalkManager talkManager,
+    public OrgScheduleController(UserScheduleManager organizer, EventManager eventManager,
                                  MainMenuController mainMenuController, Scanner scanner){
-        super(organizer, talkManager, mainMenuController, scanner);
-        this.talkManager = talkManager;
+        super(organizer, eventManager, mainMenuController, scanner);
+        this.eventManager = eventManager;
         this.mainMenuController = mainMenuController;
         this.scanner = scanner;
         this.organizer = organizer;
@@ -101,7 +101,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             else{
                 Speaker chosenSpeaker = getSpeakerList().get(speakerIndex - 1);
                 orgSchedulePresenter.printSchedule(
-                        userStorage.getSpeakerScheduleMap().get(chosenSpeaker).getTalkList(), talkManager, 2);
+                        userStorage.getSpeakerScheduleMap().get(chosenSpeaker).getTalkList(), eventManager, 2);
                 return chosenSpeaker;
             }}catch (NumberFormatException nfe){
                 userSchedulePresenter.printMenu(8);}}
@@ -129,7 +129,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             else{
                 Room chosenRoom = roomStorage.getRoomList().get(roomIndex - 1);
                 orgSchedulePresenter.printSchedule(
-                        roomStorage.getScheduleList().get(chosenRoom).getTalkList(), talkManager, 1);
+                        roomStorage.getScheduleList().get(chosenRoom).getTalkList(), eventManager, 1);
                 return chosenRoom;
             }} catch (NumberFormatException nfe){
             userSchedulePresenter.printMenu(8);}}
@@ -251,7 +251,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
         };
         orgSchedulePresenter.PrintRequestTalkProcess(9);
         String talkTitle = scan.nextLine();
-        if (talkManager.createTalk(talkTitle, speaker.getEmail(), room.roomName, dateTime)){
+        if (eventManager.createTalk(talkTitle, speaker.getEmail(), room.roomName, dateTime)){
             orgSchedulePresenter.PrintRequestTalkProcess(7);
             return true;
         }
@@ -386,7 +386,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
      * Sets the signUpMap for OrgScheduleController.
      * @param signUpMap The signUpMap.
      */
-    public void setSignUpMap(HashMap<Talk, SignUpAttendeesManager> signUpMap){
+    public void setSignUpMap(HashMap<Event, SignUpAttendeesManager> signUpMap){
         this.signUpMap = signUpMap;
     }
 }

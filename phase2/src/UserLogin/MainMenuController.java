@@ -61,8 +61,9 @@ public class MainMenuController implements Observer {
      * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
-        presenter.printHello(useremail);
-        switch (userStorage.emailToUser(useremail).getType()) {
+        User user = userStorage.emailToUser(useremail); //Does this violate clean architecture?
+        presenter.printHello(user.getName());
+        switch (user.getType()) {
             case "Attendee":
                 runMainMenuAttendee();
                 break;

@@ -10,7 +10,7 @@ public class RoomScheduleManager extends ScheduleManager {
     /**
      * The list of talks being given at the room.
      */
-    ArrayList<Talk> talkList;
+    ArrayList<Event> eventList;
 
     /**
      * Creates a RoomScheduleManager with the specified room.
