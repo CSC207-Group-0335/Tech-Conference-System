@@ -8,6 +8,7 @@ public abstract class MessengerController {
     public String email;
     public Scanner scan;
     public MainMenuController mainMenuController;
+    public MessageManager messageManager;
 
     public MessengerController(String email, Scanner scan, MainMenuController mainMenuController){
         this.email = email;
