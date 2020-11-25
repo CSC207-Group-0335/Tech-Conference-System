@@ -28,7 +28,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get(user).getTalkList();
+    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get((Speaker) user).getTalkList();
     }
 
     /**
@@ -50,8 +50,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      */
 
     public ArrayList<User> getAttendeesOfTalk(Talk talk){
-        ArrayList<User> emails = new ArrayList<>(signUpMap.get(talk).userList);
-        return emails;
+        return new ArrayList<>(signUpMap.get(talk).userList);
     }
 
 
