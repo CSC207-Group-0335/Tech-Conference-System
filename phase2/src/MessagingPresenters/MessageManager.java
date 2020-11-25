@@ -11,7 +11,7 @@ import java.util.Observer;
  * A class that manages who a user can or cannot message.
  */
 
-public class CanMessageManager implements Observer{
+public class MessageManager implements Observer{
     private User user;
     private UserStorage allUsers;
 
@@ -20,7 +20,7 @@ public class CanMessageManager implements Observer{
      * @param user the user whose messages will be managed
      */
 
-    public CanMessageManager(String email) {
+    public MessageManager(String email) {
         User user = null;
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (allUsers.userList.get(i).getEmail().equals(email)) {
