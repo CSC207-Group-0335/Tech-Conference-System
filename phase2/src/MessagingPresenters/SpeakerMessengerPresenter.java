@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * A Presenter class that handles messages sent and received by a speaker.
  */
 
-public class SpeakerMessengerControllerPresenter{
+public class SpeakerMessengerPresenter {
 
     /**
      * Prints the messaging menu.
