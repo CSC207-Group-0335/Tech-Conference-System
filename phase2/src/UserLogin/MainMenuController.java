@@ -164,7 +164,7 @@ public class MainMenuController implements Observer {
     }}
 
 
-    /**
+    /**Hello world
      * Helper method that will call all of the save methods to update the database before logging out.
      */
     private void logout() {
