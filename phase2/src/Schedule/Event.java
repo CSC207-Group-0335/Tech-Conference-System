@@ -1,6 +1,7 @@
 package Schedule;
 
 import UserLogin.Speaker;
+import UserLogin.User;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class Event {
      * @param startTime The start time of the Event.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime,
-                 String roomName, ArrayList<String> speakers, boolean vipRestricted){
+                 String roomName, ArrayList<String> speakers, String vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -38,7 +39,11 @@ public class Event {
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
-        this.vipRestricted = vipRestricted;
+        if (vipRestricted.equals("VIP")){
+            this.vipRestricted = true;}
+        else{
+            this.vipRestricted = false;
+        }
     }
 
     /**
@@ -48,7 +53,7 @@ public class Event {
      * @param talkId The id of the talk.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId, String roomName,
-                 ArrayList<String> speakers, boolean vipRestricted){
+                 ArrayList<String> speakers, String vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -56,7 +61,11 @@ public class Event {
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
-        this.vipRestricted = vipRestricted;
+        if (vipRestricted.equals("VIP")){
+        this.vipRestricted = true;}
+        else{
+            this.vipRestricted = false;
+        }
     }
 
     /**
@@ -114,5 +123,9 @@ public class Event {
 
     public ArrayList<String> getSpeakers() {
         return speakers;
+    }
+
+    public void addAttendee(String userEmail){
+        this.usersSignedUp.add(userEmail);
     }
 }
