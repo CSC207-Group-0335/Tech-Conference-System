@@ -39,7 +39,7 @@ public class TechConferenceSystem extends Observable {
                 this.roomSystem.talkSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
                 roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
-                this);
+                userStorage,this);
     }
 
     /**
@@ -145,7 +145,7 @@ public class TechConferenceSystem extends Observable {
         setUserStorage();
         setMainMenuController();
         roomSystem.run();
-        mainMenuController.runMainMenu(this.logInController.user);
+        mainMenuController.runMainMenu(logInController.getEmail());
     }
 
     /**

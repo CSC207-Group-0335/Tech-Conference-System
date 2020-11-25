@@ -29,6 +29,7 @@ public class MainMenuController implements Observer {
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
+    private UserStorage userStorage;
 
     /**
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
@@ -42,13 +43,14 @@ public class MainMenuController implements Observer {
      */
 
     public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
-                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem,
+                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
         this.talkSystem = talkSystem;
         this.messagingSystem = messagingSystem;
         this.scheduleSystem = scheduleSystem;
+        this.userStorage = userStorage;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
         this.scanner = scanner;
@@ -56,16 +58,20 @@ public class MainMenuController implements Observer {
 
     /**
      * This method will run the Main Menu based on the type of the user that is provided.
-     * @param user the user provided
+     * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
         presenter.printHello(useremail);
-        if (user instanceof Attendee) {
-            runMainMenuAttendee();
-        } else if (user instanceof Speaker) {
-            runMainMenuSpeaker();
-        } else if (user instanceof Organizer) {
-            runMainMenuOrganizer();
+        switch (userStorage.emailToUser(useremail).getType()) {
+            case "Attendee":
+                runMainMenuAttendee();
+                break;
+            case "Speaker":
+                runMainMenuSpeaker();
+                break;
+            case "Organizer":
+                runMainMenuOrganizer();
+                break;
         }
     }
 
@@ -163,7 +169,7 @@ public class MainMenuController implements Observer {
         }}
 
 
-    /**Hello world
+    /**
      * Helper method that will call all of the save methods to update the database before logging out.
      */
     private void logout() {
