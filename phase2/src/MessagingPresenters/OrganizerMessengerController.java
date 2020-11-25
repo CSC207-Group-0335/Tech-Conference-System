@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class OrganizerMessengerController extends MessengerController {
     private final OrganizerMessengerPresenter presenter;
-    private final OrganizerMessageManager messageManager;
+    public final OrganizerMessageManager messageManager;
 
     /**
      * An organizer is required to create an instance of this class.\

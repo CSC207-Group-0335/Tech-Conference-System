@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class AttendeeMessengerController extends MessengerController {
     private final AttendeeMessengerPresenter presenter;
-    private final AttendeeMessageManager messageManager;
+    public final AttendeeMessageManager messageManager;
 
     /**
      * A user is required to create an instance of this class.\

@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 
 public class SpeakerMessengerController extends MessengerController {
-    private final SpeakerMessageManager messageManager;
+    public final SpeakerMessageManager messageManager;
     private final SpeakerMessengerPresenter presenter;
 
     /**
