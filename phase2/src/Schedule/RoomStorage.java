@@ -1,5 +1,6 @@
 package Schedule;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -13,14 +14,19 @@ public class RoomStorage {
     /**
      * A mapping of rooms to its corresponding RoomScheduleManager which checks for double booking.
      */
-    HashMap<Room, RoomScheduleManager> scheduleList;
+    //HashMap<Room, RoomScheduleManager> scheduleList;
+    EventManager eventManager;
+
+    HashMap<String, Room>roomNameMap;
 
     /**
      * Creates a room storage.
      */
     public RoomStorage(){
         this.roomList = new ArrayList<>();
-        this.scheduleList = new HashMap<Room, RoomScheduleManager>();
+        //this.scheduleList = new HashMap<Room, RoomScheduleManager>();
+        this.eventManager = new EventManager();
+        this.roomNameMap = new HashMap<String, Room>();
     }
 
     /**
@@ -38,8 +44,9 @@ public class RoomStorage {
         if (bool) {
             Room room = new Room(roomName);
             roomList.add(room);
-            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-            scheduleList.put(room, rScheduleManager);
+//            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
+//            scheduleList.put(room, rScheduleManager);
+            roomNameMap.put(roomName, room);
             return true;
         }
         return false;
@@ -60,11 +67,18 @@ public class RoomStorage {
         if (bool) {
             Room room = new Room(roomName, capacity);
             roomList.add(room);
-            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-            scheduleList.put(room, rScheduleManager);
+//            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
+//            scheduleList.put(room, rScheduleManager);
+            roomNameMap.put(roomName, room);
         }
     }
-
+    public void removeRoom(String roomName){
+        for (Room r : roomList){
+            if (r.getRoomName().equals(roomName)){
+                roomList.remove(r);
+            }
+        }
+    }
     /**
      * Gets the list of rooms.
      * @return An ArrayList representing the roomList of RoomStorage.
@@ -77,9 +91,31 @@ public class RoomStorage {
      * Gets the schedule list.
      * @return A HashMap representing the scheduleList of RoomStorage.
      */
-    public HashMap<Room, RoomScheduleManager> getScheduleList() {
-        return scheduleList;
+    public boolean addEvent(String roomName, String EventId, LocalDateTime start, LocalDateTime end){
+        Room r = roomNameMap.get(roomName);
+        boolean found = true;
+        for (String id : r.getTalkList()){
+            if (id.equals(EventId)){
+                found = false;
+            }
+        }
+        if (found){
+            if (eventManager.checkDoubleBooking(start, end, r.getTalkList())){
+                r.addTalk(EventId);
+                return true;
+            }
+        }
+        return false;
+    }
+    public void removeEvent(String roomName, String EventId){
+        Room r = roomNameMap.get(roomName);
+        for (String id : r.getTalkList()){
+            if (id.equals(EventId)){
+                r.getTalkList().remove(EventId);
+            }
+        }
     }
 }
+
 
 
