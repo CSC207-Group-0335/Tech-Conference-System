@@ -3,6 +3,7 @@ package MessagingPresenters;
 import Schedule.Talk;
 import UserLogin.MainMenuController;
 import UserLogin.Speaker;
+import UserLogin.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Scanner;
 public class SpeakerMessengerController implements Observer{
     public SpeakerMessageManager userInfo;
     private ConversationStorage conversationStorage;
-    private Speaker speaker;
+    private String  speakerEmail;
     private SpeakerMessengerControllerPresenter presenter;
     public Scanner scan;
     public MainMenuController mainMenuController;
@@ -25,13 +26,13 @@ public class SpeakerMessengerController implements Observer{
 
     /**
      * A speaker is required to create an instance of this class.
-     * @param speaker the speaker
+     * @param speakerEmail the speaker
      */
 
-    public SpeakerMessengerController(Speaker speaker, Scanner scanner, MainMenuController mainMenuController) {
-        this.userInfo = new SpeakerMessageManager(speaker);
+    public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
+        this.userInfo = new SpeakerMessageManager(speakerEmail);
         this.presenter = new SpeakerMessengerControllerPresenter();
-        this.speaker = speaker;
+        this.speakerEmail = speakerEmail;
         this.scan = scanner;
         this.mainMenuController = mainMenuController;
     }
@@ -43,16 +44,17 @@ public class SpeakerMessengerController implements Observer{
      */
 
     private void message(String email, String messageContent){
-        if (conversationStorage.contains(speaker.getEmail(), email)){
-            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
-            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
+        if (conversationStorage.contains(speakerEmail, email)){
+            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
+            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
         }
         else{
-            ConversationManager c = conversationStorage.addConversationManager(speaker.getEmail(), email);
-            c.addMessage(email, speaker.getEmail(), LocalDateTime.now(), messageContent);
+            ConversationManager c = conversationStorage.addConversationManager(speakerEmail, email);
+            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
         }
 
     }
+
 
     /**
      * Sends a message containing </messageContent> to all attendees.
@@ -74,9 +76,9 @@ public class SpeakerMessengerController implements Observer{
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
         for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(speaker.getEmail())){
+            if (manager.getParticipants().contains(speakerEmail)){
                 ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(speaker.getEmail());
+                participants.remove(speakerEmail);
                 emails.add(participants.get(0));
             }
         }
@@ -90,8 +92,8 @@ public class SpeakerMessengerController implements Observer{
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (conversationStorage.contains(speaker.getEmail(), email)){
-            ConversationManager c = conversationStorage.getConversationManager(speaker.getEmail(), email);
+        if (conversationStorage.contains(speakerEmail, email)){
+            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
             return c.getMessages();
             }
         return null;
@@ -111,7 +113,7 @@ public class SpeakerMessengerController implements Observer{
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(speaker);
+                    mainMenuController.runMainMenu(speakerEmail);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
@@ -121,7 +123,7 @@ public class SpeakerMessengerController implements Observer{
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canReply(email)) {
+                        if (userInfo.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);
