@@ -10,23 +10,16 @@ import java.util.Scanner;
  */
 
 public class AttendeeMessengerController extends MessengerController {
-    private String attendeeEmail;
-    public AttendeeMessageManager userInfo;
-    private ConversationStorage conversationStorage;
+    public AttendeeMessageManager messageManager;
     private AttendeeMessengerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
 
     /**
      * A user is required to create an instance of this class.\
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.attendeeEmail = attendeeEmail;
-        this.userInfo = new AttendeeMessageManager(attendeeEmail);
+        super(attendeeEmail, scanner, mainMenuController, new AttendeeMessageManager(attendeeEmail));
         this.presenter = new AttendeeMessengerPresenter();
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -37,7 +30,7 @@ public class AttendeeMessengerController extends MessengerController {
      */
 
     public void message(String email, String messageContent){
-        userInfo.messageOne(email, messageContent);
+        messageManager.messageOne(email, messageContent);
     }
 
     /**
@@ -48,7 +41,7 @@ public class AttendeeMessengerController extends MessengerController {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        return userInfo.viewMessages(email);
+        return messageManager.viewMessages(email);
     }
 
     /**
@@ -57,7 +50,7 @@ public class AttendeeMessengerController extends MessengerController {
      */
 
     public ArrayList<String> getRecipients() {
-        return userInfo.getRecipients();
+        return messageManager.getRecipients();
     }
 
     /**
@@ -74,7 +67,7 @@ public class AttendeeMessengerController extends MessengerController {
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(4);
-                    mainMenuController.runMainMenu(attendeeEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(1);
                     String email = new String();
@@ -85,7 +78,7 @@ public class AttendeeMessengerController extends MessengerController {
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);

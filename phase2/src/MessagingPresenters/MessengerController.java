@@ -10,10 +10,11 @@ public abstract class MessengerController {
     public MainMenuController mainMenuController;
     public MessageManager messageManager;
 
-    public MessengerController(String email, Scanner scan, MainMenuController mainMenuController){
+    public MessengerController(String email, Scanner scan, MainMenuController mainMenuController, MessageManager messageManager){
         this.email = email;
         this.scan = scan;
         this.mainMenuController = mainMenuController;
+        this.messageManager = messageManager;
     }
 
     public abstract void run();

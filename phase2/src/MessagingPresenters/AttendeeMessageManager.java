@@ -12,7 +12,7 @@ import java.util.Observer;
  * A class that manages messaging.
  */
 
-public class AttendeeMessageManager implements Observer{
+public class AttendeeMessageManager extends MessageManager implements Observer{
     private User user;
     private UserStorage allUsers;
     private ArrayList<User> friendsList;
