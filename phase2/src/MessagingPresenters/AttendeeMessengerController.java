@@ -2,19 +2,16 @@ package MessagingPresenters;
 
 import UserLogin.MainMenuController;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController {
+public class AttendeeMessengerController extends MessengerController {
     private String attendeeEmail;
-    public MessageManager userInfo;
+    public AttendeeMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private AttendeeMessengerPresenter presenter;
     public Scanner scan;
@@ -26,7 +23,7 @@ public class AttendeeMessengerController {
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
         this.attendeeEmail = attendeeEmail;
-        this.userInfo = new MessageManager(attendeeEmail);
+        this.userInfo = new AttendeeMessageManager(attendeeEmail);
         this.presenter = new AttendeeMessengerPresenter();
         this.scan = scanner;
         this.mainMenuController = mainMenuController;
@@ -40,16 +37,7 @@ public class AttendeeMessengerController {
      */
 
     public void message(String email, String messageContent){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-        }
+        userInfo.messageOne(email, messageContent);
     }
 
     /**
@@ -60,17 +48,7 @@ public class AttendeeMessengerController {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-        }
-        return null;
+        return userInfo.viewMessages(email);
     }
 
     /**
@@ -79,16 +57,7 @@ public class AttendeeMessengerController {
      */
 
     public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(attendeeEmail)){
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(attendeeEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
+        return userInfo.getRecipients();
     }
 
     /**

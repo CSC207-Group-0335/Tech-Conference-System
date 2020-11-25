@@ -2,25 +2,28 @@ package MessagingPresenters;
 import Schedule.SpeakerScheduleManager;
 import UserLogin.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
- * A class that manages who a user can or cannot message.
+ * A class that manages messaging.
  */
 
-public class MessageManager implements Observer{
+public class AttendeeMessageManager implements Observer{
     private User user;
     private UserStorage allUsers;
+    private ArrayList<User> friendsList;
+    private ConversationStorage conversationStorage;
 
     /**
      * A user is needed to create an instance of CanMessageManager.
      * @param user the user whose messages will be managed
      */
 
-    public MessageManager(String email) {
+    public AttendeeMessageManager(String email) {
         User user = null;
         for (int i = 0; i < allUsers.userList.size(); i++) {
             if (allUsers.userList.get(i).getEmail().equals(email)) {
@@ -29,6 +32,7 @@ public class MessageManager implements Observer{
         }
 
         this.user = user;
+        this.friendsList = getFriendsList();
     }
 
     /**
@@ -67,7 +71,7 @@ public class MessageManager implements Observer{
      */
 
     public boolean canMessage(String friendEmail) {
-        for (User friend: this.getFriendsList()){
+        for (User friend: this.friendsList){
             if (friend.getEmail().equals(friendEmail)){
                 return true;
             }
@@ -81,13 +85,13 @@ public class MessageManager implements Observer{
      */
 
     public ArrayList<User> getAttendees(){
-        ArrayList<User> friends = new ArrayList<User>();
+        ArrayList<User> attendees = new ArrayList<User>();
         for (int i = 0; i < allUsers.userList.size(); i++){
             if (allUsers.getUserList().get(i) instanceof Attendee){
-                friends.add(allUsers.getUserList().get(i));
+                attendees.add(allUsers.getUserList().get(i));
             }
         }
-        return friends;
+        return attendees;
     }
 
     /**
@@ -96,13 +100,53 @@ public class MessageManager implements Observer{
      */
 
     public ArrayList<User> getSpeakers(){
-        ArrayList<User> friends = new ArrayList<User>();
+        ArrayList<User> speakers = new ArrayList<User>();
         for (int i = 0; i < allUsers.userList.size(); i++){
             if (allUsers.getUserList().get(i) instanceof Speaker){
-                friends.add(allUsers.getUserList().get(i));
+                speakers.add(allUsers.getUserList().get(i));
             }
         }
-        return friends;
+        return speakers;
+    }
+
+    public void messageOne(String email, String messageContent){
+        if (this.canMessage(email)){
+            if (conversationStorage.contains(user.getEmail(), email)){
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                c.addMessage(email, user.getEmail(), LocalDateTime.now(), messageContent);
+            }
+            else{
+                ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
+                c.addMessage(email, user.getEmail(), LocalDateTime.now(), messageContent);
+            }
+        }
+    }
+
+    public ArrayList<Message> viewMessages(String email){
+        if (this.canMessage(email)){
+            if (conversationStorage.contains(user.getEmail(), email)){
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                return c.getMessages();
+            }
+            else{
+                ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
+                return c.getMessages();
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getRecipients() {
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
+        for (ConversationManager manager: managers) {
+            if (manager.getParticipants().contains(user.getEmail())){
+                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
+                participants.remove(user.getEmail());
+                emails.add(participants.get(0));
+            }
+        }
+        return emails;
     }
 
     /**
@@ -115,6 +159,7 @@ public class MessageManager implements Observer{
     public void update(Observable o, Object arg) {
         if (arg instanceof UserStorage) {
             this.allUsers = (UserStorage) arg;
+            this.conversationStorage = (ConversationStorage) arg;
         }
     }
 }
