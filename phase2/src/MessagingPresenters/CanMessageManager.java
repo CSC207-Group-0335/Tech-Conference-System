@@ -20,7 +20,14 @@ public class CanMessageManager implements Observer{
      * @param user the user whose messages will be managed
      */
 
-    public CanMessageManager(User user) {
+    public CanMessageManager(String email) {
+        User user = null;
+        for (int i = 0; i < allUsers.userList.size(); i++) {
+            if (allUsers.userList.get(i).getEmail().equals(email)) {
+                user = allUsers.userList.get(i);
+            }
+        }
+
         this.user = user;
     }
 
