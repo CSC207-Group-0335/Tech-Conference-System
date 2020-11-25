@@ -100,10 +100,8 @@ public class RoomStorage {
             }
         }
         if (found){
-            if (eventManager.checkDoubleBooking(start, end, r.getTalkList())){
-                r.addTalk(EventId);
-                return true;
-            }
+            r.addTalk(EventId);
+            return true;
         }
         return false;
     }
