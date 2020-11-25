@@ -16,10 +16,8 @@ import java.util.Scanner;
 
 public class MessagingSystem extends Observable implements Observer {
     public ConversationStorage conversationStorage;
-    public User user;
-    public AttendeeMessengerController attendeeMessengerController;
-    public SpeakerMessengerController speakerMessengerController;
-    public OrganizerMessengerController organizerMessengerController;
+    public String  userEmail;
+    public MessengerController messengerController;
     public MainMenuController mainMenuController;
 
     /**
@@ -42,46 +40,41 @@ public class MessagingSystem extends Observable implements Observer {
 
     /**
      * Instantiates controller classes.
-     * @param user a User
+     *
+     * @param user    a User
      * @param scanner a Scanner
      */
 
     public void instantiateControllers(User user, Scanner scanner) {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
-            this.attendeeMessengerController = new AttendeeMessengerController((Attendee) user, scanner, mainMenuController);
-            this.addObserver(this.attendeeMessengerController);
-            setAttendeeMessengerController();
-            setStorage();
+            this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
         }
-        if (user instanceof Speaker) {
-            this.speakerMessengerController = new SpeakerMessengerController((Speaker) user, scanner, mainMenuController);
-            this.addObserver(this.speakerMessengerController);
-            this.addObserver(this.speakerMessengerController.userInfo);
-            setSpeakerMessengerController();
-            setStorage();
+        else if (user instanceof Speaker) {
+            this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
         }
-        if (user instanceof Organizer) {
-            this.organizerMessengerController = new OrganizerMessengerController((Organizer) user, scanner, mainMenuController);
-            this.addObserver(this.organizerMessengerController);
-            setOrganizerMessengerController();
-            setStorage();
+        else if (user instanceof Organizer) {
+            this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
         }
+        this.addObserver(this.messengerController.messageManager);
+        setStorage();
     }
 
     /**
      * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
      * in linked Observable classes. This one updates the User and the MainMenuController, based on the arg type.
-     * @param o the Observable class where the change is made and this function is called.
+     *
+     * @param o   the Observable class where the change is made and this function is called.
      * @param arg the argument that is being updated.
      */
 
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof User) {
-            this.user = (User) arg;
+            User user = (User) arg;
+            this.userEmail = user.getEmail();
         }
-        if (arg instanceof MainMenuController){
+        if (arg instanceof MainMenuController) {
             this.mainMenuController = (MainMenuController) arg;
         }
     }
@@ -103,7 +96,7 @@ public class MessagingSystem extends Observable implements Observer {
                 String recipient = singleMessage[0];
                 String sender = singleMessage[1];
                 String timestampString = singleMessage[2];
-                String messageContent = singleMessage[3].replace("commaseparator",  ",");
+                String messageContent = singleMessage[3].replace("commaseparator", ",");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
                 c.addMessage(recipient, sender, timestamp, messageContent);
@@ -121,32 +114,6 @@ public class MessagingSystem extends Observable implements Observer {
                 this.conversationStorage.getConversationManagers());
     }
 
-    /**
-     * Sets AttendeeMessengerController.
-     */
-
-    public void setAttendeeMessengerController() {
-        setChanged();
-        notifyObservers(attendeeMessengerController);
-    }
-
-    /**
-     * Sets SpeakerMessengerController.
-     */
-
-    public void setSpeakerMessengerController(){
-        setChanged();
-        notifyObservers(speakerMessengerController);
-    }
-
-    /**
-     * Sets OrganizerMessengerController.
-     */
-
-    public void setOrganizerMessengerController(){
-        setChanged();
-        notifyObservers(organizerMessengerController);
-    }
 }
 
 

@@ -1,5 +1,7 @@
 package UserLogin;
 
+import java.util.ArrayList;
+
 /**
  * An abstract class that represents a User.
  */
@@ -8,6 +10,7 @@ public abstract class User {
     private String name;
     private String password;
     private String email;
+    private ArrayList<String> talklist;
 
     /**
      * A user is identified by a name, password and email address (the email will be used as a unique identifier).
@@ -21,6 +24,7 @@ public abstract class User {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.talklist = new ArrayList<>();
     }
 
     /**
@@ -56,4 +60,8 @@ public abstract class User {
      */
 
     public abstract String getType();
+
+    public ArrayList<String> getTalklist() {
+        return talklist;
+    }
 }

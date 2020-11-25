@@ -1,6 +1,6 @@
 package MessagingPresenters;
 
-import Schedule.Event;
+import Schedule.Talk;
 import UserLogin.MainMenuController;
 
 import java.time.LocalDateTime;
@@ -13,88 +13,18 @@ import java.util.Scanner;
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController implements Observer{
-    public SpeakerMessageManager userInfo;
-    private ConversationStorage conversationStorage;
-    private String  speakerEmail;
-    private SpeakerMessengerControllerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
-
+public class SpeakerMessengerController extends MessengerController{
+    private SpeakerMessengerPresenter presenter;
 
     /**
      * A speaker is required to create an instance of this class.
+     *
      * @param speakerEmail the speaker
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.userInfo = new SpeakerMessageManager(speakerEmail);
-        this.presenter = new SpeakerMessengerControllerPresenter();
-        this.speakerEmail = speakerEmail;
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
-    }
-
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email>.
-     * @param email a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
-
-    private void message(String email, String messageContent){
-        if (conversationStorage.contains(speakerEmail, email)){
-            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
-            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
-        }
-        else{
-            ConversationManager c = conversationStorage.addConversationManager(speakerEmail, email);
-            c.addMessage(email, speakerEmail, LocalDateTime.now(), messageContent);
-        }
-
-    }
-
-
-    /**
-     * Sends a message containing </messageContent> to all attendees.
-     * @param messageContent a String representing the content of the message
-     */
-
-    public void messageAllAttendees(String messageContent){
-        for (String email: userInfo.getAllAttendees()){
-            message(email, messageContent);
-        }
-    }
-
-    /**
-     * Returns a list containing all recipients.
-     * @return an ArrayList containing all recipients
-     */
-
-    public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(speakerEmail)){
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(speakerEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
-    }
-
-    /**
-     * Returns a list of messages between this speaker and the user with email </email>.
-     * @param email a String representing an email
-     * @return an ArrayList containing messages
-     */
-
-    public ArrayList<Message> viewMessages(String email){
-        if (conversationStorage.contains(speakerEmail, email)){
-            ConversationManager c = conversationStorage.getConversationManager(speakerEmail, email);
-            return c.getMessages();
-            }
-        return null;
+        super(speakerEmail, scanner, mainMenuController, new SpeakerMessageManager(speakerEmail));
+        this.presenter = new SpeakerMessengerPresenter();
     }
 
     /**
@@ -111,7 +41,7 @@ public class SpeakerMessengerController implements Observer{
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(speakerEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
@@ -121,7 +51,7 @@ public class SpeakerMessengerController implements Observer{
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);
@@ -130,7 +60,7 @@ public class SpeakerMessengerController implements Observer{
                     presenter.printMenu(3);
                     String body = scan.nextLine();
 
-                    message(email, body);
+                     messageManager.message(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);
@@ -138,53 +68,41 @@ public class SpeakerMessengerController implements Observer{
                     if (body.equals("0")) {
                         continue;
                     }
-                    messageAllAttendees(body);
+                    messageManager.messageAllAttendees(body);
                     presenter.printMenu(4);
                 } else if (option == 3) {
-                    ArrayList<String> emails = getRecipients();
+                    ArrayList<String> emails = messageManager.getRecipients();
                     presenter.viewChats(emails);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || emails.size() == 0) {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = viewMessages(email);
+                    ArrayList<Message> messages = messageManager.viewMessages(email);
                     presenter.viewConversation(messages);
-                }
-                else if (option == 4){
-                    ArrayList<Event> events = userInfo.getSpeakerTalks();
-                    presenter.viewTalks(events);
+                } else if (option == 4) {
+                    ArrayList<Talk> talks = messageManager.getSpeakerTalks();
+                    presenter.viewTalks(talks);
                     int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || events.size() == 0) {
+                    if (index == 0 || talks.size() == 0) {
                         continue;
                     }
-                    Event event = events.get(index - 1);
-                    ArrayList<String> emails = userInfo.getAttendeesOfTalk(event);
+                    Talk talk = talks.get(index - 1);
+                    ArrayList<String> emails = messageManager.getAttendeesOfTalk(talk);
                     presenter.printMenu(3);
                     String body = scan.nextLine();
                     if (body.equals("0")) {
                         continue;
                     }
-                    for (String email: emails){
-                        message(email, body);
+                    for (String email : emails) {
+                        messageManager.message(email, body);
                     }
                     presenter.printMenu(4);
                 }
             } catch (NumberFormatException nfe) {
-                presenter.printMenu(6); }
-        }
-    }
-
-    /**
-     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     * @param o an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
+                presenter.printMenu(6);
+            }
         }
     }
 }
+

@@ -1,13 +1,10 @@
 package MessagingPresenters;
 
 import UserLogin.MainMenuController;
-import UserLogin.Organizer;
 import UserLogin.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 
@@ -15,24 +12,16 @@ import java.util.Scanner;
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController implements Observer {
-    private String organizerEmail;
-    public CanMessageManager userInfo;
-    private ConversationStorage conversationStorage;
-    private OrgMessengerControllerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
+public class OrganizerMessengerController extends MessengerController {
+    private OrganizerMessengerPresenter presenter;
 
     /**
      * An organizer is required to create an instance of this class.\
      */
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.userInfo = new CanMessageManager(organizerEmail);
-        this.presenter = new OrgMessengerControllerPresenter();
-        this.scan = scanner;
-        this.organizerEmail = orgEmail;
-        this.mainMenuController = mainMenuController;
+        super(orgEmail, scanner, mainMenuController, new OrganizerMessageManager(orgEmail));
+        this.presenter = new OrganizerMessengerPresenter();
     }
 
     /**
@@ -42,16 +31,7 @@ public class OrganizerMessengerController implements Observer {
      */
 
     public void messageOneUser(String email, String messageContent){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizerEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
-                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
-                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
-            }
-        }
+        messageManager.messageOne(email, messageContent);
     }
 
     /**
@@ -60,10 +40,7 @@ public class OrganizerMessengerController implements Observer {
      */
 
     public void messageAllAttendees(String messageContent){
-        ArrayList<User> attendees = userInfo.getAttendees();
-        for (User attendee: attendees){
-            messageOneUser(attendee.getEmail(), messageContent);
-        }
+        messageManager.messageAllAttendees(messageContent);
     }
 
     /**
@@ -72,10 +49,7 @@ public class OrganizerMessengerController implements Observer {
      */
 
     public void messageAllSpeakers(String messageContent){
-        ArrayList<User> speakers = userInfo.getSpeakers();
-        for (User speaker: speakers){
-            messageOneUser(speaker.getEmail(), messageContent);
-        }
+        messageManager.messageAllSpeakers(messageContent);
     }
 
     /**
@@ -86,17 +60,7 @@ public class OrganizerMessengerController implements Observer {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizerEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
-                return c.getMessages();
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
-                return c.getMessages();
-            }
-        }
-        return null;
+        return messageManager.viewMessages(email);
     }
 
     /**
@@ -105,16 +69,7 @@ public class OrganizerMessengerController implements Observer {
      */
 
     public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(organizerEmail)) {
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(organizerEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
+        return messageManager.getRecipients();
     }
 
     /**
@@ -131,7 +86,7 @@ public class OrganizerMessengerController implements Observer {
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(organizerEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
@@ -141,7 +96,7 @@ public class OrganizerMessengerController implements Observer {
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);
@@ -186,18 +141,4 @@ public class OrganizerMessengerController implements Observer {
                 presenter.printMenu(6); }
         }
     }
-
-    /**
-     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     * @param o an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
-        }
-    }
-
 }

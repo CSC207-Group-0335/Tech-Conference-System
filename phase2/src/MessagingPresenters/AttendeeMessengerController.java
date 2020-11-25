@@ -1,36 +1,24 @@
 package MessagingPresenters;
 
-import UserLogin.Attendee;
 import UserLogin.MainMenuController;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController implements Observer{
-    private String attendeeEmail;
-    public CanMessageManager userInfo;
-    private ConversationStorage conversationStorage;
-    private AttendeeMessengerControllerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
+public class AttendeeMessengerController extends MessengerController {
+    private AttendeeMessengerPresenter presenter;
 
     /**
      * A user is required to create an instance of this class.\
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.attendeeEmail = attendeeEmail;
-        this.userInfo = new CanMessageManager(attendeeEmail);
-        this.presenter = new AttendeeMessengerControllerPresenter();
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
+        super(attendeeEmail, scanner, mainMenuController, new AttendeeMessageManager(attendeeEmail));
+        this.presenter = new AttendeeMessengerPresenter();
     }
 
     /**
@@ -41,16 +29,7 @@ public class AttendeeMessengerController implements Observer{
      */
 
     public void message(String email, String messageContent){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-        }
+        messageManager.messageOne(email, messageContent);
     }
 
     /**
@@ -61,17 +40,7 @@ public class AttendeeMessengerController implements Observer{
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-        }
-        return null;
+        return messageManager.viewMessages(email);
     }
 
     /**
@@ -80,16 +49,7 @@ public class AttendeeMessengerController implements Observer{
      */
 
     public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(attendeeEmail)){
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(attendeeEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
+        return messageManager.getRecipients();
     }
 
     /**
@@ -106,7 +66,7 @@ public class AttendeeMessengerController implements Observer{
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(4);
-                    mainMenuController.runMainMenu(attendeeEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(1);
                     String email = new String();
@@ -117,7 +77,7 @@ public class AttendeeMessengerController implements Observer{
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);
@@ -147,18 +107,4 @@ public class AttendeeMessengerController implements Observer{
                 presenter.printMenu(6); }
         }
     }
-
-    /**
-     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     * @param o an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
-        }
-    }
-
 }

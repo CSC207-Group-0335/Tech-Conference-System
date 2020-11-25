@@ -39,7 +39,7 @@ public class TechConferenceSystem extends Observable {
                 this.roomSystem.talkSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
                 roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
-                this);
+                userStorage,this);
     }
 
     /**
@@ -68,7 +68,7 @@ public class TechConferenceSystem extends Observable {
         this.userList = userlst;
         setChanged();
         notifyObservers(userList);
-        }
+    }
 
     /**
      * Sets the UserScheduleMap and updates the observers.
@@ -79,7 +79,7 @@ public class TechConferenceSystem extends Observable {
         this.userScheduleMap = userSchedMap;
         setChanged();
         notifyObservers(userScheduleMap);
-        }
+    }
 
     /**
      * Sets the SpeakerScheduleMap and updates the observers.
@@ -90,7 +90,7 @@ public class TechConferenceSystem extends Observable {
         this.speakerScheduleMap = speakerSchedMap;
         setChanged();
         notifyObservers(speakerSchedMap);
-        }
+    }
 
     /**
      * Sets the MainMenuController and updates the observers.
@@ -117,7 +117,7 @@ public class TechConferenceSystem extends Observable {
         this.addObserver(roomSystem.talkSystem.messagingSystem);
         this.setMainMenuController();
         this.logInController.addObserver(roomSystem.talkSystem);
-        this.logInController.addObserver(mainMenuController); //Added MainMenu Controller to Observers for LIC
+        //this.logInController.addObserver(mainMenuController);
 
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
@@ -145,14 +145,14 @@ public class TechConferenceSystem extends Observable {
         setUserStorage();
         setMainMenuController();
         roomSystem.run();
-        mainMenuController.runMainMenu(this.logInController.user);
-        }
+        mainMenuController.runMainMenu(logInController.getEmail());
+    }
 
     /**
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToUsers("phase1/src/Resources/Users.csv", this.userStorage.getUserList());
+        csvWriter.writeToUsers("src/Resources/Users.csv", this.userStorage.getUserList());
     }
 }

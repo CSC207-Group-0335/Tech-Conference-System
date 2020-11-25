@@ -16,7 +16,6 @@ import java.util.Scanner;
  */
 
 public class MainMenuController implements Observer {
-    private User user; //This user is gotten from LogInController
     public MainMenuPresenter presenter;
     public UserScheduleController userScheduleController;
     public AttendeeMessengerController attendeeMessengerController;
@@ -30,6 +29,7 @@ public class MainMenuController implements Observer {
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
+    private UserStorage userStorage;
 
     /**
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
@@ -43,13 +43,14 @@ public class MainMenuController implements Observer {
      */
 
     public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
-                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem,
+                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
         this.talkSystem = talkSystem;
         this.messagingSystem = messagingSystem;
         this.scheduleSystem = scheduleSystem;
+        this.userStorage = userStorage;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
         this.scanner = scanner;
@@ -57,16 +58,21 @@ public class MainMenuController implements Observer {
 
     /**
      * This method will run the Main Menu based on the type of the user that is provided.
-     * @param user the user provided
+     * @param useremail the users email provided, taken from userStorage
      */
-    public void runMainMenu(User user) {
-        presenter.printHello(user);
-        if (user instanceof Attendee) {
-            runMainMenuAttendee();
-        } else if (user instanceof Speaker) {
-            runMainMenuSpeaker();
-        } else if (user instanceof Organizer) {
-            runMainMenuOrganizer();
+    public void runMainMenu(String useremail) {
+        User user = userStorage.emailToUser(useremail); //Does this violate clean architecture?
+        presenter.printHello(user.getName());
+        switch (user.getType()) {
+            case "Attendee":
+                runMainMenuAttendee();
+                break;
+            case "Speaker":
+                runMainMenuSpeaker();
+                break;
+            case "Organizer":
+                runMainMenuOrganizer();
+                break;
         }
     }
 
@@ -161,7 +167,7 @@ public class MainMenuController implements Observer {
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
             }
-    }}
+        }}
 
 
     /**
@@ -173,7 +179,7 @@ public class MainMenuController implements Observer {
         this.talkSystem.save();
         this.messagingSystem.save();
         this.scheduleSystem.save();
-        }
+    }
 
     /**
      * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
@@ -185,9 +191,7 @@ public class MainMenuController implements Observer {
 
     @Override
     public void update (Observable o, Object arg){
-        if (arg instanceof User) {
-            this.user = (User) arg;
-        } else if (arg instanceof OrgScheduleController) {
+        if (arg instanceof OrgScheduleController) {
             this.orgScheduleController = (OrgScheduleController) arg;
         } else if (arg instanceof AttendeeMessengerController) {
             this.attendeeMessengerController = (AttendeeMessengerController) arg;
@@ -201,4 +205,4 @@ public class MainMenuController implements Observer {
             this.orgMessengerController = (OrganizerMessengerController) arg;
         }
     }
-    }
+}
