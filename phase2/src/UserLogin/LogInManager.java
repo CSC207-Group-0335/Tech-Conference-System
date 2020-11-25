@@ -1,6 +1,5 @@
 package UserLogin;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,7 +8,6 @@ import java.util.Observer;
  */
 
 public class LogInManager implements Observer {
-    //public ArrayList<User> userList;
     public UserStorage userStorage;
 
     /**
@@ -18,23 +16,7 @@ public class LogInManager implements Observer {
 
     public LogInManager() {
         this.userStorage = new UserStorage();
-        //this.userList = new ArrayList<User>();
     }
-
-    /**
-     * Method to find the user in the UserStorage associated with this.email
-     * @return the user associated with the email, or null if no such user is found. Currently attempting to
-     * use an Optional Parameter in order to accomplish this task, instead of a null value.
-     */
-//    public User findUser(String email) {
-//        //iterate through userList and check the email associated with each user to see if there is a match.
-//        for (User user : userList) {
-//            if (user.getEmail().equals(email)) {
-//                return user; //return the user associated with this email.
-//            }
-//        }
-//        return null; //If we have reached the end of the list and there is no match, return null.
-//    }
 
     /**
      * Public method used to login the user based on this.email and this.password.
@@ -43,7 +25,7 @@ public class LogInManager implements Observer {
 
     public boolean login(String email, String password) {
         //find the user in UserStorage using the provided email
-        User user = userStorage.emailToUser(email);//findUser(email);
+        User user = userStorage.emailToUser(email);
         if (user != null) {
             //A user has been found, now check the password
             return user.getPassword().equals(password);
@@ -60,12 +42,6 @@ public class LogInManager implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        //check the type of arg (if it is a map, we do not update it here since it is referring to the
-        // UserScheduleMap/SpeakerScheduleMap).
-        //if (arg instanceof ArrayList) {
-            //We know that arg refers to the UserList
-            //this.userList = (ArrayList<User>) arg;
-        //}
         if (arg instanceof UserStorage) {
             this.userStorage = (UserStorage) arg;
         }
