@@ -49,11 +49,9 @@ public class MessagingSystem extends Observable implements Observer {
         this.addObserver(mainMenuController);
         if (user instanceof Attendee) {
             this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
-        }
-        else if (user instanceof Speaker) {
+        } else if (user instanceof Speaker) {
             this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
-        }
-        else if (user instanceof Organizer) {
+        } else if (user instanceof Organizer) {
             this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
         }
         this.addObserver(this.messengerController.messageManager);

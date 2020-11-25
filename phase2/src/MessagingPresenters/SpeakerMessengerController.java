@@ -11,7 +11,7 @@ import java.util.Scanner;
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController extends MessengerController{
+public class SpeakerMessengerController extends MessengerController {
     private final SpeakerMessageManager messageManager;
     private final SpeakerMessengerPresenter presenter;
 
@@ -60,7 +60,7 @@ public class SpeakerMessengerController extends MessengerController{
                     presenter.printMenu(3);
                     String body = scan.nextLine();
 
-                     messageManager.messageOne(email, body);
+                    messageManager.messageOne(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);

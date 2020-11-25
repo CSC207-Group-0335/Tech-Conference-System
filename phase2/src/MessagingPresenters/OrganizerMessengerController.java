@@ -28,45 +28,50 @@ public class OrganizerMessengerController extends MessengerController {
 
     /**
      * Sends a message containing </messageContent> to a user registered under the email </email>.
-     * @param email a String representing the email of the recipient
+     *
+     * @param email          a String representing the email of the recipient
      * @param messageContent a String representing the content of the message
      */
 
-    public void messageOneUser(String email, String messageContent){
+    public void messageOneUser(String email, String messageContent) {
         messageManager.messageOne(email, messageContent);
     }
 
     /**
      * Sends a message containing </messageContent> to all attendees.
+     *
      * @param messageContent a String representing the content of the message
      */
 
-    public void messageAllAttendees(String messageContent){
+    public void messageAllAttendees(String messageContent) {
         messageManager.messageAllAttendees(messageContent);
     }
 
     /**
      * Sends a message containing </messageContent> to all speakers.
+     *
      * @param messageContent a String representing the content of the message
      */
 
-    public void messageAllSpeakers(String messageContent){
+    public void messageAllSpeakers(String messageContent) {
         messageManager.messageAllSpeakers(messageContent);
     }
 
     /**
      * Returns an arraylist containing all message history between this organizer and the user registered under the
      * email </email>.
+     *
      * @param email a String representing the email of the recipient
      * @return an arraylist containing all messages between this organizer and the user
      */
 
-    public ArrayList<Message> viewMessages(String email){
+    public ArrayList<Message> viewMessages(String email) {
         return messageManager.viewMessages(email);
     }
 
     /**
      * Returns a list containing all recipients.
+     *
      * @return an ArrayList containing all recipients
      */
 
@@ -140,7 +145,8 @@ public class OrganizerMessengerController extends MessengerController {
                     presenter.viewConversation(messages);
                 }
             } catch (NumberFormatException nfe) {
-                presenter.printMenu(6); }
+                presenter.printMenu(6);
+            }
         }
     }
 }

@@ -27,22 +27,22 @@ public class ConversationCSVWriter {
                 for (Message m : c.getMessages()) {
                     String message = m.getMessageContent();
                     message = message.replace(",", "commaseparator");
-                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().format(formatter).replace("T",  " ") + "~"
-                            + message+ ";";
+                    s = s + m.getRecipientEmail() + "~" + m.getSenderEmail() + "~" + m.getTimestamp().format(formatter).replace("T", " ") + "~"
+                            + message + ";";
                 }
                 csvWriter.append(s);
                 i++;
                 csvWriter.append("\n");
                 csvWriter.flush();
-                }
-
-            } catch(IOException ioException){
-                ioException.printStackTrace();
             }
 
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
 
     }
+
+}
 
 
 

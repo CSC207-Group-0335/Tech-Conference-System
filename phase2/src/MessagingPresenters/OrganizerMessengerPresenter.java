@@ -42,15 +42,15 @@ public class OrganizerMessengerPresenter {
     }
 
     /**
-     *Prints the emails this user has messaged or has been messaged by
+     * Prints the emails this user has messaged or has been messaged by
+     *
      * @param emails an ArrayList containing Strings representing emails
      */
 
     public void viewChats(ArrayList<String> emails) {
         if (emails.size() == 0) {
             System.out.println("No chats found");
-        }
-        else {
+        } else {
             int i = 1;
             for (String email : emails) {
                 System.out.println(i + " - " + email);
@@ -62,11 +62,12 @@ public class OrganizerMessengerPresenter {
 
     /**
      * Prints a conversation.
+     *
      * @param messages an ArrayList containing messages sent to or by this user.
      */
 
     public void viewConversation(ArrayList<Message> messages) {
-        for (Message message: messages) {
+        for (Message message : messages) {
             System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
         }
     }
