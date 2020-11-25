@@ -5,8 +5,6 @@ import UserLogin.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 
@@ -14,9 +12,9 @@ import java.util.Scanner;
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController {
+public class OrganizerMessengerController extends MessengerController {
     private String organizerEmail;
-    public MessageManager userInfo;
+    public AttendeeMessageManager userInfo;
     private ConversationStorage conversationStorage;
     private OrganizerMessengerPresenter presenter;
     public Scanner scan;
@@ -28,7 +26,7 @@ public class OrganizerMessengerController {
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
         this.organizerEmail = orgEmail;
-        this.userInfo = new MessageManager(organizerEmail);
+        this.userInfo = new AttendeeMessageManager(organizerEmail);
         this.presenter = new OrganizerMessengerPresenter();
         this.scan = scanner;
         this.mainMenuController = mainMenuController;
