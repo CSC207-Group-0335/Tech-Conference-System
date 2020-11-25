@@ -9,15 +9,15 @@ import java.util.*;
 
 public abstract class MessageManager implements Observer {
     public User user;
-    public UserStorage allUsers;
+    public UserStorage userStorage;
     public ConversationStorage conversationStorage;
     public HashSet<User> friendsList;
 
     public MessageManager(String email) {
         User user = null;
-        for (int i = 0; i < allUsers.userList.size(); i++) {
-            if (allUsers.userList.get(i).getEmail().equals(email)) {
-                user = allUsers.userList.get(i);
+        for (int i = 0; i < userStorage.userList.size(); i++) {
+            if (userStorage.userList.get(i).getEmail().equals(email)) {
+                user = userStorage.userList.get(i);
             }
         }
 
@@ -51,9 +51,9 @@ public abstract class MessageManager implements Observer {
 
     public ArrayList<User> getAttendees() {
         ArrayList<User> attendees = new ArrayList<>();
-        for (int i = 0; i < allUsers.userList.size(); i++) {
-            if (allUsers.getUserList().get(i) instanceof Attendee) {
-                attendees.add(allUsers.getUserList().get(i));
+        for (int i = 0; i < userStorage.userList.size(); i++) {
+            if (userStorage.getUserList().get(i) instanceof Attendee) {
+                attendees.add(userStorage.getUserList().get(i));
             }
         }
         return attendees;
@@ -67,9 +67,9 @@ public abstract class MessageManager implements Observer {
 
     public ArrayList<User> getSpeakers() {
         ArrayList<User> speakers = new ArrayList<>();
-        for (int i = 0; i < allUsers.userList.size(); i++) {
-            if (allUsers.getUserList().get(i) instanceof Speaker) {
-                speakers.add(allUsers.getUserList().get(i));
+        for (int i = 0; i < userStorage.userList.size(); i++) {
+            if (userStorage.getUserList().get(i) instanceof Speaker) {
+                speakers.add(userStorage.getUserList().get(i));
             }
         }
         return speakers;
@@ -116,7 +116,7 @@ public abstract class MessageManager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof UserStorage) {
-            this.allUsers = (UserStorage) arg;
+            this.userStorage = (UserStorage) arg;
         } else if (arg instanceof ConversationStorage) {
             this.conversationStorage = (ConversationStorage) arg;
         }

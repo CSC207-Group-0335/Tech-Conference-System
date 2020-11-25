@@ -1,6 +1,8 @@
 package UserLogin;
 import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -88,6 +90,11 @@ public class UserStorage extends Observable {
         return null;
     }
 
+    public void signUpForTalk(String email, String talkid){
+        User user = emailToUser(email);
+        user.getTalklist().add(talkid);
+
+    }
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
      * usertype parameter.

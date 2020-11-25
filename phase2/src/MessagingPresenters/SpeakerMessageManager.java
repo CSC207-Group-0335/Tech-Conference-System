@@ -82,7 +82,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof UserStorage) {
-            this.allUsers = (UserStorage) arg;
+            this.userStorage = (UserStorage) arg;
         } else if (arg instanceof HashMap) {
             if (o instanceof TalkSystem) {
                 this.signUpMap = (HashMap) arg;
