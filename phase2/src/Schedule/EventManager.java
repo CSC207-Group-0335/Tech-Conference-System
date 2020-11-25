@@ -6,6 +6,7 @@ import UserLogin.UserStorage;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -85,9 +86,9 @@ public class EventManager implements Observer {
      * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
      * @param talkId The id of the talk.
      * @param talkTitle The title of the talk.
-     * @param speakerEmail The email of the speaker.
+     * @param speakerEmails The emails of the speaker.
      * @param roomName The name of the room.
-     * @param d The start time of the talk.
+     * @param start The start time of the talk.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -123,9 +124,9 @@ public class EventManager implements Observer {
      * Creates a talk with the specified title, Speaker (based on email), Room (based on name), and start time.
      * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
      * @param talkTitle The title of the talk.
-     * @param speakerEmail The email of the speaker.
+     * @param speakerEmails The email of the speaker.
      * @param roomName The name of the room.
-     * @param d The start time of the talk.
+     * @param start The start time of the talk.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -227,12 +228,24 @@ public class EventManager implements Observer {
 
     /**
      * A string representation of a talk with the talk's title, room, speaker, and start time.
-     * @param t The talk.
+     * @param id id of the talk.
      * @return A string representing a talk and its room and speaker.
      */
     public String toStringEvent(String id){
-        String line = "Talk: " + getEvent(id).getTitle() + ", Room: " + this.getEventRoom(id).getRoomName() + ", Speaker: "
-                + this.getEventSpeaker(id).() + ", Time: " + dateToString(this.getEventTime(id));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String speakers = "";
+        if (getEventSpeaker(id).size() != 0){
+            if (getEventSpeaker(id).size() == 1){
+                speakers = "Speaker: ";
+            }
+            else{speakers = "Speakers: ";}
+            for (Speaker s: getEventSpeaker(id)){
+                speakers += " " + s.getName() + ", ";
+            }}
+        String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
+                getEventRoom(id).getRoomName()
+                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + "Ends at: " +
+                getEvent(id).getEndTime().format(formatter);
         return line;
     }
 
@@ -243,9 +256,7 @@ public class EventManager implements Observer {
     public String EventMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Event t: eventMap.keySet()){
-            String line = "Talk: " + t.getTitle() + ", Room: " + this.getEventRoom(t.getEventId()).getRoomName() + ", Speaker: "
-                    + this.getEventSpeaker(t.getEventId()).getName() + ", Time: " +
-                    dateToString(this.getEventTime(t.getEventId()));
+            String line = toStringEvent(t.getEventId())
             lines.add(line);
         }
         String totalString = "";
@@ -255,18 +266,6 @@ public class EventManager implements Observer {
             i++;
         }
         return totalString;
-    }
-
-    /**
-     * A string representation of the start time
-     * @param localDateTime The start time.
-     * @return A string representing the start time.
-     */
-    public String dateToString(LocalDateTime localDateTime){
-        String str = localDateTime.toString();
-        String[] split = str.split("T");
-        String newString = split[0] + " " +split[1];
-        return newString;
     }
 
     public boolean checkOverlappingTimes(LocalDateTime startA, LocalDateTime endA,
