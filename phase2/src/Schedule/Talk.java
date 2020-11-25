@@ -10,6 +10,7 @@ import java.util.UUID;
 public class Talk {
     String title;
     LocalDateTime startTime;
+    LocalDateTime endTime;
     /**
      * A unique identifier for each talk.
      */
@@ -20,9 +21,10 @@ public class Talk {
      * @param title The title of the talk.
      * @param startTime The start time of the talk.
      */
-    public Talk(String title, LocalDateTime startTime){
+    public Talk(String title, LocalDateTime startTime, LocalDateTime endTime){
         this.title = title;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.talkId = UUID.randomUUID().toString();
     }
 
@@ -32,9 +34,10 @@ public class Talk {
      * @param startTime The start time of the talk.
      * @param talkId The id of the talk.
      */
-    public Talk(String title, LocalDateTime startTime, String talkId){
+    public Talk(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId){
         this.title = title;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.talkId = talkId;
     }
 
@@ -58,6 +61,9 @@ public class Talk {
      * Retrieves the id of the talk.
      * @return A UUID representing the id of the talk.
      */
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
     public String getTalkId() {
         return talkId;
     }
@@ -70,7 +76,8 @@ public class Talk {
     public String toString() {
         return "Talk{" +
                 "title='" + title + '\'' +
-                ", startTime=" + startTime +
+                ", startTime=" + startTime + '\'' +
+                ", endTime=" + endTime +
                 '}';
     }
 }
