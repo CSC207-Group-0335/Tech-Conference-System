@@ -1,14 +1,10 @@
 package MessagingPresenters;
 
-import Schedule.Talk;
+import Schedule.Event;
 import UserLogin.MainMenuController;
-import UserLogin.Speaker;
 import UserLogin.User;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
@@ -85,14 +81,14 @@ public class SpeakerMessengerController extends MessengerController{
                     ArrayList<Message> messages = messageManager.viewMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
-                    ArrayList<Talk> talks = messageManager.getSpeakerTalks();
-                    presenter.viewTalks(talks);
+                    ArrayList<Event> events = messageManager.getSpeakerTalks();
+                    presenter.viewTalks(events);
                     int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || talks.size() == 0) {
+                    if (index == 0 || events.size() == 0) {
                         continue;
                     }
-                    Talk talk = talks.get(index - 1);
-                    ArrayList<User> emails = messageManager.getAttendeesOfTalk(talk);
+                    Event event = events.get(index - 1);
+                    ArrayList<User> emails = messageManager.getAttendeesOfTalk(event);
                     presenter.printMenu(3);
                     String body = scan.nextLine();
                     if (body.equals("0")) {

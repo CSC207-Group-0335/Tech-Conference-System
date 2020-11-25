@@ -1,17 +1,16 @@
 package MessagingPresenters;
 
+import Schedule.Event;
 import Schedule.SignUpAttendeesManager;
 import Schedule.SpeakerScheduleManager;
-import Schedule.Talk;
 import Schedule.TalkSystem;
 import UserLogin.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class SpeakerMessageManager extends MessageManager implements Observer {
     private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
-    private HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    private HashMap<Event, SignUpAttendeesManager> signUpMap;
 
     /**
      * A user is needed to create an instance of SpeakerMessageManager.
@@ -28,7 +27,7 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get((Speaker) user).getTalkList();
+    public ArrayList<Event> getSpeakerTalks(){return speakerScheduleManagerHashMap.get((Speaker) user).getTalkList();
     }
 
     /**
@@ -38,8 +37,8 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
 
     public HashSet<User> getFriendsList(){
         HashSet<User> emails = new HashSet<>();
-        for (Talk talk: getSpeakerTalks()){
-            emails.addAll(signUpMap.get(talk).userList);
+        for (Event event: getSpeakerTalks()){
+            emails.addAll(signUpMap.get(event).userList);
         }
         return emails;
     }
@@ -49,8 +48,8 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's talks
      */
 
-    public ArrayList<User> getAttendeesOfTalk(Talk talk){
-        return new ArrayList<>(signUpMap.get(talk).userList);
+    public ArrayList<User> getAttendeesOfTalk(Event event){
+        return new ArrayList<>(signUpMap.get(event).userList);
     }
 
 
