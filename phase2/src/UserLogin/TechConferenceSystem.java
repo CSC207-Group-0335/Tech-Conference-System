@@ -111,7 +111,7 @@ public class TechConferenceSystem extends Observable {
 
     public void run() {
         this.addObserver(roomSystem.talkSystem);
-        this.addObserver(roomSystem.talkSystem.talkManager);
+        this.addObserver(roomSystem.talkSystem.eventManager);
         this.addObserver(logInController.logInManager);
         this.addObserver(roomSystem.talkSystem.scheduleSystem);
         this.addObserver(roomSystem.talkSystem.messagingSystem);

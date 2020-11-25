@@ -11,7 +11,7 @@ public class SignUpAttendeesManager {
     /**
      * The talk being stored.
      */
-    public Talk talk;
+    public Event event;
     /**
      * The list of users attending the talk.
      */
@@ -23,11 +23,11 @@ public class SignUpAttendeesManager {
 
     /**
      * Creates a SignUpAttendeesManager with the specified talk and room capacity.
-     * @param talk
+     * @param event
      * @param roomCapacity
      */
-    public SignUpAttendeesManager(Talk talk, int roomCapacity){
-        this.talk = talk;
+    public SignUpAttendeesManager(Event event, int roomCapacity){
+        this.event = event;
         this.roomCapacity = roomCapacity;
         this.userList = new ArrayList<User>();
     }

@@ -1,5 +1,7 @@
 package Schedule;
 
+import UserLogin.Speaker;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -7,33 +9,36 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Represents a talk.
+ * Represents an Event.
  */
-public class Talk {
+public class Event {
     String title;
     LocalDateTime startTime;
     LocalDateTime endTime;
     /**
-     * A unique identifier for each talk.
+     * A unique identifier for each Event.
      */
-    String talkId;
+    String eventId;
     String roomName;
     ArrayList<String> usersSignedUp;
     ArrayList<String> speakers;
+    boolean vipRestricted;
 
     /**
-     * Creates a talk with the specified title and time.
-     * @param title The title of the talk.
-     * @param startTime The start time of the talk.
+     * Creates an Event with the specified title and time.
+     * @param title The title of the Event.
+     * @param startTime The start time of the Event.
      */
-    public Talk(String title, LocalDateTime startTime, LocalDateTime endTime, String roomName){
+    public Event(String title, LocalDateTime startTime, LocalDateTime endTime,
+                 String roomName, ArrayList<String> speakers, boolean vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.talkId = UUID.randomUUID().toString();
+        this.eventId = UUID.randomUUID().toString();
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
-        this.speakers = new ArrayList<>();
+        this.speakers = speakers;
+        this.vipRestricted = vipRestricted;
     }
 
     /**
@@ -42,14 +47,16 @@ public class Talk {
      * @param startTime The start time of the talk.
      * @param talkId The id of the talk.
      */
-    public Talk(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId, String roomName){
+    public Event(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId, String roomName,
+                 ArrayList<String> speakers, boolean vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.talkId = talkId;
+        this.eventId = talkId;
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
-        this.speakers = new ArrayList<>();
+        this.speakers = speakers;
+        this.vipRestricted = vipRestricted;
     }
 
     /**
@@ -76,13 +83,8 @@ public class Talk {
         return endTime;
     }
 
-    public Duration getDuration() {
-        Duration duration = Duration.between(startTime, endTime);
-        return duration;
-    }
-
-    public String getTalkId() {
-        return talkId;
+    public String getEventId() {
+        return eventId;
     }
 
     public String getRoomName() {return this.roomName;}
@@ -110,7 +112,7 @@ public class Talk {
         return usersSignedUp;
     }
 
-    public ArrayList<String> getSpeakersRunningTalk() {
+    public ArrayList<String> getSpeakers() {
         return speakers;
     }
 }

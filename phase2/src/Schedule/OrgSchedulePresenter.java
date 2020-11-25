@@ -150,23 +150,23 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
 
     /**
      * Output the schedule for the chosen room or chosen speaker if the talkArrayList is not empty.
-     * @param talkArrayList The talkArraylist.
-     * @param talkManager The TalkManager.
+     * @param eventArrayList The talkArraylist.
+     * @param eventManager The TalkManager.
      * @param i The integer corresponding to a specific action.
      */
-    public void printSchedule(ArrayList<Talk> talkArrayList, TalkManager talkManager, int i){
+    public void printSchedule(ArrayList<Event> eventArrayList, EventManager eventManager, int i){
         if(i==1) {
             System.out.println("Schedule for the chosen room:");
         }
         else if (i==2){
             System.out.println("Schedule for the chosen speaker:");
         }
-        if (talkArrayList.size() ==0){
+        if (eventArrayList.size() ==0){
             System.out.println("The schedule is empty.");
         }
         else{
-        for (Talk t: talkArrayList){
-            System.out.println(talkManager.toStringTalk(t) + System.lineSeparator());
+        for (Event t: eventArrayList){
+            System.out.println(eventManager.toStringTalk(t) + System.lineSeparator());
         }}
     }
 }

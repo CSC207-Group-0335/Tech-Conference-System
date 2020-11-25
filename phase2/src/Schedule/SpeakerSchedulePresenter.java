@@ -6,11 +6,11 @@ public class SpeakerSchedulePresenter {
     /**
      * Prints the entire schedule of the speaker.
      * @param speaker The Speaker schedule manager.
-     * @param talkManager The talkManager.
+     * @param eventManager The talkManager.
      */
-    public void printSchedule(SpeakerScheduleManager speaker, TalkManager talkManager){
-        for(Talk t: speaker.getTalkList()) {
-            System.out.println(talkManager.toStringTalk(t));
+    public void printSchedule(SpeakerScheduleManager speaker, EventManager eventManager){
+        for(Event t: speaker.getTalkList()) {
+            System.out.println(eventManager.toStringTalk(t));
         }
     }
 

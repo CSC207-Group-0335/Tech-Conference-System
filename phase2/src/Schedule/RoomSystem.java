@@ -31,7 +31,7 @@ public class RoomSystem extends Observable {
      * main method called for RoomSystem.
      */
     public void run(){
-        this.addObserver(this.talkSystem.talkManager);
+        this.addObserver(this.talkSystem.eventManager);
         if (this.talkSystem.orgScheduleController != null) {
             this.addObserver(this.talkSystem.orgScheduleController);
         }

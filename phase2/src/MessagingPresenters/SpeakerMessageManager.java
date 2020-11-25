@@ -2,7 +2,7 @@ package MessagingPresenters;
 
 import Schedule.SignUpAttendeesManager;
 import Schedule.SpeakerScheduleManager;
-import Schedule.Talk;
+import Schedule.Event;
 import Schedule.TalkSystem;
 import UserLogin.*;
 
@@ -12,7 +12,7 @@ public class SpeakerMessageManager implements Observer{
     private String speakerEmail;
     private UserStorage allUsers;
     private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
-    private HashMap<Talk, SignUpAttendeesManager> signUpMap;
+    private HashMap<Event, SignUpAttendeesManager> signUpMap;
     private ConversationStorage conversationStorage;
 
     /**
@@ -30,7 +30,7 @@ public class SpeakerMessageManager implements Observer{
      * @return an ArrayList containing all talks in which the speaker is a part of
      */
 
-    public ArrayList<Talk> getSpeakerTalks(){return speakerScheduleManagerHashMap.get("""
+    public ArrayList<Event> getSpeakerTalks(){return speakerScheduleManagerHashMap.get("""
             we are going to use UserStorage to get user""").getTalkList();
     }
 
@@ -41,8 +41,8 @@ public class SpeakerMessageManager implements Observer{
 
     public HashSet<String> getAllAttendees(){
         HashSet<String> emails = new HashSet<String>();
-        for (Talk talk: getSpeakerTalks()){
-            for (User user: signUpMap.get(talk).userList){
+        for (Event event : getSpeakerTalks()){
+            for (User user: signUpMap.get(event).userList){
                 emails.add(user.getEmail());
             }
         }
@@ -54,9 +54,9 @@ public class SpeakerMessageManager implements Observer{
      * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's talks
      */
 
-    public ArrayList<String> getAttendeesOfTalk(Talk talk){
+    public ArrayList<String> getAttendeesOfTalk(Event event){
         ArrayList<String> emails = new ArrayList<String>();
-        for (User user: signUpMap.get(talk).userList){
+        for (User user: signUpMap.get(event).userList){
                 emails.add(user.getEmail());
             }
         return emails;

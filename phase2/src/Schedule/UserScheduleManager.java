@@ -12,7 +12,7 @@ public class UserScheduleManager extends ScheduleManager {
     /**
      * The list of talks the user is attending.
      */
-    ArrayList<Talk> talkList;
+    ArrayList<Event> eventList;
 
     /**
      * Creates a UserScheduleManager with the specified user.
