@@ -2,6 +2,9 @@ package UserLogin;
 
 import Files.CSVReader;
 import Files.CSVWriter;
+import MessagingPresenters.AttendeeMessengerController;
+import MessagingPresenters.OrganizerMessengerController;
+import MessagingPresenters.SpeakerMessengerController;
 import Schedule.RoomSystem;
 import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
@@ -49,14 +52,14 @@ public class TechConferenceSystem extends Observable {
     public void setUserStorage(){
         setChanged();
         notifyObservers(this.userStorage);
-        if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
-            notifyObservers(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof SpeakerMessengerController) {
+            notifyObservers(((SpeakerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
         }
-        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
-            notifyObservers(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof AttendeeMessengerController) {
+            notifyObservers(((AttendeeMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
         }
-        if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
-            notifyObservers(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof OrganizerMessengerController) {
+            notifyObservers(((OrganizerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
         }
     }
 
@@ -127,17 +130,16 @@ public class TechConferenceSystem extends Observable {
         setUserScheduleMap(this.userStorage.userScheduleMap);
         setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
         logInController.runLogIn();
-        if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
-            this.addObserver(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
-        }
-        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
-            this.addObserver(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
-        }
-        if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
-            this.addObserver(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
-        }
-        if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
+        roomSystem.talkSystem.messagingSystem.messengerController.
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof SpeakerMessengerController) {
+            notifyObservers(((SpeakerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
             setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
+        }
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof AttendeeMessengerController) {
+            notifyObservers(((AttendeeMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
+        }
+        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof OrganizerMessengerController) {
+            notifyObservers(((OrganizerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
         }
         if (roomSystem.talkSystem.orgScheduleController !=null) {
             this.addObserver(roomSystem.talkSystem.orgScheduleController);

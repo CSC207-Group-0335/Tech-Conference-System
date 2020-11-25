@@ -1,6 +1,5 @@
 package MessagingPresenters;
 
-import Schedule.TalkSystem;
 import UserLogin.Attendee;
 import UserLogin.Speaker;
 import UserLogin.User;
