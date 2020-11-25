@@ -14,7 +14,7 @@ import java.util.Observer;
 
 public class AttendeeMessageManager extends MessageManager {
     /**
-     * A user is needed to create an instance of CanMessageManager.
+     * A user is needed to create an instance of AttendeeMessageManager.
      * @param user the user whose messages will be managed
      */
 
@@ -30,21 +30,10 @@ public class AttendeeMessageManager extends MessageManager {
 
     public ArrayList<User> getFriendsList() {
         ArrayList<User> friends = new ArrayList<User>();
-
-        if (user instanceof Organizer) {
-            for (int i = 0; i < allUsers.userList.size(); i++){
+        for (int i = 0; i < allUsers.userList.size(); i++){
+            if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i) instanceof Speaker){
                 if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
                     friends.add(allUsers.getUserList().get(i));
-                }
-            }
-        }
-        else if (user instanceof Attendee) {
-            for (int i = 0; i < allUsers.userList.size(); i++){
-                if (allUsers.getUserList().get(i) instanceof Attendee || allUsers.getUserList().get(i)
-                        instanceof Speaker){
-                    if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
-                        friends.add(allUsers.getUserList().get(i));
-                    }
                 }
             }
         }
