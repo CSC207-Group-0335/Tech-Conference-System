@@ -37,7 +37,7 @@ public class TalkSystem extends Observable implements Observer{
 
     /**
      * Instantiates user, speaker, and organizer controllers depending on what instance the user is of.
-     * @param user The user.
+     * @param userEmail The user.
      * @param scanner The scanner to be used for all controllers.
      */
     public void instantiateControllers(String userEmail, Scanner scanner){
@@ -54,7 +54,7 @@ public class TalkSystem extends Observable implements Observer{
             setOrgScheduleController();
         }
         else{
-            this.speakerScheduleController = new SpeakerScheduleController(userEmail, userStorage, eventManager,
+            this.speakerScheduleController = new SpeakerScheduleController(userEmail, eventManager, userStorage,
                     mainMenuController, scanner);
             setSpeakerScheduleController();
         }
@@ -97,25 +97,6 @@ public class TalkSystem extends Observable implements Observer{
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.getTalkManager()); //Not implemented yet
     }
-
-    /**
-     * creates the SignUpAttendees.
-     */
-    public void createSignUpAttendees(){
-        for(UserScheduleManager schedule: userScheduleMap.values()){
-            if (schedule.getTalkList() != null){
-            for(Event t: schedule.getTalkList()){
-                if(signUpMap.keySet().contains(t)){
-                    signUpMap.get(t).addUser(schedule.user);
-                }
-                else{
-                    SignUpAttendeesManager signup = new SignUpAttendeesManager(t, eventManager.getTalkRoom(t).capacity);
-                    signup.addUser(schedule.user);
-                    signUpMap.put(t, signup);
-                }}
-            }}
-            setSignUpMap();
-        }
 
     /**
      * Sets talk manager.

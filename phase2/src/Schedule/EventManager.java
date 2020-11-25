@@ -147,12 +147,12 @@ public class EventManager{
         }
         if (talkRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
                 checkDoubleBooking(start, end, talkRoom.getTalkList())){
-            Event t = new Event(talkTitle, start, end, roomName, speakerEmails, vipRestricted);
-            this.addEvent(t, talkRoom, speakers , start, end);
+            Event event = new Event(talkTitle, start, end, roomName, speakerEmails,vipRestricted);
+            this.addEvent(event, talkRoom, speakers , start, end);
             for (Speaker s: speakers){
-                UserStorage.addEvent(s, event);
+                userStorage.addEvent(s.getEmail(), event.getEventId());
             }
-            this.roomScheduleMap.get(talkRoom).addTalk(t);
+            roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
             return true;
         }
         else{

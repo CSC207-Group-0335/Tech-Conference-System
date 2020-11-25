@@ -24,8 +24,6 @@ public class RoomStorage {
      */
     public RoomStorage(){
         this.roomList = new ArrayList<>();
-        //this.scheduleList = new HashMap<Room, RoomScheduleManager>();
-        this.eventManager = new EventManager();
         this.roomNameMap = new HashMap<String, Room>();
     }
 
