@@ -19,8 +19,6 @@ public class TechConferenceSystem extends Observable {
 
     public UserStorage userStorage;
     public ArrayList<User> userList;
-    public HashMap<User, UserScheduleManager> userScheduleMap;
-    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public LogInController logInController;
     public RoomSystem roomSystem;
     public MainMenuController mainMenuController;
@@ -32,9 +30,7 @@ public class TechConferenceSystem extends Observable {
 
     public TechConferenceSystem() {
         this.userStorage = new UserStorage();
-        this.userList = new ArrayList<>();
-        this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.roomSystem = new RoomSystem();
+        this.roomSystem = new RoomSystem(userStorage);
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
                 this.roomSystem.talkSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
@@ -46,50 +42,13 @@ public class TechConferenceSystem extends Observable {
      * Sets the UserStorage and updates the observers.
      */
 
+    //I dont think we need this anymore
     public void setUserStorage(){
         setChanged();
         notifyObservers(this.userStorage);
         if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
             notifyObservers(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);
         }
-        if (roomSystem.talkSystem.messagingSystem.attendeeMessengerController !=null) {
-            notifyObservers(roomSystem.talkSystem.messagingSystem.attendeeMessengerController.userInfo);
-        }
-        if (roomSystem.talkSystem.messagingSystem.organizerMessengerController !=null) {
-            notifyObservers(roomSystem.talkSystem.messagingSystem.organizerMessengerController.userInfo);
-        }
-    }
-
-    /**
-     * Sets the UserList and updates the observers.
-     */
-
-    public void setUserList(ArrayList<User> userlst) {
-        this.userList = userlst;
-        setChanged();
-        notifyObservers(userList);
-    }
-
-    /**
-     * Sets the UserScheduleMap and updates the observers.
-     * @param userSchedMap a given UserScheduleMap.
-     */
-
-    public void setUserScheduleMap(HashMap<User, UserScheduleManager> userSchedMap) {
-        this.userScheduleMap = userSchedMap;
-        setChanged();
-        notifyObservers(userScheduleMap);
-    }
-
-    /**
-     * Sets the SpeakerScheduleMap and updates the observers.
-     * @param speakerSchedMap a given SpeakerScheduleMap.
-     */
-
-    public void setSpeakerScheduleMap(HashMap<Speaker, SpeakerScheduleManager> speakerSchedMap) {
-        this.speakerScheduleMap = speakerSchedMap;
-        setChanged();
-        notifyObservers(speakerSchedMap);
     }
 
     /**
@@ -111,7 +70,6 @@ public class TechConferenceSystem extends Observable {
 
     public void run() {
         this.addObserver(roomSystem.talkSystem);
-        this.addObserver(roomSystem.talkSystem.eventManager);
         this.addObserver(logInController.logInManager);
         this.addObserver(roomSystem.talkSystem.scheduleSystem);
         this.addObserver(roomSystem.talkSystem.messagingSystem);
@@ -123,9 +81,6 @@ public class TechConferenceSystem extends Observable {
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
         }
-        setUserList(this.userStorage.userList);
-        setUserScheduleMap(this.userStorage.userScheduleMap);
-        setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
         logInController.runLogIn();
         if (roomSystem.talkSystem.messagingSystem.speakerMessengerController !=null) {
             this.addObserver(roomSystem.talkSystem.messagingSystem.speakerMessengerController.userInfo);

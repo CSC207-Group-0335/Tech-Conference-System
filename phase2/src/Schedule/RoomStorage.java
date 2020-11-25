@@ -107,6 +107,7 @@ public class RoomStorage {
         }
         return false;
     }
+
     public void removeEvent(String roomName, String EventId){
         Room r = roomNameMap.get(roomName);
         for (String id : r.getTalkList()){

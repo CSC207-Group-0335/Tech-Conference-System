@@ -20,20 +20,18 @@ public class TalkSystem extends Observable implements Observer{
     public EventManager eventManager;
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
-    public User user;
-    public HashMap<User, UserScheduleManager> userScheduleMap;
-    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
-    public HashMap<Event, SignUpAttendeesManager> signUpMap;
+    public String userEmail;
+    public UserStorage userStorage;
     public MainMenuController mainMenuController;
 
     /**
      * creates a new TalkSystem.
      */
-    public TalkSystem(){
-        this.eventManager = new EventManager();
+    public TalkSystem(UserStorage userStorage, RoomStorage roomStorage){
+        this.eventManager = new EventManager(userStorage, roomStorage);
+        this.userStorage = userStorage;
         this.messagingSystem = new MessagingSystem();
         this.scheduleSystem = new ScheduleSystem(eventManager);
-        this.signUpMap = eventManager.getSignUpMap();
     }
 
     /**
@@ -44,21 +42,18 @@ public class TalkSystem extends Observable implements Observer{
     public void instantiateControllers(User user, Scanner scanner){
         this.addObserver(mainMenuController);
         if (user instanceof Attendee){
-            UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.userScheduleController = new UserScheduleController(userScheduleManager, eventManager,
+            this.userScheduleController = new UserScheduleController(userEmail, userStorage, eventManager,
                     mainMenuController, scanner);
             setUserScheduleController();
             }
         else if (user instanceof Organizer){
-            UserScheduleManager userScheduleManager = this.userScheduleMap.get(user);
-            this.orgScheduleController = new OrgScheduleController(userScheduleManager, eventManager,
+            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
                     mainMenuController, scanner);
             this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
         else{
-            SpeakerScheduleManager speakerScheduleManager = this.speakerScheduleMap.get(user);
-            this.speakerScheduleController = new SpeakerScheduleController(speakerScheduleManager, eventManager,
+            this.speakerScheduleController = new SpeakerScheduleController(userEmail, userStorage, eventManager,
                     mainMenuController, scanner);
             setSpeakerScheduleController();
         }
