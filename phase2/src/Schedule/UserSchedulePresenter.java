@@ -76,8 +76,8 @@ public class UserSchedulePresenter {
      * Greets the user with their name.
      * @param userScheduleManager The userScheduleManager.
      */
-    public void printHello(UserScheduleManager userScheduleManager){
-        System.out.println("Hello " + userScheduleManager.getUser().getName());
+    public void printHello(String name){
+        System.out.println("Hello " + name);
     }
 
     /**
