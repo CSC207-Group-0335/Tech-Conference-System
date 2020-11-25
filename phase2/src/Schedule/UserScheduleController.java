@@ -1,6 +1,7 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
+import UserLogin.UserStorage;
 
 import java.util.*;
 
@@ -8,41 +9,26 @@ import java.util.*;
  * A controller class describing the actions a user can perform in the program.
  */
 public class UserScheduleController{
-    /**
-     * A user of the conference.
-     */
-    UserScheduleManager attendee ;
-    /**
-     * The TalkManager for the conference.
-     */
+    String email;
+    UserStorage userStorage;
     EventManager eventManager;
-    /**
-     * The menu for the conference.
-     */
     MainMenuController mainMenuController;
-    /**
-     * A mapping of talks to its corresponding SignUpAttendeesManager.
-     */
     public HashMap<Event, SignUpAttendeesManager> signUpMap;
-    /**
-     * The presenter of the user controller.
-     */
     UserSchedulePresenter presenter;
-    /**
-     * The scanner for the conference.
-     */
     Scanner scan;
 
     /**
      * Initializes a new controller for the user.
-     * @param user The user of the program.
+     * @param email The email of the user of the program.
+     * @param userStorage The userStorage associated with the conference.
      * @param eventManager The talkManager of the conference.
      * @param mainMenuController The menu of the conference.
      * @param scanner The scanner of MainMenuController.
      */
-    public UserScheduleController(UserScheduleManager user, EventManager eventManager,
+    public UserScheduleController(String email, EventManager eventManager, UserStorage userStorage,
                                   MainMenuController mainMenuController, Scanner scanner){
-        this.attendee = user;
+        this.email = email;
+        this.userStorage = userStorage;
         this.eventManager = eventManager;
         this.mainMenuController = mainMenuController;
         presenter = new UserSchedulePresenter();
@@ -269,7 +255,7 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(attendee);
+        presenter.printHello(userStorage.emailToUser(this.email).getName()); //Is this allowed?
         presenter.printMenu(1);
         presenter.printMenu(2);
         boolean doContinue = true;

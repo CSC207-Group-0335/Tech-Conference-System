@@ -42,21 +42,24 @@ public class TalkSystem extends Observable implements Observer{
      */
     public void instantiateControllers(String userEmail, Scanner scanner){
         this.addObserver(mainMenuController);
-        if (userStorage.emailToUser(userEmail).getType().equals("Attendee")){
-            this.userScheduleController = new UserScheduleController(userEmail, userStorage, eventManager,
-                    mainMenuController, scanner);
-            setUserScheduleController();
-            }
-        else if (userStorage.emailToUser(userEmail).getType().equals("Organizer")){
-            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
-                    mainMenuController, scanner);
-            this.addObserver(orgScheduleController);
-            setOrgScheduleController();
-        }
-        else{
-            this.speakerScheduleController = new SpeakerScheduleController(userEmail, userStorage, eventManager,
-                    mainMenuController, scanner);
-            setSpeakerScheduleController();
+        String usertype = userStorage.emailToUser(userEmail).getType();
+        switch (usertype) {
+            case "Attendee":
+                this.userScheduleController = new UserScheduleController(userEmail, userStorage, eventManager,
+                        mainMenuController, scanner);
+                setUserScheduleController();
+                break;
+            case "Organizer":
+                this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
+                        mainMenuController, scanner);
+                this.addObserver(orgScheduleController);
+                setOrgScheduleController();
+                break;
+            case "Speaker":
+                this.speakerScheduleController = new SpeakerScheduleController(userEmail, userStorage, eventManager,
+                        mainMenuController, scanner);
+                setSpeakerScheduleController();
+                break;
         }
 
     }
