@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public class Message {
 
-    private String recipientEmail;
-    private String senderEmail;
-    private LocalDateTime timestamp;
-    private String messageContent;
+    private final String recipientEmail;
+    private final String senderEmail;
+    private final LocalDateTime timestamp;
+    private final String messageContent;
 
     /**
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This

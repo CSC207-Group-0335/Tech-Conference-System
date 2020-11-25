@@ -12,8 +12,8 @@ import java.util.Scanner;
  */
 
 public class SpeakerMessengerController extends MessengerController{
-    private SpeakerMessageManager messageManager;
-    private SpeakerMessengerPresenter presenter;
+    private final SpeakerMessageManager messageManager;
+    private final SpeakerMessengerPresenter presenter;
 
     /**
      * A speaker is required to create an instance of this class.
@@ -44,7 +44,7 @@ public class SpeakerMessengerController extends MessengerController{
                     mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
-                    String email = new String();
+                    String email = "";
                     boolean valid_recipient = false;
                     while (!valid_recipient) {
                         email = scan.nextLine();

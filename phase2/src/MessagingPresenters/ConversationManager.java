@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ConversationManager {
-    private ArrayList<String> participants;
-    private ArrayList<Message> messages;
+    private final ArrayList<String> participants;
+    private final ArrayList<Message> messages;
 
     /**
      * A sender and recipient is required to create instance of ConversationManager.

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class ConversationStorage{
-    private ArrayList<ConversationManager> conversationManagers;
+    private final ArrayList<ConversationManager> conversationManagers;
 
     /**
      * Nothing is needed to create an instance of ConversationStorage.

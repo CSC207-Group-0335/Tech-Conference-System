@@ -74,7 +74,7 @@ public class SpeakerMessengerPresenter {
         else {
             int i = 1;
             for (Event event : events) {
-                System.out.println(i + " - " + event.getTalkId()+": "+ event.getTitle() + " which starts at " +
+                System.out.println(i + " - " + event.getEventId()+": "+ event.getTitle() + " which starts at " +
                         event.getStartTime().toString().replace("T", " "));
                 i++;
             }
