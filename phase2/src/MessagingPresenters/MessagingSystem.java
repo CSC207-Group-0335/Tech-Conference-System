@@ -42,7 +42,8 @@ public class MessagingSystem extends Observable implements Observer {
 
     /**
      * Instantiates controller classes.
-     * @param user a User
+     *
+     * @param user    a User
      * @param scanner a Scanner
      */
 
@@ -72,7 +73,8 @@ public class MessagingSystem extends Observable implements Observer {
     /**
      * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
      * in linked Observable classes. This one updates the User and the MainMenuController, based on the arg type.
-     * @param o the Observable class where the change is made and this function is called.
+     *
+     * @param o   the Observable class where the change is made and this function is called.
      * @param arg the argument that is being updated.
      */
 
@@ -81,7 +83,7 @@ public class MessagingSystem extends Observable implements Observer {
         if (arg instanceof User) {
             this.user = (User) arg;
         }
-        if (arg instanceof MainMenuController){
+        if (arg instanceof MainMenuController) {
             this.mainMenuController = (MainMenuController) arg;
         }
     }
@@ -103,7 +105,7 @@ public class MessagingSystem extends Observable implements Observer {
                 String recipient = singleMessage[0];
                 String sender = singleMessage[1];
                 String timestampString = singleMessage[2];
-                String messageContent = singleMessage[3].replace("commaseparator",  ",");
+                String messageContent = singleMessage[3].replace("commaseparator", ",");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
                 c.addMessage(recipient, sender, timestamp, messageContent);
@@ -121,32 +123,6 @@ public class MessagingSystem extends Observable implements Observer {
                 this.conversationStorage.getConversationManagers());
     }
 
-    /**
-     * Sets AttendeeMessengerController.
-     */
-
-    public void setAttendeeMessengerController() {
-        setChanged();
-        notifyObservers(attendeeMessengerController);
-    }
-
-    /**
-     * Sets SpeakerMessengerController.
-     */
-
-    public void setSpeakerMessengerController(){
-        setChanged();
-        notifyObservers(speakerMessengerController);
-    }
-
-    /**
-     * Sets OrganizerMessengerController.
-     */
-
-    public void setOrganizerMessengerController(){
-        setChanged();
-        notifyObservers(organizerMessengerController);
-    }
 }
 
 

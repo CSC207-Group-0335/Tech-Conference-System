@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class SpeakerMessengerController implements Observer{
     public SpeakerMessageManager userInfo;
-    private ConversationStorage conversationStorage;
     private String  speakerEmail;
     private SpeakerMessengerPresenter presenter;
     public Scanner scan;
@@ -113,16 +112,3 @@ public class SpeakerMessengerController implements Observer{
         }
     }
 
-    /**
-     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     * @param o an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
-        }
-    }
-}
