@@ -1,6 +1,5 @@
 package MessagingPresenters;
 
-import UserLogin.Attendee;
 import UserLogin.MainMenuController;
 
 import java.time.LocalDateTime;
@@ -13,11 +12,11 @@ import java.util.Scanner;
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController implements Observer{
+public class AttendeeMessengerController {
     private String attendeeEmail;
-    public CanMessageManager userInfo;
+    public MessageManager userInfo;
     private ConversationStorage conversationStorage;
-    private AttendeeMessengerControllerPresenter presenter;
+    private AttendeeMessengerPresenter presenter;
     public Scanner scan;
     public MainMenuController mainMenuController;
 
@@ -27,8 +26,8 @@ public class AttendeeMessengerController implements Observer{
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
         this.attendeeEmail = attendeeEmail;
-        this.userInfo = new CanMessageManager(attendeeEmail);
-        this.presenter = new AttendeeMessengerControllerPresenter();
+        this.userInfo = new MessageManager(attendeeEmail);
+        this.presenter = new AttendeeMessengerPresenter();
         this.scan = scanner;
         this.mainMenuController = mainMenuController;
     }
@@ -147,18 +146,4 @@ public class AttendeeMessengerController implements Observer{
                 presenter.printMenu(6); }
         }
     }
-
-    /**
-     * Updates </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     * @param o an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
-        }
-    }
-
 }

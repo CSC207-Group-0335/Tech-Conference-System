@@ -79,7 +79,17 @@ public class UserStorage extends Observable {
      * usertype parameter.
      * @return a new user object (note that it could be null)
      */
+    public User emailToUser(String email){
 
+        for(User user: this.userList){
+            if (user.getEmail().equals(email)){
+                return user;
+            }
+
+        }
+
+        return null;
+    }
     private User createUserOfInstance(String usertype, String name, String password, String email){
         User newuser = null;
 
