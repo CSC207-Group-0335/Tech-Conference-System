@@ -25,9 +25,9 @@ public class OrganizerMessageManager extends MessageManager {
 
     public HashSet<User> getFriendsList() {
         HashSet<User> friends = new HashSet<>();
-        for (int i = 0; i < allUsers.userList.size(); i++) {
-            if (!allUsers.getUserList().get(i).getEmail().equals(user.getEmail())) {
-                friends.add(allUsers.getUserList().get(i));
+        for (int i = 0; i < userStorage.userList.size(); i++) {
+            if (!userStorage.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                friends.add(userStorage.getUserList().get(i));
             }
         }
         return friends;
