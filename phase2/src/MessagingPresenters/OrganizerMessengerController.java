@@ -5,8 +5,6 @@ import UserLogin.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 
@@ -14,9 +12,9 @@ import java.util.Scanner;
  * A class that represents an organizer message controller.
  */
 
-public class OrganizerMessengerController {
+public class OrganizerMessengerController extends MessengerController {
     private String organizerEmail;
-    public MessageManager userInfo;
+    public AttendeeMessageManager messageManager;
     private ConversationStorage conversationStorage;
     private OrganizerMessengerPresenter presenter;
     public Scanner scan;
@@ -27,11 +25,8 @@ public class OrganizerMessengerController {
      */
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.organizerEmail = orgEmail;
-        this.userInfo = new MessageManager(organizerEmail);
+        super(orgEmail, scanner, mainMenuController);
         this.presenter = new OrganizerMessengerPresenter();
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -41,16 +36,7 @@ public class OrganizerMessengerController {
      */
 
     public void messageOneUser(String email, String messageContent){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizerEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
-                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
-                c.addMessage(email, organizerEmail, LocalDateTime.now(), messageContent);
-            }
-        }
+        messageManager.messageOne(email, messageContent);
     }
 
     /**
@@ -59,7 +45,7 @@ public class OrganizerMessengerController {
      */
 
     public void messageAllAttendees(String messageContent){
-        ArrayList<User> attendees = userInfo.getAttendees();
+        ArrayList<User> attendees = messageManager.getAttendees();
         for (User attendee: attendees){
             messageOneUser(attendee.getEmail(), messageContent);
         }
@@ -71,7 +57,7 @@ public class OrganizerMessengerController {
      */
 
     public void messageAllSpeakers(String messageContent){
-        ArrayList<User> speakers = userInfo.getSpeakers();
+        ArrayList<User> speakers = messageManager.getSpeakers();
         for (User speaker: speakers){
             messageOneUser(speaker.getEmail(), messageContent);
         }
@@ -85,17 +71,7 @@ public class OrganizerMessengerController {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(organizerEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(organizerEmail, email);
-                return c.getMessages();
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(organizerEmail, email);
-                return c.getMessages();
-            }
-        }
-        return null;
+        messageManager.viewMessages(email);
     }
 
     /**
@@ -104,16 +80,7 @@ public class OrganizerMessengerController {
      */
 
     public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(organizerEmail)) {
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(organizerEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
+        messageManager.getRecipients();
     }
 
     /**
@@ -140,7 +107,7 @@ public class OrganizerMessengerController {
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);

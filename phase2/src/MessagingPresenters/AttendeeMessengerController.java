@@ -2,34 +2,24 @@ package MessagingPresenters;
 
 import UserLogin.MainMenuController;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * A class that represents the messenger controller.
  */
 
-public class AttendeeMessengerController {
-    private String attendeeEmail;
-    public MessageManager userInfo;
-    private ConversationStorage conversationStorage;
+public class AttendeeMessengerController extends MessengerController {
+    public AttendeeMessageManager messageManager;
     private AttendeeMessengerPresenter presenter;
-    public Scanner scan;
-    public MainMenuController mainMenuController;
 
     /**
      * A user is required to create an instance of this class.\
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.attendeeEmail = attendeeEmail;
-        this.userInfo = new MessageManager(attendeeEmail);
+        super(attendeeEmail, scanner, mainMenuController, new AttendeeMessageManager(attendeeEmail));
         this.presenter = new AttendeeMessengerPresenter();
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -40,16 +30,7 @@ public class AttendeeMessengerController {
      */
 
     public void message(String email, String messageContent){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                c.addMessage(email, attendeeEmail, LocalDateTime.now(), messageContent);
-            }
-        }
+        messageManager.messageOne(email, messageContent);
     }
 
     /**
@@ -60,17 +41,7 @@ public class AttendeeMessengerController {
      */
 
     public ArrayList<Message> viewMessages(String email){
-        if (userInfo.canMessage(email)){
-            if (conversationStorage.contains(attendeeEmail, email)){
-                ConversationManager c = conversationStorage.getConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-            else{
-                ConversationManager c = conversationStorage.addConversationManager(attendeeEmail, email);
-                return c.getMessages();
-            }
-        }
-        return null;
+        return messageManager.viewMessages(email);
     }
 
     /**
@@ -79,16 +50,7 @@ public class AttendeeMessengerController {
      */
 
     public ArrayList<String> getRecipients() {
-        ArrayList<String> emails = new ArrayList<>();
-        ArrayList<ConversationManager> managers = conversationStorage.getConversationManagers();
-        for (ConversationManager manager: managers) {
-            if (manager.getParticipants().contains(attendeeEmail)){
-                ArrayList<String> participants = new ArrayList<>(manager.getParticipants());
-                participants.remove(attendeeEmail);
-                emails.add(participants.get(0));
-            }
-        }
-        return emails;
+        return messageManager.getRecipients();
     }
 
     /**
@@ -105,7 +67,7 @@ public class AttendeeMessengerController {
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(4);
-                    mainMenuController.runMainMenu(attendeeEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(1);
                     String email = new String();
@@ -116,7 +78,7 @@ public class AttendeeMessengerController {
                         if (email.equals("0")) {
                             continue OUTER_LOOP;
                         }
-                        if (userInfo.canMessage(email)) {
+                        if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
                             presenter.printMenu(5);

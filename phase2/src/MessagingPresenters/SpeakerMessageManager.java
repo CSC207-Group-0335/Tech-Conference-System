@@ -9,7 +9,7 @@ import UserLogin.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class SpeakerMessageManager implements Observer{
+public class SpeakerMessageManager extends MessageManager implements Observer {
     private String speakerEmail;
     private UserStorage allUsers;
     private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;

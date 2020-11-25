@@ -13,9 +13,9 @@ import java.util.Scanner;
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController implements Observer{
+public class SpeakerMessengerController extends MessengerController{
     public SpeakerMessageManager userInfo;
-    private String  speakerEmail;
+    public String email;
     private SpeakerMessengerPresenter presenter;
     public Scanner scan;
     public MainMenuController mainMenuController;
@@ -23,15 +23,14 @@ public class SpeakerMessengerController implements Observer{
 
     /**
      * A speaker is required to create an instance of this class.
+     *
      * @param speakerEmail the speaker
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        this.userInfo = new SpeakerMessageManager(speakerEmail);
+        super(speakerEmail, scanner, mainMenuController);
+        this.messageManager = new SpeakerMessageManager(speakerEmail);
         this.presenter = new SpeakerMessengerPresenter();
-        this.speakerEmail = speakerEmail;
-        this.scan = scanner;
-        this.mainMenuController = mainMenuController;
     }
 
     /**
@@ -48,7 +47,7 @@ public class SpeakerMessengerController implements Observer{
                 if (option == 0) {
                     flag = false;
                     presenter.printMenu(1);
-                    mainMenuController.runMainMenu(speakerEmail);
+                    mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
                     String email = new String();
@@ -87,8 +86,7 @@ public class SpeakerMessengerController implements Observer{
                     String email = emails.get(index - 1);
                     ArrayList<Message> messages = userInfo.viewMessages(email);
                     presenter.viewConversation(messages);
-                }
-                else if (option == 4){
+                } else if (option == 4) {
                     ArrayList<Talk> talks = userInfo.getSpeakerTalks();
                     presenter.viewTalks(talks);
                     int index = Integer.parseInt(scan.nextLine());
@@ -102,13 +100,15 @@ public class SpeakerMessengerController implements Observer{
                     if (body.equals("0")) {
                         continue;
                     }
-                    for (String email: emails){
+                    for (String email : emails) {
                         userInfo.message(email, body);
                     }
                     presenter.printMenu(4);
                 }
             } catch (NumberFormatException nfe) {
-                presenter.printMenu(6); }
+                presenter.printMenu(6);
+            }
         }
     }
+}
 
