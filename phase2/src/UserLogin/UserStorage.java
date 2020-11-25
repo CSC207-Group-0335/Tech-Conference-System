@@ -75,21 +75,24 @@ public class UserStorage extends Observable {
     public HashMap<Speaker, SpeakerScheduleManager> getSpeakerScheduleMap() { return speakerScheduleMap;}
 
     /**
-     * Used to help create a new user object. A new user is created based on the type that is specified in the
-     * usertype parameter.
-     * @return a new user object (note that it could be null)
+     * Used to find the user object that is associated with the inputted email.
+     * @param email the inputted email (A string).
+     * @return the user associated with the given email, or null if no such user is found.
      */
     public User emailToUser(String email){
-
         for(User user: this.userList){
             if (user.getEmail().equals(email)){
                 return user;
             }
-
         }
-
         return null;
     }
+
+    /**
+     * Used to help create a new user object. A new user is created based on the type that is specified in the
+     * usertype parameter.
+     * @return a new user object (note that it could be null)
+     */
     private User createUserOfInstance(String usertype, String name, String password, String email){
         User newuser = null;
 

@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class LogInController extends Observable {
     public LogInManager logInManager;
     public User user;
+    public String email;
     public LogInPresenter presenter;
     public MainMenuController mainMenuController;
     public TalkSystem talkSystem;
@@ -58,6 +59,7 @@ public class LogInController extends Observable {
 
             if (this.logInManager.login(email, password)){
                 check = false;
+                this.email = email;
                 this.user = this.logInManager.findUser(email);
                 setUser(this.user); //set the user
                 this.talkSystem.instantiateControllers(this.user, scanner); //Instantiate controllers for the found user
@@ -79,6 +81,10 @@ public class LogInController extends Observable {
     public void setUser(User user) {
         setChanged();
         notifyObservers(user);
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
 }
