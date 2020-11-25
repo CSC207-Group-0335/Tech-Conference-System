@@ -1,20 +1,19 @@
 package MessagingPresenters;
 
-import Schedule.Talk;
+import Schedule.Event;
 import UserLogin.MainMenuController;
+import UserLogin.User;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
  * A class that represents a speaker message controller.
  */
 
-public class SpeakerMessengerController extends MessengerController{
-    private SpeakerMessengerPresenter presenter;
+public class SpeakerMessengerController extends MessengerController {
+    public final SpeakerMessageManager messageManager;
+    private final SpeakerMessengerPresenter presenter;
 
     /**
      * A speaker is required to create an instance of this class.
@@ -23,7 +22,8 @@ public class SpeakerMessengerController extends MessengerController{
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(speakerEmail, scanner, mainMenuController, new SpeakerMessageManager(speakerEmail));
+        super(speakerEmail, scanner, mainMenuController);
+        this.messageManager = new SpeakerMessageManager(speakerEmail);
         this.presenter = new SpeakerMessengerPresenter();
     }
 
@@ -44,7 +44,7 @@ public class SpeakerMessengerController extends MessengerController{
                     mainMenuController.runMainMenu(email);
                 } else if (option == 1) {
                     presenter.printMenu(2);
-                    String email = new String();
+                    String email = "";
                     boolean valid_recipient = false;
                     while (!valid_recipient) {
                         email = scan.nextLine();
@@ -60,7 +60,7 @@ public class SpeakerMessengerController extends MessengerController{
                     presenter.printMenu(3);
                     String body = scan.nextLine();
 
-                     messageManager.message(email, body);
+                    messageManager.messageOne(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);
@@ -81,21 +81,21 @@ public class SpeakerMessengerController extends MessengerController{
                     ArrayList<Message> messages = messageManager.viewMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
-                    ArrayList<Talk> talks = messageManager.getSpeakerTalks();
-                    presenter.viewTalks(talks);
+                    ArrayList<Event> events = messageManager.getSpeakerTalks();
+                    presenter.viewTalks(events);
                     int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || talks.size() == 0) {
+                    if (index == 0 || events.size() == 0) {
                         continue;
                     }
-                    Talk talk = talks.get(index - 1);
-                    ArrayList<String> emails = messageManager.getAttendeesOfTalk(talk);
+                    Event event = events.get(index - 1);
+                    ArrayList<User> emails = messageManager.getAttendeesOfTalk(event);
                     presenter.printMenu(3);
                     String body = scan.nextLine();
                     if (body.equals("0")) {
                         continue;
                     }
-                    for (String email : emails) {
-                        messageManager.message(email, body);
+                    for (User user : emails) {
+                        messageManager.messageOne(user.getEmail(), body);
                     }
                     presenter.printMenu(4);
                 }

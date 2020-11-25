@@ -44,15 +44,15 @@ public class SpeakerMessengerPresenter {
     }
 
     /**
-     *Prints the emails this user has messaged or has been messaged by
+     * Prints the emails this user has messaged or has been messaged by
+     *
      * @param emails an ArrayList containing Strings representing emails
      */
 
     public void viewChats(ArrayList<String> emails) {
         if (emails.size() == 0) {
             System.out.println("No chats found");
-        }
-        else {
+        } else {
             int i = 1;
             for (String email : emails) {
                 System.out.println(i + " - " + email);
@@ -64,17 +64,17 @@ public class SpeakerMessengerPresenter {
 
     /**
      * Prints a list of talks.
+     *
      * @param events an ArrayList containing talks
      */
 
     public void viewTalks(ArrayList<Event> events) {
         if (events.size() == 0) {
             System.out.println("No talks found");
-        }
-        else {
+        } else {
             int i = 1;
             for (Event event : events) {
-                System.out.println(i + " - " + event.getTalkId()+": "+ event.getTitle() + " which starts at " +
+                System.out.println(i + " - " + event.getEventId() + ": " + event.getTitle() + " which starts at " +
                         event.getStartTime().toString().replace("T", " "));
                 i++;
             }
@@ -84,11 +84,12 @@ public class SpeakerMessengerPresenter {
 
     /**
      * Prints a conversation containing </messages>.
+     *
      * @param messages an ArrayList containing messages
      */
 
     public void viewConversation(ArrayList<Message> messages) {
-        for (Message message: messages) {
+        for (Message message : messages) {
             System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
         }
     }
