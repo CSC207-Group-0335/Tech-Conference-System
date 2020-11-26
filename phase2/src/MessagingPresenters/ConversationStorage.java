@@ -22,7 +22,7 @@ public class ConversationStorage {
     /**
      * Checks if instance of ConversationManager already exists in conversationManagers.
      *
-     * @return True if conversation is add and false if it already exists.
+     * @return True if conversation is added and false if it already exists.
      */
 
     public boolean contains(String senderEmail, String recipientEmail) {

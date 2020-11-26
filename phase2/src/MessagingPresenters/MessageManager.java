@@ -194,6 +194,19 @@ public abstract class MessageManager implements Observer {
         return emails;
     }
 
+    /**
+     * Sends a message to multiple users.
+     *
+     * @param emails an ArrayList containing emails of the recipients
+     * @param messageContent a String representing the content of the message
+     */
+
+    public void messageGroup(ArrayList<String> emails, String messageContent) {
+        for (String email: emails) {
+            messageOne(email, messageContent);
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof UserStorage) {

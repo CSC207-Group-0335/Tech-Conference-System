@@ -76,6 +76,16 @@ public class Message {
         return messageContent;
     }
 
+    /**
+     * Returns True if and only if this message has been read.
+     *
+     * @return a Boolean representing whether or not this message has been read
+     */
+
+    public Boolean hasRead() {
+        return read;
+    }
+
     /***
      * Marks this message as read or unread.
      */
