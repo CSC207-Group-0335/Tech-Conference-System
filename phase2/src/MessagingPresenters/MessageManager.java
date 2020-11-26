@@ -13,6 +13,12 @@ public abstract class MessageManager implements Observer {
     public ConversationStorage conversationStorage;
     public HashSet<User> friendsList;
 
+    /***
+     * An email is required to create an instance of MessageManager.
+     *
+     * @param email a String representing an email address
+     */
+
     public MessageManager(String email) {
         User user = null;
         for (int i = 0; i < userStorage.userList.size(); i++) {
@@ -24,6 +30,7 @@ public abstract class MessageManager implements Observer {
         this.user = user;
         this.friendsList = getFriendsList();
     }
+
 
     public abstract HashSet<User> getFriendsList();
 
@@ -75,6 +82,13 @@ public abstract class MessageManager implements Observer {
         return speakers;
     }
 
+    /**
+     * Returns true if and only if there exists a conversation between this user and another user with email </email>.
+     *
+     * @param email a String representing the email of the recipient
+     * @return a boolean representing whether or not there is a conversation between these two users
+     */
+
     private Boolean containsConversationWith(String email) {
         if (conversationStorage.contains(user.getEmail(), email)) {
             return true;
@@ -83,6 +97,13 @@ public abstract class MessageManager implements Observer {
             return false;
         }
     }
+
+    /**
+     * Sends a message to a user.
+     *
+     * @param email a String representing the recipient's email address
+     * @param messageContent a String containing the content of the message
+     */
 
     public void messageOne(String email, String messageContent) {
         if (this.canMessage(email)) {
@@ -96,12 +117,26 @@ public abstract class MessageManager implements Observer {
         }
     }
 
+    /**
+     * Deletes a message.
+     *
+     * @param email a String representing the recipient's email address
+     * @param index an Integer representing the index of the message to be deleted
+     */
+
     public void deleteMessage(String email, Integer index) {
         if (containsConversationWith(email)) {
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
             c.deleteMessage(index);
         }
     }
+
+    /**
+     * Marks a message as read or unread.
+     *
+     * @param email a String representing the recipient's email address
+     * @param index an Integer representing the index of the message to be deleted
+     */
 
     public void toggleRead(String email, Integer index) {
         if (containsConversationWith(email)) {
@@ -110,9 +145,22 @@ public abstract class MessageManager implements Observer {
         }
     }
 
+    /**
+     * Archives a conversation.
+     *
+     * @param email a String representing the recipient's email address
+     */
+
     public void archiveConversationWith(String email) {
         conversationStorage.archiveConversationWith(user.getEmail(), email);
     }
+
+    /**
+     * Returns all the messages sent between this user and the recipient registered under </email>.
+     *
+     * @param email a String representing the email of the recipient
+     * @return an ArrayList containing all messages sent between these two users
+     */
 
     public ArrayList<Message> viewMessages(String email) {
         if (this.canMessage(email)) {
@@ -126,6 +174,12 @@ public abstract class MessageManager implements Observer {
         }
         return null;
     }
+
+    /**
+     * Returns the emails of all recipients.
+     *
+     * @return an ArrayList containing all the email addresses of the recipients
+     */
 
     public ArrayList<String> getRecipients() {
         ArrayList<String> emails = new ArrayList<>();

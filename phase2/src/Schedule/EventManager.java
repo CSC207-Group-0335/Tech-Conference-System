@@ -251,7 +251,7 @@ public class EventManager{
     public String EventMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Event t: eventMap.keySet()){
-            String line = toStringEvent(t.getEventId())
+            String line = toStringEvent(t.getEventId());
             lines.add(line);
         }
         String totalString = "";

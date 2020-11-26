@@ -76,6 +76,10 @@ public class Message {
         return messageContent;
     }
 
+    /***
+     * Marks this message as read or unread.
+     */
+
     public void toggleRead() {
         this.read = !read;
     }

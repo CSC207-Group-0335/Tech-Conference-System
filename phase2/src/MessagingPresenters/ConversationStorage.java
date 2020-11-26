@@ -77,6 +77,12 @@ public class ConversationStorage {
         return conversationManagers;
     }
 
+    /**
+     * Archives the conversation between the users registered under </senderEmail> and </recipientEmail>.
+     * @param senderEmail a String representing the email of the sender
+     * @param recipientEmail a String representing the email of the recipient
+     */
+
     public void archiveConversationWith(String senderEmail, String recipientEmail) {
         ConversationManager c = getConversationManager(senderEmail, recipientEmail);
         if (c != null) {
