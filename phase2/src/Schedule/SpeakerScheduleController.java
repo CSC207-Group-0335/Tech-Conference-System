@@ -12,7 +12,7 @@ public class SpeakerScheduleController{
     /**
      * An speaker for the conference.
      */
-    String speaker;
+    String speakerEmail;
     EventManager eventManager;
     MainMenuController mainMenuController;
     Scanner scan;
@@ -28,7 +28,7 @@ public class SpeakerScheduleController{
      */
     public SpeakerScheduleController(String speakerEmail, EventManager eventManager, UserStorage userStorage,
                                      MainMenuController mainMenuController, Scanner scanner){
-        this.speaker = speakerEmail;
+        this.speakerEmail = speakerEmail;
         this.eventManager = eventManager;
         this.mainMenuController = mainMenuController;
         this.scan = scanner;
@@ -39,25 +39,26 @@ public class SpeakerScheduleController{
     /**
      * Lists all the available actions a speaker can perform and choose from, takes their input and outputs a text UI.
      */
+    //Nathan: Changed presenter to match clean architecture NOV 28.
     public void run(){
-        presenter.printHelloMessage(userStorage.emailToUser(speaker)); //change presenter
+        presenter.printHelloMessage(userStorage.emailToName(speakerEmail));
         boolean doContinue = true;
         while(doContinue) {
             String choice = scan.nextLine();
             try {
                 int command = Integer.parseInt(choice);
             if (command == 1) {
-                if (userStorage.emailToUser(speaker).getTalklist().size()==0){ //ask in meeting tmr
+                if (userStorage.emailToUser(speakerEmail).getTalklist().size()==0){ //ask in meeting tmr
                     presenter.printNoTalks();
                 }
                 else {
-                    presenter.printSchedule(speaker, eventManager); // change presenter
+                    presenter.printSchedule(userStorage.emailToTalkList(speakerEmail), eventManager);
                 }
             }
             else if (command == 0){
                 doContinue = false;
                 presenter.printGoodbye();
-                mainMenuController.runMainMenu(speaker);
+                mainMenuController.runMainMenu(speakerEmail);
             }
             else{presenter.printTryAgain();}
             }

@@ -58,28 +58,11 @@ public class UserStorage extends Observable {
     }
 
     /**
-     * @return the UserScheduleMap for the User, specfically when the user is not a Speaker and has the
-     * ability to sign up to attend talks.
+     * Add an event to the users list of registered events, if they are not currently registered for that event.
+     * @param email the email of the user who is attempting to register for an event
+     * @param talkid the id of the event that the for which the user is attempting to register.
+     * @return a boolean value indicating whether the registration was successful.
      */
-
-    /**
-     * @return the SpeakerSchedule map for the User, specifically when the user is a Speaker.
-     */
-
-    /**
-     * Used to find the user object that is associated with the inputted email.
-     * @param email the inputted email (A string).
-     * @return the user associated with the given email, or null if no such user is found.
-     */
-    public User emailToUser(String email){
-        for(User user: this.userList){
-            if (user.getEmail().equals(email)){
-                return user;
-            }
-        }
-        return null;
-    }
-
     public boolean addEvent(String email, String talkid){
         User user = emailToUser(email);
         if (!user.getTalklist().contains(talkid)) {
@@ -129,6 +112,74 @@ public class UserStorage extends Observable {
         return true;
 
     }
+
+    /**
+     * Used to find the user object that is associated with the inputted email.
+     * @param email the inputted email (A string).
+     * @return the user associated with the given email, or null if no such user is found.
+     */
+    public User emailToUser(String email){
+        for(User user: this.userList){
+            if (user.getEmail().equals(email)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the type of the user that is associated with the email provided.
+     * @param email the provided email of the user.
+     * @return the user's type, or null if no such user exists.
+     */
+    public String emailToType(String email){
+        User user = emailToUser(email);
+        if (user != null) {
+            return user.getType();
+        }
+        return null;
+    }
+
+    /**
+     * Get the name of the user that is associated with the email provided.
+     * @param email the provided email of the user.
+     * @return the user's name, or null if no such user exists.
+     */
+    public String emailToName(String email){
+        User user = emailToUser(email);
+        if (user != null) {
+            return user.getName();
+        }
+        return null;
+    }
+
+    /**
+     * Get the password of the user that is associated with the email provided.
+     * @param email the provided email of the user.
+     * @return the user's password, or null if no such user exists.
+     */
+    public String emailToPassword(String email){
+        User user = emailToUser(email);
+        if (user != null) {
+            return user.getPassword();
+        }
+        return null;
+    }
+
+    /**
+     * Get the TalkList of the user that is associated with the email provided.
+     * @param email the provided email of the user.
+     * @return the user's TalkList, or null if no such user exists.
+     */
+    public ArrayList<String> emailToTalkList(String email){
+        User user = emailToUser(email);
+        if (user != null) {
+            return user.getTalklist();
+        }
+        return null;
+    }
+
+
 
 }
 
