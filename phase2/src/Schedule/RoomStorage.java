@@ -74,6 +74,7 @@ public class RoomStorage {
         for (Room r : roomList){
             if (r.getRoomName().equals(roomName)){
                 roomList.remove(r);
+                roomNameMap.remove(roomName);
             }
         }
     }
