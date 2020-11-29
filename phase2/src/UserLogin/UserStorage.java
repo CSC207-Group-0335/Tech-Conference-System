@@ -179,6 +179,27 @@ public class UserStorage extends Observable {
         return null;
     }
 
+    /**
+     * Creates a list of all speakers in the program
+     * @return An ArrayList represent the list of all speakers.
+     */
+    public ArrayList<String> getSpeakerEmailList(){
+        ArrayList<String> speakerList = new ArrayList<String>();
+        for(User u: this.userList){
+            if (u instanceof Speaker){
+                speakerList.add(u.getEmail());
+            }
+        }
+        return speakerList;
+    }
+
+    public ArrayList<String> getSpeakerNameList(){
+        ArrayList<String> speakerNameList = new ArrayList<String>();
+        for (String email: getSpeakerEmailList()) {
+            speakerNameList.add(emailToName(email));
+        }
+        return speakerNameList;
+    }
 
 
 }
