@@ -118,6 +118,15 @@ public class RoomStorage {
         }
         return null;
     }
+    public ArrayList<String> roomNameToEventIds(String roomName){
+        Room room = nameToRoom(roomName);
+        return room.getTalkList();
+    }
+    public int roomNameToCapacity(String roomName){
+        Room room = nameToRoom(roomName);
+        return room.getCapacity();
+    }
+
 }
 
 
