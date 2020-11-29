@@ -229,6 +229,15 @@ public class EventManager{
         Event e = getEvent(id);
         return e.getRoomName();
     }
+    public boolean eventIdAtCapacity(String id){
+        Event e = getEvent(id);
+        int capacity = roomStorage.roomNameToCapacity(eventIdToRoom(id));
+        if (e.getUsersSignedUp().size() == capacity){
+            return false;
+        }
+        return true;
+    }
+
 
 
     /**
