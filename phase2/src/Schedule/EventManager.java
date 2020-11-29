@@ -220,6 +220,16 @@ public class EventManager{
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
     }
 
+    public ArrayList<String> eventIdToSpeakerEmails(String id){
+        Event e = getEvent(id);
+        return e.getSpeakers();
+    }
+
+    public String eventIdToRoom(String id){
+        Event e = getEvent(id);
+        return e.getRoomName();
+    }
+
 
     /**
      * A string representation of a talk with the talk's title, room, speaker, and start time.
