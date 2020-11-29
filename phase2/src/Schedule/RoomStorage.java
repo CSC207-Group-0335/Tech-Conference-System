@@ -112,6 +112,12 @@ public class RoomStorage {
             }
         }
     }
+    public Room nameToRoom(String roomName){
+        if (roomNameMap.containsKey(roomName)){
+            return roomNameMap.get(roomName);
+        }
+        return null;
+    }
 }
 
 
