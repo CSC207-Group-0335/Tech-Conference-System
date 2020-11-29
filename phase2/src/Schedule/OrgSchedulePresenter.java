@@ -103,7 +103,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
 
     /**
      * A string representation of the room's name and corresponding position in the room list.
-     * @param roomNameList
+     * @param roomNameList a list of the rooms names in the conference.
      */
     public void printAllRooms(ArrayList<String> roomNameList){
         Integer i = 1;

@@ -134,6 +134,10 @@ public class RoomStorage {
         return room.getCapacity();
     }
 
+    public ArrayList<String> getRoomNameList() {
+        return this.roomNameList;
+    }
+
 }
 
 
