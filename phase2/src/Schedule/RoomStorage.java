@@ -11,13 +11,14 @@ public class RoomStorage {
      * A list of all the rooms.
      */
     ArrayList<Room> roomList;
+    ArrayList<String> roomNameList;
     /**
      * A mapping of rooms to its corresponding RoomScheduleManager which checks for double booking.
      */
     //HashMap<Room, RoomScheduleManager> scheduleList;
     EventManager eventManager;
 
-    HashMap<String, Room>roomNameMap;
+    HashMap<String, Room> roomNameMap;
 
     /**
      * Creates a room storage.
@@ -37,11 +38,13 @@ public class RoomStorage {
         for (Room r : roomList) {
             if (r.getRoomName().equals(roomName)) {
                 bool = false;
+                break;
             }
         }
         if (bool) {
             Room room = new Room(roomName);
             roomList.add(room);
+            roomNameList.add(roomName);
 //            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
 //            scheduleList.put(room, rScheduleManager);
             roomNameMap.put(roomName, room);
@@ -60,11 +63,13 @@ public class RoomStorage {
         for (Room r : roomList) {
             if (r.getRoomName().equals(roomName)) {
                 bool = false;
+                break;
             }
         }
         if (bool) {
             Room room = new Room(roomName, capacity);
             roomList.add(room);
+            roomNameList.add(roomName);
 //            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
 //            scheduleList.put(room, rScheduleManager);
             roomNameMap.put(roomName, room);
@@ -74,6 +79,7 @@ public class RoomStorage {
         for (Room r : roomList){
             if (r.getRoomName().equals(roomName)){
                 roomList.remove(r);
+                roomNameList.remove(roomName);
                 roomNameMap.remove(roomName);
             }
         }

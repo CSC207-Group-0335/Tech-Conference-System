@@ -91,24 +91,24 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
 
     /**
      * A string representation of the speaker's name and corresponding position in the speaker list.
-     * @param speakerList The list of speakers.
+     * @param speakerNameList The list of speakers names.
      */
-    public void printAllSpeakers(ArrayList<Speaker> speakerList) {
+    public void printAllSpeakers(ArrayList<String> speakerNameList) {
         Integer i = 1;
-        for (Speaker s : speakerList){
-            System.out.println(Integer.toString(i) + ")" + s.getName());
+        for (String s : speakerNameList){
+            System.out.println(Integer.toString(i) + ")" + s);
             i++;
         }
     }
 
     /**
      * A string representation of the room's name and corresponding position in the room list.
-     * @param roomList
+     * @param roomNameList
      */
-    public void printAllRooms(ArrayList<Room> roomList){
+    public void printAllRooms(ArrayList<String> roomNameList){
         Integer i = 1;
-        for (Room r : roomList){
-            System.out.println(Integer.toString(i) + ")" + r.getRoomName());
+        for (String r : roomNameList){
+            System.out.println(Integer.toString(i) + ")" + r);
             i++;
         }
     }
@@ -150,23 +150,23 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
 
     /**
      * Output the schedule for the chosen room or chosen speaker if the talkArrayList is not empty.
-     * @param eventArrayList The talkArraylist.
+     * @param eventIDArrayList The talkArraylist.
      * @param eventManager The TalkManager.
      * @param i The integer corresponding to a specific action.
      */
-    public void printSchedule(ArrayList<Event> eventArrayList, EventManager eventManager, int i){
+    public void printSchedule(ArrayList<String> eventIDArrayList, EventManager eventManager, int i){
         if(i==1) {
             System.out.println("Schedule for the chosen room:");
         }
         else if (i==2){
             System.out.println("Schedule for the chosen speaker:");
         }
-        if (eventArrayList.size() ==0){
+        if (eventIDArrayList.size() ==0){
             System.out.println("The schedule is empty.");
         }
         else{
-        for (Event t: eventArrayList){
-            System.out.println(eventManager.toStringTalk(t) + System.lineSeparator());
+        for (String t: eventIDArrayList){
+            System.out.println(eventManager.toStringEvent(t) + System.lineSeparator());
         }}
     }
 }
