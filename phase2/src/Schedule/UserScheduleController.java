@@ -13,6 +13,7 @@ public class UserScheduleController{
     UserStorage userStorage;
     EventManager eventManager;
     MainMenuController mainMenuController;
+    RoomStorage roomStorage;
     public HashMap<Event, SignUpAttendeesManager> signUpMap;
     UserSchedulePresenter presenter;
     Scanner scan;
@@ -26,10 +27,11 @@ public class UserScheduleController{
      * @param scanner The scanner of MainMenuController.
      */
     public UserScheduleController(String email, EventManager eventManager, UserStorage userStorage,
-                                  MainMenuController mainMenuController, Scanner scanner){
+                                  MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
         this.email = email;
         this.userStorage = userStorage;
         this.eventManager = eventManager;
+        this.roomStorage = roomStorage;
         this.mainMenuController = mainMenuController;
         presenter = new UserSchedulePresenter();
         this.scan = scanner;
@@ -43,20 +45,23 @@ public class UserScheduleController{
      * @return A string notifying the user if they have successfully enrolled in
      * the talk or if talk was at full capacity.
      */
-    public String signUp(Event event, UserScheduleManager userScheduleManager,
-                         HashMap<Event, SignUpAttendeesManager> signUpMap) {
-        if (signUpMap.get(event).addUser(userScheduleManager.getUser())) {
-            userScheduleManager.addTalk(event);
-            return "User added.";
+    public String signUp(String eventid) {
+        if(!(this.eventManager.eventIdAtCapacity(eventid))){
+            return "Event is at full capacity.";
         }
         else{
-                if(signUpMap.get(event).userList.contains(attendee.getUser())){
-                    return "User already registered for the requested talk.";
-                }
-                else{
-                    return "Event is at full capacity.";
-                }}
+            if (this.eventManager.getEvent(eventid).addUser(email)){
+                this.userStorage.addEvent(email, eventid);
+                return "User added.";
             }
+            return "User already signed up";
+        }
+    }
+
+
+
+
+
 
     /**
      * Let a user cancel their enrollment in an event.
