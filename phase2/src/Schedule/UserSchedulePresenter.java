@@ -57,11 +57,11 @@ public class UserSchedulePresenter {
     /**
      * Prints the specified talk, with a specified number attached to it.
      * @param num The integer attached to the string representation of talk.
-     * @param t The talk.
-     * @param eventManager The talkManager.
+     * @param event The event.
+     * @param eventManager The eventManager.
      */
-    public void printTalk(Integer num, Event t, EventManager eventManager){
-        System.out.println(num.toString() + ") " + eventManager.toStringTalk(t));
+    public void printTalk(Integer num, String event, EventManager eventManager){
+        System.out.println(num.toString() + ") " + eventManager.toStringEvent(event));
     }
 
     /**
@@ -69,12 +69,12 @@ public class UserSchedulePresenter {
      * @param eventManager The talkManager.
      */
     public void printAllTalks(EventManager eventManager){
-        System.out.println(eventManager.talkMapStringRepresentation());
+        System.out.println(eventManager.EventMapStringRepresentation());
     }
 
     /**
      * Greets the user with their name.
-     * @param userScheduleManager The userScheduleManager.
+     *
      */
     public void printHello(String name){
         System.out.println("Hello " + name);
