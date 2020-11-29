@@ -109,27 +109,28 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     /**
      * Allows the organizer to choose a room from a list of rooms.
      * @param scan The scanner.
-     * @return Returns a Room representing the room chosen by the organizer.
+     * @return Returns the name of the room chosen by the organizer.
      */
-    public Room pickRoom(Scanner scan) {
+    //NATHAN NOV 28 (made this reference the RoomNameList instead of RoomList throughout)
+    public String pickRoom(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        orgSchedulePresenter.printAllRooms(roomStorage.getRoomList());
+        orgSchedulePresenter.printAllRooms(roomStorage.getRoomNameList());
         orgSchedulePresenter.printMenu(7);
         boolean doContinue  = true;
         while (doContinue){
             String choice = scan.nextLine();
             try { int roomIndex = Integer.parseInt(choice);
             if (roomIndex == 0){
-                orgSchedulePresenter.printMenu(16);
+                orgSchedulePresenter.printMenu(16); //return to main menu
                 return null;
             }
-            else if (roomIndex -1 >= roomStorage.getRoomList().size()){
-                orgSchedulePresenter.printMenu(12);
+            else if (roomIndex -1 >= roomStorage.getRoomNameList().size()){
+                orgSchedulePresenter.printMenu(12); //invalid input
             }
             else{
-                Room chosenRoom = roomStorage.getRoomList().get(roomIndex - 1);
+                String chosenRoom = roomStorage.getRoomNameList().get(roomIndex - 1);
                 orgSchedulePresenter.printSchedule(
-                        roomStorage.getScheduleList().get(chosenRoom).getTalkList(), eventManager, 1);
+                        roomStorage.roomNameToEventIds(chosenRoom), eventManager, 1);
                 return chosenRoom;
             }} catch (NumberFormatException nfe){
             userSchedulePresenter.printMenu(8);}}
