@@ -1,6 +1,7 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
+import UserLogin.User;
 import UserLogin.UserStorage;
 
 import java.util.*;
@@ -14,7 +15,6 @@ public class UserScheduleController{
     EventManager eventManager;
     MainMenuController mainMenuController;
     RoomStorage roomStorage;
-    public HashMap<Event, SignUpAttendeesManager> signUpMap;
     UserSchedulePresenter presenter;
     Scanner scan;
 
@@ -68,9 +68,10 @@ public class UserScheduleController{
      * @param event They talk they no longer want to attend.
      * @param signUpMap The signUpMap.
      */
-    public void cancelRegistration(Event event, HashMap<Event, SignUpAttendeesManager> signUpMap) {
-        if (signUpMap.get(event).removeUser(attendee.getUser())) {
-            attendee.removeTalk(event);
+    public void cancelRegistration(String eventId){
+        if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
+            eventManager.eventIdToUsersSignedUp(eventId).remove(email);
+            userStorage.emailToTalkList(email).remove(eventId);
         }
     }
 
@@ -79,15 +80,14 @@ public class UserScheduleController{
      * @param talkIndex The position of the talk.
      * @return A talk representing the talk at the specified index.
      */
-    public Event getTalkByIndex(int talkIndex){
-        Set<Event> keys = eventManager.talkMap.keySet();
-        ArrayList<Event> eventList = new ArrayList<Event>();
-        for(Event t: keys){
-            eventList.add(t);};
-        if (talkIndex - 1 >= eventList.size()){return null;}
+    public String getEventByIndex(int eventIndex){
+        ArrayList<String> eventIds = eventManager.getEventIdsList();
+        if (eventIndex -1 >= eventIds.size()){
+            return null;
+        }
         else{
-            Event t = eventList.get(talkIndex - 1);
-        return t;
+            String eventId = eventIds.get(eventIndex);
+            return eventId;
         }
     }
 
@@ -96,19 +96,19 @@ public class UserScheduleController{
      * @param userScheduleManager The userScheduleManager of the user.
      * @return An ArrayList representing the talks the user has signed up for.
      */
-    public ArrayList<Event> getRegisteredTalks(UserScheduleManager userScheduleManager){
-        ArrayList<Event> registeredEvents = new ArrayList<Event>();
-        if(userScheduleManager.getTalkList().size() == 0){
+    public ArrayList<String> getRegisteredEvents(){
+        ArrayList<String> registeredEvents = userStorage.emailToTalkList(email);
+        if (registeredEvents.size() == 0){
             presenter.printMenu(13);
             presenter.printMenu(11);
         }
         else{
             Integer i = 1;
-            for (Event t: userScheduleManager.getTalkList()){
-                presenter.printTalk(i, t , eventManager);
-                registeredEvents.add(t);
+            for (String e : registeredEvents){
+                presenter.printTalk(i, e, eventManager);
                 i++;
-            }}
+            }
+        }
         return registeredEvents;
     }
 
@@ -119,9 +119,7 @@ public class UserScheduleController{
      * @param userScheduleManager The UserScheduleManager.
      * @param signUpMap The signUpMap.
      */
-    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan,
-                                UserScheduleManager userScheduleManager,
-                                HashMap<Event, SignUpAttendeesManager> signUpMap){
+    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
         // show them a list of all available talks
         presenter.printAllTalks(eventManager);
         //they will pick the number corresponding to each talk
@@ -131,24 +129,24 @@ public class UserScheduleController{
         while (doContinue){
             String choice = scan.nextLine();
             try {
-                int talkIndex = Integer.parseInt(choice);
-            if (talkIndex == 0){
+                int eventIndex = Integer.parseInt(choice);
+            if (eventIndex == 0){
                 presenter.printMenu(10);
                 return;
             }
-            else if (getTalkByIndex(talkIndex) == null){
+            else if (getEventByIndex(eventIndex) == null){
                 presenter.printMenu(7);
             }
             else{
-                Event eventToRegister = getTalkByIndex(talkIndex);
-                if (this.signUp(eventToRegister,userScheduleManager, signUpMap ).equals("User added.")) {
+                String eventIdToRegister = getEventByIndex(eventIndex);
+                if (this.signUp(eventIdToRegister).equals("User added.")) {
                     // prints "Success"
                     presenter.printMenu(6);
                     presenter.printMenu(10);
                     return;
                 }
                 else{
-                    if (this.signUp(eventToRegister, userScheduleManager, signUpMap).equals("User already registered for the requested talk.")){
+                    if (this.signUp(eventIdToRegister).equals("User already registered for the requested talk.")){
                         presenter.printRegistrationBlocked(1);
                     }
                     else{
@@ -173,8 +171,8 @@ public class UserScheduleController{
         while (doContinue){
             String choice = scan.nextLine();
             try {
-                int talkIndex = Integer.parseInt(choice);
-            if (talkIndex == 0){
+                int eventIndex = Integer.parseInt(choice);
+            if (eventIndex == 0){
                 presenter.printMenu(10);
                 return;
             }
@@ -191,8 +189,8 @@ public class UserScheduleController{
      * @param userScheduleManager The UserScheduleManager.
      */
     protected void seeAllRegistered(UserSchedulePresenter presenter,
-                                    Scanner scan, UserScheduleManager userScheduleManager){
-        getRegisteredTalks(userScheduleManager);
+                                    Scanner scan){
+        ArrayList<String> registeredEvents = this.getRegisteredEvents();
         presenter.printMenu(11);
         boolean doContinue  = true;
         while (doContinue){
@@ -215,26 +213,25 @@ public class UserScheduleController{
      * @param signUpMap The signUpMap.
      */
     protected void cancelATalk(UserSchedulePresenter presenter,
-                               Scanner scan, UserScheduleManager userScheduleManager,
-                               HashMap<Event, SignUpAttendeesManager> signUpMap){
-        ArrayList<Event> registeredEvents = getRegisteredTalks(userScheduleManager);
+                               Scanner scan){
+        ArrayList<String> registeredEvents = getRegisteredEvents();
         if (registeredEvents.size() != 0) {
             presenter.printMenu(5);
         boolean doContinue  = true;
         while (doContinue){
             String choice = scan.nextLine();
             try {
-                int cancelTalkIndex = Integer.parseInt(choice);
-            if (cancelTalkIndex == 0){
+                int cancelEventIndex = Integer.parseInt(choice);
+            if (cancelEventIndex == 0){
             presenter.printMenu(10);
             return;
         }
-        else if (registeredEvents.size() <= Math.abs(cancelTalkIndex - 1)){
+        else if (registeredEvents.size() <= Math.abs(cancelEventIndex - 1)){
             presenter.printMenu(7);
         }
         else{
-            Event eventToCancel = registeredEvents.get(cancelTalkIndex - 1);
-            this.cancelRegistration(eventToCancel, signUpMap);
+            String eventIdToCancel = registeredEvents.get(cancelEventIndex - 1);
+            this.cancelRegistration(eventIdToCancel);
             // prints "Success"
             presenter.printMenu(6);
             presenter.printMenu(10);
@@ -247,8 +244,8 @@ public class UserScheduleController{
             while (doContinue){
                 String choice = scan.nextLine();
                 try {
-                    int cancelTalkIndex = Integer.parseInt(choice);
-                    if (cancelTalkIndex == 0) {
+                    int cancelEventIndex = Integer.parseInt(choice);
+                    if (cancelEventIndex == 0) {
                         presenter.printMenu(10);
                         return;
                     }}catch (NumberFormatException nfe){
@@ -260,7 +257,7 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(userStorage.emailToUser(this.email).getName()); //Is this allowed?
+        presenter.printHello(userStorage.emailToName(this.email)); //Is this allowed?
         presenter.printMenu(1);
         presenter.printMenu(2);
         boolean doContinue = true;
@@ -270,7 +267,7 @@ public class UserScheduleController{
                 int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(presenter, scan, attendee, signUpMap);
+                this.registerTalk(presenter, scan);
                 presenter.printMenu(1);
                 //If they want to see all available talks
             }else if (command == 2) {
@@ -278,28 +275,21 @@ public class UserScheduleController{
                 presenter.printMenu(1);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(presenter, scan, attendee);
+                this.seeAllRegistered(presenter, scan);
                 presenter.printMenu(1);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(presenter, scan, attendee, signUpMap);
+                this.cancelATalk(presenter, scan);
                 presenter.printMenu(1);
             }
             else if (command ==0){
                 doContinue = false;
-                mainMenuController.runMainMenu(attendee.getUser());
+                mainMenuController.runMainMenu(this.email);
             }
             else{presenter.printMenu(8);}
         } catch (NumberFormatException nfe){
         presenter.printMenu(8);;
     }
     }}
-
-    /**
-     * Sets the signUpMap for UserScheduleController.
-     * @param signUpMap The signUpMap.
-     */
-    public void setSignUpMap(HashMap<Event, SignUpAttendeesManager> signUpMap){
-        this.signUpMap = signUpMap;
-    }}
+}
 

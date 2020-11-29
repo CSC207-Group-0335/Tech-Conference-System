@@ -31,6 +31,8 @@ public class EventManager{
     /**
      * Creates a talk manager.
      */
+    public ArrayList<Event> eventList;
+    public ArrayList<String> eventIdsList;
     private RoomStorage roomStorage;
     private UserStorage userStorage;
     public EventManager(UserStorage userStorage, RoomStorage roomStorage){
@@ -40,6 +42,7 @@ public class EventManager{
         this.roomList = roomStorage.getRoomList();
         this.roomStorage = roomStorage;
         this.eventMap = new LinkedHashMap<Event, Quartet>();
+        this.eventList = new ArrayList<>();
     }
 
     /**
@@ -53,6 +56,8 @@ public class EventManager{
     public void addEvent(Event t, Room r, ArrayList<Speaker> s, LocalDateTime start, LocalDateTime end){
         Quartet q = new Quartet(r, s, start, end);
         eventMap.put(t, q);
+        eventList.add(t);
+        eventIdsList.add(t.getEventId());
     }
 
     /**
@@ -169,6 +174,8 @@ public class EventManager{
         boolean found = this.eventMap.containsKey(t) ;
         if (found){
             this.eventMap.remove(t);
+            this.eventList.remove(t);
+            this.eventIdsList.remove(t.getEventId());
             return true;
         }
         return false;
@@ -224,7 +231,10 @@ public class EventManager{
         Event e = getEvent(id);
         return e.getSpeakers();
     }
-
+    public ArrayList<String> eventIdToUsersSignedUp(String id){
+        Event e = getEvent(id);
+        return e.getUsersSignedUp();
+    }
     public String eventIdToRoom(String id){
         Event e = getEvent(id);
         return e.getRoomName();
@@ -237,8 +247,17 @@ public class EventManager{
         }
         return true;
     }
-
-
+    public LocalDateTime eventIdToStartTime(String id){
+        Event e = getEvent(id);
+        return e.getStartTime();
+    }
+    public LocalDateTime eventIdToEndTime(String id){
+        Event e = getEvent(id);
+        return e.getEndTime();
+    }
+    public ArrayList<String> getEventIdsList(){
+        return this.eventIdsList;
+    }
 
     /**
      * A string representation of a talk with the talk's title, room, speaker, and start time.
