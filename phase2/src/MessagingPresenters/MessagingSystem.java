@@ -50,15 +50,19 @@ public class MessagingSystem extends Observable implements Observer {
 
     public void instantiateControllers(String user, Scanner scanner) {
         this.addObserver(mainMenuController);
-        if (userStorage.emailToType(user).equals("Attendee")) {
-            this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((AttendeeMessengerController)this.messengerController).messageManager);
-        } else if (userStorage.emailToType(user).equals("Speaker")) {
-            this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((SpeakerMessengerController)this.messengerController).messageManager);
-        } else if (userStorage.emailToType(user).equals("Organizer")) {
-            this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((OrganizerMessengerController)this.messengerController).messageManager);
+        switch (userStorage.emailToType(user)) {
+            case "Attendee":
+                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((AttendeeMessengerController)this.messengerController).messageManager);
+                break;
+            case "Speaker":
+                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((SpeakerMessengerController)this.messengerController).messageManager);
+                break;
+            case "Organizer":
+                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((OrganizerMessengerController)this.messengerController).messageManager);
+                break;
         }
         setStorage();
     }
