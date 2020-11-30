@@ -10,45 +10,18 @@ import java.util.*;
  * Gateway Class that reads a .csv file for all user schedules and adds talks to the appropriate user schedule manager
  * and speaker schedule manager for for every user/speaker.
  */
-public class ScheduleSystem implements Observer {
+public class ScheduleSystem{
     UserStorage storage;
-    HashMap<User, UserScheduleManager> userScheduleMap;
     EventManager eventManager;
+    UserStorage userStorage;
 
     /**
      * Creates a new ScheduleSystem with the specified talkManager.
      * @param eventManager The talkManager.
      */
-    public ScheduleSystem(EventManager eventManager){
+    public ScheduleSystem(EventManager eventManager, UserStorage userStorage){
         this.eventManager = eventManager;
-    }
-
-    /**
-     * Finds a user with the specified email.
-     * @param email The email of the user.
-     * @return A user representing the user with the given email or null if there is no such user.
-     */
-    public User findUser(String email) {
-        for (User user : storage.getUserList()) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Finds a talk with the specified id.
-     * @param id The string id of the talk.
-     * @return A talk representing the talk with the given id or null if there is no such talk.
-     */
-    public Event findTalk(String id){
-        for (Event t: eventManager.talkMap.keySet()){
-            if(t.getTalkId().equals(id)){
-                return t;
-            }
-        }
-        return null;
+        this.userStorage = userStorage;
     }
 
     /**
@@ -59,7 +32,6 @@ public class ScheduleSystem implements Observer {
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
             User user = findUser(email);
-            UserScheduleManager userSchedule = userScheduleMap.get(user);
             if (user instanceof Organizer || user instanceof Attendee){
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
@@ -76,33 +48,5 @@ public class ScheduleSystem implements Observer {
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv", this.getUserScheduleMap());
-    }
-
-    /**
-     * Gets the userScheduleMap.
-     * @return A HashMap representing the userScheduleMap
-     */
-    public HashMap<User, UserScheduleManager> getUserScheduleMap() {
-        return userScheduleMap;
-    }
-    /**
-     * Updating ScheduleSystem's storage, userScheduleMap, and talkManager.
-     * @param o An Observable.
-     * @param arg An Object.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof UserStorage){
-            this.storage = (UserStorage) arg;
-        }
-        if (arg instanceof HashMap){
-            if (((HashMap<User, UserScheduleManager>) arg).keySet().toArray()[0] instanceof Organizer ||
-            ((HashMap<User, UserScheduleManager>) arg).keySet().toArray()[0] instanceof Attendee) {
-                this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;
-            }
-        }
-        if(arg instanceof EventManager){
-            this.eventManager = (EventManager) arg;
-        }
     }
 }

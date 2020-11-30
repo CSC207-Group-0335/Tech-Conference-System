@@ -39,9 +39,6 @@ public class UserScheduleController{
 
     /**
      * Let a user sign up for an event.
-     * @param event The talk they want to register for.
-     * @param userScheduleManager The userScheduleManager.
-     * @param signUpMap The signUpMap.
      * @return A string notifying the user if they have successfully enrolled in
      * the talk or if talk was at full capacity.
      */
@@ -65,8 +62,6 @@ public class UserScheduleController{
 
     /**
      * Let a user cancel their enrollment in an event.
-     * @param event They talk they no longer want to attend.
-     * @param signUpMap The signUpMap.
      */
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
@@ -77,7 +72,6 @@ public class UserScheduleController{
 
     /**
      * Get the talk that corresponds to the specified int. Since talk is stored in an ordered map this is possible.
-     * @param talkIndex The position of the talk.
      * @return A talk representing the talk at the specified index.
      */
     public String getEventByIndex(int eventIndex){
@@ -93,7 +87,6 @@ public class UserScheduleController{
 
     /**
      * Let the user see the schedule of events for which they signed up.
-     * @param userScheduleManager The userScheduleManager of the user.
      * @return An ArrayList representing the talks the user has signed up for.
      */
     public ArrayList<String> getRegisteredEvents(){
@@ -116,8 +109,6 @@ public class UserScheduleController{
      * Takes in a user input and registers them for an event/talk.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The UserScheduleManager.
-     * @param signUpMap The signUpMap.
      */
     protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
         // show them a list of all available talks
@@ -186,7 +177,6 @@ public class UserScheduleController{
      * Takes in a user's input and shows them all the talks they are currently registered for.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The UserScheduleManager.
      */
     protected void seeAllRegistered(UserSchedulePresenter presenter,
                                     Scanner scan){
@@ -209,8 +199,6 @@ public class UserScheduleController{
      * Takes in a user's input and cancels their registration for a specified talk.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The userScheduleManager.
-     * @param signUpMap The signUpMap.
      */
     protected void cancelATalk(UserSchedulePresenter presenter,
                                Scanner scan){

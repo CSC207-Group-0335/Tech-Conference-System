@@ -5,6 +5,7 @@ import Files.CSVWriter;
 import MessagingPresenters.MessagingSystem;
 import UserLogin.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -13,7 +14,7 @@ import java.util.*;
  * A gateway class that reads a .csv file for
  * all accounts with their credentials and requests creating talks (from TalkManager)
  */
-public class TalkSystem extends Observable implements Observer{
+public class TalkSystem extends Observable{
     public OrgScheduleController orgScheduleController;
     public UserScheduleController userScheduleController;
     public SpeakerScheduleController speakerScheduleController;
@@ -22,6 +23,7 @@ public class TalkSystem extends Observable implements Observer{
     public ScheduleSystem scheduleSystem;
     public String userEmail;
     public UserStorage userStorage;
+    public RoomStorage roomStorage;
     public MainMenuController mainMenuController;
 
     /**
@@ -30,8 +32,9 @@ public class TalkSystem extends Observable implements Observer{
     public TalkSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
         this.eventManager = new EventManager(userStorage, roomStorage);
         this.userStorage = userStorage;
-        this.messagingSystem = new MessagingSystem();
-        this.scheduleSystem = new ScheduleSystem(eventManager);
+        this.roomStorage = roomStorage;
+        this.messagingSystem = new MessagingSystem(userStorage, mainMenuController, eventManager);
+        this.scheduleSystem = new ScheduleSystem(eventManager, userStorage);
         this.mainMenuController = mainMenuController;
     }
 
@@ -42,12 +45,12 @@ public class TalkSystem extends Observable implements Observer{
      */
     public void instantiateControllers(String userEmail, Scanner scanner){
         this.addObserver(mainMenuController);
-        if (userStorage.emailToUser(userEmail).getType().equals("Attendee")){
-            this.userScheduleController = new UserScheduleController(userEmail, userStorage, eventManager,
-                    mainMenuController, scanner);
+        if (userStorage.emailToType(userEmail).equals("Attendee")){
+            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage
+                    mainMenuController, roomStorage, scanner);
             setUserScheduleController();
             }
-        else if (userStorage.emailToUser(userEmail).getType().equals("Organizer")){
+        else if (userStorage.emailToType(userEmail).equals("Organizer")){
             this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
                     mainMenuController, scanner);
             this.addObserver(orgScheduleController);
@@ -65,37 +68,31 @@ public class TalkSystem extends Observable implements Observer{
      * Adds observers, calls the run methods of messagingSystem and scheduleSystem.
      */
     public void run() {
-        //Moved Observers NOV 15
-        if (messagingSystem.speakerMessengerController != null) {
-            this.addObserver(messagingSystem.speakerMessengerController); //would be created
-        }
-        if (messagingSystem.speakerMessengerController != null) {
-            this.addObserver(messagingSystem.speakerMessengerController.userInfo);
-        }
-        CSVReader fileReader = new CSVReader("src/Resources/Talks.csv");
+        CSVReader fileReader = new CSVReader("src/Resources/Events.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
-            this.eventManager.createTalk(talkData.get(0), talkData.get(1), talkData.get(2),
-                    talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter));
+            String[] speakersArray = talkData.get(2).substring(1,talkData.get(2).length()-1).split("/");
+            ArrayList<String> speakers = new ArrayList<String>(Arrays.asList(speakersArray));
+            this.eventManager.createEvent(talkData.get(0), talkData.get(1), speakers,
+                    talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter),
+                    LocalDateTime.parse(talkData.get(5), formatter), talkData.get(6)
+                    );
         }
         setTalkManager();
         messagingSystem.run();
         scheduleSystem.run();
-        createSignUpAttendees();
-        if (this.user instanceof Attendee) {
-            userScheduleController.setSignUpMap(signUpMap);
-        }
-        if (this.user instanceof Organizer) {
-            orgScheduleController.setSignUpMap(signUpMap);
-        }
     }
 
     /**
-     * Method to write the changes to the Talks.csv, called in MainMenuController.logout().
+     * Method to write the changes to the Events.csv, called in MainMenuController.logout().
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToTalks("phase1/src/Resources/Talks.csv", this.getTalkManager()); //Not implemented yet
+        csvWriter.writeToTalks("phase1/src/Resources/Events.csv", this.getTalkManager()); //Not implemented yet
+    }
+
+    public void setUserEmail(String userEmail){
+        this.userEmail = userEmail;
     }
 
     /**
@@ -112,14 +109,6 @@ public class TalkSystem extends Observable implements Observer{
      */
     public EventManager getTalkManager() {
         return eventManager;
-    }
-
-    /**
-     * Sets signUpMap.
-     */
-    public void setSignUpMap(){
-        setChanged();
-        notifyObservers(signUpMap);
     }
 
     /**
@@ -144,23 +133,5 @@ public class TalkSystem extends Observable implements Observer{
     public void setSpeakerScheduleController(){
         setChanged();
         notifyObservers(speakerScheduleController);
-    }
-    /**
-     * Updating TalkSystem's speakerScheduleMap or userScheduleMap and its mainMenuController.
-     * @param o An Observable.
-     * @param arg An Object.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof HashMap){
-            if(((HashMap<?, ?>) arg).keySet().toArray()[0] instanceof Speaker){
-                this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
-            }
-            else{this.userScheduleMap = (HashMap<User, UserScheduleManager>) arg;}
-        }
-        if (arg instanceof MainMenuController){
-            this.mainMenuController = (MainMenuController) arg;
-        }
-
     }
 }
