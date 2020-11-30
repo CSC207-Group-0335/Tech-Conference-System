@@ -47,13 +47,16 @@ public class MessagingSystem{
     public void instantiateControllers(String user, Scanner scanner) {
         switch (userStorage.emailToType(user)) {
             case "Attendee":
-                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController, userStorage);
+                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController,
+                        userStorage, conversationStorage);
                 break;
             case "Speaker":
-                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController, userStorage);
+                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController,
+                        userStorage, conversationStorage);
                 break;
             case "Organizer":
-                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController, userStorage);
+                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController,
+                        userStorage, conversationStorage);
                 break;
         }
     }

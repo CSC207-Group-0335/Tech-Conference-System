@@ -1,6 +1,9 @@
 package MessagingPresenters;
 
 import UserLogin.MainMenuController;
+import UserLogin.User;
+import UserLogin.UserStorage;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,9 +20,10 @@ public class OrganizerMessengerController extends MessengerController {
      * An organizer is required to create an instance of this class.\
      */
 
-    public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(orgEmail, scanner, mainMenuController);
-        this.messageManager = new OrganizerMessageManager(orgEmail);
+    public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController,
+                                        UserStorage userStorage, ConversationStorage conversationStorage) {
+        super(orgEmail, scanner, mainMenuController, userStorage, conversationStorage);
+        this.messageManager = new OrganizerMessageManager(orgEmail, userStorage);
         this.presenter = new OrganizerMessengerPresenter();
     }
 

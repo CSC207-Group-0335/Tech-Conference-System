@@ -3,6 +3,7 @@ package MessagingPresenters;
 import Schedule.Event;
 import UserLogin.MainMenuController;
 import UserLogin.User;
+import UserLogin.UserStorage;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,9 +22,10 @@ public class SpeakerMessengerController extends MessengerController {
      * @param speakerEmail the speaker
      */
 
-    public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController) {
-        super(speakerEmail, scanner, mainMenuController);
-        this.messageManager = new SpeakerMessageManager(speakerEmail);
+    public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController,
+                                      UserStorage userStorage, ConversationStorage conversationStorage) {
+        super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
+        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage);
         this.presenter = new SpeakerMessengerPresenter();
     }
 

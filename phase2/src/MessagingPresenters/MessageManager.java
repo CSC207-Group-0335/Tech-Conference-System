@@ -7,7 +7,7 @@ import UserLogin.UserStorage;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public abstract class MessageManager implements Observer {
+public abstract class MessageManager {
     public User user;
     public UserStorage userStorage;
     public ConversationStorage conversationStorage;
@@ -19,14 +19,14 @@ public abstract class MessageManager implements Observer {
      * @param email a String representing an email address
      */
 
-    public MessageManager(String email) {
+    public MessageManager(String email, UserStorage userStorage) {
+        this.userStorage = userStorage;
         User user = null;
         for (int i = 0; i < userStorage.userList.size(); i++) {
             if (userStorage.userList.get(i).getEmail().equals(email)) {
                 user = userStorage.userList.get(i);
             }
         }
-
         this.user = user;
         this.friendsList = getFriendsList();
     }
@@ -204,15 +204,6 @@ public abstract class MessageManager implements Observer {
     public void messageGroup(ArrayList<String> emails, String messageContent) {
         for (String email: emails) {
             messageOne(email, messageContent);
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof UserStorage) {
-            this.userStorage = (UserStorage) arg;
-        } else if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
         }
     }
 }
