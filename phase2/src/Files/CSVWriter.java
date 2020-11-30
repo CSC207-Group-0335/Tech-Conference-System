@@ -104,7 +104,7 @@ public class CSVWriter {
                     csvWriter.append(",");
                     int j = 0;
                     while (j <= userSchedule.getTalkList().size() - 1){
-                        csvWriter.append(userSchedule.getTalkList().get(j).getTalkId());
+                        csvWriter.append(userSchedule.getTalkList().get(j).getEventId());
                         csvWriter.append(',');
                         j ++;
                     }
@@ -125,14 +125,14 @@ public class CSVWriter {
 
     public void writeToTalks(String csv, EventManager talkManage){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for (Event t:talkManage.getTalkMap().keySet()) {
-                csvWriter.append(t.getTalkId());
+            for (Event t:talkManage.getEventMap().keySet()) {
+                csvWriter.append(t.getEventId());
                 csvWriter.append(",");
                 csvWriter.append(t.getTitle());
                 csvWriter.append(",");
-                csvWriter.append(talkManage.getTalkSpeaker(t).getEmail());
+                csvWriter.append(t.getSpeakers().get(0)); //CHANGE LATER TO ITERATE AND ADD ALL EMAILS
                 csvWriter.append(",");
-                csvWriter.append(talkManage.getTalkRoom(t).getRoomName());
+                csvWriter.append(t.getRoomName());
                 csvWriter.append(",");
                 LocalDateTime time;
                 time = t.getStartTime();

@@ -2,9 +2,6 @@ package UserLogin;
 
 import Files.CSVReader;
 import Files.CSVWriter;
-import MessagingPresenters.AttendeeMessengerController;
-import MessagingPresenters.OrganizerMessengerController;
-import MessagingPresenters.SpeakerMessengerController;
 import Schedule.RoomSystem;
 import Schedule.SpeakerScheduleManager;
 import Schedule.UserScheduleManager;
@@ -22,8 +19,6 @@ public class TechConferenceSystem extends Observable {
 
     public UserStorage userStorage;
     public ArrayList<User> userList;
-    public HashMap<User, UserScheduleManager> userScheduleMap;
-    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
     public LogInController logInController;
     public RoomSystem roomSystem;
     public MainMenuController mainMenuController;
@@ -35,73 +30,12 @@ public class TechConferenceSystem extends Observable {
 
     public TechConferenceSystem() {
         this.userStorage = new UserStorage();
-        this.userList = new ArrayList<>();
-        this.userScheduleMap = new HashMap<User, UserScheduleManager>();
-        this.roomSystem = new RoomSystem();
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
                 this.roomSystem.talkSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
                 roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
                 userStorage,this);
-    }
-
-    /**
-     * Sets the UserStorage and updates the observers.
-     */
-
-    public void setUserStorage(){
-        setChanged();
-        notifyObservers(this.userStorage);
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof SpeakerMessengerController) {
-            notifyObservers(((SpeakerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-        }
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof AttendeeMessengerController) {
-            notifyObservers(((AttendeeMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-        }
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof OrganizerMessengerController) {
-            notifyObservers(((OrganizerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-        }
-    }
-
-    /**
-     * Sets the UserList and updates the observers.
-     */
-
-    public void setUserList(ArrayList<User> userlst) {
-        this.userList = userlst;
-        setChanged();
-        notifyObservers(userList);
-    }
-
-    /**
-     * Sets the UserScheduleMap and updates the observers.
-     * @param userSchedMap a given UserScheduleMap.
-     */
-
-    public void setUserScheduleMap(HashMap<User, UserScheduleManager> userSchedMap) {
-        this.userScheduleMap = userSchedMap;
-        setChanged();
-        notifyObservers(userScheduleMap);
-    }
-
-    /**
-     * Sets the SpeakerScheduleMap and updates the observers.
-     * @param speakerSchedMap a given SpeakerScheduleMap.
-     */
-
-    public void setSpeakerScheduleMap(HashMap<Speaker, SpeakerScheduleManager> speakerSchedMap) {
-        this.speakerScheduleMap = speakerSchedMap;
-        setChanged();
-        notifyObservers(speakerSchedMap);
-    }
-
-    /**
-     * Sets the MainMenuController and updates the observers.
-     */
-
-    public void setMainMenuController(){
-        setChanged();
-        notifyObservers(mainMenuController);
+        this.roomSystem = new RoomSystem(userStorage, mainMenuController);
     }
 
     /**
@@ -109,46 +43,18 @@ public class TechConferenceSystem extends Observable {
      * same systems. The above set methods are called to update everything and notify all observers.
      * The system is run starting with Login, which, if successful, prompts a main menu, which the user can navigate
      * to prompt the different screens and do specific actions. The program will quit when the user logs out, and
-     * update any files with possible changes taht were made during the active session.
+     * update any files with possible changes that were made during the active session.
      */
 
     public void run() {
-        this.addObserver(roomSystem.talkSystem);
-        this.addObserver(roomSystem.talkSystem.eventManager);
-        this.addObserver(logInController.logInManager);
-        this.addObserver(roomSystem.talkSystem.scheduleSystem);
-        this.addObserver(roomSystem.talkSystem.messagingSystem);
-        this.setMainMenuController();
         this.logInController.addObserver(roomSystem.talkSystem);
-        //this.logInController.addObserver(mainMenuController);
 
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
             this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));
-        }
-        setUserList(this.userStorage.userList);
-        setUserScheduleMap(this.userStorage.userScheduleMap);
-        setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
-        logInController.runLogIn();
-        roomSystem.talkSystem.messagingSystem.messengerController.
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof SpeakerMessengerController) {
-            notifyObservers(((SpeakerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-            setSpeakerScheduleMap(this.userStorage.speakerScheduleMap);
-        }
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof AttendeeMessengerController) {
-            notifyObservers(((AttendeeMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-        }
-        if (roomSystem.talkSystem.messagingSystem.messengerController instanceof OrganizerMessengerController) {
-            notifyObservers(((OrganizerMessengerController) roomSystem.talkSystem.messagingSystem.messengerController).messageManager);
-        }
-        if (roomSystem.talkSystem.orgScheduleController !=null) {
-            this.addObserver(roomSystem.talkSystem.orgScheduleController);
-        }
-        setUserStorage();
-        setMainMenuController();
         roomSystem.run();
         mainMenuController.runMainMenu(logInController.getEmail());
-    }
+    }}
 
     /**
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().

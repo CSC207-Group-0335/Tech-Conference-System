@@ -7,7 +7,8 @@ import java.util.ArrayList;
  */
 
 public class ConversationStorage {
-    private final ArrayList<ConversationManager> conversationManagers;
+    private ArrayList<ConversationManager> conversationManagers;
+    private ArrayList<ConversationManager> archived;
 
     /**
      * Nothing is needed to create an instance of ConversationStorage.
@@ -15,12 +16,13 @@ public class ConversationStorage {
 
     public ConversationStorage() {
         conversationManagers = new ArrayList<>();
+        archived = new ArrayList<>();
     }
 
     /**
      * Checks if instance of ConversationManager already exists in conversationManagers.
      *
-     * @return True if conversation is add and false if it already exists.
+     * @return True if conversation is added and false if it already exists.
      */
 
     public boolean contains(String senderEmail, String recipientEmail) {
@@ -73,5 +75,19 @@ public class ConversationStorage {
 
     public ArrayList<ConversationManager> getConversationManagers() {
         return conversationManagers;
+    }
+
+    /**
+     * Archives the conversation between the users registered under </senderEmail> and </recipientEmail>.
+     * @param senderEmail a String representing the email of the sender
+     * @param recipientEmail a String representing the email of the recipient
+     */
+
+    public void archiveConversationWith(String senderEmail, String recipientEmail) {
+        ConversationManager c = getConversationManager(senderEmail, recipientEmail);
+        if (c != null) {
+            conversationManagers.remove(c);
+            archived.add(c);
+        }
     }
 }

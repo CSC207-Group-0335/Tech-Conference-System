@@ -2,16 +2,19 @@ package Schedule;
 
 import UserLogin.Speaker;
 import UserLogin.TechConferenceSystem;
+import UserLogin.User;
 import UserLogin.UserStorage;
 
 
+import javax.jws.soap.SOAPBinding;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
  * Stores all the talks for the conference.
  */
-public class EventManager implements Observer {
+public class EventManager{
     /**
      * A mapping of a talk to its corresponding speaker, room, and time.
      */
@@ -19,24 +22,27 @@ public class EventManager implements Observer {
     /**
      * A mapping of rooms to its corresponding RoomScheduleManager which checks for double booking.
      */
-    public HashMap<Room, RoomScheduleManager> roomScheduleMap;
+    public ArrayList<Room> roomList;
     /**
      * A mapping of speakers to its corresponding SpeakerScheduleManager which checks for double booking.
      */
-    public HashMap<Speaker, SpeakerScheduleManager> speakerScheduleMap;
+    public ArrayList<Speaker> speakerList;
     /**
-     * A mapping of talks to its corresponding SignUpAttendeesManager which checks for enrollment and cancellation.
-     */
-    public HashMap<Event, SignUpAttendeesManager> signUpMap;
-
     /**
      * Creates a talk manager.
      */
-    public EventManager(){
-        this.roomScheduleMap = new HashMap<Room, RoomScheduleManager>();
-        this.speakerScheduleMap = new HashMap<Speaker, SpeakerScheduleManager>();
+    public ArrayList<Event> eventList;
+    public ArrayList<String> eventIdsList;
+    private RoomStorage roomStorage;
+    private UserStorage userStorage;
+    public EventManager(UserStorage userStorage, RoomStorage roomStorage){
+
+        this.speakerList = userStorage.getSpeakerList();
+        this.userStorage = userStorage;
+        this.roomList = roomStorage.getRoomList();
+        this.roomStorage = roomStorage;
         this.eventMap = new LinkedHashMap<Event, Quartet>();
-        this.signUpMap = new HashMap<Event, SignUpAttendeesManager>();
+        this.eventList = new ArrayList<>();
     }
 
     /**
@@ -50,6 +56,8 @@ public class EventManager implements Observer {
     public void addEvent(Event t, Room r, ArrayList<Speaker> s, LocalDateTime start, LocalDateTime end){
         Quartet q = new Quartet(r, s, start, end);
         eventMap.put(t, q);
+        eventList.add(t);
+        eventIdsList.add(t.getEventId());
     }
 
     /**
@@ -58,7 +66,7 @@ public class EventManager implements Observer {
      * @return A room with the specified name or null if there is no room with the specified name.
      */
     public Room findRoom(String roomName){
-        for (Room r : this.roomScheduleMap.keySet()){
+        for (Room r : roomList){
             if (r.getRoomName().equals(roomName)){
                 return r;
             }
@@ -72,7 +80,7 @@ public class EventManager implements Observer {
      * @return A speaker with the specified email or null if there is no speaker with that email.
      */
     public Speaker findSpeaker(String speakerEmail){
-        for (Speaker s : speakerScheduleMap.keySet()){
+        for (Speaker s : speakerList){
             if (s.getEmail().equals(speakerEmail)){
                 return s;
             }
@@ -85,9 +93,9 @@ public class EventManager implements Observer {
      * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
      * @param talkId The id of the talk.
      * @param talkTitle The title of the talk.
-     * @param speakerEmail The email of the speaker.
+     * @param speakerEmails The emails of the speaker.
      * @param roomName The name of the room.
-     * @param d The start time of the talk.
+     * @param start The start time of the talk.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -106,12 +114,12 @@ public class EventManager implements Observer {
         }
         if (talkRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
                 checkDoubleBooking(start, end, talkRoom.getTalkList())){
-                Event t = new Event(talkTitle, start, end, talkId, roomName, speakerEmails,vipRestricted);
-                this.addEvent(t, talkRoom, speakers , start, end);
+                Event event = new Event(talkTitle, start, end, talkId, roomName, speakerEmails,vipRestricted);
+                this.addEvent(event, talkRoom, speakers , start, end);
                 for (Speaker s: speakers){
-                    UserStorage.addEvent(s, event);
+                    userStorage.addEvent(s.getEmail(), event.getEventId());
                 }
-                this.roomScheduleMap.get(talkRoom).addTalk(t);
+                roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
                 return true;
             }
             else{
@@ -123,9 +131,9 @@ public class EventManager implements Observer {
      * Creates a talk with the specified title, Speaker (based on email), Room (based on name), and start time.
      * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
      * @param talkTitle The title of the talk.
-     * @param speakerEmail The email of the speaker.
+     * @param speakerEmails The email of the speaker.
      * @param roomName The name of the room.
-     * @param d The start time of the talk.
+     * @param start The start time of the talk.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -144,12 +152,12 @@ public class EventManager implements Observer {
         }
         if (talkRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
                 checkDoubleBooking(start, end, talkRoom.getTalkList())){
-            Event t = new Event(talkTitle, start, end, roomName, speakerEmails, vipRestricted);
-            this.addEvent(t, talkRoom, speakers , start, end);
+            Event event = new Event(talkTitle, start, end, roomName, speakerEmails,vipRestricted);
+            this.addEvent(event, talkRoom, speakers , start, end);
             for (Speaker s: speakers){
-                UserStorage.addEvent(s, event);
+                userStorage.addEvent(s.getEmail(), event.getEventId());
             }
-            this.roomScheduleMap.get(talkRoom).addTalk(t);
+            roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
             return true;
         }
         else{
@@ -166,6 +174,8 @@ public class EventManager implements Observer {
         boolean found = this.eventMap.containsKey(t) ;
         if (found){
             this.eventMap.remove(t);
+            this.eventList.remove(t);
+            this.eventIdsList.remove(t.getEventId());
             return true;
         }
         return false;
@@ -217,22 +227,58 @@ public class EventManager implements Observer {
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
     }
 
-    /**
-     * Get the signUpMap
-     * @return A HashMap representing the signUpMap of the TalkManager.
-     */
-    public HashMap<Event, SignUpAttendeesManager> getSignUpMap() {
-        return signUpMap;
+    public ArrayList<String> eventIdToSpeakerEmails(String id){
+        Event e = getEvent(id);
+        return e.getSpeakers();
+    }
+    public ArrayList<String> eventIdToUsersSignedUp(String id){
+        Event e = getEvent(id);
+        return e.getUsersSignedUp();
+    }
+    public String eventIdToRoom(String id){
+        Event e = getEvent(id);
+        return e.getRoomName();
+    }
+    public boolean eventIdAtCapacity(String id){
+        Event e = getEvent(id);
+        int capacity = roomStorage.roomNameToCapacity(eventIdToRoom(id));
+        if (e.getUsersSignedUp().size() == capacity){
+            return false;
+        }
+        return true;
+    }
+    public LocalDateTime eventIdToStartTime(String id){
+        Event e = getEvent(id);
+        return e.getStartTime();
+    }
+    public LocalDateTime eventIdToEndTime(String id){
+        Event e = getEvent(id);
+        return e.getEndTime();
+    }
+    public ArrayList<String> getEventIdsList(){
+        return this.eventIdsList;
     }
 
     /**
      * A string representation of a talk with the talk's title, room, speaker, and start time.
-     * @param t The talk.
+     * @param id id of the talk.
      * @return A string representing a talk and its room and speaker.
      */
     public String toStringEvent(String id){
-        String line = "Talk: " + getEvent(id).getTitle() + ", Room: " + this.getEventRoom(id).getRoomName() + ", Speaker: "
-                + this.getEventSpeaker(id).() + ", Time: " + dateToString(this.getEventTime(id));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String speakers = "";
+        if (getEventSpeaker(id).size() != 0){
+            if (getEventSpeaker(id).size() == 1){
+                speakers = "Speaker: ";
+            }
+            else{speakers = "Speakers: ";}
+            for (Speaker s: getEventSpeaker(id)){
+                speakers += " " + s.getName() + ", ";
+            }}
+        String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
+                getEventRoom(id).getRoomName()
+                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + "Ends at: " +
+                getEvent(id).getEndTime().format(formatter);
         return line;
     }
 
@@ -243,9 +289,7 @@ public class EventManager implements Observer {
     public String EventMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
         for(Event t: eventMap.keySet()){
-            String line = "Talk: " + t.getTitle() + ", Room: " + this.getEventRoom(t.getEventId()).getRoomName() + ", Speaker: "
-                    + this.getEventSpeaker(t.getEventId()).getName() + ", Time: " +
-                    dateToString(this.getEventTime(t.getEventId()));
+            String line = toStringEvent(t.getEventId());
             lines.add(line);
         }
         String totalString = "";
@@ -255,18 +299,6 @@ public class EventManager implements Observer {
             i++;
         }
         return totalString;
-    }
-
-    /**
-     * A string representation of the start time
-     * @param localDateTime The start time.
-     * @return A string representing the start time.
-     */
-    public String dateToString(LocalDateTime localDateTime){
-        String str = localDateTime.toString();
-        String[] split = str.split("T");
-        String newString = split[0] + " " +split[1];
-        return newString;
     }
 
     public boolean checkOverlappingTimes(LocalDateTime startA, LocalDateTime endA,
@@ -283,25 +315,6 @@ public class EventManager implements Observer {
                 return false;
             }}
         return true;
-        }
-
-    /**
-     * Updating talkManager's roomScheduleMap and speakerScheduleMap.
-     * @param o An Observable.
-     * @param arg An Object.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if(o instanceof RoomSystem){
-            if (arg instanceof HashMap) {
-                this.roomScheduleMap = (HashMap<Room, RoomScheduleManager>) arg;
-            }
-        }
-        else if(o instanceof TechConferenceSystem){
-            if (arg instanceof HashMap) {
-                    this.speakerScheduleMap = (HashMap<Speaker, SpeakerScheduleManager>) arg;
-                }
-            }
         }
 
     }

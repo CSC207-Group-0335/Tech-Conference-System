@@ -19,6 +19,7 @@ public class MessagingSystem extends Observable implements Observer {
     public String userEmail;
     public MessengerController messengerController;
     public MainMenuController mainMenuController;
+    public UserStorage userStorage;
 
     /**
      * Instantiates OrganizerMessengerController, SpeakerMessengerController, MessengerController, and
@@ -27,6 +28,7 @@ public class MessagingSystem extends Observable implements Observer {
 
     public MessagingSystem() {
         this.conversationStorage = new ConversationStorage();
+        this.userStorage = new UserStorage();
         setStorage();
     }
 
@@ -36,6 +38,7 @@ public class MessagingSystem extends Observable implements Observer {
     public void setStorage() {
         setChanged();
         notifyObservers(conversationStorage);
+        notifyObservers(userStorage);
     }
 
     /**
@@ -45,17 +48,21 @@ public class MessagingSystem extends Observable implements Observer {
      * @param scanner a Scanner
      */
 
-    public void instantiateControllers(User user, Scanner scanner) {
+    public void instantiateControllers(String user, Scanner scanner) {
         this.addObserver(mainMenuController);
-        if (user instanceof Attendee) {
-            this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((AttendeeMessengerController)this.messengerController).messageManager);
-        } else if (user instanceof Speaker) {
-            this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((SpeakerMessengerController)this.messengerController).messageManager);
-        } else if (user instanceof Organizer) {
-            this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
-            this.addObserver(((OrganizerMessengerController)this.messengerController).messageManager);
+        switch (userStorage.emailToType(user)) {
+            case "Attendee":
+                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((AttendeeMessengerController)this.messengerController).messageManager);
+                break;
+            case "Speaker":
+                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((SpeakerMessengerController)this.messengerController).messageManager);
+                break;
+            case "Organizer":
+                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
+                this.addObserver(((OrganizerMessengerController)this.messengerController).messageManager);
+                break;
         }
         setStorage();
     }

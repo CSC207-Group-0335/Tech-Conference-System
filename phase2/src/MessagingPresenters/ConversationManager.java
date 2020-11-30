@@ -58,6 +58,26 @@ public class ConversationManager {
         }
     }
 
+    private Boolean isValidIndex(Integer index) {
+        if (index >= 0 && index < this.messages.size()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void deleteMessage(Integer index) {
+        if (this.isValidIndex(index)) {
+            this.messages.remove(index);
+        }
+    }
+
+    public void toggleRead(Integer index) {
+        if (this.isValidIndex(index)) {
+            this.messages.get(index).toggleRead();
+        }
+    }
 
     /**
      * Returns set of participants.

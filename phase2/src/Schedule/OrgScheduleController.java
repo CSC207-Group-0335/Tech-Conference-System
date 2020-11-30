@@ -65,27 +65,13 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     }
 
     /**
-     * gets the list of all speakers giving a talk.
-     * @return An ArrayList represent the list of all speakers.
-     */
-    public ArrayList<Speaker> getSpeakerList(){
-        ArrayList<Speaker> speakerList = new ArrayList<Speaker>();
-        for(User u: userStorage.getUserList()){
-            if (u instanceof Speaker){
-                speakerList.add((Speaker) u);
-            }
-        }
-        return speakerList;
-    }
-
-    /**
      * Allows the organizer to choose a speaker from a list of speakers.
      * @param scan The scanner.
      * @return Returns a Speaker representing the speaker chosen by the organizer.
      */
-    public Speaker pickSpeaker(Scanner scan) {
+    public String pickSpeaker(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        orgSchedulePresenter.printAllSpeakers(getSpeakerList());
+        orgSchedulePresenter.printAllSpeakers(userStorage.getSpeakerNameList());
         orgSchedulePresenter.printMenu(8);
         boolean doContinue  = true;
         while (doContinue){
@@ -95,13 +81,13 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 orgSchedulePresenter.printMenu(16);
                 return null;
             }
-            else if (speakerIndex -1 >= getSpeakerList().size()){
+            else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
                 orgSchedulePresenter.printMenu(14);
             }
             else{
-                Speaker chosenSpeaker = getSpeakerList().get(speakerIndex - 1);
+                String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
                 orgSchedulePresenter.printSchedule(
-                        userStorage.getSpeakerScheduleMap().get(chosenSpeaker).getTalkList(), eventManager, 2);
+                        userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
                 return chosenSpeaker;
             }}catch (NumberFormatException nfe){
                 userSchedulePresenter.printMenu(8);}}
@@ -109,27 +95,28 @@ public class OrgScheduleController extends UserScheduleController implements Obs
     /**
      * Allows the organizer to choose a room from a list of rooms.
      * @param scan The scanner.
-     * @return Returns a Room representing the room chosen by the organizer.
+     * @return Returns the name of the room chosen by the organizer.
      */
-    public Room pickRoom(Scanner scan) {
+    //NATHAN NOV 28 (made this reference the RoomNameList instead of RoomList throughout)
+    public String pickRoom(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        orgSchedulePresenter.printAllRooms(roomStorage.getRoomList());
+        orgSchedulePresenter.printAllRooms(roomStorage.getRoomNameList());
         orgSchedulePresenter.printMenu(7);
         boolean doContinue  = true;
         while (doContinue){
             String choice = scan.nextLine();
             try { int roomIndex = Integer.parseInt(choice);
             if (roomIndex == 0){
-                orgSchedulePresenter.printMenu(16);
+                orgSchedulePresenter.printMenu(16); //return to main menu
                 return null;
             }
-            else if (roomIndex -1 >= roomStorage.getRoomList().size()){
-                orgSchedulePresenter.printMenu(12);
+            else if (roomIndex -1 >= roomStorage.getRoomNameList().size()){
+                orgSchedulePresenter.printMenu(12); //invalid input
             }
             else{
-                Room chosenRoom = roomStorage.getRoomList().get(roomIndex - 1);
+                String chosenRoom = roomStorage.getRoomNameList().get(roomIndex - 1);
                 orgSchedulePresenter.printSchedule(
-                        roomStorage.getScheduleList().get(chosenRoom).getTalkList(), eventManager, 1);
+                        roomStorage.roomNameToEventIds(chosenRoom), eventManager, 1);
                 return chosenRoom;
             }} catch (NumberFormatException nfe){
             userSchedulePresenter.printMenu(8);}}
