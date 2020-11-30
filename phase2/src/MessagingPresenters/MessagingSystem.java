@@ -2,6 +2,7 @@ package MessagingPresenters;
 
 import Files.CSVReader;
 import UserLogin.*;
+import com.sun.tools.javac.Main;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +15,7 @@ import java.util.Scanner;
  * A class that represents a messaging system.
  */
 
-public class MessagingSystem extends Observable implements Observer {
+public class MessagingSystem{
     public ConversationStorage conversationStorage;
     public String userEmail;
     public MessengerController messengerController;
@@ -26,19 +27,14 @@ public class MessagingSystem extends Observable implements Observer {
      * ConversationStorage.
      */
 
-    public MessagingSystem() {
+    public MessagingSystem(UserStorage userStorage, MainMenuController mainMenuController) {
         this.conversationStorage = new ConversationStorage();
-        this.userStorage = new UserStorage();
-        setStorage();
+        this.userStorage = userStorage;
+        this.mainMenuController = mainMenuController;
     }
 
-    /**
-     * Notifies when ConversationStorage has been updated.
-     */
-    public void setStorage() {
-        setChanged();
-        notifyObservers(conversationStorage);
-        notifyObservers(userStorage);
+    public void setEmail(String email){
+        this.userEmail = email;
     }
 
     /**
@@ -49,46 +45,19 @@ public class MessagingSystem extends Observable implements Observer {
      */
 
     public void instantiateControllers(String user, Scanner scanner) {
-        this.addObserver(mainMenuController);
         switch (userStorage.emailToType(user)) {
             case "Attendee":
-                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController);
-                this.addObserver(((AttendeeMessengerController)this.messengerController).messageManager);
+                this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController, userStorage);
                 break;
             case "Speaker":
-                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController);
-                this.addObserver(((SpeakerMessengerController)this.messengerController).messageManager);
+                this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController, userStorage);
                 break;
             case "Organizer":
-                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController);
-                this.addObserver(((OrganizerMessengerController)this.messengerController).messageManager);
+                this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController, userStorage);
                 break;
         }
-        setStorage();
     }
 
-    /**
-     * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
-     * in linked Observable classes. This one updates the User and the MainMenuController, based on the arg type.
-     *
-     * @param o   the Observable class where the change is made and this function is called.
-     * @param arg the argument that is being updated.
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof User) {
-            User user = (User) arg;
-            this.userEmail = user.getEmail();
-        }
-        if (arg instanceof MainMenuController) {
-            this.mainMenuController = (MainMenuController) arg;
-        }
-    }
-
-    /**
-     * Runs and loads data.
-     */
 
     public void run() {
         CSVReader fileReader = new CSVReader("src/Resources/Conversations.csv");
@@ -109,7 +78,6 @@ public class MessagingSystem extends Observable implements Observer {
                 c.addMessage(recipient, sender, timestamp, messageContent);
             }
         }
-        setStorage();
     }
 
     /**
