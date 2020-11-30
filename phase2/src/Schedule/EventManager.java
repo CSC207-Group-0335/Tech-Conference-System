@@ -237,6 +237,11 @@ public class EventManager{
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
     }
 
+    public String eventIdToTitle(String id){
+        Event e = getEvent(id);
+        return e.getTitle();
+    }
+
     public ArrayList<String> eventIdToSpeakerEmails(String id){
         Event e = getEvent(id);
         return e.getSpeakers();
@@ -245,13 +250,13 @@ public class EventManager{
         Event e = getEvent(id);
         return e.getUsersSignedUp();
     }
-    public String eventIdToRoom(String id){
+    public String eventIdToRoomName(String id){
         Event e = getEvent(id);
         return e.getRoomName();
     }
     public boolean eventIdAtCapacity(String id){
         Event e = getEvent(id);
-        int capacity = roomStorage.roomNameToCapacity(eventIdToRoom(id));
+        int capacity = roomStorage.roomNameToCapacity(eventIdToRoomName(id));
         if (e.getUsersSignedUp().size() == capacity){
             return false;
         }

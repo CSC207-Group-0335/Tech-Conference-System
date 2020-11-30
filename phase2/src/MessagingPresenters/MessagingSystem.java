@@ -4,7 +4,6 @@ import Files.CSVReader;
 import Schedule.Event;
 import Schedule.EventManager;
 import UserLogin.*;
-import com.sun.tools.javac.Main;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

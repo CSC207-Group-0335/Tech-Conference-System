@@ -16,7 +16,7 @@ public class RoomSystem extends Observable {
     public ArrayList<Room> roomList;
     public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
-    public TalkSystem talkSystem;
+    public EventSystem eventSystem;
     public ScheduleSystem scheduleSystem;
 
     /**
@@ -24,7 +24,7 @@ public class RoomSystem extends Observable {
      */
     public RoomSystem(UserStorage userStorage, MainMenuController mainMenuController){
         this.roomStorage = new RoomStorage();
-        this.talkSystem = new TalkSystem(userStorage, this.roomStorage, mainMenuController);
+        this.eventSystem = new EventSystem(userStorage, this.roomStorage, mainMenuController);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
@@ -37,7 +37,7 @@ public class RoomSystem extends Observable {
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);
         }
-        talkSystem.run();
+        eventSystem.run();
     }
 
     public ArrayList<Room> getRoomList() {

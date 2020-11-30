@@ -3,11 +3,8 @@ package UserLogin;
 import Files.CSVReader;
 import Files.CSVWriter;
 import Schedule.RoomSystem;
-import Schedule.SpeakerScheduleManager;
-import Schedule.UserScheduleManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 
 /**
@@ -30,10 +27,10 @@ public class TechConferenceSystem extends Observable {
 
     public TechConferenceSystem() {
         this.userStorage = new UserStorage();
-        this.logInController = new LogInController(this.mainMenuController, this.roomSystem.talkSystem,
-                this.roomSystem.talkSystem.messagingSystem);
+        this.logInController = new LogInController(this.mainMenuController, this.roomSystem.eventSystem,
+                this.roomSystem.eventSystem.messagingSystem);
         this.mainMenuController = new MainMenuController(logInController.scanner, roomSystem,
-                roomSystem.talkSystem, roomSystem.talkSystem.messagingSystem, roomSystem.talkSystem.scheduleSystem,
+                roomSystem.eventSystem, roomSystem.eventSystem.messagingSystem, roomSystem.eventSystem.scheduleSystem,
                 userStorage,this);
         this.roomSystem = new RoomSystem(userStorage, mainMenuController);
     }
@@ -47,7 +44,7 @@ public class TechConferenceSystem extends Observable {
      */
 
     public void run() {
-        this.logInController.addObserver(roomSystem.talkSystem);
+        this.logInController.addObserver(roomSystem.eventSystem);
 
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){

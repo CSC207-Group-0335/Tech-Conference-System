@@ -14,7 +14,7 @@ import java.util.*;
  * A gateway class that reads a .csv file for
  * all accounts with their credentials and requests creating talks (from TalkManager)
  */
-public class TalkSystem extends Observable{
+public class EventSystem extends Observable{
     public OrgScheduleController orgScheduleController;
     public UserScheduleController userScheduleController;
     public SpeakerScheduleController speakerScheduleController;
@@ -29,7 +29,7 @@ public class TalkSystem extends Observable{
     /**
      * creates a new TalkSystem.
      */
-    public TalkSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
+    public EventSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
         this.eventManager = new EventManager(userStorage, roomStorage);
         this.userStorage = userStorage;
         this.roomStorage = roomStorage;
@@ -46,13 +46,13 @@ public class TalkSystem extends Observable{
     public void instantiateControllers(String userEmail, Scanner scanner){
         this.addObserver(mainMenuController);
         if (userStorage.emailToType(userEmail).equals("Attendee")){
-            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage
+            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage,
                     mainMenuController, roomStorage, scanner);
             setUserScheduleController();
             }
         else if (userStorage.emailToType(userEmail).equals("Organizer")){
-            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
-                    mainMenuController, scanner);
+            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userStorage,
+                    mainMenuController, roomStorage, scanner);
             this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
@@ -88,7 +88,7 @@ public class TalkSystem extends Observable{
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToTalks("phase1/src/Resources/Events.csv", this.getTalkManager()); //Not implemented yet
+        csvWriter.writeToEvents("src/Resources/Events.csv", eventManager);
     }
 
     public void setUserEmail(String userEmail){
@@ -101,14 +101,6 @@ public class TalkSystem extends Observable{
     public void setTalkManager() {
         setChanged();
         notifyObservers(eventManager);
-    }
-
-    /**
-     * Gets talk manager.
-     * @return A TalkManager that represents the talkManager.
-     */
-    public EventManager getTalkManager() {
-        return eventManager;
     }
 
     /**
