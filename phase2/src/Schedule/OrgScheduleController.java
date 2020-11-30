@@ -8,60 +8,29 @@ import java.util.*;
 /**
  * A controller class describing the actions an organizer can perform in the program
  */
-public class OrgScheduleController extends UserScheduleController implements Observer {
-    /**
-     * An organizer for the conference.
-     */
-    UserScheduleManager organizer;
-    /**
-     * Stores all the talks for the conference
-     */
+public class OrgScheduleController extends UserScheduleController {
+    String email;
     EventManager eventManager;
-    /**
-     * Stores all the rooms for the conference
-     */
     RoomStorage roomStorage;
-    /**
-     * Stores all the uses for the conference
-     */
     UserStorage userStorage;
-    /**
-     * The menu for the conference.
-     */
     MainMenuController mainMenuController;
     /**
-     * A mapping of talks to its corresponding SignUpAttendeesManager.
-     */
-    HashMap<Event, SignUpAttendeesManager> signUpMap;
-    /**
-     * The presenter of the organizer controller.
+     * A mapping of event (with it's string) to its corresponding SignUpAttendeesManager.
      */
     OrgSchedulePresenter orgSchedulePresenter;
-    /**
-     * The presenter of the user controller.
-     */
-    UserSchedulePresenter userSchedulePresenter;
-    /**
-     * The scanner for the conference.
-     */
-    Scanner scanner;
+    UserSchedulePresenter presenter;
+    Scanner scan;
 
     /**
      * Creates a new controller for the organizer.
-     * @param organizer The organizer.
      * @param eventManager The talkManager.
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
-    public OrgScheduleController(UserScheduleManager organizer, EventManager eventManager,
-                                 MainMenuController mainMenuController, Scanner scanner){
-        super(organizer, eventManager, mainMenuController, scanner);
-        this.eventManager = eventManager;
-        this.mainMenuController = mainMenuController;
-        this.scanner = scanner;
-        this.organizer = organizer;
+    public OrgScheduleController(String email, EventManager eventManager, UserStorage userStorage,
+                                 MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
+        super(email, eventManager, userStorage, mainMenuController, roomStorage, scanner);
         orgSchedulePresenter = new OrgSchedulePresenter();
-        userSchedulePresenter = new UserSchedulePresenter();
     }
 
     /**
@@ -90,7 +59,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                         userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
                 return chosenSpeaker;
             }}catch (NumberFormatException nfe){
-                userSchedulePresenter.printMenu(8);}}
+                presenter.printMenu(8);}}
     return null;}
     /**
      * Allows the organizer to choose a room from a list of rooms.
@@ -119,7 +88,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                         roomStorage.roomNameToEventIds(chosenRoom), eventManager, 1);
                 return chosenRoom;
             }} catch (NumberFormatException nfe){
-            userSchedulePresenter.printMenu(8);}}
+            presenter.printMenu(8);}}
     return null;}
     /**
      * Allows the organizer to choose a day - in this case our conference is three-days long.
@@ -142,7 +111,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 else {
                     return days;
                 }}catch (NumberFormatException nfe){
-                userSchedulePresenter.printMenu(8);}}
+                presenter.printMenu(8);}}
     return null;}
     /**
      * Allows the organizer to choose an hour between 9am and 5pm.
@@ -166,7 +135,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 else {
                     return hours;
                 }}catch (NumberFormatException nfe){
-                userSchedulePresenter.printMenu(8);}}
+                presenter.printMenu(8);}}
     return null;}
 
     /**
@@ -308,7 +277,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
      * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        orgSchedulePresenter.printHello(organizer);
+        orgSchedulePresenter.printHello(userStorage.emailToName(email));
         orgSchedulePresenter.printMenu(1);
         orgSchedulePresenter.printMenu(2);
         Scanner scan = new Scanner(System.in);
@@ -319,19 +288,19 @@ public class OrgScheduleController extends UserScheduleController implements Obs
                 int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(userSchedulePresenter, scan, organizer, signUpMap);
+                this.registerTalk(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
                 //If they want to see all available talks
             }else if (command == 2) {
-                this.seeAllTalks(userSchedulePresenter, scan);
+                this.seeAllTalks(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(userSchedulePresenter, scan, organizer);
+                this.seeAllRegistered(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(userSchedulePresenter, scan, organizer, signUpMap);
+                this.cancelATalk(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 5){
                 this.requestTalk(scan);
@@ -345,7 +314,7 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }
             else if (command ==0){
                 doContinue = false;
-                mainMenuController.runMainMenu(organizer.getUser());
+                mainMenuController.runMainMenu(email);
             }
             else{orgSchedulePresenter.printMenu(15);}}
             catch (NumberFormatException nfe){
@@ -353,27 +322,5 @@ public class OrgScheduleController extends UserScheduleController implements Obs
             }
 
         }
-    }
-    /**
-     * Updating OrScheduleController's roomStorage and userStorage.
-     * @param o An Observable.
-     * @param arg An Object.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof RoomStorage){
-            this.roomStorage = (RoomStorage) arg;
-        }
-        if (arg instanceof  UserStorage){
-            this.userStorage = (UserStorage) arg;
-        }
-
-    }
-    /**
-     * Sets the signUpMap for OrgScheduleController.
-     * @param signUpMap The signUpMap.
-     */
-    public void setSignUpMap(HashMap<Event, SignUpAttendeesManager> signUpMap){
-        this.signUpMap = signUpMap;
     }
 }
