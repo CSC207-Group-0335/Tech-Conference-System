@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import Schedule.Event;
+import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.User;
 import UserLogin.UserStorage;
@@ -23,9 +24,10 @@ public class SpeakerMessengerController extends MessengerController {
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController,
-                                      UserStorage userStorage, ConversationStorage conversationStorage) {
+                                      UserStorage userStorage, ConversationStorage conversationStorage,
+                                      EventManager eventManager) {
         super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage);
+        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager);
         this.presenter = new SpeakerMessengerPresenter();
     }
 

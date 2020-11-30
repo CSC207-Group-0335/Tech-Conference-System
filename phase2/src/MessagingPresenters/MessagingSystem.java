@@ -1,6 +1,8 @@
 package MessagingPresenters;
 
 import Files.CSVReader;
+import Schedule.Event;
+import Schedule.EventManager;
 import UserLogin.*;
 import com.sun.tools.javac.Main;
 
@@ -21,6 +23,7 @@ public class MessagingSystem{
     public MessengerController messengerController;
     public MainMenuController mainMenuController;
     public UserStorage userStorage;
+    public EventManager eventManager;
 
     /**
      * Instantiates OrganizerMessengerController, SpeakerMessengerController, MessengerController, and
@@ -52,7 +55,7 @@ public class MessagingSystem{
                 break;
             case "Speaker":
                 this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage);
+                        userStorage, conversationStorage, eventManager);
                 break;
             case "Organizer":
                 this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController,

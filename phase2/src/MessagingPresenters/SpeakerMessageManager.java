@@ -1,25 +1,21 @@
 package MessagingPresenters;
 
-import Schedule.Event;
-import Schedule.SignUpAttendeesManager;
-import Schedule.SpeakerScheduleManager;
-import Schedule.TalkSystem;
+import Schedule.*;
 import UserLogin.*;
 
 import java.util.*;
 
-public class SpeakerMessageManager extends MessageManager implements Observer {
-    private HashMap<Speaker, SpeakerScheduleManager> speakerScheduleManagerHashMap;
-    private HashMap<Event, SignUpAttendeesManager> signUpMap;
-
+public class SpeakerMessageManager extends MessageManager{
+    private final EventManager eventManager;
     /**
      * A user is needed to create an instance of SpeakerMessageManager.
      *
      * @param speakerEmail the email of speaker whose messages will be managed
      */
 
-    public SpeakerMessageManager(String speakerEmail) {
-        super(speakerEmail);
+    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage, EventManager eventManager) {
+        super(speakerEmail, userStorage);
+        this.eventManager = eventManager;
     }
 
 
@@ -30,7 +26,12 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      */
 
     public ArrayList<Event> getSpeakerTalks() {
-        return speakerScheduleManagerHashMap.get((Speaker) user).getTalkList();
+        ArrayList<String> eventIDs = userStorage.emailToTalkList(user.getEmail());
+        ArrayList<Event> eventList = new ArrayList<Event>();
+        for (String eventID: eventIDs){
+            eventList.add(eventManager.getEvent(eventID));
+        }
+        return eventList;
     }
 
     /**
@@ -42,7 +43,9 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
     public HashSet<User> getFriendsList() {
         HashSet<User> emails = new HashSet<>();
         for (Event event : getSpeakerTalks()) {
-            emails.addAll(signUpMap.get(event).userList);
+            for (String email: event.getUsersSignedUp()){
+                emails.add(userStorage.emailToUser(email));
+            }
         }
         return emails;
     }
@@ -54,7 +57,11 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
      */
 
     public ArrayList<User> getAttendeesOfTalk(Event event) {
-        return new ArrayList<>(signUpMap.get(event).userList);
+        ArrayList<User> emails = new ArrayList<>();
+        for (String email: event.getUsersSignedUp()){
+            emails.add(userStorage.emailToUser(email));
+        }
+        return emails;
     }
 
 
@@ -67,30 +74,6 @@ public class SpeakerMessageManager extends MessageManager implements Observer {
     public void messageAllAttendees(String messageContent) {
         for (User user : getFriendsList()) {
             messageOne(user.getEmail(), messageContent);
-        }
-    }
-
-    /**
-     * Updates </allUsers> if and only if </arg> is an instance of UserStorage, </signUpMap> if and only if </arg> is
-     * an instance of TalkSystem, </speakerScheduleManagerHashMap> if </arg> is an instance of HashMap, and
-     * </conversationStorage> if and only if </arg> is an instance of ConversationStorage.
-     *
-     * @param o   an observable parameter
-     * @param arg an Object
-     */
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof UserStorage) {
-            this.userStorage = (UserStorage) arg;
-        } else if (arg instanceof HashMap) {
-            if (o instanceof TalkSystem) {
-                this.signUpMap = (HashMap) arg;
-            } else {
-                this.speakerScheduleManagerHashMap = (HashMap) arg;
-            }
-        } else if (arg instanceof ConversationStorage) {
-            this.conversationStorage = (ConversationStorage) arg;
         }
     }
 }
