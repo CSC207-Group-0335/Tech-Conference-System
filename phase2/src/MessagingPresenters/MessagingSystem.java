@@ -17,7 +17,7 @@ import java.util.Scanner;
  * A class that represents a messaging system.
  */
 
-public class MessagingSystem{
+public class MessagingSystem extends Observable{
     public ConversationStorage conversationStorage;
     public String userEmail;
     public MessengerController messengerController;
@@ -52,18 +52,26 @@ public class MessagingSystem{
             case "Attendee":
                 this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController,
                         userStorage, conversationStorage);
+                setMessengerController();
                 break;
             case "Speaker":
                 this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController,
                         userStorage, conversationStorage, eventManager);
+                setMessengerController();
                 break;
             case "Organizer":
                 this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController,
                         userStorage, conversationStorage);
+                setMessengerController();
                 break;
         }
     }
 
+
+    public void setMessengerController(){
+        setChanged();
+        notifyObservers(messengerController);
+    }
 
     public void run() {
         CSVReader fileReader = new CSVReader("src/Resources/Conversations.csv");
