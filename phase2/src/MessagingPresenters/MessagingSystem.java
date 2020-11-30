@@ -30,7 +30,8 @@ public class MessagingSystem extends Observable{
      * ConversationStorage.
      */
 
-    public MessagingSystem(UserStorage userStorage, MainMenuController mainMenuController) {
+    public MessagingSystem(UserStorage userStorage, MainMenuController mainMenuController,
+                           EventManager eventManager) {
         this.conversationStorage = new ConversationStorage();
         this.userStorage = userStorage;
         this.mainMenuController = mainMenuController;

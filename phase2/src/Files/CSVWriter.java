@@ -118,7 +118,7 @@ public class CSVWriter {
     }
 
     /**
-     * A method to specifically write to the Talks.csv, in the proper format that the program requires.
+     * A method to specifically write to the Events.csv, in the proper format that the program requires.
      * @param csv the csv file that is being written to.
      * @param talkManage a TalkManager that will be used to get the information for the Talks that will be written.
      */
