@@ -108,7 +108,7 @@ public class EventManager{
             speakers.add(s);
         }
         for (Speaker s: speakers){
-            if (!(checkDoubleBooking(start, end, s.getTalklist()))){
+            if (!(checkDoubleBooking(start, end, s.getEventList()))){
                 return false;
             };
         }
@@ -146,7 +146,7 @@ public class EventManager{
             speakers.add(s);
         }
         for (Speaker s: speakers){
-            if (!(checkDoubleBooking(start, end, s.getTalklist()))){
+            if (!(checkDoubleBooking(start, end, s.getEventList()))){
                 return false;
             };
         }
@@ -187,10 +187,15 @@ public class EventManager{
             return false;
         }
         else{
-            getEvent(id).usersSignedUp.add(userEmail);
+            getEvent(id).addUser(userEmail);
             return true;
         }
     }
+
+    public boolean removeAttendee(String userEmail, String id){
+        return getEvent(id).removeUser(userEmail);
+        }
+
 
     /**
      * Get the talkMap
@@ -207,6 +212,11 @@ public class EventManager{
             }
         }
         return null;
+    }
+
+    public boolean exists(String id){
+        if (eventMap.keySet().contains(id)){return true;}
+        else{return false;}
     }
 
     /**
@@ -255,6 +265,7 @@ public class EventManager{
         Event e = getEvent(id);
         return e.getEndTime();
     }
+
     public ArrayList<String> getEventIdsList(){
         return this.eventIdsList;
     }
@@ -316,5 +327,4 @@ public class EventManager{
             }}
         return true;
         }
-
-    }
+}

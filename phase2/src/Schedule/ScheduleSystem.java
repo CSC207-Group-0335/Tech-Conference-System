@@ -31,13 +31,12 @@ public class ScheduleSystem{
         CSVReader fileReader = new CSVReader("src/Resources/Registration.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
-            User user = findUser(email);
-            if (user instanceof Organizer || user instanceof Attendee){
+            if (userStorage.emailToType(email).equals("Organizer") ||
+                    userStorage.emailToType(email).equals("Attendee")){
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
-                Event event = findTalk(id);
-                if (event != null) {
-                    userSchedule.addTalk(event);
+                if (eventManager.exists(id)) {
+                    userStorage.addEvent(email, id);
                 }
             }}}
         }

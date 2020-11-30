@@ -60,17 +60,22 @@ public class UserStorage extends Observable {
     /**
      * Add an event to the users list of registered events, if they are not currently registered for that event.
      * @param email the email of the user who is attempting to register for an event
-     * @param talkid the id of the event that the for which the user is attempting to register.
+     * @param eventId the id of the event that the for which the user is attempting to register.
      * @return a boolean value indicating whether the registration was successful.
      */
-    public boolean addEvent(String email, String talkid){
+    public boolean addEvent(String email, String eventId){
         User user = emailToUser(email);
-        if (!user.getTalklist().contains(talkid)) {
-            user.getTalklist().add(talkid);
+        if (!user.getEventList().contains(eventId)) {
+            user.addEvent(eventId);
             return true;
         }
         return false;
     }
+
+    public boolean removeEvent(String userEmail, String eventId){
+        return emailToUser(userEmail).removeEvent(eventId);
+    }
+
     /**
      * Used to help create a new user object. A new user is created based on the type that is specified in the
      * usertype parameter.
@@ -174,7 +179,7 @@ public class UserStorage extends Observable {
     public ArrayList<String> emailToTalkList(String email){
         User user = emailToUser(email);
         if (user != null) {
-            return user.getTalklist();
+            return user.getEventList();
         }
         return null;
     }

@@ -47,7 +47,7 @@ public class UserScheduleController{
             return "Event is at full capacity.";
         }
         else{
-            if (this.eventManager.getEvent(eventid).addUser(email)){
+            if (this.eventManager.addAttendee(email,eventid)){
                 this.userStorage.addEvent(email, eventid);
                 return "User added.";
             }
@@ -55,18 +55,14 @@ public class UserScheduleController{
         }
     }
 
-
-
-
-
-
     /**
      * Let a user cancel their enrollment in an event.
      */
+    //doesnt do anything rn
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
-            eventManager.eventIdToUsersSignedUp(eventId).remove(email);
-            userStorage.emailToTalkList(email).remove(eventId);
+            eventManager.removeAttendee(email, eventId);
+            userStorage.addEvent(email, eventId);
         }
     }
 
@@ -245,7 +241,7 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(userStorage.emailToName(this.email)); //Is this allowed?
+        presenter.printHello(userStorage.emailToName(email));
         presenter.printMenu(1);
         presenter.printMenu(2);
         boolean doContinue = true;
