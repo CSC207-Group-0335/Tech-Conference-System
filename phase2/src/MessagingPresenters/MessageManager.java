@@ -1,4 +1,5 @@
 package MessagingPresenters;
+import Schedule.EventManager;
 import UserLogin.Attendee;
 import UserLogin.Speaker;
 import UserLogin.User;
@@ -10,6 +11,7 @@ import java.util.*;
 public abstract class MessageManager {
     public User user;
     public UserStorage userStorage;
+    public EventManager eventManager;
     public ConversationStorage conversationStorage;
     public HashSet<User> friendsList;
 
@@ -19,7 +21,7 @@ public abstract class MessageManager {
      * @param email a String representing an email address
      */
 
-    public MessageManager(String email, UserStorage userStorage) {
+    public MessageManager(String email, UserStorage userStorage, ConversationStorage conversationStorage) {
         this.userStorage = userStorage;
         User user = null;
         for (int i = 0; i < userStorage.userList.size(); i++) {
@@ -28,9 +30,24 @@ public abstract class MessageManager {
             }
         }
         this.user = user;
+        this.conversationStorage = conversationStorage;
         this.friendsList = getFriendsList();
     }
 
+    public MessageManager(String email, UserStorage userStorage, EventManager eventManager,
+                          ConversationStorage conversationStorage) {
+        this.userStorage = userStorage;
+        this.eventManager = eventManager;
+        User user = null;
+        for (int i = 0; i < userStorage.userList.size(); i++) {
+            if (userStorage.userList.get(i).getEmail().equals(email)) {
+                user = userStorage.userList.get(i);
+            }
+        }
+        this.user = user;
+        this.conversationStorage = conversationStorage;
+        this.friendsList = getFriendsList();
+    }
 
     public abstract HashSet<User> getFriendsList();
 

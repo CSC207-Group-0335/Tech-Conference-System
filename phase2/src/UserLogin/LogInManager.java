@@ -8,15 +8,15 @@ import java.util.Observer;
  * A Use Case class that handles the back-end of the login process for a user attempting to login to their account.
  */
 
-public class LogInManager implements Observer {
+public class LogInManager{
     public ArrayList<User> userList;
 
     /**
      * A constructor for a LogInManager, which initializes a new UserList.
      */
 
-    public LogInManager() {
-        this.userList = new ArrayList<User>();
+    public LogInManager(UserStorage userStorage) {
+        this.userList = userStorage.getUserList();
     }
 
     /**
@@ -48,22 +48,5 @@ public class LogInManager implements Observer {
         } else {
             return false;
         }
-    }
-
-    /**
-     * A method used by the Observable Design Pattern to update variables in this Observer class based on changes made
-     * in linked Observable classes. This one updates the UserList of this class.
-     * @param o the Observable class where the change is made and this function is called.
-     * @param arg the argument that is being updated.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        //check the type of arg (if it is a map, we do not update it here since it is referring to the
-        // UserScheduleMap/SpeakerScheduleMap).
-        if (arg instanceof ArrayList) {
-            //We know that arg refers to the UserList
-            this.userList = (ArrayList<User>) arg;
-        }
-
     }
 }

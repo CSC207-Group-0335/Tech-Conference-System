@@ -22,9 +22,9 @@ public class RoomSystem extends Observable {
     /**
      * Creates a new RoomSystem.
      */
-    public RoomSystem(UserStorage userStorage, MainMenuController mainMenuController){
+    public RoomSystem(UserStorage userStorage){
         this.roomStorage = new RoomStorage();
-        this.eventSystem = new EventSystem(userStorage, this.roomStorage, mainMenuController);
+        this.eventSystem = new EventSystem(userStorage, this.roomStorage);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
@@ -49,6 +49,6 @@ public class RoomSystem extends Observable {
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.getRoomList());
+        csvWriter.writeToRooms("src/Resources/RoomFile", this.getRoomList());
     }
 }

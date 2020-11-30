@@ -30,13 +30,14 @@ public class LogInController extends Observable {
      */
 
     public LogInController(MainMenuController mainMenuController, EventSystem eventSystem,
-                           MessagingSystem messagingSystem){
+                           MessagingSystem messagingSystem, UserStorage userStorage){
+        this.scanner = new Scanner(System.in);
         this.eventSystem = eventSystem;
         this.messagingSystem = messagingSystem;
-        this.logInManager = new LogInManager();
+        this.logInManager = new LogInManager(userStorage);
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
-        this.scanner = new Scanner(System.in);
+        mainMenuController.setScanner(scanner);
     }
 
     /**
@@ -61,10 +62,10 @@ public class LogInController extends Observable {
 
                 //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem
                 //and messagingSystem.
-                this.eventSystem.setUserEmail(this.email);
+                this.eventSystem.setEmail(this.email);
+                this.messagingSystem.setEmail(this.email);
                 this.eventSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
                 this.messagingSystem.instantiateControllers(this.email, scanner);
-                this.messagingSystem.setEmail(this.email);
                 presenter.printLoginInfo(3); //Login Successful
             }
             else{

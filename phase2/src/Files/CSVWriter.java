@@ -146,6 +146,8 @@ public class CSVWriter {
                 LocalDateTime endTime = eventManager.eventIdToStartTime(eventId);
                 String formatted2 = endTime.format(formatter);
                 csvWriter.append(formatted2);
+                csvWriter.append(",");
+                csvWriter.append(eventManager.eventIdToVIPStatus(eventId));
                 csvWriter.append("\n");
                 csvWriter.flush();
             }}catch (IOException ioException) {

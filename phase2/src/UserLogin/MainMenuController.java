@@ -42,18 +42,19 @@ public class MainMenuController implements Observer {
      * @param techConferenceSystem A TechConferenceSystem object that is used to save data concerning the UserList.
      */
 
-    public MainMenuController(Scanner scanner, RoomSystem roomSystem, EventSystem eventSystem,
+    public MainMenuController(RoomSystem roomSystem, EventSystem eventSystem,
                               MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
         this.eventSystem = eventSystem;
+        eventSystem.setMainMenuController(this);
         this.messagingSystem = messagingSystem;
+        messagingSystem.setMainMenuController(this);
         this.scheduleSystem = scheduleSystem;
         this.userStorage = userStorage;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
-        this.scanner = scanner;
     }
 
     /**
@@ -61,9 +62,8 @@ public class MainMenuController implements Observer {
      * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
-        User user = userStorage.emailToUser(useremail); //Does this violate clean architecture?
-        presenter.printHello(user.getName());
-        switch (user.getType()) {
+        presenter.printHello(userStorage.emailToName(useremail));
+        switch (userStorage.emailToType(useremail)) {
             case "Attendee":
                 runMainMenuAttendee();
                 break;
@@ -204,5 +204,9 @@ public class MainMenuController implements Observer {
         } else if (arg instanceof OrganizerMessengerController) {
             this.orgMessengerController = (OrganizerMessengerController) arg;
         }
+    }
+
+    public void setScanner(Scanner scanner){
+        this.scanner = scanner;
     }
 }

@@ -27,7 +27,7 @@ public class SpeakerMessengerController extends MessengerController {
                                       UserStorage userStorage, ConversationStorage conversationStorage,
                                       EventManager eventManager) {
         super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager);
+        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager, conversationStorage);
         this.presenter = new SpeakerMessengerPresenter();
     }
 

@@ -12,8 +12,9 @@ public class AttendeeMessageManager extends MessageManager {
      * A user is needed to create an instance of AttendeeMessageManager.
      */
 
-    public AttendeeMessageManager(String email, UserStorage userStorage) {
-        super(email, userStorage);
+    public AttendeeMessageManager(String email, UserStorage userStorage, ConversationStorage conversationStorage) {
+
+        super(email, userStorage, conversationStorage);
     }
 
     /**

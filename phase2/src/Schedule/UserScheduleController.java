@@ -46,6 +46,9 @@ public class UserScheduleController{
         if(!(this.eventManager.eventIdAtCapacity(eventid))){
             return "Event is at full capacity.";
         }
+        else if(!(eventManager.checkDoubleBooking(eventid, userStorage.emailToTalkList(email)))){
+            return "Double booking";
+        }
         else{
             if (this.eventManager.addAttendee(email,eventid)){
                 this.userStorage.addEvent(email, eventid);
@@ -135,6 +138,9 @@ public class UserScheduleController{
                 else{
                     if (this.signUp(eventIdToRegister).equals("User already registered for the requested talk.")){
                         presenter.printRegistrationBlocked(1);
+                    }
+                    else if(this.signUp(eventIdToRegister).equals("Double booking.")){
+                        presenter.printRegistrationBlocked(3);
                     }
                     else{
                         presenter.printRegistrationBlocked(2);

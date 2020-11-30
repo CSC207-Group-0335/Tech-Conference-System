@@ -29,11 +29,11 @@ public class MessagingSystem extends Observable{
      * ConversationStorage.
      */
 
-    public MessagingSystem(UserStorage userStorage, MainMenuController mainMenuController,
+    public MessagingSystem(UserStorage userStorage,
                            EventManager eventManager) {
         this.conversationStorage = new ConversationStorage();
         this.userStorage = userStorage;
-        this.mainMenuController = mainMenuController;
+        this.eventManager =eventManager;
     }
 
     public void setEmail(String email){
@@ -48,6 +48,7 @@ public class MessagingSystem extends Observable{
      */
 
     public void instantiateControllers(String user, Scanner scanner) {
+        this.addObserver(mainMenuController);
         switch (userStorage.emailToType(user)) {
             case "Attendee":
                 this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController,
@@ -99,8 +100,12 @@ public class MessagingSystem extends Observable{
      */
 
     public void save() {
-        ConversationCSVWriter csvWriter = new ConversationCSVWriter("phase1/src/Resources/Conversations.csv",
+        ConversationCSVWriter csvWriter = new ConversationCSVWriter("src/Resources/Conversations.csv",
                 this.conversationStorage.getConversationManagers());
+    }
+
+    public void setMainMenuController(MainMenuController mainMenuController){
+        this.mainMenuController = mainMenuController;
     }
 
 }

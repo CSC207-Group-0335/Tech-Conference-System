@@ -46,6 +46,6 @@ public class ScheduleSystem{
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRegistration("phase1/src/Resources/Registration.csv", userStorage);
+        csvWriter.writeToRegistration("src/Resources/Registration.csv", userStorage);
     }
 }

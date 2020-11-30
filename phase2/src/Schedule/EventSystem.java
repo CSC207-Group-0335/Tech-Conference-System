@@ -29,11 +29,11 @@ public class EventSystem extends Observable{
     /**
      * creates a new TalkSystem.
      */
-    public EventSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
+    public EventSystem(UserStorage userStorage, RoomStorage roomStorage){
         this.eventManager = new EventManager(userStorage, roomStorage);
         this.userStorage = userStorage;
         this.roomStorage = roomStorage;
-        this.messagingSystem = new MessagingSystem(userStorage, mainMenuController, eventManager);
+        this.messagingSystem = new MessagingSystem(userStorage, eventManager);
         this.scheduleSystem = new ScheduleSystem(eventManager, userStorage);
         this.mainMenuController = mainMenuController;
     }
@@ -53,7 +53,6 @@ public class EventSystem extends Observable{
         else if (userStorage.emailToType(userEmail).equals("Organizer")){
             this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userStorage,
                     mainMenuController, roomStorage, scanner);
-            this.addObserver(orgScheduleController);
             setOrgScheduleController();
         }
         else{
@@ -78,7 +77,6 @@ public class EventSystem extends Observable{
                     LocalDateTime.parse(talkData.get(5), formatter), talkData.get(6)
                     );
         }
-        setTalkManager();
         messagingSystem.run();
         scheduleSystem.run();
     }
@@ -91,16 +89,12 @@ public class EventSystem extends Observable{
         csvWriter.writeToEvents("src/Resources/Events.csv", eventManager);
     }
 
-    public void setUserEmail(String userEmail){
+    public void setEmail(String userEmail){
         this.userEmail = userEmail;
     }
 
-    /**
-     * Sets talk manager.
-     */
-    public void setTalkManager() {
-        setChanged();
-        notifyObservers(eventManager);
+    public void setMainMenuController(MainMenuController mainMenuController){
+        this.mainMenuController = mainMenuController;
     }
 
     /**
