@@ -46,7 +46,7 @@ public class TalkSystem extends Observable{
     public void instantiateControllers(String userEmail, Scanner scanner){
         this.addObserver(mainMenuController);
         if (userStorage.emailToType(userEmail).equals("Attendee")){
-            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage
+            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage,
                     mainMenuController, roomStorage, scanner);
             setUserScheduleController();
             }
