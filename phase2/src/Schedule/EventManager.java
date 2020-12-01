@@ -180,10 +180,14 @@ public class EventManager{
         return false;
     }
 
+    public boolean checkIfUserAllowed(String userEmail, String id){
+        return getEvent(id).getVIPStatus() && !(userStorage.emailToVIPStatus(userEmail));
+    }
+
     public boolean addAttendee(String userEmail, String id){
         if (getEvent(id).getUsersSignedUp().size() + 1 > getEventRoom(id).getCapacity()
         || getEvent(id).getUsersSignedUp().contains(userEmail) ||
-                (getEvent(id).getVIPStatus() && !(userStorage.emailToVIPStatus(userEmail)))){
+                (checkIfUserAllowed(userEmail, id))){
             return false;
         }
         else{

@@ -49,6 +49,9 @@ public class UserScheduleController{
         else if(!(eventManager.checkDoubleBooking(eventid, userStorage.emailToTalkList(email)))){
             return "Double booking";
         }
+        else if (!(eventManager.checkIfUserAllowed(email, eventid))){
+            return "VIP only event";
+        }
         else{
             if (this.eventManager.addAttendee(email,eventid)){
                 this.userStorage.addEvent(email, eventid);
@@ -140,6 +143,9 @@ public class UserScheduleController{
                         presenter.printRegistrationBlocked(1);
                     }
                     else if(this.signUp(eventIdToRegister).equals("Double booking.")){
+                        presenter.printRegistrationBlocked(3);
+                    }
+                    else if(this.signUp(eventIdToRegister).equals("VIP only event")){
                         presenter.printRegistrationBlocked(3);
                     }
                     else{
