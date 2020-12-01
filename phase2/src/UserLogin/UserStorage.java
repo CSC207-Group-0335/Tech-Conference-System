@@ -53,6 +53,15 @@ public class UserStorage extends Observable {
     public ArrayList<User> getUserList() {
         return userList;
     }
+
+    public ArrayList<String> getUserEmailList(){
+        ArrayList<String> userEmailList = new ArrayList<>();
+        for(User u: userList){
+            userEmailList.add(u.getEmail());
+        }
+        return userEmailList;
+    }
+
     public ArrayList<Speaker> getSpeakerList() {
         return speakerList;
     }
@@ -170,6 +179,7 @@ public class UserStorage extends Observable {
         }
         return null;
     }
+    //Delete if not used
 
     /**
      * Get the TalkList of the user that is associated with the email provided.

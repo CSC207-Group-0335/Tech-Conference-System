@@ -12,8 +12,9 @@ public class OrganizerMessageManager extends MessageManager {
      * A user is needed to create an instance of OrganizerMessageManager.
      */
 
-    public OrganizerMessageManager(String email, UserStorage userStorage) {
-        super(email, userStorage);
+    public OrganizerMessageManager(String email, UserStorage userStorage, ConversationStorage conversationStorage) {
+
+        super(email, userStorage, conversationStorage);
     }
 
     /**

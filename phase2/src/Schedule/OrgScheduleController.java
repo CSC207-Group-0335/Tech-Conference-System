@@ -9,17 +9,7 @@ import java.util.*;
  * A controller class describing the actions an organizer can perform in the program
  */
 public class OrgScheduleController extends UserScheduleController {
-    String email;
-    EventManager eventManager;
-    RoomStorage roomStorage;
-    UserStorage userStorage;
-    MainMenuController mainMenuController;
-    /**
-     * A mapping of event (with it's string) to its corresponding SignUpAttendeesManager.
-     */
     OrgSchedulePresenter orgSchedulePresenter;
-    UserSchedulePresenter presenter;
-    Scanner scan;
 
     /**
      * Creates a new controller for the organizer.
@@ -67,6 +57,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @return Returns the name of the room chosen by the organizer.
      */
     //NATHAN NOV 28 (made this reference the RoomNameList instead of RoomList throughout)
+
     public String pickRoom(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
         orgSchedulePresenter.printAllRooms(roomStorage.getRoomNameList());
@@ -90,6 +81,7 @@ public class OrgScheduleController extends UserScheduleController {
             }} catch (NumberFormatException nfe){
             presenter.printMenu(8);}}
     return null;}
+
     /**
      * Allows the organizer to choose a day - in this case our conference is three-days long.
      * @param scan The scanner.
@@ -113,6 +105,7 @@ public class OrgScheduleController extends UserScheduleController {
                 }}catch (NumberFormatException nfe){
                 presenter.printMenu(8);}}
     return null;}
+
     /**
      * Allows the organizer to choose an hour between 9am and 5pm.
      * @param scan The scanner.
@@ -141,11 +134,9 @@ public class OrgScheduleController extends UserScheduleController {
     /**
      * Allows the organizer to choose a day and hour for the start time of the talk.
      * @param scan The scanner.
-     * @param speaker The speaker chosen by the organizer.
-     * @param room The room chosen by the organizer.
      * @return A LocalDateTime representing the start time chosen by the organizer.
      */
-    public LocalDateTime pickTime(Scanner scan, Speaker speaker, Room room) {
+    public LocalDateTime pickTime(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
         Integer day = pickDay(scan);
         if (day == null){return null;}
@@ -162,13 +153,14 @@ public class OrgScheduleController extends UserScheduleController {
      * @param dateTime The start time.
      * @return An int representing one of the three aforementioned options.
      */
-    public int checkDoubleBooking(Speaker speaker, Room room, LocalDateTime dateTime){
-         if(!userStorage.getSpeakerScheduleMap().get(speaker).checkDoubleBooking(dateTime)
-                && !roomStorage.getScheduleList().get(room).checkDoubleBooking(dateTime)){return 1;}
-        else if(!userStorage.getSpeakerScheduleMap().get(speaker).checkDoubleBooking(dateTime)){
+    public int checkDoubleBooking(String speaker, String room, LocalDateTime dateTime){
+        LocalDateTime end = dateTime.plusHours(1);
+         if(!eventManager.checkDoubleBooking(dateTime, end, userStorage.emailToTalkList(speaker))
+                && !eventManager.checkDoubleBooking(dateTime, end, roomStorage.roomNameToEventIds(room))){return 1;}
+        else if(!eventManager.checkDoubleBooking(dateTime, end, userStorage.emailToTalkList(speaker))){
             return 2;
         }
-        else if(!roomStorage.getScheduleList().get(room).checkDoubleBooking(dateTime)){return 3;}
+        else if(!eventManager.checkDoubleBooking(dateTime, end, roomStorage.roomNameToEventIds(room))){return 3;}
         else{return 0;}
     }
 
@@ -178,11 +170,11 @@ public class OrgScheduleController extends UserScheduleController {
      * @return A boolean notifying the organizer that they have successfully created a talk.
      */
     public boolean requestTalk(Scanner scan){
-        Speaker speaker = pickSpeaker(scan);
+        String speaker = pickSpeaker(scan);
         if (speaker == null){return false;}
-        Room room = pickRoom(scan);
+        String room = pickRoom(scan);
         if (room == null){return false;}
-        LocalDateTime dateTime = pickTime(scan, speaker, room);
+        LocalDateTime dateTime = pickTime(scan);
         if (dateTime==null){ return false;}
         int doubleBookingChecker = checkDoubleBooking(speaker, room, dateTime);
         while (doubleBookingChecker !=0){
@@ -201,13 +193,16 @@ public class OrgScheduleController extends UserScheduleController {
             if (speaker == null){return false;}
         room = pickRoom(scan);
             if (room == null){return false;}
-        dateTime = pickTime(scan,speaker,room);
+        dateTime = pickTime(scan);
             if (dateTime==null){ return false;}
         doubleBookingChecker = checkDoubleBooking(speaker, room, dateTime);
         };
         orgSchedulePresenter.PrintRequestTalkProcess(9);
+        ArrayList<String> speakers = new ArrayList<String>(); //FAKEFIX FOR NOW
+        speakers.add(speaker);
         String talkTitle = scan.nextLine();
-        if (eventManager.createTalk(talkTitle, speaker.getEmail(), room.roomName, dateTime)){
+        if (eventManager.createEvent(talkTitle, speakers, room, dateTime, dateTime.plusHours(1),
+                "None")){
             orgSchedulePresenter.PrintRequestTalkProcess(7);
             return true;
         }
@@ -277,7 +272,7 @@ public class OrgScheduleController extends UserScheduleController {
      * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        orgSchedulePresenter.printHello(userStorage.emailToName(email));
+        orgSchedulePresenter.printHello(this.userStorage.emailToName(email));
         orgSchedulePresenter.printMenu(1);
         orgSchedulePresenter.printMenu(2);
         Scanner scan = new Scanner(System.in);

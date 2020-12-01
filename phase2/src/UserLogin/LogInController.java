@@ -2,7 +2,7 @@ package UserLogin;
 
 
 import MessagingPresenters.MessagingSystem;
-import Schedule.TalkSystem;
+import Schedule.EventSystem;
 
 import java.util.Observable;
 import java.util.Scanner;
@@ -18,25 +18,26 @@ public class LogInController extends Observable {
     private String email;
     public LogInPresenter presenter;
     public MainMenuController mainMenuController;
-    public TalkSystem talkSystem;
+    public EventSystem eventSystem;
     public MessagingSystem messagingSystem;
     public Scanner scanner;
 
     /**
      * A constructor for a LogInController
      * @param mainMenuController the MainMenuController that is instantiated with this LogInController
-     * @param talkSystem the TalkSystem that interacts with is instantiated LogInController
+     * @param eventSystem the TalkSystem that interacts with is instantiated LogInController
      * @param messagingSystem the MessagingSystem that interacts with is instantiated LogInController
      */
 
-    public LogInController(MainMenuController mainMenuController, TalkSystem talkSystem,
-                           MessagingSystem messagingSystem){
-        this.talkSystem = talkSystem;
+    public LogInController(MainMenuController mainMenuController, EventSystem eventSystem,
+                           MessagingSystem messagingSystem, UserStorage userStorage){
+        this.scanner = new Scanner(System.in);
+        this.eventSystem = eventSystem;
         this.messagingSystem = messagingSystem;
-        this.logInManager = new LogInManager();
+        this.logInManager = new LogInManager(userStorage);
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
-        this.scanner = new Scanner(System.in);
+        mainMenuController.setScanner(scanner);
     }
 
     /**
@@ -61,11 +62,10 @@ public class LogInController extends Observable {
 
                 //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem
                 //and messagingSystem.
-                this.talkSystem.userEmail = this.email;
-                this.talkSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
-                //this.talkSystem.user = user;
-                this.messagingSystem.instantiateControllers(this.email, scanner);
+                this.eventSystem.setEmail(this.email);
                 this.messagingSystem.setEmail(this.email);
+                this.eventSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
+                this.messagingSystem.instantiateControllers(this.email, scanner);
                 presenter.printLoginInfo(3); //Login Successful
             }
             else{

@@ -16,15 +16,15 @@ public class RoomSystem extends Observable {
     public ArrayList<Room> roomList;
     public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
-    public TalkSystem talkSystem;
+    public EventSystem eventSystem;
     public ScheduleSystem scheduleSystem;
 
     /**
      * Creates a new RoomSystem.
      */
-    public RoomSystem(UserStorage userStorage, MainMenuController mainMenuController){
+    public RoomSystem(UserStorage userStorage){
         this.roomStorage = new RoomStorage();
-        this.talkSystem = new TalkSystem(userStorage, this.roomStorage, mainMenuController);
+        this.eventSystem = new EventSystem(userStorage, this.roomStorage);
         this.roomList = new ArrayList<Room>();
         this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
@@ -37,7 +37,7 @@ public class RoomSystem extends Observable {
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);
         }
-        talkSystem.run();
+        eventSystem.run();
     }
 
     public ArrayList<Room> getRoomList() {
@@ -49,6 +49,6 @@ public class RoomSystem extends Observable {
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.getRoomList());
+        csvWriter.writeToRooms("src/Resources/RoomFile", this.getRoomList());
     }
 }

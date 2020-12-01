@@ -26,7 +26,6 @@ public class EventManager{
     /**
      * A mapping of speakers to its corresponding SpeakerScheduleManager which checks for double booking.
      */
-    public ArrayList<Speaker> speakerList;
     /**
     /**
      * Creates a talk manager.
@@ -35,14 +34,14 @@ public class EventManager{
     public ArrayList<String> eventIdsList;
     private RoomStorage roomStorage;
     private UserStorage userStorage;
-    public EventManager(UserStorage userStorage, RoomStorage roomStorage){
 
-        this.speakerList = userStorage.getSpeakerList();
+    public EventManager(UserStorage userStorage, RoomStorage roomStorage){
         this.userStorage = userStorage;
         this.roomList = roomStorage.getRoomList();
         this.roomStorage = roomStorage;
         this.eventMap = new LinkedHashMap<Event, Quartet>();
         this.eventList = new ArrayList<>();
+        this.eventIdsList = new ArrayList<>();
     }
 
     /**
@@ -80,7 +79,7 @@ public class EventManager{
      * @return A speaker with the specified email or null if there is no speaker with that email.
      */
     public Speaker findSpeaker(String speakerEmail){
-        for (Speaker s : speakerList){
+        for (Speaker s : userStorage.getSpeakerList()){
             if (s.getEmail().equals(speakerEmail)){
                 return s;
             }
@@ -237,6 +236,11 @@ public class EventManager{
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
     }
 
+    public String eventIdToTitle(String id){
+        Event e = getEvent(id);
+        return e.getTitle();
+    }
+
     public ArrayList<String> eventIdToSpeakerEmails(String id){
         Event e = getEvent(id);
         return e.getSpeakers();
@@ -245,13 +249,23 @@ public class EventManager{
         Event e = getEvent(id);
         return e.getUsersSignedUp();
     }
-    public String eventIdToRoom(String id){
+    public String eventIdToRoomName(String id){
         Event e = getEvent(id);
         return e.getRoomName();
     }
+
+    public String eventIdToVIPStatus(String id){
+        Event e = getEvent(id);
+        if(e.vipRestricted){
+            return "VIP";}
+        else{
+            return "None";
+        }
+    }
+
     public boolean eventIdAtCapacity(String id){
         Event e = getEvent(id);
-        int capacity = roomStorage.roomNameToCapacity(eventIdToRoom(id));
+        int capacity = roomStorage.roomNameToCapacity(eventIdToRoomName(id));
         if (e.getUsersSignedUp().size() == capacity){
             return false;
         }
@@ -318,8 +332,18 @@ public class EventManager{
                 && (endA == null || startB == null || !endA.isBefore(startB));
     }
 
-
     public boolean checkDoubleBooking(LocalDateTime start, LocalDateTime end, ArrayList<String> eventIds){
+        for (String id: eventIds){
+            if (checkOverlappingTimes(getEvent(id).getStartTime(), getEvent(id).getEndTime(),
+                    start, end)){
+                return false;
+            }}
+        return true;
+    }
+
+    public boolean checkDoubleBooking(String eventId, ArrayList<String> eventIds){
+        LocalDateTime start = eventIdToStartTime(eventId);
+        LocalDateTime end = eventIdToEndTime(eventId);
         for (String id: eventIds){
             if (checkOverlappingTimes(getEvent(id).getStartTime(), getEvent(id).getEndTime(),
                     start, end)){

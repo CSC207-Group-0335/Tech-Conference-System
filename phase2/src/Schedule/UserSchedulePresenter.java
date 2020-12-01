@@ -93,5 +93,9 @@ public class UserSchedulePresenter {
             System.out.println("Event is at full capacity"+System.lineSeparator()+
                     "If you would like to register for another talk, please enter the corresponding number.");
         }
+        else if (i==3){
+            System.out.println("You are registered for a different event during this event's time"+System.lineSeparator()+
+                    "If you would like to register for another talk, please enter the corresponding number.");
+        }
     }
 }

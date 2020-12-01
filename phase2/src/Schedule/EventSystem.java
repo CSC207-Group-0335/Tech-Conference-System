@@ -14,7 +14,7 @@ import java.util.*;
  * A gateway class that reads a .csv file for
  * all accounts with their credentials and requests creating talks (from TalkManager)
  */
-public class TalkSystem extends Observable{
+public class EventSystem extends Observable{
     public OrgScheduleController orgScheduleController;
     public UserScheduleController userScheduleController;
     public SpeakerScheduleController speakerScheduleController;
@@ -29,11 +29,11 @@ public class TalkSystem extends Observable{
     /**
      * creates a new TalkSystem.
      */
-    public TalkSystem(UserStorage userStorage, RoomStorage roomStorage, MainMenuController mainMenuController){
+    public EventSystem(UserStorage userStorage, RoomStorage roomStorage){
         this.eventManager = new EventManager(userStorage, roomStorage);
         this.userStorage = userStorage;
         this.roomStorage = roomStorage;
-        this.messagingSystem = new MessagingSystem(userStorage, mainMenuController, eventManager);
+        this.messagingSystem = new MessagingSystem(userStorage, eventManager);
         this.scheduleSystem = new ScheduleSystem(eventManager, userStorage);
         this.mainMenuController = mainMenuController;
     }
@@ -51,9 +51,8 @@ public class TalkSystem extends Observable{
             setUserScheduleController();
             }
         else if (userStorage.emailToType(userEmail).equals("Organizer")){
-            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager,
-                    mainMenuController, scanner);
-            this.addObserver(orgScheduleController);
+            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userStorage,
+                    mainMenuController, roomStorage, scanner);
             setOrgScheduleController();
         }
         else{
@@ -78,7 +77,6 @@ public class TalkSystem extends Observable{
                     LocalDateTime.parse(talkData.get(5), formatter), talkData.get(6)
                     );
         }
-        setTalkManager();
         messagingSystem.run();
         scheduleSystem.run();
     }
@@ -88,27 +86,15 @@ public class TalkSystem extends Observable{
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToTalks("phase1/src/Resources/Events.csv", this.getTalkManager()); //Not implemented yet
+        csvWriter.writeToEvents("src/Resources/Events.csv", eventManager);
     }
 
-    public void setUserEmail(String userEmail){
+    public void setEmail(String userEmail){
         this.userEmail = userEmail;
     }
 
-    /**
-     * Sets talk manager.
-     */
-    public void setTalkManager() {
-        setChanged();
-        notifyObservers(eventManager);
-    }
-
-    /**
-     * Gets talk manager.
-     * @return A TalkManager that represents the talkManager.
-     */
-    public EventManager getTalkManager() {
-        return eventManager;
+    public void setMainMenuController(MainMenuController mainMenuController){
+        this.mainMenuController = mainMenuController;
     }
 
     /**
