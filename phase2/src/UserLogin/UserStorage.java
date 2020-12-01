@@ -179,6 +179,7 @@ public class UserStorage extends Observable {
         }
         return null;
     }
+    //Delete if not used
 
     /**
      * Get the TalkList of the user that is associated with the email provided.
