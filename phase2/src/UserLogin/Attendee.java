@@ -32,4 +32,8 @@ public class Attendee extends User {
     public String getType() {
         return "Attendee";
     }
+
+    public boolean getVIPStatus(){
+        return this.VIP;
+    }
 }

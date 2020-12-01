@@ -182,7 +182,8 @@ public class EventManager{
 
     public boolean addAttendee(String userEmail, String id){
         if (getEvent(id).getUsersSignedUp().size() + 1 > getEventRoom(id).getCapacity()
-        || getEvent(id).getUsersSignedUp().contains(userEmail)){
+        || getEvent(id).getUsersSignedUp().contains(userEmail) ||
+                (getEvent(id).getVIPStatus() && !(userStorage.emailToVIPStatus(userEmail)))){
             return false;
         }
         else{

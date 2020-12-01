@@ -143,4 +143,8 @@ public class Event {
     public ArrayList<String> getSpeakers() {
         return speakers;
     }
+
+    public boolean getVIPStatus(){
+        return this.vipRestricted;
+    }
 }

@@ -1,6 +1,4 @@
 package UserLogin;
-import Schedule.SpeakerScheduleManager;
-import Schedule.UserScheduleManager;
 
 import java.util.*;
 
@@ -180,6 +178,18 @@ public class UserStorage extends Observable {
         return null;
     }
     //Delete if not used
+
+    public boolean emailToVIPStatus(String email){
+        if (emailToType(email) == "Organizer"){
+            return true;
+        }
+        if (emailToType(email) == "Speaker"){
+            return false;
+        }
+        else{
+            return ((Attendee)emailToUser(email)).getVIPStatus();
+        }
+    }
 
     /**
      * Get the TalkList of the user that is associated with the email provided.
