@@ -181,7 +181,15 @@ public class EventManager{
     }
 
     public boolean checkIfUserAllowed(String userEmail, String id){
-        return getEvent(id).getVIPStatus() && (userStorage.emailToVIPStatus(userEmail));
+        boolean eventVIP = getEvent(id).getVIPStatus();
+        boolean userVIP = userStorage.emailToVIPStatus(userEmail);
+        if (!eventVIP){
+            return true;
+        }
+        else{
+            // if it got to here then the event is VIP no point in checking it
+            return userVIP;
+        }
     }
 
     public boolean addAttendee(String userEmail, String id){
