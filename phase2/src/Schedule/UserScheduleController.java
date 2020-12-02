@@ -67,7 +67,7 @@ public class UserScheduleController{
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
             eventManager.removeAttendee(email, eventId);
-            userStorage.addEvent(email, eventId);
+            userStorage.removeEvent(email, eventId);
         }
     }
 
