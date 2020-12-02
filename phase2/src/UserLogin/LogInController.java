@@ -38,6 +38,7 @@ public class LogInController extends Observable {
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
         mainMenuController.setScanner(scanner);
+        mainMenuController.setLogInController(this);
     }
 
     /**

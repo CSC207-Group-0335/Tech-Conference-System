@@ -157,14 +157,15 @@ public class CSVWriter {
     /**
      * A method to specifically write to the Rooms.txt, in the proper format that the program requires
      * @param f the file that is being written to.
-     * @param roomList an array of Rooms that will be written to the file.
+     * @param roomStorage A use case class storing all rooms.
      */
 
-    public void writeToRooms(String f, ArrayList<Room> roomList){
+    public void writeToRooms(String f, RoomStorage roomStorage){
         try (FileWriter fileWriter = new FileWriter(f)) {
             int i = 0;
-            while (i < roomList.size()) {
-                fileWriter.append(roomList.get(i).getRoomName());
+            ArrayList<String> roomNames = roomStorage.getRoomNameList();
+            for (String room: roomNames) {
+                fileWriter.append(room);
                 fileWriter.append("\n");
                 fileWriter.flush();
                 i++;

@@ -180,9 +180,14 @@ public class EventManager{
         return false;
     }
 
+    public boolean checkIfUserAllowed(String userEmail, String id){
+        return getEvent(id).getVIPStatus() && (userStorage.emailToVIPStatus(userEmail));
+    }
+
     public boolean addAttendee(String userEmail, String id){
         if (getEvent(id).getUsersSignedUp().size() + 1 > getEventRoom(id).getCapacity()
-        || getEvent(id).getUsersSignedUp().contains(userEmail)){
+        || getEvent(id).getUsersSignedUp().contains(userEmail) ||
+                !(checkIfUserAllowed(userEmail, id))){
             return false;
         }
         else{
@@ -294,16 +299,19 @@ public class EventManager{
         String speakers = "";
         if (getEventSpeaker(id).size() != 0){
             if (getEventSpeaker(id).size() == 1){
-                speakers = "Speaker: ";
+                speakers = ", Speaker: ";
             }
-            else{speakers = "Speakers: ";}
+            else{speakers = ", Speakers: ";}
             for (Speaker s: getEventSpeaker(id)){
                 speakers += " " + s.getName() + ", ";
             }}
         String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
                 getEventRoom(id).getRoomName()
-                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + "Ends at: " +
+                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + ", Ends at: " +
                 getEvent(id).getEndTime().format(formatter);
+        if (getEvent(id).getVIPStatus()){
+            line += ", VIP restricted event";
+        }
         return line;
     }
 

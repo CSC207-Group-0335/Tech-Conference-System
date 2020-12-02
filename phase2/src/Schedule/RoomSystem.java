@@ -13,11 +13,8 @@ import java.util.*;
  */
 public class RoomSystem extends Observable {
 
-    public ArrayList<Room> roomList;
-    public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
     public EventSystem eventSystem;
-    public ScheduleSystem scheduleSystem;
 
     /**
      * Creates a new RoomSystem.
@@ -25,8 +22,6 @@ public class RoomSystem extends Observable {
     public RoomSystem(UserStorage userStorage){
         this.roomStorage = new RoomStorage();
         this.eventSystem = new EventSystem(userStorage, this.roomStorage);
-        this.roomList = new ArrayList<Room>();
-        this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
     }
 
     /**
@@ -40,15 +35,11 @@ public class RoomSystem extends Observable {
         eventSystem.run();
     }
 
-    public ArrayList<Room> getRoomList() {
-        return roomList;
-    }
-
     /**
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRooms("src/Resources/RoomFile", this.getRoomList());
+        csvWriter.writeToRooms("src/Resources/RoomFile", roomStorage);
     }
 }

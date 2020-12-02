@@ -97,5 +97,9 @@ public class UserSchedulePresenter {
             System.out.println("You are registered for a different event during this event's time"+System.lineSeparator()+
                     "If you would like to register for another talk, please enter the corresponding number.");
         }
+        else if (i==4){
+            System.out.println("Sorry, this event is restricted"+System.lineSeparator()+
+                    "If you would like to register for another talk, please enter the corresponding number.");
+        }
     }
 }
