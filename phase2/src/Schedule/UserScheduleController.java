@@ -78,7 +78,7 @@ public class UserScheduleController{
      */
     public String getEventByIndex(int eventIndex){
         ArrayList<String> eventIds = eventManager.getEventIdsList();
-        if (eventIndex -1 >= eventIds.size()){
+        if (eventIndex >= eventIds.size() -1){
             return null;
         }
         else{

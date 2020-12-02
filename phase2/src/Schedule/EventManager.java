@@ -299,16 +299,19 @@ public class EventManager{
         String speakers = "";
         if (getEventSpeaker(id).size() != 0){
             if (getEventSpeaker(id).size() == 1){
-                speakers = "Speaker: ";
+                speakers = ", Speaker: ";
             }
-            else{speakers = "Speakers: ";}
+            else{speakers = ", Speakers: ";}
             for (Speaker s: getEventSpeaker(id)){
                 speakers += " " + s.getName() + ", ";
             }}
         String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
                 getEventRoom(id).getRoomName()
-                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + "Ends at: " +
+                + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + ", Ends at: " +
                 getEvent(id).getEndTime().format(formatter);
+        if (getEvent(id).getVIPStatus()){
+            line += ", VIP restricted event";
+        }
         return line;
     }
 
