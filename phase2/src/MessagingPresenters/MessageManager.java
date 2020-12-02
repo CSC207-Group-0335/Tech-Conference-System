@@ -117,6 +117,42 @@ public abstract class MessageManager {
         }
     }
 
+    public void markRead(String email) {
+        if (this.canMessage(email)) {
+            if (containsConversationWith(email)) {
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                c.markAsRead(user.getEmail());
+            }
+        }
+    }
+
+    public void markUnRead(String email) {
+        if (this.canMessage(email)) {
+            if (containsConversationWith(email)) {
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                c.markAsUnread(user.getEmail());
+            }
+        }
+    }
+
+    public void archive(String email) {
+        if (this.canMessage(email)) {
+            if (containsConversationWith(email)) {
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                c.archive(user.getEmail());
+            }
+        }
+    }
+
+    public void unarchive(String email) {
+        if (this.canMessage(email)) {
+            if (containsConversationWith(email)) {
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                c.unarchive(user.getEmail());
+            }
+        }
+    }
+
     /**
      * Deletes a message.
      *
@@ -131,19 +167,6 @@ public abstract class MessageManager {
         }
     }
 
-    /**
-     * Marks a message as read or unread.
-     *
-     * @param email a String representing the recipient's email address
-     * @param index an Integer representing the index of the message to be deleted
-     */
-
-    public void toggleRead(String email, Integer index) {
-        if (containsConversationWith(email)) {
-            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.toggleRead(index);
-        }
-    }
 
     /**
      * Archives a conversation.
