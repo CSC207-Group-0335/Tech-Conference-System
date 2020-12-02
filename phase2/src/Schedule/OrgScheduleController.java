@@ -28,29 +28,44 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns a Speaker representing the speaker chosen by the organizer.
      */
-    public String pickSpeaker(Scanner scan) {
-        // first they pick a speaker, then they pick a room, then they pick a time and check if it works
+
+    public ArrayList<String> pickSpeakers(Scanner scan){
         orgSchedulePresenter.printAllSpeakers(userStorage.getSpeakerNameList());
-        orgSchedulePresenter.printMenu(8);
-        boolean doContinue  = true;
-        while (doContinue){
-            String choice = scan.nextLine();
-            try { int speakerIndex = Integer.parseInt(choice);
-            if (speakerIndex == 0){
-                orgSchedulePresenter.printMenu(16);
-                return null;
+        System.out.println("Enter the number of speakers");
+        ArrayList<String>chosenSpeakers = new ArrayList<>();
+        boolean doContinue = true;
+        while(doContinue){
+            int numberOfSpeakers = scan.nextInt();
+            while (numberOfSpeakers > userStorage.getSpeakerNameList().size()){
+                numberOfSpeakers = scan.nextInt();
             }
-            else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
-                orgSchedulePresenter.printMenu(14);
+            System.out.println("Number of speakers chosen: " + numberOfSpeakers);
+            while(chosenSpeakers.size() < numberOfSpeakers){
+                orgSchedulePresenter.printMenu(8);
+                String choice = scan.nextLine();
+                try { int speakerIndex = Integer.parseInt(choice);
+                    if (speakerIndex == 0){
+                        orgSchedulePresenter.printMenu(16);
+                        return null;
+                    }
+                    else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
+                        orgSchedulePresenter.printMenu(14);
+                    }
+                    else{
+                        String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
+                        if (!(chosenSpeakers.contains(chosenSpeaker))){
+                            orgSchedulePresenter.printSchedule(
+                                    userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
+                            chosenSpeakers.add(chosenSpeaker);
+                            System.out.println("Speaker added");
+                        }
+                    }}catch (NumberFormatException nfe){
+                    presenter.printMenu(8);}
             }
-            else{
-                String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
-                orgSchedulePresenter.printSchedule(
-                        userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
-                return chosenSpeaker;
-            }}catch (NumberFormatException nfe){
-                presenter.printMenu(8);}}
-    return null;}
+            return chosenSpeakers;
+        }
+        return null;
+    }
     /**
      * Allows the organizer to choose a room from a list of rooms.
      * @param scan The scanner.
@@ -153,60 +168,70 @@ public class OrgScheduleController extends UserScheduleController {
      * @param dateTime The start time.
      * @return An int representing one of the three aforementioned options.
      */
-    public int checkDoubleBooking(String speaker, String room, LocalDateTime dateTime){
-        LocalDateTime end = dateTime.plusHours(1);
-         if(!eventManager.checkDoubleBooking(dateTime, end, userStorage.emailToTalkList(speaker))
-                && !eventManager.checkDoubleBooking(dateTime, end, roomStorage.roomNameToEventIds(room))){return 1;}
-        else if(!eventManager.checkDoubleBooking(dateTime, end, userStorage.emailToTalkList(speaker))){
+    public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
+        //LocalDateTime end = dateTime.plusHours(1);
+         if(!eventManager.checkDoubleBooking(startTime, endTime, userStorage.emailToTalkList(speaker))
+                && !eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 1;}
+        else if(!eventManager.checkDoubleBooking(startTime, endTime, userStorage.emailToTalkList(speaker))){
             return 2;
         }
-        else if(!eventManager.checkDoubleBooking(dateTime, end, roomStorage.roomNameToEventIds(room))){return 3;}
+        else if(!eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 3;}
         else{return 0;}
     }
-
+    public boolean checkDoubleBookingSpeakers(ArrayList<String> speakers, String room, LocalDateTime startTime, LocalDateTime endTime){
+        for (String s : speakers){
+            if (!(checkDoubleBooking(s, room, startTime, endTime)==0)){
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Allows the organizer to create talk.
      * @param scan The scanner.
      * @return A boolean notifying the organizer that they have successfully created a talk.
      */
-    public boolean requestTalk(Scanner scan){
-        String speaker = pickSpeaker(scan);
-        if (speaker == null){return false;}
+    public boolean requestEvent(Scanner scan){
+        ArrayList<String> speakers = pickSpeakers(scan);
+        if (speakers == null){ return false;}
+        System.out.println(speakers.size()+" speakers chosen");
         String room = pickRoom(scan);
         if (room == null){return false;}
-        LocalDateTime dateTime = pickTime(scan);
-        if (dateTime==null){ return false;}
-        int doubleBookingChecker = checkDoubleBooking(speaker, room, dateTime);
-        while (doubleBookingChecker !=0){
-        if(doubleBookingChecker== 1) {
-            orgSchedulePresenter.PrintRequestTalkProcess(6);
-            orgSchedulePresenter.PrintRequestTalkProcess(5);
+        LocalDateTime startTime = pickTime(scan);
+        if (startTime==null){ return false;}
+        LocalDateTime endTime = pickTime(scan);
+        if (endTime == null){ return false;}
+        if (speakers.size() == 0){
+            String talkTitle = scan.nextLine();
+            if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime,
+                    "None")){
+                orgSchedulePresenter.PrintRequestTalkProcess(7);
+                return true;
+            }
+            else{return  false;}
         }
-        else if(doubleBookingChecker==2){
-        orgSchedulePresenter.PrintRequestTalkProcess(3);
-        orgSchedulePresenter.PrintRequestTalkProcess(5);}
-        else if(doubleBookingChecker==3){
-        orgSchedulePresenter.PrintRequestTalkProcess(4);
-        orgSchedulePresenter.PrintRequestTalkProcess(5);
-        }
-        speaker = pickSpeaker(scan);
-            if (speaker == null){return false;}
-        room = pickRoom(scan);
+        boolean doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
+        while(!doubleBookingChecker){
+            System.out.println("Invalid room or time. Please select new room and time");
+            room = pickRoom(scan);
             if (room == null){return false;}
-        dateTime = pickTime(scan);
-            if (dateTime==null){ return false;}
-        doubleBookingChecker = checkDoubleBooking(speaker, room, dateTime);
-        };
-        orgSchedulePresenter.PrintRequestTalkProcess(9);
-        ArrayList<String> speakers = new ArrayList<String>(); //FAKEFIX FOR NOW
-        speakers.add(speaker);
+            startTime = pickTime(scan);
+            if (startTime==null){ return false;}
+            endTime = pickTime(scan);
+            if (endTime == null){ return false;}
+            doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
+        }
+        System.out.println("Valid speakers, room and time for an event.");
+        System.out.println("Enter the title of the event.");
         String talkTitle = scan.nextLine();
-        if (eventManager.createEvent(talkTitle, speakers, room, dateTime, dateTime.plusHours(1),
+        if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime,
                 "None")){
-            orgSchedulePresenter.PrintRequestTalkProcess(7);
+            System.out.println(talkTitle + " added successfully");
             return true;
         }
         else{return  false;}
+
+
     }
 
     /**
@@ -267,6 +292,7 @@ public class OrgScheduleController extends UserScheduleController {
         String type = scan.nextLine();
         while (!(type.equals("Attendee") || type.equals("Speaker") || type.equals("Organizer"))){
             orgSchedulePresenter.printMenu(22);
+
         }
         if (this.requestUser(name, password, email, type)){
             orgSchedulePresenter.printMenu(11);
@@ -331,7 +357,7 @@ public class OrgScheduleController extends UserScheduleController {
                 this.cancelATalk(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 5){
-                this.requestTalk(scan);
+                this.requestEvent(scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 6){
                 this.registerRoom(scan);
