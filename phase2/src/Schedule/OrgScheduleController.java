@@ -225,16 +225,27 @@ public class OrgScheduleController extends UserScheduleController {
      * @param email The email of the speaker.
      * @return A boolean notifying the organizer if they have successfully created a speaker.
      */
-    public boolean requestSpeaker(String name, String password, String email) {
-        return this.userStorage.createUser("Speaker", name, password, email);
+//    public boolean requestSpeaker(String name, String password, String email) {
+//        return this.userStorage.createUser("Speaker", name, password, email);
+//    }
+//    public boolean requestAttendee(String name, String password, String email) {
+//        return this.userStorage.createUser("Attendee", name, password, email);
+//    }
+//    public boolean requestOrganizer(String name, String password, String email) {
+//        return this.userStorage.createUser("Organizer", name, password, email);
+//    }
+    public boolean requestUser(String name, String password, String email, String type) {
+        if (type.equals("Speaker")){
+            return this.userStorage.createUser("Speaker", name, password, email);
+        }
+        else if (type.equals("Attendee")){
+            return this.userStorage.createUser("Attendee", name, password, email);
+        }
+        else if (type.equals("Organizer")){
+            return this.userStorage.createUser("Organizer", name, password, email);
+        }
+        return false;
     }
-    public boolean requestAttendee(String name, String password, String email) {
-        return this.userStorage.createUser("Attendee", name, password, email);
-    }
-    public boolean requestOrganizer(String name, String password, String email) {
-        return this.userStorage.createUser("Organizer", name, password, email);
-    }
-
     /**
      * Uses the addRoom method to register a room.
      * @param scan The scanner.
@@ -261,31 +272,46 @@ public class OrgScheduleController extends UserScheduleController {
      * Uses the requestSpeaker to create a speaker.
      * @param scan The Scanner.
      */
-    public void registerSpeaker(Scanner scan){
+//    public void registerSpeaker(Scanner scan){
+//        orgSchedulePresenter.printMenu(10);
+//        String name = scan.nextLine();
+//        String password = scan.nextLine();
+//        String email = scan.nextLine();
+//        while(!email.contains("@")){
+//            orgSchedulePresenter.printMenu(21);
+//            email = scan.nextLine();
+//        }
+//        if (this.requestSpeaker(name, password, email)){
+//            orgSchedulePresenter.printMenu(11);
+//        }
+//    }
+////    public void registerAttendee(Scanner scan){
+////        orgSchedulePresenter.printMenu(10);
+////        String name = scan.nextLine();
+////        String password = scan.nextLine();
+////        String email = scan.nextLine();
+////        while(!email.contains("@")){
+////            orgSchedulePresenter.printMenu(21);
+////            email = scan.nextLine();
+////        }
+////        if (this.requestAttendee(name, password, email)){
+////            orgSchedulePresenter.printMenu(11);
+////        }
+//    }
+    public void registerUser(Scanner scan){
         orgSchedulePresenter.printMenu(10);
         String name = scan.nextLine();
         String password = scan.nextLine();
         String email = scan.nextLine();
+        String type = scan.nextLine();
         while(!email.contains("@")){
             orgSchedulePresenter.printMenu(21);
             email = scan.nextLine();
         }
-        if (this.requestSpeaker(name, password, email)){
+        if (this.requestUser(name, password, email, type)){
             orgSchedulePresenter.printMenu(11);
         }
-    }
-    public void registerAttendee(Scanner scan){
-        orgSchedulePresenter.printMenu(10);
-        String name = scan.nextLine();
-        String password = scan.nextLine();
-        String email = scan.nextLine();
-        while(!email.contains("@")){
-            orgSchedulePresenter.printMenu(21);
-            email = scan.nextLine();
-        }
-        if (this.requestAttendee(name, password, email)){
-            orgSchedulePresenter.printMenu(11);
-        }
+
     }
     /**
      * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
@@ -327,7 +353,7 @@ public class OrgScheduleController extends UserScheduleController {
                 this.registerRoom(scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 7){
-                this.registerSpeaker(scan);
+                this.registerUser(scan);
                 orgSchedulePresenter.printMenu(1);
             }
             else if (command ==0){
