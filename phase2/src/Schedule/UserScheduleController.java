@@ -1,7 +1,6 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
-import UserLogin.User;
 import UserLogin.UserStorage;
 
 import java.util.*;
@@ -204,6 +203,44 @@ public class UserScheduleController{
         presenter.printMenu(8);;
     }}}
 
+    /***
+     * Takes in a users input and shows them all the Speakers speaking at the conference.
+     * @param presenter The presenter.
+     * @param scan The Scanner.
+     */
+    protected void seeAllSpeakers(UserSchedulePresenter presenter, Scanner scan){
+        ArrayList<String> speakersnames = this.userStorage.getSpeakerNameList();
+        if (speakersnames.size() == 0){
+            presenter.printMenu(15);
+            presenter.printMenu(11);
+        }
+        presenter.printAllSpeakers(speakersnames);
+        presenter.printMenu(14);
+        boolean doContinue  = true;
+        while (doContinue){
+            String choice = scan.nextLine();
+            try { int speakerIndex = Integer.parseInt(choice);
+                if (speakerIndex == 0){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
+                    presenter.printMenu(16);
+                }
+                else{
+                    String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
+                    presenter.printSchedule(
+                            userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
+                    return;
+                }}catch (NumberFormatException nfe){
+                presenter.printMenu(8);}}
+    }
+
+
+
+
+
+
     /**
      * Takes in a user's input and cancels their registration for a specified talk.
      * @param presenter The presenter.
@@ -277,6 +314,10 @@ public class UserScheduleController{
                 // if they want to cancel a registration
             }else if (command == 4) {
                 this.cancelATalk(presenter, scan);
+                presenter.printMenu(1);
+            }
+            else if (command ==5){
+                this.seeAllSpeakers(presenter, scan);
                 presenter.printMenu(1);
             }
             else if (command ==0){
