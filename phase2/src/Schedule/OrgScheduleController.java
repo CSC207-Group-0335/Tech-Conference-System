@@ -225,15 +225,6 @@ public class OrgScheduleController extends UserScheduleController {
      * @param email The email of the speaker.
      * @return A boolean notifying the organizer if they have successfully created a speaker.
      */
-//    public boolean requestSpeaker(String name, String password, String email) {
-//        return this.userStorage.createUser("Speaker", name, password, email);
-//    }
-//    public boolean requestAttendee(String name, String password, String email) {
-//        return this.userStorage.createUser("Attendee", name, password, email);
-//    }
-//    public boolean requestOrganizer(String name, String password, String email) {
-//        return this.userStorage.createUser("Organizer", name, password, email);
-//    }
     public boolean requestUser(String name, String password, String email, String type) {
         return this.userStorage.createUser(type, name, password, email);
     }
@@ -263,32 +254,7 @@ public class OrgScheduleController extends UserScheduleController {
      * Uses the requestSpeaker to create a speaker.
      * @param scan The Scanner.
      */
-//    public void registerSpeaker(Scanner scan){
-//        orgSchedulePresenter.printMenu(10);
-//        String name = scan.nextLine();
-//        String password = scan.nextLine();
-//        String email = scan.nextLine();
-//        while(!email.contains("@")){
-//            orgSchedulePresenter.printMenu(21);
-//            email = scan.nextLine();
-//        }
-//        if (this.requestSpeaker(name, password, email)){
-//            orgSchedulePresenter.printMenu(11);
-//        }
-//    }
-////    public void registerAttendee(Scanner scan){
-////        orgSchedulePresenter.printMenu(10);
-////        String name = scan.nextLine();
-////        String password = scan.nextLine();
-////        String email = scan.nextLine();
-////        while(!email.contains("@")){
-////            orgSchedulePresenter.printMenu(21);
-////            email = scan.nextLine();
-////        }
-////        if (this.requestAttendee(name, password, email)){
-////            orgSchedulePresenter.printMenu(11);
-////        }
-//    }
+
     public void registerUser(Scanner scan){
         orgSchedulePresenter.printMenu(10);
         String name = scan.nextLine();
@@ -310,9 +276,33 @@ public class OrgScheduleController extends UserScheduleController {
     /**
      * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
      */
-    public boolean cancelEvent(Scanner scan){
-        String eventId = scan.nextLine();
-        return this.eventManager.cancelEvent(eventId);
+    public void cancelEvent(Scanner scan){
+        orgSchedulePresenter.printAllTalks(eventManager);
+        System.out.println("Which event would you like to cancel");
+        boolean doContinue = true;
+        while(doContinue){
+            String choice = scan.nextLine();
+            try {
+                int eventIndex = Integer.parseInt(choice);
+                if (eventIndex == 0){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else if (getEventByIndex(eventIndex) == null){
+                    presenter.printMenu(7);
+                }
+                else{
+                    String eventIdToRegister = getEventByIndex(eventIndex);
+                    if (this.eventManager.cancelEvent(eventIdToRegister)) {
+                        // prints "Success"
+                        System.out.println("Event " + eventIndex + " Cancelled");
+                        return;
+                    }
+                }}
+            catch (NumberFormatException nfe){
+                presenter.printMenu(8);;
+            }
+        }
     }
     public void run(){
         orgSchedulePresenter.printHello(this.userStorage.emailToName(email));
