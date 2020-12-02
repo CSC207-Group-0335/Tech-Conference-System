@@ -314,7 +314,7 @@ public class EventManager{
             else{speakers = ", Speakers: ";}
             for (Speaker s: getEventSpeaker(id)){
                 speakers += " " + s.getName() + ", ";
-            }}
+            }
         String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
                 getEventRoom(id).getRoomName()
                 + speakers + "Starts at: " + getEvent(id).getStartTime().format(formatter) + ", Ends at: " +
@@ -322,7 +322,16 @@ public class EventManager{
         if (getEvent(id).getVIPStatus()){
             line += ", VIP restricted event";
         }
-        return line;
+        return line;}
+        else { String line = "Event: " + getEvent(id).getTitle() + ", Room: " +
+                getEventRoom(id).getRoomName()
+                + ", Starts at: " + getEvent(id).getStartTime().format(formatter) + ", Ends at: " +
+                getEvent(id).getEndTime().format(formatter);
+            if (getEvent(id).getVIPStatus()){
+                line += ", VIP restricted event";
+            }
+            return line;
+        }
     }
 
     /**

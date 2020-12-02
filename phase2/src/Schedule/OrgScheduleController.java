@@ -30,25 +30,33 @@ public class OrgScheduleController extends UserScheduleController {
      */
 
     public ArrayList<String> pickSpeakers(Scanner scan){
-        orgSchedulePresenter.printAllSpeakers(userStorage.getSpeakerNameList());
+        ArrayList<String> speakerList = userStorage.getSpeakerNameList();
+        orgSchedulePresenter.printAllSpeakers(speakerList);
+        // put an option in the presenter class?
         System.out.println("Enter the number of speakers");
         ArrayList<String>chosenSpeakers = new ArrayList<>();
         boolean doContinue = true;
         while(doContinue){
-            int numberOfSpeakers = scan.nextInt();
-            while (numberOfSpeakers > userStorage.getSpeakerNameList().size()){
-                numberOfSpeakers = scan.nextInt();
+            String next = scan.nextLine();
+            int numberOfSpeakers = Integer.parseInt(next);
+            while (numberOfSpeakers > speakerList.size()){
+                //option to create a speaker here?
+                System.out.println("Not enough speakers, try again");
+                next = scan.nextLine();
+                numberOfSpeakers = Integer.parseInt(next);
             }
             System.out.println("Number of speakers chosen: " + numberOfSpeakers);
             while(chosenSpeakers.size() < numberOfSpeakers){
+                // put an option in the presenter class?
                 orgSchedulePresenter.printMenu(8);
                 String choice = scan.nextLine();
-                try { int speakerIndex = Integer.parseInt(choice);
+                try {
+                    int speakerIndex = Integer.parseInt(choice);
                     if (speakerIndex == 0){
-                        orgSchedulePresenter.printMenu(16);
+                        //orgSchedulePresenter.printMenu(16);
                         return null;
                     }
-                    else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
+                    else if (speakerIndex - 1 >= userStorage.getSpeakerEmailList().size()){
                         orgSchedulePresenter.printMenu(14);
                     }
                     else{
@@ -59,8 +67,11 @@ public class OrgScheduleController extends UserScheduleController {
                             chosenSpeakers.add(chosenSpeaker);
                             System.out.println("Speaker added");
                         }
-                    }}catch (NumberFormatException nfe){
-                    presenter.printMenu(8);}
+                    }
+                }
+                catch (NumberFormatException nfe){
+                    presenter.printMenu(8);
+                }
             }
             return chosenSpeakers;
         }
@@ -165,7 +176,7 @@ public class OrgScheduleController extends UserScheduleController {
      * is double booked.
      * @param speaker The speaker.
      * @param room The room.
-     * @param dateTime The start time.
+     * @param startTime The start time.
      * @return An int representing one of the three aforementioned options.
      */
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
@@ -202,9 +213,11 @@ public class OrgScheduleController extends UserScheduleController {
         LocalDateTime endTime = pickTime(scan);
         if (endTime == null){ return false;}
         if (speakers.size() == 0){
+            System.out.println("Enter the title of the event.");
             String talkTitle = scan.nextLine();
-            if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime,
-                    "None")){
+            System.out.println("Enter VIP if the event is restricted, none otherwise");
+            String vip1 = scan.nextLine();
+            if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime, vip1)){
                 orgSchedulePresenter.PrintRequestTalkProcess(7);
                 return true;
             }
@@ -224,8 +237,9 @@ public class OrgScheduleController extends UserScheduleController {
         System.out.println("Valid speakers, room and time for an event.");
         System.out.println("Enter the title of the event.");
         String talkTitle = scan.nextLine();
-        if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime,
-                "None")){
+        System.out.println("Enter VIP if the event is restricted, none otherwise");
+        String vip2 = scan.nextLine();
+        if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime, vip2)){
             System.out.println(talkTitle + " added successfully");
             return true;
         }
@@ -334,7 +348,6 @@ public class OrgScheduleController extends UserScheduleController {
         orgSchedulePresenter.printHello(this.userStorage.emailToName(email));
         orgSchedulePresenter.printMenu(1);
         orgSchedulePresenter.printMenu(2);
-        Scanner scan = new Scanner(System.in);
         boolean doContinue = true;
         while(doContinue) {
             String choice = scan.nextLine();
