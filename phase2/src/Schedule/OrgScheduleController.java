@@ -228,6 +228,12 @@ public class OrgScheduleController extends UserScheduleController {
     public boolean requestSpeaker(String name, String password, String email) {
         return this.userStorage.createUser("Speaker", name, password, email);
     }
+    public boolean requestAttendee(String name, String password, String email) {
+        return this.userStorage.createUser("Attendee", name, password, email);
+    }
+    public boolean requestOrganizer(String name, String password, String email) {
+        return this.userStorage.createUser("Organizer", name, password, email);
+    }
 
     /**
      * Uses the addRoom method to register a room.
@@ -268,9 +274,26 @@ public class OrgScheduleController extends UserScheduleController {
             orgSchedulePresenter.printMenu(11);
         }
     }
+    public void registerAttendee(Scanner scan){
+        orgSchedulePresenter.printMenu(10);
+        String name = scan.nextLine();
+        String password = scan.nextLine();
+        String email = scan.nextLine();
+        while(!email.contains("@")){
+            orgSchedulePresenter.printMenu(21);
+            email = scan.nextLine();
+        }
+        if (this.requestAttendee(name, password, email)){
+            orgSchedulePresenter.printMenu(11);
+        }
+    }
     /**
      * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
      */
+    public boolean cancelEvent(Scanner scan){
+        String eventId = scan.nextLine();
+        return this.eventManager.cancelEvent(eventId);
+    }
     public void run(){
         orgSchedulePresenter.printHello(this.userStorage.emailToName(email));
         orgSchedulePresenter.printMenu(1);
