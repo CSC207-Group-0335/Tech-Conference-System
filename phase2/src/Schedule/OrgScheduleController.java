@@ -235,16 +235,7 @@ public class OrgScheduleController extends UserScheduleController {
 //        return this.userStorage.createUser("Organizer", name, password, email);
 //    }
     public boolean requestUser(String name, String password, String email, String type) {
-        if (type.equals("Speaker")){
-            return this.userStorage.createUser("Speaker", name, password, email);
-        }
-        else if (type.equals("Attendee")){
-            return this.userStorage.createUser("Attendee", name, password, email);
-        }
-        else if (type.equals("Organizer")){
-            return this.userStorage.createUser("Organizer", name, password, email);
-        }
-        return false;
+        return this.userStorage.createUser(type, name, password, email);
     }
     /**
      * Uses the addRoom method to register a room.
@@ -303,10 +294,13 @@ public class OrgScheduleController extends UserScheduleController {
         String name = scan.nextLine();
         String password = scan.nextLine();
         String email = scan.nextLine();
-        String type = scan.nextLine();
         while(!email.contains("@")){
             orgSchedulePresenter.printMenu(21);
             email = scan.nextLine();
+        }
+        String type = scan.nextLine();
+        while (!(type.equals("Attendee") || type.equals("Speaker") || type.equals("Organizer"))){
+            orgSchedulePresenter.printMenu(22);
         }
         if (this.requestUser(name, password, email, type)){
             orgSchedulePresenter.printMenu(11);

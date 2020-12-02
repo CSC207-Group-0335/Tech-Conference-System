@@ -89,6 +89,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         else if (i==21){
             System.out.println("Invalid email address, try again.");
         }
+        else if (i==22){
+            System.out.println("Invalid user type, try again.");
+        }
     }
 
     /**
