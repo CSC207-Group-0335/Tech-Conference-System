@@ -289,6 +289,11 @@ public class EventManager{
         return this.eventIdsList;
     }
 
+    public boolean cancelEvent(String id){
+        Event e = getEvent(id);
+        return this.removeEvent(e);
+    }
+
     /**
      * A string representation of a talk with the talk's title, room, speaker, and start time.
      * @param id id of the talk.
