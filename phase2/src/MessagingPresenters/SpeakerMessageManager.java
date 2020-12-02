@@ -63,7 +63,6 @@ public class SpeakerMessageManager extends MessageManager{
         return emails;
     }
 
-
     /**
      * Sends a message containing </messageContent> to all attendees.
      *
@@ -75,4 +74,6 @@ public class SpeakerMessageManager extends MessageManager{
             messageOne(user.getEmail(), messageContent);
         }
     }
+
+    // message attendees of one talk functions needs to be added
 }
