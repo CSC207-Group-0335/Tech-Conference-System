@@ -66,6 +66,9 @@ public class UserSchedulePresenter {
         else if (i == 16){
             System.out.println("Invalid speaker number, try again");
         }
+        else if (i == 17){
+            System.out.println("No talks");
+        }
     }
 
     /**
@@ -144,6 +147,9 @@ public class UserSchedulePresenter {
         }
         else if (i==2){
             System.out.println("Schedule for the chosen speaker:");
+        }
+        else if (i==3){
+            System.out.println("Schedule for the chosen day:");
         }
         if (eventIDArrayList.size() ==0){
             System.out.println("The schedule is empty.");
