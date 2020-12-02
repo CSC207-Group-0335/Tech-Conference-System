@@ -3,7 +3,9 @@ package Files;
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.Message;
 import Schedule.*;
+import UserLogin.Speaker;
 import UserLogin.User;
+import UserLogin.UserStorage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -92,19 +94,16 @@ public class CSVWriter {
     /**
      * A method to specifically write to Registration.csv, in the proper format that the program.
      * @param csv the csv file that is being written to.
-     * @param talkSignup a hashmap mapping each User to the correct UserScheduleManager.
      */
 
-    public void writeToRegistration(String csv,  HashMap<User, UserScheduleManager> talkSignup){
+    public void writeToRegistration(String csv, UserStorage userStorage){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for(User u: talkSignup.keySet()) {
-                    UserScheduleManager userSchedule = talkSignup.get(u);
-                    User user = userSchedule.getUser();
-                    csvWriter.append(user.getEmail());
+            for(String userEmail: userStorage.getUserEmailList()) {
+                    csvWriter.append(userEmail);
                     csvWriter.append(",");
                     int j = 0;
-                    while (j <= userSchedule.getTalkList().size() - 1){
-                        csvWriter.append(userSchedule.getTalkList().get(j).getEventId());
+                    while (j <= userStorage.emailToTalkList(userEmail).size() - 1){
+                        csvWriter.append(userStorage.emailToTalkList(userEmail).get(j));
                         csvWriter.append(',');
                         j ++;
                     }
@@ -118,27 +117,37 @@ public class CSVWriter {
     }
 
     /**
-     * A method to specifically write to the Talks.csv, in the proper format that the program requires.
+     * A method to specifically write to the Events.csv, in the proper format that the program requires.
      * @param csv the csv file that is being written to.
-     * @param talkManage a TalkManager that will be used to get the information for the Talks that will be written.
+     * @param eventManager a TalkManager that will be used to get the information for the Talks that will be written.
      */
 
-    public void writeToTalks(String csv, EventManager talkManage){
+    public void writeToEvents(String csv, EventManager eventManager){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for (Event t:talkManage.getEventMap().keySet()) {
-                csvWriter.append(t.getEventId());
+            for (String eventId: eventManager.getEventIdsList()) {
+                csvWriter.append(eventId);
                 csvWriter.append(",");
-                csvWriter.append(t.getTitle());
+                csvWriter.append(eventManager.eventIdToTitle(eventId));
                 csvWriter.append(",");
-                csvWriter.append(t.getSpeakers().get(0)); //CHANGE LATER TO ITERATE AND ADD ALL EMAILS
+                csvWriter.append("<");
+                ArrayList<String> speakers = eventManager.eventIdToSpeakerEmails(eventId);
+                for (String speaker: speakers){
+                    csvWriter.append(speaker + "/");
+                }
+                csvWriter.append(">");
                 csvWriter.append(",");
-                csvWriter.append(t.getRoomName());
+                csvWriter.append(eventManager.eventIdToRoomName(eventId));
                 csvWriter.append(",");
-                LocalDateTime time;
-                time = t.getStartTime();
+                LocalDateTime startTime = eventManager.eventIdToStartTime(eventId);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String formatted = time.format(formatter);
+                String formatted = startTime.format(formatter);
                 csvWriter.append(formatted);
+                csvWriter.append(",");
+                LocalDateTime endTime = eventManager.eventIdToStartTime(eventId);
+                String formatted2 = endTime.format(formatter);
+                csvWriter.append(formatted2);
+                csvWriter.append(",");
+                csvWriter.append(eventManager.eventIdToVIPStatus(eventId));
                 csvWriter.append("\n");
                 csvWriter.flush();
             }}catch (IOException ioException) {
@@ -148,14 +157,15 @@ public class CSVWriter {
     /**
      * A method to specifically write to the Rooms.txt, in the proper format that the program requires
      * @param f the file that is being written to.
-     * @param roomList an array of Rooms that will be written to the file.
+     * @param roomStorage A use case class storing all rooms.
      */
 
-    public void writeToRooms(String f, ArrayList<Room> roomList){
+    public void writeToRooms(String f, RoomStorage roomStorage){
         try (FileWriter fileWriter = new FileWriter(f)) {
             int i = 0;
-            while (i < roomList.size()) {
-                fileWriter.append(roomList.get(i).getRoomName());
+            ArrayList<String> roomNames = roomStorage.getRoomNameList();
+            for (String room: roomNames) {
+                fileWriter.append(room);
                 fileWriter.append("\n");
                 fileWriter.flush();
                 i++;

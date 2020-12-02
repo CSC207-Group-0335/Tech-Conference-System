@@ -13,20 +13,15 @@ import java.util.*;
  */
 public class RoomSystem extends Observable {
 
-    public ArrayList<Room> roomList;
-    public HashMap<Room, RoomScheduleManager> roomScheduleManagerList;
     public RoomStorage roomStorage;
-    public TalkSystem talkSystem;
-    public ScheduleSystem scheduleSystem;
+    public EventSystem eventSystem;
 
     /**
      * Creates a new RoomSystem.
      */
-    public RoomSystem(UserStorage userStorage, MainMenuController mainMenuController){
+    public RoomSystem(UserStorage userStorage){
         this.roomStorage = new RoomStorage();
-        this.talkSystem = new TalkSystem(userStorage, this.roomStorage, mainMenuController);
-        this.roomList = new ArrayList<Room>();
-        this.roomScheduleManagerList = new HashMap<Room, RoomScheduleManager>();
+        this.eventSystem = new EventSystem(userStorage, this.roomStorage);
     }
 
     /**
@@ -37,11 +32,7 @@ public class RoomSystem extends Observable {
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);
         }
-        talkSystem.run();
-    }
-
-    public ArrayList<Room> getRoomList() {
-        return roomList;
+        eventSystem.run();
     }
 
     /**
@@ -49,6 +40,6 @@ public class RoomSystem extends Observable {
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRooms("phase1/src/Resources/RoomFile", this.getRoomList());
+        csvWriter.writeToRooms("src/Resources/RoomFile", roomStorage);
     }
 }

@@ -25,6 +25,7 @@ public class RoomStorage {
      */
     public RoomStorage(){
         this.roomList = new ArrayList<>();
+        this.roomNameList = new ArrayList<>();
         this.roomNameMap = new HashMap<String, Room>();
     }
 

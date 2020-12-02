@@ -48,7 +48,7 @@ public class SpeakerScheduleController{
             try {
                 int command = Integer.parseInt(choice);
             if (command == 1) {
-                if (userStorage.emailToUser(speakerEmail).getTalklist().size()==0){ //ask in meeting tmr
+                if (userStorage.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
                     presenter.printNoTalks();
                 }
                 else {

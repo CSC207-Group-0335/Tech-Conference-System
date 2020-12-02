@@ -1,7 +1,6 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
-import UserLogin.User;
 import UserLogin.UserStorage;
 
 import java.util.*;
@@ -39,9 +38,6 @@ public class UserScheduleController{
 
     /**
      * Let a user sign up for an event.
-     * @param event The talk they want to register for.
-     * @param userScheduleManager The userScheduleManager.
-     * @param signUpMap The signUpMap.
      * @return A string notifying the user if they have successfully enrolled in
      * the talk or if talk was at full capacity.
      */
@@ -49,8 +45,14 @@ public class UserScheduleController{
         if(!(this.eventManager.eventIdAtCapacity(eventid))){
             return "Event is at full capacity.";
         }
+        else if(!(eventManager.checkDoubleBooking(eventid, userStorage.emailToTalkList(email)))){
+            return "Double booking";
+        }
+        else if (!(eventManager.checkIfUserAllowed(email, eventid))){
+            return "VIP only event";
+        }
         else{
-            if (this.eventManager.getEvent(eventid).addUser(email)){
+            if (this.eventManager.addAttendee(email,eventid)){
                 this.userStorage.addEvent(email, eventid);
                 return "User added.";
             }
@@ -58,26 +60,19 @@ public class UserScheduleController{
         }
     }
 
-
-
-
-
-
     /**
      * Let a user cancel their enrollment in an event.
-     * @param event They talk they no longer want to attend.
-     * @param signUpMap The signUpMap.
      */
+    //doesnt do anything rn
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
-            eventManager.eventIdToUsersSignedUp(eventId).remove(email);
-            userStorage.emailToTalkList(email).remove(eventId);
+            eventManager.removeAttendee(email, eventId);
+            userStorage.addEvent(email, eventId);
         }
     }
 
     /**
      * Get the talk that corresponds to the specified int. Since talk is stored in an ordered map this is possible.
-     * @param talkIndex The position of the talk.
      * @return A talk representing the talk at the specified index.
      */
     public String getEventByIndex(int eventIndex){
@@ -86,14 +81,13 @@ public class UserScheduleController{
             return null;
         }
         else{
-            String eventId = eventIds.get(eventIndex);
+            String eventId = eventIds.get(eventIndex-1);
             return eventId;
         }
     }
 
     /**
      * Let the user see the schedule of events for which they signed up.
-     * @param userScheduleManager The userScheduleManager of the user.
      * @return An ArrayList representing the talks the user has signed up for.
      */
     public ArrayList<String> getRegisteredEvents(){
@@ -116,8 +110,6 @@ public class UserScheduleController{
      * Takes in a user input and registers them for an event/talk.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The UserScheduleManager.
-     * @param signUpMap The signUpMap.
      */
     protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
         // show them a list of all available talks
@@ -146,8 +138,15 @@ public class UserScheduleController{
                     return;
                 }
                 else{
-                    if (this.signUp(eventIdToRegister).equals("User already registered for the requested talk.")){
+                    String signUpStatus = this.signUp(eventIdToRegister);
+                    if (signUpStatus.equals("User already registered for the requested talk.")){
                         presenter.printRegistrationBlocked(1);
+                    }
+                    else if(signUpStatus.equals("Double booking.")){
+                        presenter.printRegistrationBlocked(3);
+                    }
+                    else if(signUpStatus.equals("VIP only event")){
+                        presenter.printRegistrationBlocked(4);
                     }
                     else{
                         presenter.printRegistrationBlocked(2);
@@ -186,7 +185,6 @@ public class UserScheduleController{
      * Takes in a user's input and shows them all the talks they are currently registered for.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The UserScheduleManager.
      */
     protected void seeAllRegistered(UserSchedulePresenter presenter,
                                     Scanner scan){
@@ -205,12 +203,74 @@ public class UserScheduleController{
         presenter.printMenu(8);;
     }}}
 
+    /***
+     * Takes in a users input and shows them all the Speakers speaking at the conference.
+     * @param presenter The presenter.
+     * @param scan The Scanner.
+     */
+    protected void seeAllSpeakers(UserSchedulePresenter presenter, Scanner scan){
+        ArrayList<String> speakersnames = this.userStorage.getSpeakerNameList();
+        if (speakersnames.size() == 0){
+            presenter.printMenu(15);
+            presenter.printMenu(11);
+        }
+        presenter.printAllSpeakers(speakersnames);
+        presenter.printMenu(14);
+        boolean doContinue  = true;
+        while (doContinue){
+            String choice = scan.nextLine();
+            try { int speakerIndex = Integer.parseInt(choice);
+                if (speakerIndex == 0){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
+                    presenter.printMenu(16);
+                }
+                else{
+                    String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
+                    presenter.printSchedule(
+                            userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
+                    return;
+                }}catch (NumberFormatException nfe){
+                presenter.printMenu(8);}}
+    }
+
+    protected void seeAllDays(UserSchedulePresenter presenter, Scanner scan){
+        ArrayList<String> days = eventManager.getAllEventDays();
+        if (days.size() == 0){
+            presenter.printMenu(16);
+
+        }
+        presenter.printAllSpeakers(days);
+        boolean doContinue  = true;
+        while (doContinue){
+            String choice = scan.nextLine();
+            try { int dayindex = Integer.parseInt(choice);
+                if (dayindex == 0){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else if (dayindex -1 >= days.size()){
+                    presenter.printMenu(16);
+                }
+                else{
+                    int chosenInt = eventManager.getAllEventDayMonth().get(dayindex-1);
+                    presenter.printSchedule(eventManager.intDaytoEventIDs(chosenInt), eventManager, 3);
+                    return;
+                }}catch (NumberFormatException nfe){
+                presenter.printMenu(8);}}
+
+
+    }
+
+
+
+
     /**
      * Takes in a user's input and cancels their registration for a specified talk.
      * @param presenter The presenter.
      * @param scan The scanner.
-     * @param userScheduleManager The userScheduleManager.
-     * @param signUpMap The signUpMap.
      */
     protected void cancelATalk(UserSchedulePresenter presenter,
                                Scanner scan){
@@ -257,7 +317,7 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(userStorage.emailToName(this.email)); //Is this allowed?
+        presenter.printHello(userStorage.emailToName(email));
         presenter.printMenu(1);
         presenter.printMenu(2);
         boolean doContinue = true;
@@ -280,6 +340,14 @@ public class UserScheduleController{
                 // if they want to cancel a registration
             }else if (command == 4) {
                 this.cancelATalk(presenter, scan);
+                presenter.printMenu(1);
+            }
+            else if (command ==5){
+                this.seeAllSpeakers(presenter, scan);
+                presenter.printMenu(1);
+            }
+            else if (command ==6){
+                this.seeAllDays(presenter, scan);
                 presenter.printMenu(1);
             }
             else if (command ==0){

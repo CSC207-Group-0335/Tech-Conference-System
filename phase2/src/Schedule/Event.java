@@ -68,6 +68,43 @@ public class Event {
         }
     }
 
+    public boolean addUser(String userEmail){
+        for (String user : usersSignedUp){
+            if (user.equals(userEmail)){
+                return false;
+            }
+        }
+        usersSignedUp.add(userEmail);
+        return true;
+    }
+
+    public boolean removeUser(String userEmail){
+        if (usersSignedUp.contains(userEmail)) {
+            usersSignedUp.remove(userEmail);
+            return true;
+        }
+        else{return false;}
+    }
+
+
+    public boolean addSpeaker(String speakerEmail){
+        for (String speaker : speakers){
+            if (speaker.equals(speakerEmail)){
+                return false;
+            }
+        }
+        speakers.add(speakerEmail);
+        return true;
+    }
+
+    public boolean removeSpeaker(String userEmail){
+        if (speakers.contains(userEmail)) {
+            speakers.remove(userEmail);
+            return true;
+        }
+        else{return false;}
+    }
+
     /**
      * Retrieves the tile of the talk.
      * @return A string representing the title of the talk.
@@ -98,24 +135,6 @@ public class Event {
 
     public String getRoomName() {return this.roomName;}
 
-    public boolean addUser(String userId){
-        for (String user : usersSignedUp){
-            if (user.equals(userId)){
-                return false;
-            }
-        }
-        usersSignedUp.add(userId);
-        return true;
-    }
-    public boolean addSpeaker(String speakerId){
-        for (String speaker : speakers){
-            if (speaker.equals(speakerId)){
-                return false;
-            }
-        }
-        speakers.add(speakerId);
-        return true;
-    }
 
     public ArrayList<String> getUsersSignedUp() {
         return usersSignedUp;
@@ -125,7 +144,7 @@ public class Event {
         return speakers;
     }
 
-    public void addAttendee(String userEmail){
-        this.usersSignedUp.add(userEmail);
+    public boolean getVIPStatus(){
+        return this.vipRestricted;
     }
 }

@@ -23,7 +23,7 @@ public class OrganizerMessengerController extends MessengerController {
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController,
                                         UserStorage userStorage, ConversationStorage conversationStorage) {
         super(orgEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new OrganizerMessageManager(orgEmail, userStorage);
+        this.messageManager = new OrganizerMessageManager(orgEmail, userStorage, conversationStorage);
         this.presenter = new OrganizerMessengerPresenter();
     }
 

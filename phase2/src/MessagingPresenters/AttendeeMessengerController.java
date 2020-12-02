@@ -21,7 +21,7 @@ public class AttendeeMessengerController extends MessengerController {
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController,
                                        UserStorage userStorage, ConversationStorage conversationStorage) {
         super(attendeeEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        messageManager = new AttendeeMessageManager(attendeeEmail, userStorage);
+        messageManager = new AttendeeMessageManager(attendeeEmail, userStorage, conversationStorage);
         this.presenter = new AttendeeMessengerPresenter();
         this.userStorage = userStorage;
     }

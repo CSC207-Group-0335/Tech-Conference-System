@@ -6,16 +6,15 @@ import UserLogin.*;
 import java.util.*;
 
 public class SpeakerMessageManager extends MessageManager{
-    private final EventManager eventManager;
     /**
      * A user is needed to create an instance of SpeakerMessageManager.
      *
      * @param speakerEmail the email of speaker whose messages will be managed
      */
 
-    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage, EventManager eventManager) {
-        super(speakerEmail, userStorage);
-        this.eventManager = eventManager;
+    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage,
+                                 EventManager eventManager, ConversationStorage conversationStorage) {
+        super(speakerEmail, userStorage, eventManager, conversationStorage);
     }
 
 

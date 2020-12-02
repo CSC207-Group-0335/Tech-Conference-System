@@ -23,9 +23,10 @@ public class MainMenuController implements Observer {
     public SpeakerMessengerController speakerMessengerController;
     public OrgScheduleController orgScheduleController;
     public OrganizerMessengerController orgMessengerController;
+    public LogInController logInController;
     public Scanner scanner;
     private RoomSystem roomSystem;
-    private TalkSystem talkSystem;
+    private EventSystem eventSystem;
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
@@ -34,26 +35,26 @@ public class MainMenuController implements Observer {
     /**
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
      * MainMenu.
-     * @param scanner A Scanner object that allows the user to interact with the console.
      * @param roomSystem A RoomSystem object that is used to save data concerning Rooms.
-     * @param talkSystem A TalkSystem object that is used to save data concerning Talks.
+     * @param eventSystem A TalkSystem object that is used to save data concerning Talks.
      * @param messagingSystem A MessagingSystem object that is used to save data concerning Messages and Conversations.
      * @param scheduleSystem A ScheduleSystem object that is used to save data concerning Schedules.
      * @param techConferenceSystem A TechConferenceSystem object that is used to save data concerning the UserList.
      */
 
-    public MainMenuController(Scanner scanner, RoomSystem roomSystem, TalkSystem talkSystem,
+    public MainMenuController(RoomSystem roomSystem, EventSystem eventSystem,
                               MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
-        this.talkSystem = talkSystem;
+        this.eventSystem = eventSystem;
+        eventSystem.setMainMenuController(this);
         this.messagingSystem = messagingSystem;
+        messagingSystem.setMainMenuController(this);
         this.scheduleSystem = scheduleSystem;
         this.userStorage = userStorage;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
-        this.scanner = scanner;
     }
 
     /**
@@ -61,9 +62,8 @@ public class MainMenuController implements Observer {
      * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
-        User user = userStorage.emailToUser(useremail); //Does this violate clean architecture?
-        presenter.printHello(user.getName());
-        switch (user.getType()) {
+        presenter.printHello(userStorage.emailToName(useremail));
+        switch (userStorage.emailToType(useremail)) {
             case "Attendee":
                 runMainMenuAttendee();
                 break;
@@ -97,7 +97,7 @@ public class MainMenuController implements Observer {
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
-                    logout();
+                    logoutAndReRun();
                     presenter.loggingOut();
                     return; //Exit the while loop
                 } else {
@@ -128,7 +128,7 @@ public class MainMenuController implements Observer {
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
-                    logout();
+                    logoutAndReRun();
                     presenter.loggingOut();
                     return; //Exit the while loop
                 } else {
@@ -142,7 +142,7 @@ public class MainMenuController implements Observer {
     /**
      * Helper method for presenting a Organizers' Main Menu
      */
-    private void runMainMenuOrganizer () {
+    private boolean runMainMenuOrganizer () {
         presenter.printMainMenuInfo(); //Display Main Menu
         boolean check = true; // fix create while loop
         while (check) {
@@ -151,34 +151,38 @@ public class MainMenuController implements Observer {
                 int command = Integer.parseInt(choice);
                 if (command == 1) {
                     this.orgScheduleController.run();
-                    return;
+                    return true;
                 } else if (command == 2) {
                     this.orgMessengerController.run();
-                    return;
+                    return true;
                 } else if (command == 0) {
                     //Run a log out sequence
                     //Call all of the write signals to "save" everything that has been done by the user
-                    logout();
-                    presenter.loggingOut();
-                    return; //Exit the while loop
+                    return logoutAndReRun();
                 } else {
                     presenter.tryAgain();
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
             }
-        }}
+
+        }
+        return false;}
 
 
     /**
      * Helper method that will call all of the save methods to update the database before logging out.
      */
-    private void logout() {
+    private boolean logoutAndReRun() {
         this.techConferenceSystem.save();
         this.roomSystem.save();
-        this.talkSystem.save();
+        this.eventSystem.save();
         this.messagingSystem.save();
         this.scheduleSystem.save();
+        presenter.loggingOut();
+        logInController.runLogIn();
+        this.runMainMenu(logInController.getEmail());
+        return true;
     }
 
     /**
@@ -204,5 +208,13 @@ public class MainMenuController implements Observer {
         } else if (arg instanceof OrganizerMessengerController) {
             this.orgMessengerController = (OrganizerMessengerController) arg;
         }
+    }
+
+    public void setScanner(Scanner scanner){
+        this.scanner = scanner;
+    }
+
+    public void setLogInController(LogInController logInController){
+        this.logInController = logInController;
     }
 }

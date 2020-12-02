@@ -10,7 +10,7 @@ public abstract class User {
     private String name;
     private String password;
     private String email;
-    private ArrayList<String> talklist;
+    private ArrayList<String> eventList;
 
     /**
      * A user is identified by a name, password and email address (the email will be used as a unique identifier).
@@ -24,7 +24,7 @@ public abstract class User {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.talklist = new ArrayList<>();
+        this.eventList = new ArrayList<>();
     }
 
     /**
@@ -61,7 +61,23 @@ public abstract class User {
 
     public abstract String getType();
 
-    public ArrayList<String> getTalklist() {
-        return talklist;
+    public ArrayList<String> getEventList() {
+        return eventList;
+    }
+
+    public boolean addEvent(String eventId){
+        if(eventList.contains(eventId)){
+            return false;
+        }
+        else{eventList.add(eventId);
+        return true;}
+    }
+
+    public boolean removeEvent(String eventId){
+        if (eventList.contains(eventId)) {
+            eventList.remove(eventId);
+            return true;
+        }
+        else{return false;}
     }
 }

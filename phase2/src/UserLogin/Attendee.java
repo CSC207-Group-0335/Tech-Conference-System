@@ -6,6 +6,7 @@ package UserLogin;
  */
 
 public class Attendee extends User {
+    public boolean VIP;
 
     /**
      * A constructor for an Attendee
@@ -15,6 +16,12 @@ public class Attendee extends User {
      */
     public Attendee(String name, String password, String email) {
         super(name, password, email);
+        this.VIP = false;
+    }
+
+    public Attendee(String name, String password, String email, boolean VIP){
+        super(name, password, email);
+        this.VIP = VIP;
     }
 
     /**
@@ -24,5 +31,9 @@ public class Attendee extends User {
     @Override
     public String getType() {
         return "Attendee";
+    }
+
+    public boolean getVIPStatus(){
+        return this.VIP;
     }
 }
