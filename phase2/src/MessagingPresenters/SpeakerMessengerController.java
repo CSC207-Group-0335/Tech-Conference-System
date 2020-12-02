@@ -6,6 +6,7 @@ import UserLogin.MainMenuController;
 import UserLogin.User;
 import UserLogin.UserStorage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -29,6 +30,40 @@ public class SpeakerMessengerController extends MessengerController {
         super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
         this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager, conversationStorage);
         this.presenter = new SpeakerMessengerPresenter();
+    }
+
+    /**
+     * Sends a message containing </messageContent> to a user registered under the email </email>.
+     * @param otherEmail a String representing the email of the recipient
+     * @param messageContent a String representing the content of the message
+     */
+
+    private void message(String otherEmail, String messageContent){
+        messageManager.messageOne(otherEmail, messageContent);
+    }
+
+
+    /**
+     * Sends a message containing </messageContent> to all attendees.
+     * @param messageContent a String representing the content of the message
+     */
+
+    public void messageAllAttendees(String messageContent){
+        messageManager.messageAllAttendees(messageContent);
+    }
+
+    /**
+     * Returns a list of messages between this speaker and the user with email </email>.
+     * @param otherEmail a String representing an email
+     * @return an ArrayList containing messages
+     */
+
+    public ArrayList<Message> viewMessages(String otherEmail){
+        if (conversationStorage.contains(otherEmail, email)){
+            ConversationManager c = conversationStorage.getConversationManager(otherEmail, email);
+            return c.getMessages();
+        }
+        return null;
     }
 
     public void markAsRead(String email){messageManager.markRead(email);}
