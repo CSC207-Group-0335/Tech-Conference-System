@@ -1,4 +1,7 @@
 package Schedule;
+
+import java.util.ArrayList;
+
 /**
  * Prints to the console so that the user can have something to interact with.
  */
@@ -14,6 +17,8 @@ public class UserSchedulePresenter {
                     "Press 2 to see the schedule of events " + System.lineSeparator() +
                     "Press 3 see all talks currently registered for " + System.lineSeparator() +
                     "Press 4 to  cancel a registration" + System.lineSeparator()+
+                    "Press 5 to see schedule by speaker" + System.lineSeparator()+
+                    "Press 6 to see schedule by day" + System.lineSeparator()+
                     "Press 0 to go back to the main menu");
         } else if (i == 2) {
             System.out.println("Please input a command");
@@ -52,6 +57,15 @@ public class UserSchedulePresenter {
         else if (i==13){
             System.out.println("You are not currently registered for talks.");
         }
+        else if (i==14){
+            System.out.println("Pick speaker by Index, press 0 to go back");
+        }
+        else if (i==15){
+            System.out.println("There are no speakers talking at the conference yet.");
+        }
+        else if (i == 16){
+            System.out.println("Invalid speaker number, try again");
+        }
     }
 
     /**
@@ -71,6 +85,21 @@ public class UserSchedulePresenter {
     public void printAllTalks(EventManager eventManager){
         System.out.println(eventManager.EventMapStringRepresentation());
     }
+
+    /**
+     * A string representation of the speaker's name and corresponding position in the speaker list.
+     * @param speakerNameList The list of speakers names.
+     */
+    public void printAllSpeakers(ArrayList<String> speakerNameList) {
+        Integer i = 1;
+        for (String s : speakerNameList){
+            System.out.println(Integer.toString(i) + ")" + s);
+            i++;
+        }
+    }
+
+
+
 
     /**
      * Greets the user with their name.
@@ -101,5 +130,27 @@ public class UserSchedulePresenter {
             System.out.println("Sorry, this event is restricted"+System.lineSeparator()+
                     "If you would like to register for another talk, please enter the corresponding number.");
         }
+    }
+
+    /**
+     * Output the schedule for the chosen room or chosen speaker if the talkArrayList is not empty.
+     * @param eventIDArrayList The talkArraylist.
+     * @param eventManager The TalkManager.
+     * @param i The integer corresponding to a specific action.
+     */
+    public void printSchedule(ArrayList<String> eventIDArrayList, EventManager eventManager, int i){
+        if(i==1) {
+            System.out.println("Schedule for the chosen room:");
+        }
+        else if (i==2){
+            System.out.println("Schedule for the chosen speaker:");
+        }
+        if (eventIDArrayList.size() ==0){
+            System.out.println("The schedule is empty.");
+        }
+        else{
+            for (String t: eventIDArrayList){
+                System.out.println(eventManager.toStringEvent(t) + System.lineSeparator());
+            }}
     }
 }
