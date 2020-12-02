@@ -74,6 +74,8 @@ public class SpeakerMessengerController extends MessengerController {
 
     public void unarchive(String email){messageManager.unarchive(email);}
 
+    // message attendees of one talk functions needs to be added
+
     /**
      * Runs the presenters.
      */
