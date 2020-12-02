@@ -78,11 +78,11 @@ public class UserScheduleController{
      */
     public String getEventByIndex(int eventIndex){
         ArrayList<String> eventIds = eventManager.getEventIdsList();
-        if (eventIndex >= eventIds.size() -1){
+        if (eventIndex -1 >= eventIds.size()){
             return null;
         }
         else{
-            String eventId = eventIds.get(eventIndex);
+            String eventId = eventIds.get(eventIndex-1);
             return eventId;
         }
     }
@@ -139,14 +139,15 @@ public class UserScheduleController{
                     return;
                 }
                 else{
-                    if (this.signUp(eventIdToRegister).equals("User already registered for the requested talk.")){
+                    String signUpStatus = this.signUp(eventIdToRegister);
+                    if (signUpStatus.equals("User already registered for the requested talk.")){
                         presenter.printRegistrationBlocked(1);
                     }
-                    else if(this.signUp(eventIdToRegister).equals("Double booking.")){
+                    else if(signUpStatus.equals("Double booking.")){
                         presenter.printRegistrationBlocked(3);
                     }
-                    else if(this.signUp(eventIdToRegister).equals("VIP only event")){
-                        presenter.printRegistrationBlocked(3);
+                    else if(signUpStatus.equals("VIP only event")){
+                        presenter.printRegistrationBlocked(4);
                     }
                     else{
                         presenter.printRegistrationBlocked(2);
