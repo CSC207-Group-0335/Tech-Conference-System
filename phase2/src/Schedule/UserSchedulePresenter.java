@@ -155,8 +155,13 @@ public class UserSchedulePresenter {
             System.out.println("The schedule is empty.");
         }
         else{
+            Integer j = 1;
             for (String t: eventIDArrayList){
-                System.out.println(eventManager.toStringEvent(t) + System.lineSeparator());
-            }}
+                //System.out.println(j + ')' + ' ' + eventManager.toStringEvent(t) + System.lineSeparator());
+                this.printTalk(j, t, eventManager);
+                j++;
+            }
+                       }
+
     }
 }
