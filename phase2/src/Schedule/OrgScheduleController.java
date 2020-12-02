@@ -257,6 +257,10 @@ public class OrgScheduleController extends UserScheduleController {
         return this.roomStorage.createRoom(roomName);
     }
 
+    public boolean addRoom(String roomName, int cap) {
+        return this.roomStorage.createRoom(roomName, cap);
+    }
+
     /**
      * Allows the organizer to create a speaker with the specified name, password, and email.
      * @param name The name of the speaker.
@@ -273,20 +277,26 @@ public class OrgScheduleController extends UserScheduleController {
      */
     public void registerRoom(Scanner scan){
         orgSchedulePresenter.printMenu(9);
+        System.out.println("enter zero to go back to main menu");
         boolean doContinue = true;
         while(doContinue){
         String roomName = scan.nextLine();
+        System.out.println("enter the room capacity");
+        String cap = scan.nextLine();
+        int capacity = Integer.parseInt(cap);
         try{
-        if (Integer.parseInt(roomName) == 0){
+        if (roomName.contentEquals("zero")){
             return;
         }
-    }catch (NumberFormatException nfe){
-            if (this.addRoom(roomName)){
+        else if (this.addRoom(roomName, capacity)){
                 orgSchedulePresenter.printMenu(11);
                 return;}
-            else{
+        else{
                 orgSchedulePresenter.printMenu(20);
-            }}
+            }
+    } catch (NumberFormatException nfe){
+            presenter.printMenu(8);
+            }
         }}
 
     /**
@@ -391,6 +401,14 @@ public class OrgScheduleController extends UserScheduleController {
                 this.seeAllDays(presenter, scan);
                 orgSchedulePresenter.printMenu(1);
             }
+            else if (command == 11){
+                this.changeRoomCapacity(presenter, scan);
+                orgSchedulePresenter.printMenu(1);
+            }
+            else if (command == 12){
+                this.createUser(presenter,scan);
+                orgSchedulePresenter.printMenu(1);
+            }
             else if (command ==0){
                 doContinue = false;
                 mainMenuController.runMainMenu(email);
@@ -402,4 +420,40 @@ public class OrgScheduleController extends UserScheduleController {
 
         }
     }
+
+    private void createUser(UserSchedulePresenter presenter, Scanner scan) {
+    }
+
+    private boolean changeRoomCapacity(UserSchedulePresenter presenter, Scanner scan) {
+        ArrayList<String> roomList = roomStorage.getRoomNameList();
+        orgSchedulePresenter.printAllRooms(roomList);
+        orgSchedulePresenter.printMenu(7);
+        boolean doContinue = true;
+        while(doContinue){
+            String choice = scan.nextLine();
+            try {
+                int roomIndex = Integer.parseInt(choice);
+                if (roomIndex == 0){
+                    //orgSchedulePresenter.printMenu(16);
+                    return false;
+                }
+                else if (roomIndex - 1 >= roomList.size()){
+                    orgSchedulePresenter.printMenu(13);
+                }
+                else{
+                    String chosenRoom = roomList.get(roomIndex - 1);
+                    System.out.println("choose the room capacity");
+                    String cap = scan.nextLine();
+                    int capacity = Integer.parseInt(cap);
+                    return roomStorage.changeRoomCapacity(chosenRoom, capacity);
+                }
+            }
+            catch (NumberFormatException nfe){
+                presenter.printMenu(8);
+            }
+
+        }
+        return false;
+    }
 }
+
