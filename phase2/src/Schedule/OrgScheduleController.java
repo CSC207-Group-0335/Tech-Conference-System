@@ -39,6 +39,9 @@ public class OrgScheduleController extends UserScheduleController {
         while(doContinue){
             String next = scan.nextLine();
             int numberOfSpeakers = Integer.parseInt(next);
+            if (numberOfSpeakers == 0){
+                return chosenSpeakers;
+            }
             while (numberOfSpeakers > speakerList.size()){
                 //option to create a speaker here?
                 System.out.println("Not enough speakers, try again");
@@ -218,7 +221,7 @@ public class OrgScheduleController extends UserScheduleController {
             System.out.println("Enter VIP if the event is restricted, none otherwise");
             String vip1 = scan.nextLine();
             if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime, vip1)){
-                orgSchedulePresenter.PrintRequestTalkProcess(7);
+                System.out.println(talkTitle + " added successfully");
                 return true;
             }
             else{return  false;}
