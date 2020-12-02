@@ -1,12 +1,9 @@
 package Schedule;
 
 import UserLogin.Speaker;
-import UserLogin.TechConferenceSystem;
-import UserLogin.User;
 import UserLogin.UserStorage;
 
 
-import javax.jws.soap.SOAPBinding;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -371,5 +368,46 @@ public class EventManager{
                 return false;
             }}
         return true;
+
         }
+
+    public ArrayList<String> getAllEventDays(){
+        ArrayList<Integer> sorted = this.getAllEventDayMonth();
+        ArrayList<String> data = new ArrayList<>();
+        String month = this.eventList.get(0).getStartTime().getMonth().toString();
+
+        for (int date: sorted){
+            StringBuilder string = new StringBuilder();
+
+            string.append(month);
+            string.append(" ");
+            string.append(date);
+            data.add(string.toString());
+        }
+        return data;
+    }
+    public ArrayList<Integer> getAllEventDayMonth(){
+        ArrayList<Integer> sorted = new ArrayList<>();
+
+
+        for (Event event: this.eventList) {
+            if(!sorted.contains(event.getStartTime().getDayOfMonth())){
+                sorted.add(event.getStartTime().getDayOfMonth());
+            }
+
+
+        }
+        Collections.sort(sorted);
+        return sorted;
+    }
+    public ArrayList<String> intDaytoEventIDs(int day){
+        ArrayList<String> events = new ArrayList<>();
+        for(Event event: this.eventList){
+            if(event.getStartTime().getDayOfMonth() == day){
+                events.add(event.getEventId());
+            }
+        }
+        return events;
+    }
 }
+

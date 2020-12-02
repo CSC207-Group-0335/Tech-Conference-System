@@ -236,7 +236,33 @@ public class UserScheduleController{
                 presenter.printMenu(8);}}
     }
 
+    protected void seeAllDays(UserSchedulePresenter presenter, Scanner scan){
+        ArrayList<String> days = eventManager.getAllEventDays();
+        if (days.size() == 0){
+            presenter.printMenu(16);
 
+        }
+        presenter.printAllSpeakers(days);
+        boolean doContinue  = true;
+        while (doContinue){
+            String choice = scan.nextLine();
+            try { int dayindex = Integer.parseInt(choice);
+                if (dayindex == 0){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else if (dayindex -1 >= days.size()){
+                    presenter.printMenu(16);
+                }
+                else{
+                    int chosenInt = eventManager.getAllEventDayMonth().get(dayindex-1);
+                    presenter.printSchedule(eventManager.intDaytoEventIDs(chosenInt), eventManager, 3);
+                    return;
+                }}catch (NumberFormatException nfe){
+                presenter.printMenu(8);}}
+
+
+    }
 
 
 
@@ -318,6 +344,10 @@ public class UserScheduleController{
             }
             else if (command ==5){
                 this.seeAllSpeakers(presenter, scan);
+                presenter.printMenu(1);
+            }
+            else if (command ==6){
+                this.seeAllDays(presenter, scan);
                 presenter.printMenu(1);
             }
             else if (command ==0){
