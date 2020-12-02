@@ -64,6 +64,14 @@ public class AttendeeMessengerController extends MessengerController {
      * Runs the presenter.
      */
 
+    public void markAsRead(String email){messageManager.markRead(email);}
+
+    public void markAsUnread(String email){messageManager.markUnRead(email);}
+
+    public void archive(String email){messageManager.archive(email);}
+
+    public void unarchive(String email){messageManager.unarchive(email);}
+
     public void run() {
         boolean flag = true;
         OUTER_LOOP:
