@@ -24,6 +24,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                     "Press 6 to register a room " + System.lineSeparator() +
                     "Press 7 to request to add a user" + System.lineSeparator()+
                     "Press 8 to cancel an event" + System.lineSeparator() +
+                    "Press 9 to see schedule by speaker" + System.lineSeparator() +
+                    "Press 10 to see schedule by day" + System.lineSeparator() +
                     "Press 0 to go back to the main menu");
         } else if (i==2){
             System.out.println("Please input a command");

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class ConversationManager {
     private final ArrayList<String> participants;
     private final ArrayList<Message> messages;
+    public ArrayList<Boolean> readStatus;
+    public ArrayList<Boolean> archivedStatus;
 
     /**
      * A sender and recipient is required to create instance of ConversationManager.
@@ -19,6 +21,12 @@ public class ConversationManager {
         this.participants.add(sender);
         this.participants.add(recipient);
         this.messages = new ArrayList<>();
+        this.readStatus = new ArrayList<>();
+        this.archivedStatus = new ArrayList<>();
+        this.readStatus.add(false);
+        this.readStatus.add(false);
+        this.archivedStatus.add(false);
+        this.archivedStatus.add(false);
     }
 
     /**
@@ -55,7 +63,29 @@ public class ConversationManager {
         if (this.participants.contains(recipientEmail) && this.participants.contains(senderEmail)) {
             Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent);
             this.messages.add(message);
+            markAsUnread(recipientEmail);
+            unarchive(recipientEmail);
         }
+    }
+
+    public void markAsRead(String email){
+        int indexOfRecipient = this.getParticipants().indexOf(email);
+        this.readStatus.set(indexOfRecipient, true);
+    }
+
+    public void markAsUnread(String email){
+        int indexOfRecipient = this.getParticipants().indexOf(email);
+        this.readStatus.set(indexOfRecipient, false);
+    }
+
+    public void archive(String email){
+        int indexOfRecipient = this.getParticipants().indexOf(email);
+        this.archivedStatus.set(indexOfRecipient, true);
+    }
+
+    public void unarchive(String email){
+        int indexOfRecipient = this.getParticipants().indexOf(email);
+        this.readStatus.set(indexOfRecipient, false);
     }
 
     private Boolean isValidIndex(Integer index) {
@@ -70,12 +100,6 @@ public class ConversationManager {
     public void deleteMessage(Integer index) {
         if (this.isValidIndex(index)) {
             this.messages.remove(index);
-        }
-    }
-
-    public void toggleRead(Integer index) {
-        if (this.isValidIndex(index)) {
-            this.messages.get(index).toggleRead();
         }
     }
 
