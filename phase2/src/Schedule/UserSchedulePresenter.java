@@ -96,7 +96,7 @@ public class UserSchedulePresenter {
     public void printAllSpeakers(ArrayList<String> speakerNameList) {
         Integer i = 1;
         for (String s : speakerNameList){
-            System.out.println(Integer.toString(i) + ")" + s);
+            System.out.println(Integer.toString(i) + ") " + s);
             i++;
         }
     }
