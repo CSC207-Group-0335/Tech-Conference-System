@@ -12,9 +12,12 @@ public class SpeakerMessageManager extends MessageManager{
      * @param speakerEmail the email of speaker whose messages will be managed
      */
 
+    public EventManager eventManager;
+
     public SpeakerMessageManager(String speakerEmail, UserStorage userStorage,
                                  EventManager eventManager, ConversationStorage conversationStorage) {
-        super(speakerEmail, userStorage, eventManager, conversationStorage);
+        super(speakerEmail, userStorage, conversationStorage);
+        this.eventManager = eventManager;
     }
 
 
@@ -76,4 +79,12 @@ public class SpeakerMessageManager extends MessageManager{
     }
 
     // message attendees of one talk functions needs to be added
+    public void messageAllAttendeesOfTalk(String messageContent, String talkID){
+        Event event = eventManager.getEvent(talkID);
+        ArrayList<User> attendees = getAttendeesOfTalk(event);
+        for (User attendee: attendees){
+            messageOne(user.getEmail(), messageContent);
+        }
+
+    }
 }

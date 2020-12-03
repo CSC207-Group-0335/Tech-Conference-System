@@ -67,10 +67,14 @@ public class SpeakerMessengerController extends MessengerController {
         return messageManager.viewArchivedMessages(email);
     }
 
-
     // message attendees of one talk functions needs to be added
+    public void messageAllAttendeesOfTalk(String messageContent, String talkID){
+        messageManager.messageAllAttendeesOfTalk(messageContent, talkID);
+    }
 
-    //view message
+    public ArrayList<Event> viewTalks(){
+        return messageManager.getSpeakerTalks();
+    }
 
     /**
      * Runs the presenters.
