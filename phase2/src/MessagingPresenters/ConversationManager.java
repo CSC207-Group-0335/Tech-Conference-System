@@ -21,12 +21,6 @@ public class ConversationManager {
         this.participants.add(sender);
         this.participants.add(recipient);
         this.messages = new ArrayList<>();
-        this.readStatus = new ArrayList<>();
-        this.archivedStatus = new ArrayList<>();
-        this.readStatus.add(false);
-        this.readStatus.add(false);
-        this.archivedStatus.add(false);
-        this.archivedStatus.add(false);
     }
 
     /**
@@ -35,8 +29,24 @@ public class ConversationManager {
      * @return an arraylist containing all messages sent between these two users
      */
 
-    public ArrayList<Message> getMessages() {
-        return messages;
+    public ArrayList<Message> getUnarchivedMessages(String email) {
+        ArrayList<Message> unarchivedMessages = new ArrayList<>();
+        for (Message message: messages){
+            if (message.getStatus(email, "unarchived")){
+                unarchivedMessages.add(message);
+            }
+        }
+        return unarchivedMessages;
+    }
+
+    public ArrayList<Message> getArchivedMessages(String email) {
+        ArrayList<Message> unarchivedMessages = new ArrayList<>();
+        for (Message message: messages){
+            if (!message.getStatus(email, "unarchived")){
+                unarchivedMessages.add(message);
+            }
+        }
+        return unarchivedMessages;
     }
 
     /**
@@ -63,30 +73,19 @@ public class ConversationManager {
         if (this.participants.contains(recipientEmail) && this.participants.contains(senderEmail)) {
             Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent);
             this.messages.add(message);
-            markAsUnread(recipientEmail);
-            unarchive(recipientEmail);
         }
     }
 
-    public void markAsRead(String email){
-        int indexOfRecipient = this.getParticipants().indexOf(email);
-        this.readStatus.set(indexOfRecipient, true);
+    private boolean indexExists(int index){
+        return index - 1 == messages.size();
     }
 
-    public void markAsUnread(String email){
-        int indexOfRecipient = this.getParticipants().indexOf(email);
-        this.readStatus.set(indexOfRecipient, false);
+    public void changeStatus(String email, int index, String status){
+        if (indexExists(index)){
+            messages.get(index).setStatus(email, status);
+        }
     }
 
-    public void archive(String email){
-        int indexOfRecipient = this.getParticipants().indexOf(email);
-        this.archivedStatus.set(indexOfRecipient, true);
-    }
-
-    public void unarchive(String email){
-        int indexOfRecipient = this.getParticipants().indexOf(email);
-        this.readStatus.set(indexOfRecipient, false);
-    }
 
     private Boolean isValidIndex(Integer index) {
         if (index >= 0 && index < this.messages.size()) {

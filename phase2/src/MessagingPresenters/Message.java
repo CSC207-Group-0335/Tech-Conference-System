@@ -12,6 +12,8 @@ public class Message {
     private final String senderEmail;
     private final LocalDateTime timestamp;
     private final String messageContent;
+    private String senderStatus;
+    private String recipientStatus;
 
     /**
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
@@ -30,6 +32,8 @@ public class Message {
         this.senderEmail = senderEmail;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
+        this.senderStatus = "Read";
+        this.recipientStatus = "Unread";
     }
 
 
@@ -72,6 +76,24 @@ public class Message {
 
     public String getMessageContent() {
         return messageContent;
+    }
+
+    public void setStatus(String email, String status) {
+        if (email.equals(senderEmail)) {
+            this.senderStatus = status;
+        } else {
+            this.recipientStatus = status;
+        }
+    }
+
+    public boolean getStatus(String email, String status) {
+        if (email.equals(senderEmail) && senderStatus.equals(status)) {
+            return true;
+        } else if (email.equals(recipientEmail) && recipientStatus.equals(status)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

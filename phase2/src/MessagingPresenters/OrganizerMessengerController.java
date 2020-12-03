@@ -38,6 +38,10 @@ public class OrganizerMessengerController extends MessengerController {
         messageManager.messageOne(email, messageContent);
     }
 
+    public void setStatus(int index, String status){
+        messageManager.changeMessageStatus(email, index, status);
+    }
+
     /**
      * Sends a message containing </messageContent> to all attendees.
      *
@@ -66,8 +70,12 @@ public class OrganizerMessengerController extends MessengerController {
      * @return an arraylist containing all messages between this organizer and the user
      */
 
-    public ArrayList<Message> viewMessages(String email) {
-        return messageManager.viewMessages(email);
+    public ArrayList<Message> viewUnarchivedMessages(String email) {
+        return messageManager.viewUnarchivedMessages(email);
+    }
+
+    public ArrayList<Message> viewArchivedMessages(String email) {
+        return messageManager.viewArchivedMessages(email);
     }
 
     /**
@@ -83,14 +91,6 @@ public class OrganizerMessengerController extends MessengerController {
     /**
      * Runs the presenter.
      */
-
-    public void markAsRead(String email){messageManager.markRead(email);}
-
-    public void markAsUnread(String email){messageManager.markUnRead(email);}
-
-    public void archive(String email){messageManager.archive(email);}
-
-    public void unarchive(String email){messageManager.unarchive(email);}
 
     public void run() {
         boolean flag = true;
@@ -150,7 +150,7 @@ public class OrganizerMessengerController extends MessengerController {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = viewMessages(email);
+                    ArrayList<Message> messages = viewUnarchivedMessages(email);
                     presenter.viewConversation(messages);
                 }
             } catch (NumberFormatException nfe) {

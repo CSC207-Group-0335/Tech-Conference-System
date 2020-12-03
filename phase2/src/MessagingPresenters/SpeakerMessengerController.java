@@ -42,6 +42,10 @@ public class SpeakerMessengerController extends MessengerController {
         messageManager.messageOne(otherEmail, messageContent);
     }
 
+    public void setStatus(int index, String status){
+        messageManager.changeMessageStatus(email, index, status);
+    }
+
 
     /**
      * Sends a message containing </messageContent> to all attendees.
@@ -52,29 +56,18 @@ public class SpeakerMessengerController extends MessengerController {
         messageManager.messageAllAttendees(messageContent);
     }
 
-    /**
-     * Returns a list of messages between this speaker and the user with email </email>.
-     * @param otherEmail a String representing an email
-     * @return an ArrayList containing messages
-     */
-
-    public ArrayList<Message> viewMessages(String otherEmail){
-        if (conversationStorage.contains(otherEmail, email)){
-            ConversationManager c = conversationStorage.getConversationManager(otherEmail, email);
-            return c.getMessages();
-        }
-        return null;
+    public ArrayList<Message> viewUnarchivedMessages(String email) {
+        return messageManager.viewUnarchivedMessages(email);
     }
 
-    public void markAsRead(String email){messageManager.markRead(email);}
+    public ArrayList<Message> viewArchivedMessages(String email) {
+        return messageManager.viewArchivedMessages(email);
+    }
 
-    public void markAsUnread(String email){messageManager.markUnRead(email);}
-
-    public void archive(String email){messageManager.archive(email);}
-
-    public void unarchive(String email){messageManager.unarchive(email);}
 
     // message attendees of one talk functions needs to be added
+
+    //view message
 
     /**
      * Runs the presenters.
@@ -127,7 +120,7 @@ public class SpeakerMessengerController extends MessengerController {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = messageManager.viewMessages(email);
+                    ArrayList<Message> messages = messageManager.viewUnarchivedMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
                     ArrayList<Event> events = messageManager.getSpeakerTalks();

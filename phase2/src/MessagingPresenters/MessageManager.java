@@ -34,20 +34,6 @@ public abstract class MessageManager {
         this.friendsList = getFriendsList();
     }
 
-    public MessageManager(String email, UserStorage userStorage, EventManager eventManager,
-                          ConversationStorage conversationStorage) {
-        this.userStorage = userStorage;
-        this.eventManager = eventManager;
-        User user = null;
-        for (int i = 0; i < userStorage.userList.size(); i++) {
-            if (userStorage.userList.get(i).getEmail().equals(email)) {
-                user = userStorage.userList.get(i);
-            }
-        }
-        this.user = user;
-        this.conversationStorage = conversationStorage;
-        this.friendsList = getFriendsList();
-    }
 
     public abstract HashSet<User> getFriendsList();
 
@@ -106,12 +92,20 @@ public abstract class MessageManager {
      * @return a boolean representing whether or not there is a conversation between these two users
      */
 
+
     private Boolean containsConversationWith(String email) {
         if (conversationStorage.contains(user.getEmail(), email)) {
             return true;
         }
         else {
             return false;
+        }
+    }
+
+    public void changeMessageStatus(String email, int index, String status){
+        if (containsConversationWith(email)){
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            c.changeStatus(email, index, status);
         }
     }
 
@@ -134,41 +128,7 @@ public abstract class MessageManager {
         }
     }
 
-    public void markRead(String email) {
-        if (this.canMessage(email)) {
-            if (containsConversationWith(email)) {
-                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                c.markAsRead(user.getEmail());
-            }
-        }
-    }
 
-    public void markUnRead(String email) {
-        if (this.canMessage(email)) {
-            if (containsConversationWith(email)) {
-                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                c.markAsUnread(user.getEmail());
-            }
-        }
-    }
-
-    public void archive(String email) {
-        if (this.canMessage(email)) {
-            if (containsConversationWith(email)) {
-                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                c.archive(user.getEmail());
-            }
-        }
-    }
-
-    public void unarchive(String email) {
-        if (this.canMessage(email)) {
-            if (containsConversationWith(email)) {
-                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                c.unarchive(user.getEmail());
-            }
-        }
-    }
 
     /**
      * Deletes a message.
@@ -184,17 +144,6 @@ public abstract class MessageManager {
         }
     }
 
-
-    /**
-     * Archives a conversation.
-     *
-     * @param email a String representing the recipient's email address
-     */
-
-    public void archiveConversationWith(String email) {
-        conversationStorage.archiveConversationWith(user.getEmail(), email);
-    }
-
     /**
      * Returns all the messages sent between this user and the recipient registered under </email>.
      *
@@ -202,14 +151,27 @@ public abstract class MessageManager {
      * @return an ArrayList containing all messages sent between these two users
      */
 
-    public ArrayList<Message> viewMessages(String email) {
+    public ArrayList<Message> viewUnarchivedMessages(String email) {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                return c.getMessages();
+                return c.getUnarchivedMessages(email);
             } else {
                 ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
-                return c.getMessages();
+                return c.getUnarchivedMessages(email);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Message> viewArchivedMessages(String email) {
+        if (this.canMessage(email)) {
+            if (containsConversationWith(email)) {
+                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+                return c.getArchivedMessages(email);
+            } else {
+                ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
+                return c.getArchivedMessages(email);
             }
         }
         return null;
