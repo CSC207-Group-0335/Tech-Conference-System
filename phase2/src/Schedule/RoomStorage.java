@@ -59,7 +59,7 @@ public class RoomStorage {
      * @param roomName The name of the room.
      * @param capacity The capacity of the room.
      */
-    public void createRoom(String roomName, int capacity) {
+    public boolean createRoom(String roomName, int capacity) {
         boolean bool = true;
         for (Room r : roomList) {
             if (r.getRoomName().equals(roomName)) {
@@ -74,7 +74,9 @@ public class RoomStorage {
 //            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
 //            scheduleList.put(room, rScheduleManager);
             roomNameMap.put(roomName, room);
+            return true;
         }
+        return false;
     }
     public void removeRoom(String roomName){
         for (Room r : roomList){
@@ -137,6 +139,12 @@ public class RoomStorage {
 
     public ArrayList<String> getRoomNameList() {
         return this.roomNameList;
+    }
+
+    public boolean changeRoomCapacity(String roomName, int capacity){
+        Room room = nameToRoom(roomName);
+        room.changeCapacity(capacity);
+        return true;
     }
 
 }

@@ -96,7 +96,7 @@ public class UserSchedulePresenter {
     public void printAllSpeakers(ArrayList<String> speakerNameList) {
         Integer i = 1;
         for (String s : speakerNameList){
-            System.out.println(Integer.toString(i) + ")" + s);
+            System.out.println(Integer.toString(i) + ") " + s);
             i++;
         }
     }
@@ -155,8 +155,13 @@ public class UserSchedulePresenter {
             System.out.println("The schedule is empty.");
         }
         else{
+            Integer j = 1;
             for (String t: eventIDArrayList){
-                System.out.println(eventManager.toStringEvent(t) + System.lineSeparator());
-            }}
+                //System.out.println(j + ')' + ' ' + eventManager.toStringEvent(t) + System.lineSeparator());
+                this.printTalk(j, t, eventManager);
+                j++;
+            }
+                       }
+
     }
 }

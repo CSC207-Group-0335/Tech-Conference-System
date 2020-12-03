@@ -67,7 +67,7 @@ public class UserScheduleController{
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
             eventManager.removeAttendee(email, eventId);
-            userStorage.addEvent(email, eventId);
+            userStorage.removeEvent(email, eventId);
         }
     }
 
@@ -342,7 +342,7 @@ public class UserScheduleController{
                 this.cancelATalk(presenter, scan);
                 presenter.printMenu(1);
             }
-            else if (command ==5){
+            else if (command == 5){
                 this.seeAllSpeakers(presenter, scan);
                 presenter.printMenu(1);
             }

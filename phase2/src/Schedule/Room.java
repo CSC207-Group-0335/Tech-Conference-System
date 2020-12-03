@@ -64,6 +64,10 @@ public class Room {
     public ArrayList<String> getTalkList(){
         return this.talkList;
     }
+
+    public void changeCapacity(int capacity){
+        this.capacity = capacity;
+    }
 }
 
 

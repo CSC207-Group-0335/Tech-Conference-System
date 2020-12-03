@@ -26,6 +26,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                     "Press 8 to cancel an event" + System.lineSeparator() +
                     "Press 9 to see schedule by speaker" + System.lineSeparator() +
                     "Press 10 to see schedule by day" + System.lineSeparator() +
+                    "Press 11 to change room capacity" + System.lineSeparator() +
+                    "Press 12 to Speaker and Attendee accounts" + System.lineSeparator() +
                     "Press 0 to go back to the main menu");
         } else if (i==2){
             System.out.println("Please input a command");
@@ -129,9 +131,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
             System.out.println("Please choose a day of the conference for your requested talk (By indicating day 1,2 or 3)");
         }
         else if (i==2){
-            System.out.println("Choose a starting time (by hour) for your requested talk." + System.lineSeparator()+
-                    "Talks may start from 9:00 to 16:00" + System.lineSeparator()+
-                    "Indicate your chosen start time by a number from 9 to 16.");
+            System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator()+
+                    "Talks may start or end from 9:00 to 16:00" + System.lineSeparator()+
+                    "Indicate your chosen time by a number from 9 to 16.");
         }
         else if(i==3){
             System.out.println("Chosen speaker is not available in the chosen hour and day.");
