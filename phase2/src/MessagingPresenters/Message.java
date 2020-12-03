@@ -19,7 +19,7 @@ public class Message {
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
      * Message has a uniquely generated ID.
      *
-     * @param recipientEmail the email address of the recipient
+     * @param recipientEmail the email address of the recipient or the talkID
      * @param senderEmail    the email address of the sender
      * @param timestamp      the time and date this message was sent
      * @param messageContent the content of the message
@@ -33,7 +33,11 @@ public class Message {
         this.timestamp = timestamp;
         this.messageContent = messageContent;
         this.senderStatus = "Read";
-        this.recipientStatus = "Unread";
+        if (this.recipientEmail.contains("a")) {
+            this.recipientStatus = "Unread";
+        }else{
+            this.recipientStatus = null;
+        }
     }
 
 

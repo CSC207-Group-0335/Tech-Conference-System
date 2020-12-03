@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -7,24 +8,23 @@ import java.util.ArrayList;
  */
 
 public class GroupChatManager {
-    private ArrayList<String> participants;
+    private String talkID;
     private ArrayList<Message> messages;
 
-    /**
-     * A sender and recipient is required to create instance of GroupChatManager.
-     *
-     * @param sender    the email of the sender;
-     * @param recipients the emails of the recipients;
-     */
 
-    public GroupChatManager(String sender, ArrayList<String> recipients) {
-        this.participants = new ArrayList<>();
-        this.participants.add(sender);
-        for (String email: recipients){
-            this.participants.add(email);
-        }
+    public GroupChatManager(String talkID) {
+        this.talkID = talkID;
         this.messages = new ArrayList<>();
     }
+
+    public void addMessage(String senderEmail, String talkID,
+                           LocalDateTime timestamp, String messageContent) {
+        if (this.talkID.equals(talkID) /*add way to check for participant*/) {
+            Message message = new Message(talkID, senderEmail, timestamp, messageContent);
+            this.messages.add(message);
+        }
+    }
+
 
     /**
      * Returns a list of messages sent between the users registered under the emails </sender> and </recipient>.
@@ -36,14 +36,8 @@ public class GroupChatManager {
         return messages;
     }
 
-    /**
-     * Returns the email addresses of all the participants involved in this group chat.
-     *
-     * @return an ArrayList containing the emails of all the participants
-     */
-
-    public ArrayList<String> getParticipants() {
-        return participants;
+    public String getTalkID() {
+        return talkID;
     }
 }
 

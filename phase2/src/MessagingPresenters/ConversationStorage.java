@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ConversationStorage {
     private ArrayList<ConversationManager> conversationManagers;
-    private ArrayList<ConversationManager> archived;
+    private ArrayList<GroupChatManager> groupChatManagers;
 
     /**
      * Nothing is needed to create an instance of ConversationStorage.
@@ -16,7 +16,7 @@ public class ConversationStorage {
 
     public ConversationStorage() {
         conversationManagers = new ArrayList<>();
-        archived = new ArrayList<>();
+        groupChatManagers = new ArrayList<>();
     }
 
     /**
@@ -28,6 +28,15 @@ public class ConversationStorage {
     public boolean contains(String senderEmail, String recipientEmail) {
         for (ConversationManager c : conversationManagers) {
             if (c.getParticipants().contains(senderEmail) && c.getParticipants().contains(recipientEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(String talkID) {
+        for (GroupChatManager g : groupChatManagers) {
+            if (g.getTalkID().equals(talkID)){
                 return true;
             }
         }
@@ -50,6 +59,15 @@ public class ConversationStorage {
         return null;
     }
 
+    public GroupChatManager getGroupChatManager(String talkID) {
+        for (GroupChatManager g : groupChatManagers) {
+            if (g.getTalkID().equals(talkID)) {
+                return g;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Adds instance of ConversationManager if not stored already.
@@ -67,6 +85,15 @@ public class ConversationStorage {
         return null;
     }
 
+    public GroupChatManager addGroupChatManager(String talkID) {
+        if (!this.contains(talkID)) {
+            GroupChatManager g = new GroupChatManager(talkID);
+            groupChatManagers.add(g);
+            return g;
+        }
+        return null;
+    }
+
     /**
      * Returns a list of all instances of ConversationManager.
      *
@@ -77,17 +104,8 @@ public class ConversationStorage {
         return conversationManagers;
     }
 
-    /**
-     * Archives the conversation between the users registered under </senderEmail> and </recipientEmail>.
-     * @param senderEmail a String representing the email of the sender
-     * @param recipientEmail a String representing the email of the recipient
-     */
-
-    public void archiveConversationWith(String senderEmail, String recipientEmail) {
-        ConversationManager c = getConversationManager(senderEmail, recipientEmail);
-        if (c != null) {
-            conversationManagers.remove(c);
-            archived.add(c);
-        }
+    public ArrayList<GroupChatManager> getGroupChatManagers() {
+        return groupChatManagers;
     }
+
 }
