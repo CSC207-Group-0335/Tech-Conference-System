@@ -96,8 +96,8 @@ public class ConversationManager {
         }
     }
 
-    public void deleteMessage(Integer index) {
-        if (this.isValidIndex(index)) {
+    public void deleteMessage(String email, Integer index) {
+        if (this.isValidIndex(index) && email.equals(messages.get(index).getSenderEmail())) {
             this.messages.remove(index);
         }
     }

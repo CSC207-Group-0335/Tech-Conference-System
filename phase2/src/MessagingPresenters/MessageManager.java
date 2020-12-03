@@ -140,7 +140,7 @@ public abstract class MessageManager {
     public void deleteMessage(String email, Integer index) {
         if (containsConversationWith(email)) {
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.deleteMessage(index);
+            c.deleteMessage(user.getEmail(), index);
         }
     }
 

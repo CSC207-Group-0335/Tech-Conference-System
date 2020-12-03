@@ -46,6 +46,9 @@ public class SpeakerMessengerController extends MessengerController {
         messageManager.changeMessageStatus(email, index, status);
     }
 
+    public void deleteMessage(int index, String senderEmail){
+        messageManager.deleteMessage(senderEmail, index);
+    }
 
     /**
      * Sends a message containing </messageContent> to all attendees.

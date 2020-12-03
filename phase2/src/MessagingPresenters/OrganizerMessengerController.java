@@ -92,6 +92,10 @@ public class OrganizerMessengerController extends MessengerController {
      * Runs the presenter.
      */
 
+    public void deleteMessage(int index, String senderEmail){
+        messageManager.deleteMessage(senderEmail, index);
+    }
+
     public void run() {
         boolean flag = true;
         OUTER_LOOP:

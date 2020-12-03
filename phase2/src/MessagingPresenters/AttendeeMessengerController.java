@@ -59,6 +59,10 @@ public class AttendeeMessengerController extends MessengerController {
         messageManager.changeMessageStatus(email, index, status);
     }
 
+    public void deleteMessage(int index, String senderEmail){
+        messageManager.deleteMessage(senderEmail, index);
+    }
+
     public void run() {
         boolean flag = true;
         OUTER_LOOP:
