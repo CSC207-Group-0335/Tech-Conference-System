@@ -380,6 +380,11 @@ public class EventManager{
 
         }
 
+    /**
+     * Returns an arrayList of strings, each of which is a string corresponding to a day which the conference takes
+     * place, in the form MONTH DAY.
+     * @return An ArrayList of strings.
+     */
     public ArrayList<String> getAllEventDays(){
         ArrayList<Integer> sorted = this.getAllEventDayMonth();
         ArrayList<String> data = new ArrayList<>();
@@ -395,6 +400,12 @@ public class EventManager{
         }
         return data;
     }
+
+    /**
+     * Returns a list of integers corresponding to all the possible days that events can take place on during the
+     * conference.
+     * @return An ArrayList of integers.
+     */
     public ArrayList<Integer> getAllEventDayMonth(){
         ArrayList<Integer> sorted = new ArrayList<>();
 
@@ -409,6 +420,13 @@ public class EventManager{
         Collections.sort(sorted);
         return sorted;
     }
+
+    /** Takes in a n integer and returns a list of event id's of which take place on the day corresponding to that
+     * integer.
+     *
+     * @param day The integer representing the day of the month
+     * @return An array list of integers representing days of the conference
+     */
     public ArrayList<String> intDaytoEventIDs(int day){
         ArrayList<String> events = new ArrayList<>();
         for(Event event: this.eventList){
