@@ -24,9 +24,9 @@ public class OrgScheduleController extends UserScheduleController {
     }
 
     /**
-     * Allows the organizer to choose a speaker from a list of speakers.
+     * Allows the organizer to choose a list of speakers from all the speakers.
      * @param scan The scanner.
-     * @return Returns a Speaker representing the speaker chosen by the organizer.
+     * @return Returns an ArrayList of speaker names representing the speakers chosen by the organizer.
      */
 
     public ArrayList<String> pickSpeakers(Scanner scan){
@@ -192,6 +192,14 @@ public class OrgScheduleController extends UserScheduleController {
         else if(!eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 3;}
         else{return 0;}
     }
+    /**
+     * Check if any speaker in the list of speakers is double booked at the specified room and time
+     * @param speakers The list of speakers.
+     * @param room The room.
+     * @param startTime The start time.
+     * @param endTime The end time.
+     * @return An boolean representing if all the speakers are available at the room and time or not.
+     */
     public boolean checkDoubleBookingSpeakers(ArrayList<String> speakers, String room, LocalDateTime startTime, LocalDateTime endTime){
         for (String s : speakers){
             if (!(checkDoubleBooking(s, room, startTime, endTime)==0)){
@@ -201,9 +209,9 @@ public class OrgScheduleController extends UserScheduleController {
         return true;
     }
     /**
-     * Allows the organizer to create talk.
+     * Allows the organizer to create event.
      * @param scan The scanner.
-     * @return A boolean notifying the organizer that they have successfully created a talk.
+     * @return A boolean notifying the organizer that they have successfully created an event.
      */
     public boolean requestEvent(Scanner scan){
         ArrayList<String> speakers = pickSpeakers(scan);
@@ -260,16 +268,23 @@ public class OrgScheduleController extends UserScheduleController {
         return this.roomStorage.createRoom(roomName);
     }
 
+    /**
+     * Allows the organizer to create a room with the specified name and capacity.
+     * @param roomName The name of the room.
+     * @param cap The capacity of the room.
+     * @return A boolean notifying the organizer if they have successfully created a room.
+     */
     public boolean addRoom(String roomName, int cap) {
         return this.roomStorage.createRoom(roomName, cap);
     }
 
     /**
-     * Allows the organizer to create a speaker with the specified name, password, and email.
-     * @param name The name of the speaker.
-     * @param password The password of the speaker.
-     * @param email The email of the speaker.
-     * @return A boolean notifying the organizer if they have successfully created a speaker.
+     * Allows the organizer to create a user with the specified name, password, and email.
+     * @param name The name of the user.
+     * @param password The password of the user.
+     * @param email The email of the user.
+     * @param type The type of the user
+     * @return A boolean notifying the organizer if they have successfully created a user.
      */
     public boolean requestUser(String name, String password, String email, String type) {
         return this.userStorage.createUser(type, name, password, email);
@@ -303,7 +318,7 @@ public class OrgScheduleController extends UserScheduleController {
         }}
 
     /**
-     * Uses the requestSpeaker to create a speaker.
+     * Uses the requestUser to create a user.
      * @param scan The Scanner.
      */
 
@@ -327,7 +342,8 @@ public class OrgScheduleController extends UserScheduleController {
 
     }
     /**
-     * Lists all the available actions an organizer can perform and choose from, takes their input and outputs a text UI.
+     * Lists out all the events in the schedule and lets an organizer cancel an event from the schedule based on their input.
+     * @param scan The Scanner
      */
     public void cancelEvent(Scanner scan){
         orgSchedulePresenter.printAllTalks(eventManager);
