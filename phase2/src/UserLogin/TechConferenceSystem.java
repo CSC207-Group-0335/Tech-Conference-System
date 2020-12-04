@@ -4,6 +4,7 @@ import Files.CSVReader;
 import Files.CSVWriter;
 import Schedule.RoomSystem;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -26,6 +27,11 @@ public class TechConferenceSystem extends Observable {
      */
 
     public TechConferenceSystem() {
+        JFrame frame = new JFrame("Tech Conference System");
+        frame.setSize(1280, 720);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
         this.userStorage = new UserStorage();
         this.roomSystem = new RoomSystem(userStorage);
         this.mainMenuController = new MainMenuController(roomSystem,
