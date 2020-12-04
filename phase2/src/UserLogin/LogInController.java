@@ -1,13 +1,10 @@
 package UserLogin;
 
-
 import MessagingPresenters.MessagingSystem;
 import Schedule.EventSystem;
 
 import java.util.Observable;
 import java.util.Scanner;
-
-import javax.swing.*;
 
 /**
  * A Controller class that handles the front-end of the login process for a user attempting to login to their account.
@@ -15,7 +12,7 @@ import javax.swing.*;
  * associated with the provided information.
  */
 
-public class LogInController extends Observable implements LogInInterface {
+public class LogInController extends Observable {
     public LogInManager logInManager;
     private String email;
     public LogInPresenter presenter;
@@ -49,15 +46,8 @@ public class LogInController extends Observable implements LogInInterface {
      */
 
     public void runLogIn(){
-        JFrame frame = new JFrame("Log In");
-        frame.setSize(1280, 720);
-        LogIn view = new LogIn();
-        view.setListener(this);
-        frame.setContentPane(view.getPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
 
-        /*boolean check = true;
+        boolean check = true;
         while (check){
             Scanner in = scanner;
             presenter.printLoginInfo(1); //Ask for email
@@ -81,7 +71,7 @@ public class LogInController extends Observable implements LogInInterface {
             else{
                 presenter.printLoginInfo(4); //Something went wrong
             }
-        }*/
+        }
     }
 
     /**
@@ -101,25 +91,6 @@ public class LogInController extends Observable implements LogInInterface {
 
     public String getEmail() {
         return this.email;
-    }
-
-    @Override
-    public void loginButtonClicked(String email, String password) {
-        if (this.logInManager.login(email, password)){
-            this.email = email;
-            setUserEmail(this.email); //set the user
-
-            //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem
-            //and messagingSystem.
-            this.eventSystem.setEmail(this.email);
-            this.messagingSystem.setEmail(this.email);
-            this.eventSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
-            this.messagingSystem.instantiateControllers(this.email, scanner);
-            presenter.printLoginInfo(3); //Login Successful
-        }
-        else{
-            presenter.printLoginInfo(4); //Something went wrong
-        }
     }
 }
 
