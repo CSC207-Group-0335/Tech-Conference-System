@@ -58,7 +58,7 @@ public class CSVWriter {
      * @param conversationStorage an array of ConversationManagers that will be written to the csv.
      */
 
-    public void writeToConversations(String csv, ArrayList<ConversationManager> conversationStorage) {
+    /*public void writeToConversations(String csv, ArrayList<ConversationManager> conversationStorage) {
 
         try (FileWriter csvWriter = new FileWriter(csv)) {
             int i = 0;
@@ -89,7 +89,7 @@ public class CSVWriter {
             ioException.printStackTrace();
         }
 
-    }
+    }*/
 
     /**
      * A method to specifically write to Registration.csv, in the proper format that the program.
