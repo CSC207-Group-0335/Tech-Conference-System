@@ -92,6 +92,8 @@ public class EventManager{
      * @param speakerEmails The emails of the speaker.
      * @param roomName The name of the room.
      * @param start The start time of the talk.
+     * @param end The end time of the talk.
+     * @param vipRestricted The string signifying if the event is VIP restricted or not.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -130,6 +132,8 @@ public class EventManager{
      * @param speakerEmails The email of the speaker.
      * @param roomName The name of the room.
      * @param start The start time of the talk.
+     * @param end The end time of the talk.
+     * @param vipRestricted The string signifying if the event is VIP restricted or not.
      * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
      * updated.
      */
@@ -177,6 +181,13 @@ public class EventManager{
         return false;
     }
 
+    /**
+     * Takes in an email and event id, and returns a boolean signifying if this specific user is allowed to attend this
+     * specific event.
+     * @param userEmail The user email.
+     * @param id The event id.
+     * @return A boolean that tells you if the user corresponding to this email is allowed to attend the event.
+     */
     public boolean checkIfUserAllowed(String userEmail, String id){
         boolean eventVIP = getEvent(id).getVIPStatus();
         boolean userVIP = userStorage.emailToVIPStatus(userEmail);
@@ -189,6 +200,13 @@ public class EventManager{
         }
     }
 
+    /**
+     * Takes in an email and event id, and adds the user to the Attendee list if they are allowed and there is room for
+     * them.
+     * @param userEmail The user email.
+     * @param id The event id.
+     * @return Boolean signifying if the user was added to the event Attendee list.
+     */
     public boolean addAttendee(String userEmail, String id){
         if (getEvent(id).getUsersSignedUp().size() + 1 > getEventRoom(id).getCapacity()
         || getEvent(id).getUsersSignedUp().contains(userEmail) ||
@@ -214,6 +232,11 @@ public class EventManager{
         return this.eventMap;
     }
 
+    /**
+     * Takes in an event id and returns the corresponding Event object.
+     * @param id The event id.
+     * @return Returns the Event corresponding to the event id.
+     */
     public Event getEvent(String id) {
         for (Event e : eventMap.keySet()) {
             if (e.getEventId().equals(id)) {
@@ -223,6 +246,11 @@ public class EventManager{
         return null;
     }
 
+    /**
+     * Takes in an event id and returns a a boolean if there exists an Event object with the same id.
+     * @param id The event id.
+     * @return Returns boolean signifying if the event exists.
+     */
     public boolean exists(String id){
         if (eventMap.keySet().contains(id)){return true;}
         else{return false;}
@@ -246,24 +274,52 @@ public class EventManager{
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
     }
 
+    /**
+     * Takes in event id and returns the corresponding event name.
+     * @param id The event id.
+     * @return Returns the string name.
+     */
     public String eventIdToTitle(String id){
         Event e = getEvent(id);
         return e.getTitle();
     }
 
+    /**
+     * Takes in event id and returns an ArrayList of the speakers' emails.
+     * @param id The event id.
+     * @return Returns the ArrayList.
+     */
+
     public ArrayList<String> eventIdToSpeakerEmails(String id){
         Event e = getEvent(id);
         return e.getSpeakers();
     }
+
+    /**
+     * Takes in event id and returns an ArrayList of the people attending's emails.
+     * @param id The event id.
+     * @return ArrayList of user emails.
+     */
     public ArrayList<String> eventIdToUsersSignedUp(String id){
         Event e = getEvent(id);
         return e.getUsersSignedUp();
     }
+
+    /**
+     * Takes in event id and returns the name of the room where the event is taking place.
+     * @param id The event id.
+     * @return The string room name.
+     */
     public String eventIdToRoomName(String id){
         Event e = getEvent(id);
         return e.getRoomName();
     }
 
+    /**
+     * Takes in event id and returns the VIP status of the corresponding event.
+     * @param id The event id.
+     * @return The string VIP status.
+     */
     public String eventIdToVIPStatus(String id){
         Event e = getEvent(id);
         if(e.vipRestricted){
@@ -273,6 +329,11 @@ public class EventManager{
         }
     }
 
+    /**
+     * Takes in an event ID and returns True if it has room for new users to attend.
+     * @param id The event id.
+     * @return The boolean signifier.
+     */
     public boolean eventIdAtCapacity(String id){
         Event e = getEvent(id);
         int capacity = roomStorage.roomNameToCapacity(eventIdToRoomName(id));
@@ -281,19 +342,39 @@ public class EventManager{
         }
         return true;
     }
+
+    /**
+     * Takes in an event id and returns the start time of the corresponding Event.
+     * @param id The event id.
+     * @return The LocalDateTime start time.
+     */
     public LocalDateTime eventIdToStartTime(String id){
         Event e = getEvent(id);
         return e.getStartTime();
     }
+    /**
+     * Takes in an event id and returns the end time of the corresponding Event.
+     * @param id The event id.
+     * @return The LocalDateTime end time.
+     */
     public LocalDateTime eventIdToEndTime(String id){
         Event e = getEvent(id);
         return e.getEndTime();
     }
 
+    /**
+     * Returns an ArrayList of all event ids.
+     * @return ArrayList of all String event ids
+     */
     public ArrayList<String> getEventIdsList(){
         return this.eventIdsList;
     }
 
+    /**
+     * Takes in an event id and returns true if the event was cancelled.
+     * @param id The event id.
+     * @return The boolean signifier.
+     */
     public boolean cancelEvent(String id){
         Event e = getEvent(id);
         return this.removeEvent(e);
@@ -353,12 +434,27 @@ public class EventManager{
         return totalString;
     }
 
+    /**
+     * Checks if two times are overlapping, returns true if they are.
+     * @param startA The first start time.
+     * @param endA  The first end time.
+     * @param startB The second start time.
+     * @param endB  The second end time
+     * @return The boolean signifier.
+     */
     public boolean checkOverlappingTimes(LocalDateTime startA, LocalDateTime endA,
                                          LocalDateTime startB, LocalDateTime endB){
         return (endB == null || startA == null || !startA.isAfter(endB))
                 && (endA == null || startB == null || !endA.isBefore(startB));
     }
 
+    /**
+     * Checks if any events in the list of event id's are taking place at the same time. Returns true if there is.
+     * @param start The start time.
+     * @param end The start time.
+     * @param eventIds The ArrayList of event ids.
+     * @return The boolean signifier.
+     */
     public boolean checkDoubleBooking(LocalDateTime start, LocalDateTime end, ArrayList<String> eventIds){
         for (String id: eventIds){
             if (checkOverlappingTimes(getEvent(id).getStartTime(), getEvent(id).getEndTime(),
@@ -367,7 +463,13 @@ public class EventManager{
             }}
         return true;
     }
-
+    /**
+     * Checks if any events in the list of event id's are taking place at the same time. Returns true if there is.
+     * @param start The start time.
+     * @param end The start time.
+     * @param eventIds The ArrayList of event ids.
+     * @return The boolean signifier.
+     */
     public boolean checkDoubleBooking(String eventId, ArrayList<String> eventIds){
         LocalDateTime start = eventIdToStartTime(eventId);
         LocalDateTime end = eventIdToEndTime(eventId);
