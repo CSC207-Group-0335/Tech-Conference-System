@@ -1,40 +1,23 @@
 package UserLogin;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javax.swing.*;
 
 /**
  * A Demo class used to run the entire program.
  */
 
-public class Demo extends Application {
+public class Demo {
 
     public static void main(String[] args) {
-        //launch(args);
+        JFrame f = new JFrame();
+        JButton b = new JButton("click");
+        b.setBounds(130,100,100, 40);
+        f.add(b);
+        f.setSize(400, 500);
+        f.setLayout(null);
+        f.setVisible(true);
+
         TechConferenceSystem tCS = new TechConferenceSystem();
         tCS.run();
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        Scene logInScene = new LogInView().display();
-        primaryStage.setScene(logInScene);
-        primaryStage.setTitle("Log In");
-        primaryStage.show();
     }
 }

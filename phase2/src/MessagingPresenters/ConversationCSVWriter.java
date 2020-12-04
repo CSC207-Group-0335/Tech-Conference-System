@@ -24,7 +24,8 @@ public class ConversationCSVWriter {
                 csvWriter.append(c.getParticipants().get(1));
                 csvWriter.append(",");
                 StringBuilder s = new StringBuilder();
-                for (Message m : c.getMessages()) {
+                // FIX NEEDED TO ACCOUNT FOR NEW ARCHIVE/UNARCHIVE FUNCTIONALITY
+                for (Message m : c.getArchivedMessages(c.getParticipants().get(0))) {
                     String message = m.getMessageContent();
                     message = message.replace(",", "commaseparator");
                     s.append(m.getRecipientEmail()).append("~").append(m.getSenderEmail()).append("~").append(m.getTimestamp().format(formatter).replace("T", " ")).append("~").append(message).append(";");
