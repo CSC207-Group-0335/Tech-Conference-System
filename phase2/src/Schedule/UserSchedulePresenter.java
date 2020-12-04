@@ -1,5 +1,7 @@
 package Schedule;
 
+import UserLogin.UserStorage;
+
 import java.util.ArrayList;
 
 /**
@@ -167,5 +169,13 @@ public class UserSchedulePresenter {
             }
                        }
 
+    }
+
+    public void printAllRequests(ArrayList<String> requests) {
+        Integer i = 1;
+        for (String s : requests){
+            System.out.println(Integer.toString(i) + ") " + s);
+            i++;
+        }
     }
 }

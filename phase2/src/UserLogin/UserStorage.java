@@ -227,6 +227,32 @@ public class UserStorage extends Observable {
     }
 
 
+    public boolean requestNotAddressed(String email) {
+        return false;
+    }
+
+    public boolean requestNotRepeat(String req, String email) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        if (!(attendee == null)){
+            for (String r : attendee.getRequests()){
+                if (req.equals(r)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addRequest(String email, String request) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        return attendee.setRequests(request);
+    }
+
+    public ArrayList<String> getRequestList(String email) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        return attendee.getRequests();
+    }
 }
 
 

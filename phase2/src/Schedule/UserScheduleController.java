@@ -60,6 +60,16 @@ public class UserScheduleController{
         }
     }
 
+    public boolean submitRequest(String request) {
+        if (this.userStorage.requestNotRepeat(email, request)){
+            this.userStorage.addRequest(email, request);
+            System.out.println("Request successfully added!");
+            return true;
+        }
+        System.out.println("You have already made this request");
+        return false;
+    }
+
     /**
      * Let a user cancel their enrollment in an event.
      */
@@ -104,6 +114,32 @@ public class UserScheduleController{
             }
         }
         return registeredEvents;
+    }
+
+    protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
+        //present the requests if you're an organizer and you can decide which request you want to deal with
+        //based on index
+        ArrayList<String> requestList = userStorage.getRequestList(email);
+        presenter.printAllRequests(requestList);
+        System.out.println("Submit a request");
+        boolean doContinue = true;
+        while (doContinue){
+            String request = scan.nextLine();
+            try {
+                if (request.equals("zero")){
+                    presenter.printMenu(10);
+                    return;
+                }
+                else{
+                    if (this.submitRequest(request)){
+                        return;
+                    }
+                }
+
+            } catch (NumberFormatException nfe) {
+                presenter.printMenu(8);;
+            }
+        }
     }
 
     /**
@@ -154,7 +190,7 @@ public class UserScheduleController{
                 }
             }}
             catch (NumberFormatException nfe){
-        presenter.printMenu(8);;
+        presenter.printMenu(8);
     }}}
 
     /**
