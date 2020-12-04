@@ -242,6 +242,7 @@ public class UserScheduleController{
             presenter.printMenu(16);
 
         }
+        presenter.printMenu(18);
         presenter.printAllSpeakers(days);
         boolean doContinue  = true;
         while (doContinue){

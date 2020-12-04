@@ -60,6 +60,7 @@ public class UserSchedulePresenter {
         else if (i==14){
             System.out.println("Pick speaker by Index, press 0 to go back");
         }
+
         else if (i==15){
             System.out.println("There are no speakers talking at the conference yet.");
         }
@@ -68,6 +69,9 @@ public class UserSchedulePresenter {
         }
         else if (i == 17){
             System.out.println("No talks");
+        }
+        else if (i==18){
+            System.out.println("Pick day by Index, press 0 to go back");
         }
     }
 
