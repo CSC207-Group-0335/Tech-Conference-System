@@ -36,6 +36,12 @@ public class MessagingSystem extends Observable{
         this.eventManager =eventManager;
     }
 
+    /**
+     * Sets an email.
+     *
+     * @param email a String representing an email address
+     */
+
     public void setEmail(String email){
         this.userEmail = email;
     }

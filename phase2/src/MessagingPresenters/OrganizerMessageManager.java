@@ -34,12 +34,24 @@ public class OrganizerMessageManager extends MessageManager {
         return friends;
     }
 
+    /**
+     * Messages all attendees.
+     *
+     * @param messageContent a String representing the content of the message
+     */
+
     public void messageAllAttendees(String messageContent) {
         ArrayList<User> attendees = this.getAttendees();
         for (User attendee : attendees) {
             messageOne(attendee.getEmail(), messageContent);
         }
     }
+
+    /**
+     * Messages all speakers.
+     *
+     * @param messageContent a String representing the content of the message
+     */
 
     public void messageAllSpeakers(String messageContent) {
         ArrayList<User> speakers = this.getSpeakers();
