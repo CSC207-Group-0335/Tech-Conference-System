@@ -88,20 +88,23 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.userScheduleController.run();
-                    return;
-                } else if (command == 2) {
-                    this.attendeeMessengerController.run();
-                    return;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    logoutAndReRun();
-                    presenter.loggingOut();
-                    return; //Exit the while loop
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.userScheduleController.run();
+                        return;
+                    case 2:
+                        this.attendeeMessengerController.run();
+                        return;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        logoutAndReRun();
+                        presenter.loggingOut();
+                        return; //Exit the while loop
+
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
@@ -119,20 +122,23 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.speakerScheduleController.run();
-                    return;
-                } else if (command == 2) {
-                    this.speakerMessengerController.run();
-                    return;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    logoutAndReRun();
-                    presenter.loggingOut();
-                    return; //Exit the while loop
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.speakerScheduleController.run();
+                        return;
+                    case 2:
+                        this.speakerMessengerController.run();
+                        return;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        logoutAndReRun();
+                        presenter.loggingOut();
+                        return; //Exit the while loop
+
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
@@ -149,18 +155,20 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.orgScheduleController.run();
-                    return true;
-                } else if (command == 2) {
-                    this.orgMessengerController.run();
-                    return true;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    return logoutAndReRun();
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.orgScheduleController.run();
+                        return true;
+                    case 2:
+                        this.orgMessengerController.run();
+                        return true;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        return logoutAndReRun();
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
