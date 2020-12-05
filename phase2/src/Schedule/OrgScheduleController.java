@@ -13,7 +13,7 @@ public class OrgScheduleController extends UserScheduleController {
 
     /**
      * Creates a new controller for the organizer.
-     * @param eventManager The talkManager.
+     * @param eventManager The eventManager.
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
@@ -356,8 +356,8 @@ public class OrgScheduleController extends UserScheduleController {
                 presenter.printMenu(7);
             }
             else{
-                String eventIdToRegister = getEventByIndex(eventIndex);
-                if (this.eventManager.cancelEvent(eventIdToRegister)) {
+                String eventIdToCancel= getEventByIndex(eventIndex);
+                if (this.eventManager.cancelEvent(eventIdToCancel)) {
                     // prints "Success"
                     System.out.println("Event " + eventIndex + " Cancelled");
                     return;
@@ -371,10 +371,8 @@ public class OrgScheduleController extends UserScheduleController {
         orgSchedulePresenter.printMenu(2);
         boolean doContinue = true;
         while(doContinue) {
-            String choice = scan.nextLine();
-            try {
-                int command = Integer.parseInt(choice);
-            //if they want to register for a talk
+            int command = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
             if (command == 1) {
                 this.registerTalk(presenter1,scan);
                 orgSchedulePresenter.printMenu(1);
@@ -412,52 +410,13 @@ public class OrgScheduleController extends UserScheduleController {
                 this.seeAllDays(presenter, scan);
                 orgSchedulePresenter.printMenu(1);
             }
-            else if (command == 11) {
-                this.changeRoomCapacity(presenter, scan);
-                orgSchedulePresenter.printMenu(1);
-            }
             else if (command ==0){
                 doContinue = false;
                 mainMenuController.runMainMenu(email);
             }
-            else{orgSchedulePresenter.printMenu(15);}}
-            catch (NumberFormatException nfe){
-                orgSchedulePresenter.printMenu(15);;
-            }
-
+            else{orgSchedulePresenter.printMenu(15);}
         }
     }
 
-    private boolean changeRoomCapacity(UserSchedulePresenter presenter, Scanner scan) {
-        ArrayList<String> roomList = roomStorage.getRoomNameList();
-        orgSchedulePresenter.printAllRooms(roomList);
-        orgSchedulePresenter.printMenu(7);
-        boolean doContinue = true;
-        while(doContinue){
-            String choice = scan.nextLine();
-            try {
-                int roomIndex = Integer.parseInt(choice);
-                if (roomIndex == 0){
-                    //orgSchedulePresenter.printMenu(16);
-                    return false;
-                }
-                else if (roomIndex - 1 >= roomList.size()){
-                    orgSchedulePresenter.printMenu(13);
-                }
-                else{
-                    String chosenRoom = roomList.get(roomIndex - 1);
-                    System.out.println("choose the room capacity");
-                    String cap = scan.nextLine();
-                    int capacity = Integer.parseInt(cap);
-                    return roomStorage.changeRoomCapacity(chosenRoom, capacity);
-                }
-            }
-            catch (NumberFormatException nfe){
-                presenter.printMenu(8);
-            }
-
-        }
-        return false;
-    }
 }
 
