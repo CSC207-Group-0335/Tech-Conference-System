@@ -176,6 +176,13 @@ public class EventManager{
             this.eventMap.remove(t);
             this.eventList.remove(t);
             this.eventIdsList.remove(t.getEventId());
+            for (String user : t.getUsersSignedUp()){
+                userManager.removeEvent(user, t.eventId);
+            }
+            for (String speaker : t.getSpeakers()){
+                userManager.removeEvent(speaker, t.eventId);
+            }
+            this.roomStorage.removeEvent(t.roomName, t.eventId);
             return true;
         }
         return false;
