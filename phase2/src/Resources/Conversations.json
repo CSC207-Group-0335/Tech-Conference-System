@@ -1,7 +1,6 @@
 [
   {
-    "sender": "connor.burns@mail.utoronto.ca",
-    "recipient": "bonnor.burns@mail.utoronto.ca",
+    "participants": ["connor.burns@mail.utoronto.ca", "bonnor.burns@mail.utoronto.ca"],
     "chatLog": [
       [{"recipient": "bonnor.burns@mail.utoronto.ca",
         "sender": "connor.burns@mail.utoronto.ca",

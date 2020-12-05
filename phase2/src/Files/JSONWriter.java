@@ -39,7 +39,6 @@ public class JSONWriter {
             array.add(newobject);
 
         }
-
         try {
             Files.write(Paths.get(json), array.toJSONString().getBytes());
         } catch (IOException e) {
