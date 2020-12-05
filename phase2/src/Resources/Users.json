@@ -1,0 +1,11 @@
+[
+  {
+    "type": "Attendee",
+    "name": "Nathan",
+    "password": "coding123",
+    "email": "nathan@mail.com",
+    "listOfTalkIDs": [
+      "fbf46576-58ac-49c0-ba20-0720d9fe6ff5",
+      "9b0f5150-5c33-4686-88e2-de363d298cc9"]
+  }
+]
