@@ -52,28 +52,23 @@ public class OrgScheduleController extends UserScheduleController {
             while(chosenSpeakers.size() < numberOfSpeakers){
                 // put an option in the presenter class?
                 orgSchedulePresenter.printMenu(8);
-                String choice = scan.nextLine();
-                try {
-                    int speakerIndex = Integer.parseInt(choice);
-                    if (speakerIndex == 0){
-                        //orgSchedulePresenter.printMenu(16);
-                        return null;
-                    }
-                    else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()){
-                        orgSchedulePresenter.printMenu(14);
-                    }
-                    else{
-                        String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
-                        if (!(chosenSpeakers.contains(chosenSpeaker))){
-                            orgSchedulePresenter.printSchedule(
-                                    userManager.emailToTalkList(chosenSpeaker), eventManager, 2);
-                            chosenSpeakers.add(chosenSpeaker);
-                            System.out.println("Speaker added");
-                        }
-                    }
+                int speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
+                        scan);
+                if (speakerIndex == 0){
+                    //orgSchedulePresenter.printMenu(16);
+                    return null;
                 }
-                catch (NumberFormatException nfe){
-                    presenter.printMenu(8);
+                else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()){
+                    orgSchedulePresenter.printMenu(14);
+                }
+                else{
+                    String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
+                    if (!(chosenSpeakers.contains(chosenSpeaker))){
+                        orgSchedulePresenter.printSchedule(
+                                userManager.emailToTalkList(chosenSpeaker), eventManager, 2);
+                        chosenSpeakers.add(chosenSpeaker);
+                        System.out.println("Speaker added");
+                    }
                 }
             }
             return chosenSpeakers;
@@ -93,10 +88,10 @@ public class OrgScheduleController extends UserScheduleController {
         orgSchedulePresenter.printMenu(7);
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try { int roomIndex = Integer.parseInt(choice);
+            int roomIndex = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
             if (roomIndex == 0){
-                orgSchedulePresenter.printMenu(16); //return to main menu
+                orgSchedulePresenter.printMenu(16);
                 return null;
             }
             else if (roomIndex -1 >= roomStorage.getRoomNameList().size()){
@@ -107,9 +102,10 @@ public class OrgScheduleController extends UserScheduleController {
                 orgSchedulePresenter.printSchedule(
                         roomStorage.roomNameToEventIds(chosenRoom), eventManager, 1);
                 return chosenRoom;
-            }} catch (NumberFormatException nfe){
-            presenter.printMenu(8);}}
-    return null;}
+            }
+        }
+    return null;
+    }
 
     /**
      * Allows the organizer to choose a day - in this case our conference is three-days long.
@@ -118,62 +114,66 @@ public class OrgScheduleController extends UserScheduleController {
      */
     public Integer pickDay(Scanner scan){
         boolean doContinue  = true;
-        while(doContinue){
-            try {orgSchedulePresenter.PrintRequestTalkProcess(1);
-                String dayChoice = scan.nextLine();
-                int days = Integer.parseInt(dayChoice);
-                if (days == 0){
-                    orgSchedulePresenter.printMenu(16);
-                    return null;
-                }
-                else if (days > 3 || days < 0){
-                    orgSchedulePresenter.printMenu(18);
-                }
-                else {
-                    return days;
-                }}catch (NumberFormatException nfe){
-                presenter.printMenu(8);}}
-    return null;}
+        while(doContinue) {
+            orgSchedulePresenter.PrintRequestTalkProcess(1);
+            int days = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
+            if (days == 0){
+                orgSchedulePresenter.printMenu(16);
+                return null;
+            }
+            else if (days > 3 || days < 0){
+                orgSchedulePresenter.printMenu(18);
+            }
+            else {
+                return days;
+            }
+        }
+    return null;
+    }
 
     /**
      * Allows the organizer to choose an hour between 9am and 5pm.
      * @param scan The scanner.
      * @return Returns a int representing the hour chosen by the organizer.
      */
-    public Integer pickHour(Scanner scan){
+    public Integer pickHour(Scanner scan) {
         boolean doContinue = true;
-        while(doContinue) {
-            try{
-                orgSchedulePresenter.PrintRequestTalkProcess(2);
-                String hourChoice = scan.nextLine();
-                int hours = Integer.parseInt(hourChoice);
-                if (hours == 0){
-                    orgSchedulePresenter.printMenu(16);
-                    return null;
-                }
-                else if (hours > 16 || hours < 9) {
-                    orgSchedulePresenter.printMenu(19);
-                }
-                else {
-                    return hours;
-                }}catch (NumberFormatException nfe){
-                presenter.printMenu(8);}}
-    return null;}
+        while (doContinue) {
+            orgSchedulePresenter.PrintRequestTalkProcess(2);
+            int hours = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
+            if (hours == 0) {
+                orgSchedulePresenter.printMenu(16);
+                return null;
+            } else if (hours > 16 || hours < 9) {
+                orgSchedulePresenter.printMenu(19);
+            } else {
+                return hours;
+            }
 
-    /**
-     * Allows the organizer to choose a day and hour for the start time of the talk.
-     * @param scan The scanner.
-     * @return A LocalDateTime representing the start time chosen by the organizer.
-     */
-    public LocalDateTime pickTime(Scanner scan) {
-        // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        Integer day = pickDay(scan);
-        if (day == null){return null;}
-        Integer hour = pickHour(scan);
-        if(hour == null){return null;}
-        LocalDateTime dateTime = LocalDateTime.of(2020, 11,20+day,hour,0);
-        return dateTime;}
+        }
+        return null;
+    }
+        /**
+         * Allows the organizer to choose a day and hour for the start time of the talk.
+         * @param scan The scanner.
+         * @return A LocalDateTime representing the start time chosen by the organizer.
+         */
+        public LocalDateTime pickTime (Scanner scan){
+            // first they pick a speaker, then they pick a room, then they pick a time and check if it works
+            Integer day = pickDay(scan);
+            if (day == null) {
+                return null;
+            }
+            Integer hour = pickHour(scan);
+            if (hour == null) {
+                return null;
+            }
+            LocalDateTime dateTime = LocalDateTime.of(2020, 11, 20 + day, hour, 0);
+            return dateTime;
 
+    }
     /**
      * Check if the room and speaker are double-booked, or if just the speaker is double-booked, or if just the room
      * is double booked.
@@ -294,29 +294,24 @@ public class OrgScheduleController extends UserScheduleController {
      * Uses the addRoom method to register a room.
      * @param scan The scanner.
      */
-    public void registerRoom(Scanner scan){
+    public void registerRoom(Scanner scan) {
         orgSchedulePresenter.printMenu(9);
         System.out.println("enter zero to go back to main menu");
         boolean doContinue = true;
-        while(doContinue){
-        String roomName = scan.nextLine();
-        System.out.println("enter the room capacity");
-        String cap = scan.nextLine();
-        int capacity = Integer.parseInt(cap);
-        try{
-        if (roomName.contentEquals("zero")){
-            return;
-        }
-        else if (this.addRoom(roomName, capacity)){
+        while (doContinue) {
+            String roomName = scan.nextLine();
+            System.out.println("enter the room capacity");
+            int capacity = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
+            if (roomName.contentEquals("zero")) {
+                return;
+            } else if (this.addRoom(roomName, capacity)) {
                 orgSchedulePresenter.printMenu(11);
-                return;}
-        else{
+            } else {
                 orgSchedulePresenter.printMenu(20);
             }
-    } catch (NumberFormatException nfe){
-            presenter.printMenu(8);
-            }
-        }}
+        }
+    }
 
     /**
      * Uses the requestUser to create a user.
@@ -351,26 +346,22 @@ public class OrgScheduleController extends UserScheduleController {
         System.out.println("Which event would you like to cancel");
         boolean doContinue = true;
         while(doContinue){
-            String choice = scan.nextLine();
-            try {
-                int eventIndex = Integer.parseInt(choice);
-                if (eventIndex == 0){
-                    presenter.printMenu(10);
+            int eventIndex = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
+            if (eventIndex == 0){
+                presenter.printMenu(10);
+                return;
+            }
+            else if (getEventByIndex(eventIndex) == null){
+                presenter.printMenu(7);
+            }
+            else{
+                String eventIdToRegister = getEventByIndex(eventIndex);
+                if (this.eventManager.cancelEvent(eventIdToRegister)) {
+                    // prints "Success"
+                    System.out.println("Event " + eventIndex + " Cancelled");
                     return;
                 }
-                else if (getEventByIndex(eventIndex) == null){
-                    presenter.printMenu(7);
-                }
-                else{
-                    String eventIdToRegister = getEventByIndex(eventIndex);
-                    if (this.eventManager.cancelEvent(eventIdToRegister)) {
-                        // prints "Success"
-                        System.out.println("Event " + eventIndex + " Cancelled");
-                        return;
-                    }
-                }}
-            catch (NumberFormatException nfe){
-                presenter.printMenu(8);;
             }
         }
     }
