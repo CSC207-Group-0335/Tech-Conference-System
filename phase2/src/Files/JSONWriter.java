@@ -14,36 +14,34 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.lang.Object;
 import java.nio.file.Files;
-import java.util.ArrayList;
 
 public class JSONWriter {
 
     public void writeToEvents(String json, EventManager events) {
-        JSONArray array = new JSONArray();
+        JSONArray eventArray = new JSONArray();
 
         for (Event event:
              events.eventList) {
-            JSONObject newobject = new JSONObject();
-            newobject.put("title", event.getTitle());
+            JSONObject eventObject = new JSONObject();
+            eventObject.put("title", event.getTitle());
             LocalDateTime startTime = event.getStartTime();
             LocalDateTime endTime = event.getStartTime();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             String formatted = startTime.format(formatter);
             String formatted2 = endTime.format(formatter);
-            newobject.put("startTime", formatted);
-            newobject.put("endTime", formatted2);
-            newobject.put("eventId", event.getEventId());
-            newobject.put("roomName", event.getRoomName());
-            newobject.put("usersSignedUp", event.getUsersSignedUp());
-            newobject.put("speakers", event.getSpeakers());
-            newobject.put("vipRestricted", event.getVIPStatus());
-            array.add(newobject);
+            eventObject.put("startTime", formatted);
+            eventObject.put("endTime", formatted2);
+            eventObject.put("eventId", event.getEventId());
+            eventObject.put("roomName", event.getRoomName());
+            eventObject.put("usersSignedUp", event.getUsersSignedUp());
+            eventObject.put("speakers", event.getSpeakers());
+            eventObject.put("vipRestricted", event.getVIPStatus());
+            eventArray.add(eventObject);
 
         }
         try {
-            Files.write(Paths.get(json), array.toJSONString().getBytes());
+            Files.write(Paths.get(json), eventArray.toJSONString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,23 +49,31 @@ public class JSONWriter {
 
     }
     public void writeToUsers(String json, UserManager users) {
-        JSONArray array = new JSONArray();
+        JSONArray userArray = new JSONArray();
 
         for (User user:
                 users.getUserList()) {
-            JSONObject newobject = new JSONObject();
-            newobject.put("type", user.getType());
-            newobject.put("vip", user.getVIPStatus());
-            newobject.put("name", user.getName());
-            newobject.put("password", user.getPassword());
-            newobject.put("email", user.getEmail());
-            newobject.put("ListOfTalkIDs", user.getEventList());
-            array.add(newobject);
+            JSONObject userObject = new JSONObject();
+            userObject.put("type", user.getType());
+            userObject.put("vip", user.getVIPStatus());
+            userObject.put("name", user.getName());
+            userObject.put("password", user.getPassword());
+            userObject.put("email", user.getEmail());
+            userObject.put("ListOfTalkIDs", user.getEventList());
+            userArray.add(userObject);
 
         }
 
+        //I found an alternative way to write to files here, but both ways seem to work the same - Nathan
+//        try (FileWriter file = new FileWriter(json)) {
+//            file.write(userArray.toJSONString());
+//            file.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         try {
-            Files.write(Paths.get(json), array.toJSONString().getBytes());
+            Files.write(Paths.get(json), userArray.toJSONString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,14 +81,14 @@ public class JSONWriter {
 
     }
     public void writeToConversations(String json, ConversationStorage convos){
-        JSONArray array = new JSONArray();
+        JSONArray convoArray = new JSONArray();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         for (ConversationManager convo:
                 convos.getConversationManagers()) {
-            JSONArray nestedarray = new JSONArray();
-            JSONObject newobject = new JSONObject();
-            newobject.put("participants", convo.getParticipants());
+            JSONArray messagesArray = new JSONArray();
+            JSONObject convoObject = new JSONObject();
+            convoObject.put("participants", convo.getParticipants());
             for (Message message: convo.getMessages()){
                 JSONObject messageobj = new JSONObject();
                 messageobj.put("recipient", message.getRecipientEmail());
@@ -91,14 +97,14 @@ public class JSONWriter {
                 String formatted = startTime.format(formatter);
                 messageobj.put("time", formatted);
                 messageobj.put("content", message.getMessageContent());
-                nestedarray.add(messageobj);
+                messagesArray.add(messageobj);
             }
-            newobject.put("chatLog", nestedarray);
-            array.add(newobject);
+            convoObject.put("chatLog", messagesArray);
+            convoArray.add(convoObject);
         }
 
         try {
-            Files.write(Paths.get(json), array.toJSONString().getBytes());
+            Files.write(Paths.get(json), convoArray.toJSONString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
