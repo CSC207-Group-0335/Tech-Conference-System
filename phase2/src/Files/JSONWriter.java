@@ -1,5 +1,8 @@
 package Files;
 
+import MessagingPresenters.ConversationManager;
+import MessagingPresenters.ConversationStorage;
+import MessagingPresenters.Message;
 import Schedule.Event;
 import Schedule.EventManager;
 import UserLogin.User;
@@ -69,6 +72,36 @@ public class JSONWriter {
             e.printStackTrace();
         }
 
+
+    }
+    public void writeToConversations(String json, ConversationStorage convos){
+        JSONArray array = new JSONArray();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (ConversationManager convo:
+                convos.getConversationManagers()) {
+            JSONArray nestedarray = new JSONArray();
+            JSONObject newobject = new JSONObject();
+            newobject.put("participants", convo.getParticipants());
+            for (Message message: convo.getMessages()){
+                JSONObject messageobj = new JSONObject();
+                messageobj.put("recipient", message.getRecipientEmail());
+                messageobj.put("sender", message.getSenderEmail());
+                LocalDateTime startTime = message.getTimestamp();
+                String formatted = startTime.format(formatter);
+                messageobj.put("time", formatted);
+                messageobj.put("content", message.getMessageContent());
+                nestedarray.add(messageobj);
+            }
+            newobject.put("chatLog", nestedarray);
+            array.add(newobject);
+        }
+
+        try {
+            Files.write(Paths.get(json), array.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
