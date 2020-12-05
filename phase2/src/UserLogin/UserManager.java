@@ -180,10 +180,10 @@ public class UserManager extends Observable {
     //Delete if not used
 
     public boolean emailToVIPStatus(String email){
-        if (emailToType(email) == "Organizer"){
+        if (emailToType(email).equals("Organizer")){
             return true;
         }
-        if (emailToType(email) == "Speaker"){
+        if (emailToType(email).equals("Speaker")){
             return false;
         }
         else{

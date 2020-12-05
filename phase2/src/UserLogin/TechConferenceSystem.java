@@ -12,7 +12,7 @@ import java.util.Observable;
  * registered in the database.
  */
 
-public class TechConferenceSystem extends Observable {
+public class TechConferenceSystem {
 
     public UserManager userManager;
     public LogInController logInController;
@@ -35,8 +35,7 @@ public class TechConferenceSystem extends Observable {
     }
 
     /**
-     * The main run method for the entire program. Observers are initialized so that everything is running over the
-     * same systems. The above set methods are called to update everything and notify all observers.
+     * The main run method for the entire program.
      * The system is run starting with Login, which, if successful, prompts a main menu, which the user can navigate
      * to prompt the different screens and do specific actions. The program will quit when the user logs out, and
      * update any files with possible changes that were made during the active session.

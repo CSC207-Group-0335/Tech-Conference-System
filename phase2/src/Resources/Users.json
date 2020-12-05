@@ -1,0 +1,36 @@
+[
+  {
+    "type": "Speaker",
+    "vip": null,
+    "name": "Nathan",
+    "password": "coding123",
+    "email": "nathan@mail.com",
+    "listOfTalkIDs": [
+      "fbf46576-58ac-49c0-ba20-0720d9fe6ff5",
+      "9b0f5150-5c33-4686-88e2-de363d298cc9"]
+  },
+  {
+    "type": "Organizer",
+    "vip": null,
+    "name": "Bonnor",
+    "password": "school",
+    "email": "bonnor.burns@mail.utoronto.ca",
+    "listOfTalkIDs": []
+  },
+  {
+    "type": "Attendee",
+    "vip": false,
+    "name": "Connor",
+    "password": "school",
+    "email": "connor.burns@mail.utoronto.ca",
+    "listOfTalkIDs": []
+  },
+  {
+    "type": "Attendee",
+    "vip": true,
+    "name": "Sal",
+    "password": "ilovecs",
+    "email": "sal@hotmail.com",
+    "listOfTalkIDs": ["fbf46576-58ac-49c0-ba20-0720d9fe6ff5"]
+  }
+]
