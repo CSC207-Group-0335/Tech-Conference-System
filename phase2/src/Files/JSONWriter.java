@@ -2,6 +2,8 @@ package Files;
 
 import Schedule.Event;
 import Schedule.EventManager;
+import UserLogin.User;
+import UserLogin.UserManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -35,6 +37,7 @@ public class JSONWriter {
             newobject.put("speakers", event.getSpeakers());
             newobject.put("vipRestricted", event.getVIPStatus());
             array.add(newobject);
+
         }
 
         try {
@@ -45,4 +48,29 @@ public class JSONWriter {
 
 
     }
+    public void writeToUsers(String json, UserManager users) {
+        JSONArray array = new JSONArray();
+
+        for (User user:
+                users.getUserList()) {
+            JSONObject newobject = new JSONObject();
+            newobject.put("type", user.getType());
+            newobject.put("vip", user.getVIPStatus());
+            newobject.put("name", user.getName());
+            newobject.put("password", user.getPassword());
+            newobject.put("email", user.getEmail());
+            newobject.put("ListOfTalkIDs", user.getEventList());
+            array.add(newobject);
+
+        }
+
+        try {
+            Files.write(Paths.get(json), array.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }

@@ -80,4 +80,8 @@ public abstract class User {
         }
         else{return false;}
     }
+    public boolean getVIPStatus(){
+        return false;
+    }
 }
+
