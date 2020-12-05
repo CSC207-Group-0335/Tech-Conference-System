@@ -105,8 +105,8 @@ public class MessagingSystem extends Observable{
      */
 
     public void save() {
-        //ConversationCSVWriter csvWriter = new ConversationCSVWriter("src/Resources/Conversations.csv",
-                //this.conversationStorage.getConversationManagers());
+        ConversationCSVWriter csvWriter = new ConversationCSVWriter("src/Resources/Conversations.csv",
+        this.conversationStorage.getConversationManagers());
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToConversations("src/Resources/Conversations.json", this.conversationStorage);
     }
