@@ -110,4 +110,6 @@ public class ConversationManager {
         return this.participants;
     }
 
+    public ArrayList<Message> getMessages() { return this.messages; }
+
 }
