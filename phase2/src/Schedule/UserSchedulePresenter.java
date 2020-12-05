@@ -5,7 +5,8 @@ import java.util.ArrayList;
 /**
  * Prints to the console so that the user can have something to interact with.
  */
-public class UserSchedulePresenter {
+public class UserSchedulePresenter extends SchedulePresenter{
+
     /**
      * A series of phrases output depending on what the organizer does.
      * @param i An int corresponding to specific output.
