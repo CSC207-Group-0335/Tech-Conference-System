@@ -1,0 +1,11 @@
+[
+  {
+    "sender": "connor.burns@mail.utoronto.ca",
+    "recipient": "bonnor.burns@mail.utoronto.ca",
+    "chatLog": [
+      ["bonnor.burns@mail.utoronto.ca", "connor.burns@mail.utoronto.ca", "2020-08-26 11:41", "Hi"],
+      ["connor.burns@mail.utoronto.ca", "bonnor.burns@mail.utoronto.ca", "2020-08-26 11:53", "Hello There"],
+      ["bonnor.burns@mail.utoronto.ca", "connor.burns@mail.utoronto.ca", "2020-08-26 11:58", "How are you?"],
+      ["connor.burns@mail.utoronto.ca", "bonnor.burns@mail.utoronto.ca", "2020-08-26 12:30", "Good thank you."]]
+  }
+]
