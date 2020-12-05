@@ -2,6 +2,7 @@ package Schedule;
 
 import Files.CSVReader;
 import Files.CSVWriter;
+import Files.JSONWriter;
 import MessagingPresenters.MessagingSystem;
 import UserLogin.*;
 
@@ -83,8 +84,10 @@ public class EventSystem extends Observable{
      * Method to write the changes to the Events.csv, called in MainMenuController.logout().
      */
     public void save() {
-        CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToEvents("src/Resources/Events.csv", eventManager);
+        //CSVWriter csvWriter = new CSVWriter();
+       //csvWriter.writeToEvents("src/Resources/Events.csv", eventManager);
+        JSONWriter jsonWriter = new JSONWriter();
+        jsonWriter.writeToEvents("src/Resources/Events.json", this.eventManager);
     }
 
     public void setEmail(String userEmail){
