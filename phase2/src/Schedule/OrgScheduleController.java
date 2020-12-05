@@ -289,6 +289,7 @@ public class OrgScheduleController extends UserScheduleController {
     public boolean requestUser(String name, String password, String email, String type) {
         return this.userManager.createUser(type, name, password, email);
     }
+
     /**
      * Uses the addRoom method to register a room.
      * @param scan The scanner.
@@ -384,19 +385,19 @@ public class OrgScheduleController extends UserScheduleController {
                 int command = Integer.parseInt(choice);
             //if they want to register for a talk
             if (command == 1) {
-                this.registerTalk(presenter,scan);
+                this.registerTalk(presenter1,scan);
                 orgSchedulePresenter.printMenu(1);
                 //If they want to see all available talks
             }else if (command == 2) {
-                this.seeAllTalks(presenter,scan);
+                this.seeAll(presenter1,scan, "events");
                 orgSchedulePresenter.printMenu(1);
                 //if they want to see all the talks they are currently registered for
             }else if (command == 3) {
-                this.seeAllRegistered(presenter,scan);
+                this.seeAll(presenter1,scan, "registered");
                 orgSchedulePresenter.printMenu(1);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(presenter,scan);
+                this.cancelATalk(presenter1,scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 5){
                 this.requestEvent(scan);
@@ -420,12 +421,8 @@ public class OrgScheduleController extends UserScheduleController {
                 this.seeAllDays(presenter, scan);
                 orgSchedulePresenter.printMenu(1);
             }
-            else if (command == 11){
+            else if (command == 11) {
                 this.changeRoomCapacity(presenter, scan);
-                orgSchedulePresenter.printMenu(1);
-            }
-            else if (command == 12){
-                this.createUser(presenter,scan);
                 orgSchedulePresenter.printMenu(1);
             }
             else if (command ==0){
@@ -438,9 +435,6 @@ public class OrgScheduleController extends UserScheduleController {
             }
 
         }
-    }
-
-    private void createUser(UserSchedulePresenter presenter, Scanner scan) {
     }
 
     private boolean changeRoomCapacity(UserSchedulePresenter presenter, Scanner scan) {

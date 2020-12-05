@@ -15,7 +15,7 @@ public class EventManager{
     /**
      * A mapping of a talk to its corresponding speaker, room, and time.
      */
-    LinkedHashMap<Event, Quartet> eventMap;
+    LinkedHashMap<Event, EventFeatures> eventMap;
     /**
      * A mapping of rooms to its corresponding RoomScheduleManager which checks for double booking.
      */
@@ -36,7 +36,7 @@ public class EventManager{
         this.userManager = userManager;
         this.roomList = roomStorage.getRoomList();
         this.roomStorage = roomStorage;
-        this.eventMap = new LinkedHashMap<Event, Quartet>();
+        this.eventMap = new LinkedHashMap<Event, EventFeatures>();
         this.eventList = new ArrayList<>();
         this.eventIdsList = new ArrayList<>();
     }
@@ -50,7 +50,7 @@ public class EventManager{
      * @param end The end time corresponding to the talk.
      */
     public void addEvent(Event t, Room r, ArrayList<Speaker> s, LocalDateTime start, LocalDateTime end){
-        Quartet q = new Quartet(r, s, start, end);
+        EventFeatures q = new EventFeatures(r, s, start, end);
         eventMap.put(t, q);
         eventList.add(t);
         eventIdsList.add(t.getEventId());
@@ -228,7 +228,7 @@ public class EventManager{
      * Get the talkMap
      * @return A LinkedHashMap representing the talkMap of TalkManager.
      */
-    public HashMap<Event, Quartet> getEventMap(){
+    public HashMap<Event, EventFeatures> getEventMap(){
         return this.eventMap;
     }
 

@@ -15,7 +15,9 @@ public class UserScheduleController{
     MainMenuController mainMenuController;
     RoomStorage roomStorage;
     UserSchedulePresenter presenter;
+    UserSchedulePresenter1 presenter1;
     Scanner scan;
+    ValidatorController validatorController;
 
     /**
      * Initializes a new controller for the user.
@@ -27,13 +29,15 @@ public class UserScheduleController{
      */
     public UserScheduleController(String email, EventManager eventManager, UserManager userManager,
                                   MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
+        this.scan = scanner;
         this.email = email;
         this.userManager = userManager;
         this.eventManager = eventManager;
         this.roomStorage = roomStorage;
         this.mainMenuController = mainMenuController;
         presenter = new UserSchedulePresenter();
-        this.scan = scanner;
+        presenter1 = new UserSchedulePresenter1();
+        validatorController = new ValidatorController();
     }
 
     /**
@@ -103,15 +107,14 @@ public class UserScheduleController{
     public ArrayList<String> getRegisteredEvents(){
         ArrayList<String> registeredEvents = userManager.emailToTalkList(email);
         if (registeredEvents.size() == 0){
-            presenter.printMenu(13);
-            presenter.printMenu(11);
+            presenter1.ChoosingEvent(3);
         }
         else{
-            Integer i = 1;
-            for (String e : registeredEvents){
-                presenter.printTalk(i, e, eventManager);
-                i++;
+            ArrayList<String> stringRepRegisteredEvents = new ArrayList<>();
+            for(String event: registeredEvents){
+                stringRepRegisteredEvents.add(eventManager.toStringEvent(event));
             }
+            presenter1.printByIndex(stringRepRegisteredEvents);
         }
         return registeredEvents;
     }
@@ -147,30 +150,27 @@ public class UserScheduleController{
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void registerTalk(UserSchedulePresenter presenter, Scanner scan){
+    protected void registerTalk(UserSchedulePresenter1 presenter, Scanner scan){
         // show them a list of all available talks
-        presenter.printAllTalks(eventManager);
+        presenter.printEvents(eventManager.EventMapStringRepresentation());
         //they will pick the number corresponding to each talk
-        presenter.printMenu(3);
+        presenter.ChoosingEvent(1);
+        presenter.Choose("event");
         //assuming they will have asked to see all talks they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try {
-                int eventIndex = Integer.parseInt(choice);
+            int eventIndex = validatorController.userIntInputValidation("scheduling", "command", scan);
             if (eventIndex == 0){
-                presenter.printMenu(10);
                 return;
             }
             else if (getEventByIndex(eventIndex) == null){
-                presenter.printMenu(7);
+                presenter.printTryAgain("event index");
             }
             else{
                 String eventIdToRegister = getEventByIndex(eventIndex);
                 if (this.signUp(eventIdToRegister).equals("User added.")) {
-                    // prints "Success"
-                    presenter.printMenu(6);
-                    presenter.printMenu(10);
+                    presenter.printSuccess();
+                    presenter.printGoodbye("scheduling");
                     return;
                 }
                 else{
@@ -186,58 +186,30 @@ public class UserScheduleController{
                     }
                     else{
                         presenter.printRegistrationBlocked(2);
-                    }
-                }
-            }}
-            catch (NumberFormatException nfe){
-        presenter.printMenu(8);
-    }}}
+                    }}}}}
 
     /**
      * Takes in a user's input and shows them all the talks offered.
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void seeAllTalks(UserSchedulePresenter presenter, Scanner scan){
-        //use the string representation in TalkManager
-        presenter.printAllTalks(eventManager);
-        presenter.printMenu(11);
-        boolean doContinue  = true;
-        while (doContinue){
-            String choice = scan.nextLine();
-            try {
-                int eventIndex = Integer.parseInt(choice);
-            if (eventIndex == 0){
-                presenter.printMenu(10);
-                return;
-            }
-            else{presenter.printMenu(8);}}
-            catch (NumberFormatException nfe){
-       presenter.printMenu(8);;
+    protected void seeAll(UserSchedulePresenter1 presenter, Scanner scan, String events){
+        switch (events) {
+            case "events":
+                presenter.printEvents(eventManager.EventMapStringRepresentation());
+                break;
+            case "registered":
+                this.getRegisteredEvents();
+                break;
         }
-    }}
-
-    /**
-     * Takes in a user's input and shows them all the talks they are currently registered for.
-     * @param presenter The presenter.
-     * @param scan The scanner.
-     */
-    protected void seeAllRegistered(UserSchedulePresenter presenter,
-                                    Scanner scan){
-        ArrayList<String> registeredEvents = this.getRegisteredEvents();
-        presenter.printMenu(11);
+        presenter.printGoBack();
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try { int talkIndex = Integer.parseInt(choice);
-            if (talkIndex == 0){
-                presenter.printMenu(10);
-                return;
-            }
-        else{presenter.printMenu(8);
-            }}catch (NumberFormatException nfe){
-        presenter.printMenu(8);;
-    }}}
+            int choice = validatorController.userIntInputValidation("scheduling", "command", scan);
+            if (choice == 0){
+                return; }
+            else{presenter.printTryAgain("command");}}
+    }
 
     /***
      * Takes in a users input and shows them all the Speakers speaking at the conference.
@@ -297,104 +269,91 @@ public class UserScheduleController{
                     return;
                 }}catch (NumberFormatException nfe){
                 presenter.printMenu(8);}}
-
-
     }
-
-
-
 
     /**
      * Takes in a user's input and cancels their registration for a specified talk.
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void cancelATalk(UserSchedulePresenter presenter,
+    protected void cancelATalk(UserSchedulePresenter1 presenter,
                                Scanner scan){
-        ArrayList<String> registeredEvents = getRegisteredEvents();
+        ArrayList<String> registeredEvents = this.getRegisteredEvents();
         if (registeredEvents.size() != 0) {
-            presenter.printMenu(5);
+            presenter.ChoosingEvent(2);
+            presenter.Choose("Event");
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try {
-                int cancelEventIndex = Integer.parseInt(choice);
+            int cancelEventIndex = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
             if (cancelEventIndex == 0){
-            presenter.printMenu(10);
+            presenter.printGoodbye("scheduling");
             return;
         }
         else if (registeredEvents.size() <= Math.abs(cancelEventIndex - 1)){
-            presenter.printMenu(7);
+            presenter1.printTryAgain("event index");
         }
         else{
             String eventIdToCancel = registeredEvents.get(cancelEventIndex - 1);
             this.cancelRegistration(eventIdToCancel);
             // prints "Success"
-            presenter.printMenu(6);
-            presenter.printMenu(10);
+            presenter.printSuccess();
+            presenter.printGoodbye("scheduling");
             return;
-        }}catch (NumberFormatException nfe){
-        presenter.printMenu(8);;
-    }}}
+        }}
+    }
     else{
             boolean doContinue  = true;
             while (doContinue){
-                String choice = scan.nextLine();
-                try {
-                    int cancelEventIndex = Integer.parseInt(choice);
-                    if (cancelEventIndex == 0) {
-                        presenter.printMenu(10);
+                int command = validatorController.userIntInputValidation("scheduling", "command", scan);
+                    if (command == 0) {
+                        presenter.printGoodbye("scheduling");
                         return;
-                    }}catch (NumberFormatException nfe){
-                        presenter.printMenu(8);;
-            }
-        }}}
+                    } } }}
 
     /**
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(userManager.emailToName(email));
-        presenter.printMenu(1);
-        presenter.printMenu(2);
+        presenter1.printHello(userManager.emailToName(email));
+        presenter1.printMenu();
+        presenter1.InputCommandRequest();
         boolean doContinue = true;
         while(doContinue) {
-            String choice = scan.nextLine();
-            try {
-                int command = Integer.parseInt(choice);
+            Integer command = validatorController.userIntInputValidation("main", "command", scan);
+            switch (command){
             //if they want to register for a talk
-            if (command == 1) {
-                this.registerTalk(presenter, scan);
-                presenter.printMenu(1);
+                case 1:
+                    this.registerTalk(presenter1, scan);
+                    presenter1.printMenu();
+                    break;
                 //If they want to see all available talks
-            }else if (command == 2) {
-                this.seeAllTalks(presenter, scan);
-                presenter.printMenu(1);
+                case 2:
+                    this.seeAll(presenter1, scan, "events");
+                    presenter1.printMenu();
+                    break;
                 //if they want to see all the talks they are currently registered for
-            }else if (command == 3) {
-                this.seeAllRegistered(presenter, scan);
-                presenter.printMenu(1);
+                case 3:
+                    this.seeAll(presenter1, scan, "registered");
+                    presenter1.printMenu();
+                    break;
                 // if they want to cancel a registration
-            }else if (command == 4) {
-                this.cancelATalk(presenter, scan);
-                presenter.printMenu(1);
-            }
-            else if (command == 5){
-                this.seeAllSpeakers(presenter, scan);
-                presenter.printMenu(1);
-            }
-            else if (command ==6){
-                this.seeAllDays(presenter, scan);
-                presenter.printMenu(1);
-            }
-            else if (command ==0){
-                doContinue = false;
-                mainMenuController.runMainMenu(this.email);
-            }
-            else{presenter.printMenu(8);}
-        } catch (NumberFormatException nfe){
-        presenter.printMenu(8);;
+                case 4:
+                    this.cancelATalk(presenter1, scan);
+                    presenter1.printMenu();
+                    break;
+                case 5:
+                    this.seeAllSpeakers(presenter, scan);
+                    presenter1.printMenu();
+                    break;
+                case 6:
+                    this.seeAllDays(presenter, scan);
+                    presenter1.printMenu();
+                    break;
+                case 0:
+                    doContinue = false;
+                    mainMenuController.runMainMenu(this.email);
+                    break;
+            }}}
     }
-    }}
-}
 

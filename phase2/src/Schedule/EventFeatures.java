@@ -5,13 +5,13 @@ import UserLogin.Speaker;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Quartet {
+public class EventFeatures {
     Room room;
     ArrayList<Speaker> speakers;
     LocalDateTime start;
     LocalDateTime end;
 
-    public Quartet(Room room, ArrayList<Speaker> speakers, LocalDateTime start, LocalDateTime end){
+    public EventFeatures(Room room, ArrayList<Speaker> speakers, LocalDateTime start, LocalDateTime end){
         this.room =room;
         this.speakers = speakers;
         this.start = start;
