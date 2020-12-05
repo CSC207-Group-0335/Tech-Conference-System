@@ -29,11 +29,11 @@ public class LogInController extends Observable {
      */
 
     public LogInController(MainMenuController mainMenuController, EventSystem eventSystem,
-                           MessagingSystem messagingSystem, UserStorage userStorage){
+                           MessagingSystem messagingSystem, UserManager userManager){
         this.scanner = new Scanner(System.in);
         this.eventSystem = eventSystem;
         this.messagingSystem = messagingSystem;
-        this.logInManager = new LogInManager(userStorage);
+        this.logInManager = new LogInManager(userManager);
         this.presenter = new LogInPresenter();
         this.mainMenuController = mainMenuController;
         mainMenuController.setScanner(scanner);

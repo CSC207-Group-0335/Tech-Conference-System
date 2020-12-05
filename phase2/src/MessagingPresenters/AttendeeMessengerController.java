@@ -1,7 +1,7 @@
 package MessagingPresenters;
 
 import UserLogin.MainMenuController;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,11 +19,11 @@ public class AttendeeMessengerController extends MessengerController {
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController,
-                                       UserStorage userStorage, ConversationStorage conversationStorage) {
-        super(attendeeEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        messageManager = new AttendeeMessageManager(attendeeEmail, userStorage, conversationStorage);
+                                       UserManager userManager, ConversationStorage conversationStorage) {
+        super(attendeeEmail, scanner, mainMenuController, userManager, conversationStorage);
+        messageManager = new AttendeeMessageManager(attendeeEmail, userManager, conversationStorage);
         this.presenter = new AttendeeMessengerPresenter();
-        this.userStorage = userStorage;
+        this.userManager = userManager;
     }
 
     /**

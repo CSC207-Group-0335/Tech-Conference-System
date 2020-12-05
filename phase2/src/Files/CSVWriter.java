@@ -1,18 +1,14 @@
 package Files;
 
-import MessagingPresenters.ConversationManager;
-import MessagingPresenters.Message;
 import Schedule.*;
-import UserLogin.Speaker;
 import UserLogin.User;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A general Gateway class that handles writing to the assorted files in the program
@@ -96,14 +92,14 @@ public class CSVWriter {
      * @param csv the csv file that is being written to.
      */
 
-    public void writeToRegistration(String csv, UserStorage userStorage){
+    public void writeToRegistration(String csv, UserManager userManager){
         try (FileWriter csvWriter = new FileWriter(csv)) {
-            for(String userEmail: userStorage.getUserEmailList()) {
+            for(String userEmail: userManager.getUserEmailList()) {
                     csvWriter.append(userEmail);
                     csvWriter.append(",");
                     int j = 0;
-                    while (j <= userStorage.emailToTalkList(userEmail).size() - 1){
-                        csvWriter.append(userStorage.emailToTalkList(userEmail).get(j));
+                    while (j <= userManager.emailToTalkList(userEmail).size() - 1){
+                        csvWriter.append(userManager.emailToTalkList(userEmail).get(j));
                         csvWriter.append(',');
                         j ++;
                     }

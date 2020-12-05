@@ -1,7 +1,7 @@
 package Schedule;
 
 import UserLogin.Speaker;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 
 import java.time.LocalDateTime;
@@ -30,10 +30,10 @@ public class EventManager{
     public ArrayList<Event> eventList;
     public ArrayList<String> eventIdsList;
     private RoomStorage roomStorage;
-    private UserStorage userStorage;
+    private UserManager userManager;
 
-    public EventManager(UserStorage userStorage, RoomStorage roomStorage){
-        this.userStorage = userStorage;
+    public EventManager(UserManager userManager, RoomStorage roomStorage){
+        this.userManager = userManager;
         this.roomList = roomStorage.getRoomList();
         this.roomStorage = roomStorage;
         this.eventMap = new LinkedHashMap<Event, Quartet>();
@@ -76,7 +76,7 @@ public class EventManager{
      * @return A speaker with the specified email or null if there is no speaker with that email.
      */
     public Speaker findSpeaker(String speakerEmail){
-        for (Speaker s : userStorage.getSpeakerList()){
+        for (Speaker s : userManager.getSpeakerList()){
             if (s.getEmail().equals(speakerEmail)){
                 return s;
             }
@@ -115,7 +115,7 @@ public class EventManager{
                 Event event = new Event(talkTitle, start, end, talkId, roomName, speakerEmails,vipRestricted);
                 this.addEvent(event, talkRoom, speakers , start, end);
                 for (Speaker s: speakers){
-                    userStorage.addEvent(s.getEmail(), event.getEventId());
+                    userManager.addEvent(s.getEmail(), event.getEventId());
                 }
                 roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
                 return true;
@@ -155,7 +155,7 @@ public class EventManager{
             Event event = new Event(talkTitle, start, end, roomName, speakerEmails,vipRestricted);
             this.addEvent(event, talkRoom, speakers , start, end);
             for (Speaker s: speakers){
-                userStorage.addEvent(s.getEmail(), event.getEventId());
+                userManager.addEvent(s.getEmail(), event.getEventId());
             }
             roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
             return true;
@@ -190,7 +190,7 @@ public class EventManager{
      */
     public boolean checkIfUserAllowed(String userEmail, String id){
         boolean eventVIP = getEvent(id).getVIPStatus();
-        boolean userVIP = userStorage.emailToVIPStatus(userEmail);
+        boolean userVIP = userManager.emailToVIPStatus(userEmail);
         if (!eventVIP){
             return true;
         }
@@ -529,7 +529,7 @@ public class EventManager{
      * @param day The integer representing the day of the month
      * @return An array list of integers representing days of the conference
      */
-    public ArrayList<String> intDaytoEventIDs(int day){
+    public ArrayList<String> intDayToEventIDs(int day){
         ArrayList<String> events = new ArrayList<>();
         for(Event event: this.eventList){
             if(event.getStartTime().getDayOfMonth() == day){

@@ -30,7 +30,7 @@ public class MainMenuController implements Observer {
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
-    private UserStorage userStorage;
+    private UserManager userManager;
 
     /**
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
@@ -43,7 +43,7 @@ public class MainMenuController implements Observer {
      */
 
     public MainMenuController(RoomSystem roomSystem, EventSystem eventSystem,
-                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
+                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserManager userManager,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
@@ -52,7 +52,7 @@ public class MainMenuController implements Observer {
         this.messagingSystem = messagingSystem;
         messagingSystem.setMainMenuController(this);
         this.scheduleSystem = scheduleSystem;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
     }
@@ -62,8 +62,8 @@ public class MainMenuController implements Observer {
      * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
-        presenter.printHello(userStorage.emailToName(useremail));
-        switch (userStorage.emailToType(useremail)) {
+        presenter.printHello(userManager.emailToName(useremail));
+        switch (userManager.emailToType(useremail)) {
             case "Attendee":
                 runMainMenuAttendee();
                 break;

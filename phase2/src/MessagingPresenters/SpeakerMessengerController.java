@@ -4,9 +4,8 @@ import Schedule.Event;
 import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.User;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,10 +24,10 @@ public class SpeakerMessengerController extends MessengerController {
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController,
-                                      UserStorage userStorage, ConversationStorage conversationStorage,
+                                      UserManager userManager, ConversationStorage conversationStorage,
                                       EventManager eventManager) {
-        super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager, conversationStorage);
+        super(speakerEmail, scanner, mainMenuController, userManager, conversationStorage);
+        this.messageManager = new SpeakerMessageManager(speakerEmail, userManager, eventManager, conversationStorage);
         this.presenter = new SpeakerMessengerPresenter();
     }
 

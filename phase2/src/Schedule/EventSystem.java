@@ -5,7 +5,6 @@ import Files.CSVWriter;
 import MessagingPresenters.MessagingSystem;
 import UserLogin.*;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -22,20 +21,19 @@ public class EventSystem extends Observable{
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
     public String userEmail;
-    public UserStorage userStorage;
+    public UserManager userManager;
     public RoomStorage roomStorage;
     public MainMenuController mainMenuController;
 
     /**
      * creates a new TalkSystem.
      */
-    public EventSystem(UserStorage userStorage, RoomStorage roomStorage){
-        this.eventManager = new EventManager(userStorage, roomStorage);
-        this.userStorage = userStorage;
+    public EventSystem(UserManager userManager, RoomStorage roomStorage){
+        this.eventManager = new EventManager(userManager, roomStorage);
+        this.userManager = userManager;
         this.roomStorage = roomStorage;
-        this.messagingSystem = new MessagingSystem(userStorage, eventManager);
-        this.scheduleSystem = new ScheduleSystem(eventManager, userStorage);
-        this.mainMenuController = mainMenuController;
+        this.messagingSystem = new MessagingSystem(userManager, eventManager);
+        this.scheduleSystem = new ScheduleSystem(eventManager, userManager);
     }
 
     /**
@@ -45,18 +43,18 @@ public class EventSystem extends Observable{
      */
     public void instantiateControllers(String userEmail, Scanner scanner){
         this.addObserver(mainMenuController);
-        if (userStorage.emailToType(userEmail).equals("Attendee")){
-            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userStorage,
+        if (userManager.emailToType(userEmail).equals("Attendee")){
+            this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userManager,
                     mainMenuController, roomStorage, scanner);
             setUserScheduleController();
             }
-        else if (userStorage.emailToType(userEmail).equals("Organizer")){
-            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userStorage,
+        else if (userManager.emailToType(userEmail).equals("Organizer")){
+            this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userManager,
                     mainMenuController, roomStorage, scanner);
             setOrgScheduleController();
         }
         else{
-            this.speakerScheduleController = new SpeakerScheduleController(userEmail, eventManager, userStorage,
+            this.speakerScheduleController = new SpeakerScheduleController(userEmail, eventManager, userManager,
                     mainMenuController, scanner);
             setSpeakerScheduleController();
         }

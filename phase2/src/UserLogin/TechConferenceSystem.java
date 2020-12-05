@@ -14,8 +14,7 @@ import java.util.Observable;
 
 public class TechConferenceSystem extends Observable {
 
-    public UserStorage userStorage;
-    public ArrayList<User> userList;
+    public UserManager userManager;
     public LogInController logInController;
     public RoomSystem roomSystem;
     public MainMenuController mainMenuController;
@@ -26,13 +25,13 @@ public class TechConferenceSystem extends Observable {
      */
 
     public TechConferenceSystem() {
-        this.userStorage = new UserStorage();
-        this.roomSystem = new RoomSystem(userStorage);
+        this.userManager = new UserManager();
+        this.roomSystem = new RoomSystem(userManager);
         this.mainMenuController = new MainMenuController(roomSystem,
                 roomSystem.eventSystem, roomSystem.eventSystem.messagingSystem, roomSystem.eventSystem.scheduleSystem,
-                userStorage,this);
+                userManager,this);
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.eventSystem,
-                this.roomSystem.eventSystem.messagingSystem, userStorage);
+                this.roomSystem.eventSystem.messagingSystem, userManager);
     }
 
     /**
@@ -46,7 +45,7 @@ public class TechConferenceSystem extends Observable {
     public void run() {
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
-            this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}
+            this.userManager.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}
         roomSystem.run();
         logInController.runLogIn();
         mainMenuController.runMainMenu(logInController.getEmail());
@@ -57,6 +56,6 @@ public class TechConferenceSystem extends Observable {
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToUsers("src/Resources/Users.csv", this.userStorage.getUserList());
+        csvWriter.writeToUsers("src/Resources/Users.csv", this.userManager.getUserList());
     }
 }

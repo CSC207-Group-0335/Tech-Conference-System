@@ -1,7 +1,7 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.util.*;
 
@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class UserScheduleController{
     String email;
-    UserStorage userStorage;
+    UserManager userManager;
     EventManager eventManager;
     MainMenuController mainMenuController;
     RoomStorage roomStorage;
@@ -20,15 +20,15 @@ public class UserScheduleController{
     /**
      * Initializes a new controller for the user.
      * @param email The email of the user of the program.
-     * @param userStorage The userStorage associated with the conference.
+     * @param userManager The userStorage associated with the conference.
      * @param eventManager The talkManager of the conference.
      * @param mainMenuController The menu of the conference.
      * @param scanner The scanner of MainMenuController.
      */
-    public UserScheduleController(String email, EventManager eventManager, UserStorage userStorage,
+    public UserScheduleController(String email, EventManager eventManager, UserManager userManager,
                                   MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
         this.email = email;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.eventManager = eventManager;
         this.roomStorage = roomStorage;
         this.mainMenuController = mainMenuController;
@@ -45,7 +45,7 @@ public class UserScheduleController{
         if(!(this.eventManager.eventIdAtCapacity(eventid))){
             return "Event is at full capacity.";
         }
-        else if(!(eventManager.checkDoubleBooking(eventid, userStorage.emailToTalkList(email)))){
+        else if(!(eventManager.checkDoubleBooking(eventid, userManager.emailToTalkList(email)))){
             return "Double booking";
         }
         else if (!(eventManager.checkIfUserAllowed(email, eventid))){
@@ -53,7 +53,7 @@ public class UserScheduleController{
         }
         else{
             if (this.eventManager.addAttendee(email,eventid)){
-                this.userStorage.addEvent(email, eventid);
+                this.userManager.addEvent(email, eventid);
                 return "User added.";
             }
             return "User already signed up";
@@ -61,8 +61,8 @@ public class UserScheduleController{
     }
 
     public boolean submitRequest(String request) {
-        if (this.userStorage.requestNotRepeat(email, request)){
-            this.userStorage.addRequest(email, request);
+        if (this.userManager.requestNotRepeat(email, request)){
+            this.userManager.addRequest(email, request);
             System.out.println("Request successfully added!");
             return true;
         }
@@ -77,7 +77,7 @@ public class UserScheduleController{
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
             eventManager.removeAttendee(email, eventId);
-            userStorage.removeEvent(email, eventId);
+            userManager.removeEvent(email, eventId);
         }
     }
 
@@ -101,7 +101,7 @@ public class UserScheduleController{
      * @return An ArrayList representing the talks the user has signed up for.
      */
     public ArrayList<String> getRegisteredEvents(){
-        ArrayList<String> registeredEvents = userStorage.emailToTalkList(email);
+        ArrayList<String> registeredEvents = userManager.emailToTalkList(email);
         if (registeredEvents.size() == 0){
             presenter.printMenu(13);
             presenter.printMenu(11);
@@ -119,7 +119,7 @@ public class UserScheduleController{
     protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
-        ArrayList<String> requestList = userStorage.getRequestList(email);
+        ArrayList<String> requestList = userManager.getRequestList(email);
         presenter.printAllRequests(requestList);
         System.out.println("Submit a request");
         boolean doContinue = true;
@@ -245,7 +245,7 @@ public class UserScheduleController{
      * @param scan The Scanner.
      */
     protected void seeAllSpeakers(UserSchedulePresenter presenter, Scanner scan){
-        ArrayList<String> speakersnames = this.userStorage.getSpeakerNameList();
+        ArrayList<String> speakersnames = this.userManager.getSpeakerNameList();
         if (speakersnames.size() == 0){
             presenter.printMenu(15);
             presenter.printMenu(11);
@@ -260,13 +260,13 @@ public class UserScheduleController{
                     presenter.printMenu(10);
                     return;
                 }
-                else if (speakerIndex -1 >= userStorage.getSpeakerEmailList().size()){
+                else if (speakerIndex -1 >= userManager.getSpeakerEmailList().size()){
                     presenter.printMenu(16);
                 }
                 else{
-                    String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
+                    String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
                     presenter.printSchedule(
-                            userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
+                            userManager.emailToTalkList(chosenSpeaker), eventManager, 2);
                     return;
                 }}catch (NumberFormatException nfe){
                 presenter.printMenu(8);}}
@@ -293,7 +293,7 @@ public class UserScheduleController{
                 }
                 else{
                     int chosenInt = eventManager.getAllEventDayMonth().get(dayindex-1);
-                    presenter.printSchedule(eventManager.intDaytoEventIDs(chosenInt), eventManager, 3);
+                    presenter.printSchedule(eventManager.intDayToEventIDs(chosenInt), eventManager, 3);
                     return;
                 }}catch (NumberFormatException nfe){
                 presenter.printMenu(8);}}
@@ -354,7 +354,7 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter.printHello(userStorage.emailToName(email));
+        presenter.printHello(userManager.emailToName(email));
         presenter.printMenu(1);
         presenter.printMenu(2);
         boolean doContinue = true;

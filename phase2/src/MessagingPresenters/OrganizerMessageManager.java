@@ -12,9 +12,9 @@ public class OrganizerMessageManager extends MessageManager {
      * A user is needed to create an instance of OrganizerMessageManager.
      */
 
-    public OrganizerMessageManager(String email, UserStorage userStorage, ConversationStorage conversationStorage) {
+    public OrganizerMessageManager(String email, UserManager userManager, ConversationStorage conversationStorage) {
 
-        super(email, userStorage, conversationStorage);
+        super(email, userManager, conversationStorage);
     }
 
     /**
@@ -26,9 +26,9 @@ public class OrganizerMessageManager extends MessageManager {
 
     public HashSet<User> getFriendsList() {
         HashSet<User> friends = new HashSet<>();
-        for (int i = 0; i < userStorage.userList.size(); i++) {
-            if (!userStorage.getUserList().get(i).getEmail().equals(user.getEmail())) {
-                friends.add(userStorage.getUserList().get(i));
+        for (int i = 0; i < userManager.userList.size(); i++) {
+            if (!userManager.getUserList().get(i).getEmail().equals(user.getEmail())) {
+                friends.add(userManager.getUserList().get(i));
             }
         }
         return friends;

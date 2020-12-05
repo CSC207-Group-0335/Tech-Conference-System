@@ -14,9 +14,9 @@ public class SpeakerMessageManager extends MessageManager{
 
     public EventManager eventManager;
 
-    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage,
+    public SpeakerMessageManager(String speakerEmail, UserManager userManager,
                                  EventManager eventManager, ConversationStorage conversationStorage) {
-        super(speakerEmail, userStorage, conversationStorage);
+        super(speakerEmail, userManager, conversationStorage);
         this.eventManager = eventManager;
     }
 
@@ -28,7 +28,7 @@ public class SpeakerMessageManager extends MessageManager{
      */
 
     public ArrayList<Event> getSpeakerTalks() {
-        ArrayList<String> eventIDs = userStorage.emailToTalkList(user.getEmail());
+        ArrayList<String> eventIDs = userManager.emailToTalkList(user.getEmail());
         ArrayList<Event> eventList = new ArrayList<Event>();
         for (String eventID: eventIDs){
             eventList.add(eventManager.getEvent(eventID));
@@ -46,7 +46,7 @@ public class SpeakerMessageManager extends MessageManager{
         HashSet<User> emails = new HashSet<>();
         for (Event event : getSpeakerTalks()) {
             for (String email: event.getUsersSignedUp()){
-                emails.add(userStorage.emailToUser(email));
+                emails.add(userManager.emailToUser(email));
             }
         }
         return emails;
@@ -61,7 +61,7 @@ public class SpeakerMessageManager extends MessageManager{
     public ArrayList<User> getAttendeesOfTalk(Event event) {
         ArrayList<User> emails = new ArrayList<>();
         for (String email: event.getUsersSignedUp()){
-            emails.add(userStorage.emailToUser(email));
+            emails.add(userManager.emailToUser(email));
         }
         return emails;
     }

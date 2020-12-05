@@ -3,14 +3,14 @@ import Schedule.EventManager;
 import UserLogin.Attendee;
 import UserLogin.Speaker;
 import UserLogin.User;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 public abstract class MessageManager {
     public User user;
-    public UserStorage userStorage;
+    public UserManager userManager;
     public EventManager eventManager;
     public ConversationStorage conversationStorage;
     public HashSet<User> friendsList;
@@ -21,12 +21,12 @@ public abstract class MessageManager {
      * @param email a String representing an email address
      */
 
-    public MessageManager(String email, UserStorage userStorage, ConversationStorage conversationStorage) {
-        this.userStorage = userStorage;
+    public MessageManager(String email, UserManager userManager, ConversationStorage conversationStorage) {
+        this.userManager = userManager;
         User user = null;
-        for (int i = 0; i < userStorage.userList.size(); i++) {
-            if (userStorage.userList.get(i).getEmail().equals(email)) {
-                user = userStorage.userList.get(i);
+        for (int i = 0; i < userManager.userList.size(); i++) {
+            if (userManager.userList.get(i).getEmail().equals(email)) {
+                user = userManager.userList.get(i);
             }
         }
         this.user = user;
@@ -61,9 +61,9 @@ public abstract class MessageManager {
 
     public ArrayList<User> getAttendees() {
         ArrayList<User> attendees = new ArrayList<>();
-        for (int i = 0; i < userStorage.userList.size(); i++) {
-            if (userStorage.getUserList().get(i) instanceof Attendee) {
-                attendees.add(userStorage.getUserList().get(i));
+        for (int i = 0; i < userManager.userList.size(); i++) {
+            if (userManager.getUserList().get(i) instanceof Attendee) {
+                attendees.add(userManager.getUserList().get(i));
             }
         }
         return attendees;
@@ -77,9 +77,9 @@ public abstract class MessageManager {
 
     public ArrayList<User> getSpeakers() {
         ArrayList<User> speakers = new ArrayList<>();
-        for (int i = 0; i < userStorage.userList.size(); i++) {
-            if (userStorage.getUserList().get(i) instanceof Speaker) {
-                speakers.add(userStorage.getUserList().get(i));
+        for (int i = 0; i < userManager.userList.size(); i++) {
+            if (userManager.getUserList().get(i) instanceof Speaker) {
+                speakers.add(userManager.getUserList().get(i));
             }
         }
         return speakers;

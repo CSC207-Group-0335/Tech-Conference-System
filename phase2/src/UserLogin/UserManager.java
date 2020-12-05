@@ -6,7 +6,7 @@ import java.util.*;
  * A Use Case class that handles the creation and storage of all users in the database.
  */
 
-public class UserStorage extends Observable {
+public class UserManager extends Observable {
     public ArrayList<User> userList;
     public ArrayList<Speaker> speakerList;
 
@@ -14,7 +14,7 @@ public class UserStorage extends Observable {
      * Each user in UserStorage has an associated instance of UserScheduleManager.
      */
 
-    public UserStorage() {
+    public UserManager() {
         this.userList = new ArrayList<>();
         this.speakerList = new ArrayList<>();
 

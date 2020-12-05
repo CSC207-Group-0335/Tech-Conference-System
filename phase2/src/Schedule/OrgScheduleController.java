@@ -17,9 +17,9 @@ public class OrgScheduleController extends UserScheduleController {
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
-    public OrgScheduleController(String email, EventManager eventManager, UserStorage userStorage,
+    public OrgScheduleController(String email, EventManager eventManager, UserManager userManager,
                                  MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
-        super(email, eventManager, userStorage, mainMenuController, roomStorage, scanner);
+        super(email, eventManager, userManager, mainMenuController, roomStorage, scanner);
         orgSchedulePresenter = new OrgSchedulePresenter();
     }
 
@@ -30,7 +30,7 @@ public class OrgScheduleController extends UserScheduleController {
      */
 
     public ArrayList<String> pickSpeakers(Scanner scan){
-        ArrayList<String> speakerList = userStorage.getSpeakerNameList();
+        ArrayList<String> speakerList = userManager.getSpeakerNameList();
         orgSchedulePresenter.printAllSpeakers(speakerList);
         // put an option in the presenter class?
         System.out.println("Enter the number of speakers");
@@ -59,14 +59,14 @@ public class OrgScheduleController extends UserScheduleController {
                         //orgSchedulePresenter.printMenu(16);
                         return null;
                     }
-                    else if (speakerIndex - 1 >= userStorage.getSpeakerEmailList().size()){
+                    else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()){
                         orgSchedulePresenter.printMenu(14);
                     }
                     else{
-                        String chosenSpeaker = userStorage.getSpeakerEmailList().get(speakerIndex - 1);
+                        String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
                         if (!(chosenSpeakers.contains(chosenSpeaker))){
                             orgSchedulePresenter.printSchedule(
-                                    userStorage.emailToTalkList(chosenSpeaker), eventManager, 2);
+                                    userManager.emailToTalkList(chosenSpeaker), eventManager, 2);
                             chosenSpeakers.add(chosenSpeaker);
                             System.out.println("Speaker added");
                         }
@@ -184,9 +184,9 @@ public class OrgScheduleController extends UserScheduleController {
      */
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
         //LocalDateTime end = dateTime.plusHours(1);
-         if(!eventManager.checkDoubleBooking(startTime, endTime, userStorage.emailToTalkList(speaker))
+         if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToTalkList(speaker))
                 && !eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 1;}
-        else if(!eventManager.checkDoubleBooking(startTime, endTime, userStorage.emailToTalkList(speaker))){
+        else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToTalkList(speaker))){
             return 2;
         }
         else if(!eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 3;}
@@ -287,7 +287,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @return A boolean notifying the organizer if they have successfully created a user.
      */
     public boolean requestUser(String name, String password, String email, String type) {
-        return this.userStorage.createUser(type, name, password, email);
+        return this.userManager.createUser(type, name, password, email);
     }
     /**
      * Uses the addRoom method to register a room.
@@ -374,7 +374,7 @@ public class OrgScheduleController extends UserScheduleController {
         }
     }
     public void run(){
-        orgSchedulePresenter.printHello(this.userStorage.emailToName(email));
+        orgSchedulePresenter.printHello(this.userManager.emailToName(email));
         orgSchedulePresenter.printMenu(1);
         orgSchedulePresenter.printMenu(2);
         boolean doContinue = true;

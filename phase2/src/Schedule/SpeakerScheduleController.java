@@ -1,7 +1,7 @@
 package Schedule;
 
 import UserLogin.MainMenuController;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.util.Scanner;
 
@@ -17,7 +17,7 @@ public class SpeakerScheduleController{
     MainMenuController mainMenuController;
     Scanner scan;
     SpeakerSchedulePresenter presenter;
-    UserStorage userStorage;
+    UserManager userManager;
 
     /**
      * Creates a new controller for the speaker.
@@ -26,13 +26,13 @@ public class SpeakerScheduleController{
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
-    public SpeakerScheduleController(String speakerEmail, EventManager eventManager, UserStorage userStorage,
+    public SpeakerScheduleController(String speakerEmail, EventManager eventManager, UserManager userManager,
                                      MainMenuController mainMenuController, Scanner scanner){
         this.speakerEmail = speakerEmail;
         this.eventManager = eventManager;
         this.mainMenuController = mainMenuController;
         this.scan = scanner;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.presenter = new SpeakerSchedulePresenter();
     }
 
@@ -41,18 +41,18 @@ public class SpeakerScheduleController{
      */
     //Nathan: Changed presenter to match clean architecture NOV 28.
     public void run(){
-        presenter.printHelloMessage(userStorage.emailToName(speakerEmail));
+        presenter.printHelloMessage(userManager.emailToName(speakerEmail));
         boolean doContinue = true;
         while(doContinue) {
             String choice = scan.nextLine();
             try {
                 int command = Integer.parseInt(choice);
             if (command == 1) {
-                if (userStorage.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
+                if (userManager.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
                     presenter.printNoTalks();
                 }
                 else {
-                    presenter.printSchedule(userStorage.emailToTalkList(speakerEmail), eventManager);
+                    presenter.printSchedule(userManager.emailToTalkList(speakerEmail), eventManager);
                 }
             }
             else if (command == 0){

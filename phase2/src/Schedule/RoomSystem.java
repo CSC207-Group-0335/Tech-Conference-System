@@ -2,8 +2,7 @@ package Schedule;
 
 import Files.CSVWriter;
 import Files.TxtIterator;
-import UserLogin.MainMenuController;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.util.*;
 
@@ -19,9 +18,9 @@ public class RoomSystem extends Observable {
     /**
      * Creates a new RoomSystem.
      */
-    public RoomSystem(UserStorage userStorage){
+    public RoomSystem(UserManager userManager){
         this.roomStorage = new RoomStorage();
-        this.eventSystem = new EventSystem(userStorage, this.roomStorage);
+        this.eventSystem = new EventSystem(userManager, this.roomStorage);
     }
 
     /**
