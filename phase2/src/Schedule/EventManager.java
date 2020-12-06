@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- * Stores all the talks for the conference.
+ * Stores all the events for the conference.
  */
 public class EventManager{
     /**
-     * A mapping of a talk to its corresponding speaker, room, and time.
+     * A mapping of a event to its corresponding speaker, room, and time.
      */
     LinkedHashMap<Event, EventFeatures> eventMap;
     /**
@@ -25,7 +25,7 @@ public class EventManager{
      */
     /**
     /**
-     * Creates a talk manager.
+     * Creates a event manager.
      */
     public ArrayList<Event> eventList;
     public ArrayList<String> eventIdsList;
@@ -42,12 +42,12 @@ public class EventManager{
     }
 
     /**
-     * adds a talk to talkMap.
-     * @param t The talk you wish to add.
-     * @param r The room corresponding to the talk.
-     * @param s The speaker/speakers corresponding to the talk.
-     * @param start The start time corresponding to the talk.
-     * @param end The end time corresponding to the talk.
+     * adds an event to eventMap.
+     * @param t The event you wish to add.
+     * @param r The room corresponding to the event.
+     * @param s The speaker/speakers corresponding to the event.
+     * @param start The start time corresponding to the event.
+     * @param end The end time corresponding to the event.
      */
     public void addEvent(Event t, Room r, ArrayList<Speaker> s, LocalDateTime start, LocalDateTime end){
         EventFeatures q = new EventFeatures(r, s, start, end);
@@ -85,21 +85,21 @@ public class EventManager{
     }
 
     /**
-     * Creates a talk with the specified id, title, Speaker (based on email), Room (based on name), and start time.
-     * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
-     * @param talkId The id of the talk.
-     * @param talkTitle The title of the talk.
+     * Creates an event with the specified id, title, Speaker (based on email), Room (based on name), and start time.
+     * Adds to eventMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
+     * @param eventId The id of the event.
+     * @param eventTitle The title of the event.
      * @param speakerEmails The emails of the speaker.
      * @param roomName The name of the room.
-     * @param start The start time of the talk.
-     * @param end The end time of the talk.
+     * @param start The start time of the event.
+     * @param end The end time of the event.
      * @param vipRestricted The string signifying if the event is VIP restricted or not.
-     * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
+     * @return A boolean notifying if the event was successfully created and if the maps were appropriately
      * updated.
      */
-    public boolean createEvent(String talkId, String talkTitle, ArrayList<String> speakerEmails, String roomName,
+    public boolean createEvent(String eventId, String eventTitle, ArrayList<String> speakerEmails, String roomName,
                                LocalDateTime start, LocalDateTime end, String vipRestricted){
-        Room talkRoom = findRoom(roomName);
+        Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
             Speaker s = findSpeaker(speaker);
@@ -110,10 +110,10 @@ public class EventManager{
                 return false;
             };
         }
-        if (talkRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
-                checkDoubleBooking(start, end, talkRoom.getTalkList())){
-                Event event = new Event(talkTitle, start, end, talkId, roomName, speakerEmails,vipRestricted);
-                this.addEvent(event, talkRoom, speakers , start, end);
+        if (eventRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
+                checkDoubleBooking(start, end, eventRoom.getEventList())){
+                Event event = new Event(eventTitle, start, end, eventId, roomName, speakerEmails,vipRestricted);
+                this.addEvent(event, eventRoom, speakers , start, end);
                 for (Speaker s: speakers){
                     userManager.addEvent(s.getEmail(), event.getEventId());
                 }
@@ -126,20 +126,20 @@ public class EventManager{
         }
 
     /**
-     * Creates a talk with the specified title, Speaker (based on email), Room (based on name), and start time.
-     * Adds to talkMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
-     * @param talkTitle The title of the talk.
+     * Creates an event with the specified title, Speaker (based on email), Room (based on name), and start time.
+     * Adds to eventMap, roomScheduleMap, speakerScheduleMap, and signUpMap.
+     * @param eventTitle The title of the event.
      * @param speakerEmails The email of the speaker.
      * @param roomName The name of the room.
-     * @param start The start time of the talk.
-     * @param end The end time of the talk.
+     * @param start The start time of the event.
+     * @param end The end time of the event.
      * @param vipRestricted The string signifying if the event is VIP restricted or not.
-     * @return A boolean notifying if the talk was successfully created and if the maps were appropriately
+     * @return A boolean notifying if the event was successfully created and if the maps were appropriately
      * updated.
      */
-    public boolean createEvent(String talkTitle, ArrayList<String> speakerEmails, String roomName, LocalDateTime start,
+    public boolean createEvent(String eventTitle, ArrayList<String> speakerEmails, String roomName, LocalDateTime start,
                                LocalDateTime end, String vipRestricted){
-        Room talkRoom = findRoom(roomName);
+        Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
             Speaker s = findSpeaker(speaker);
@@ -150,10 +150,10 @@ public class EventManager{
                 return false;
             };
         }
-        if (talkRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
-                checkDoubleBooking(start, end, talkRoom.getTalkList())){
-            Event event = new Event(talkTitle, start, end, roomName, speakerEmails,vipRestricted);
-            this.addEvent(event, talkRoom, speakers , start, end);
+        if (eventRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
+                checkDoubleBooking(start, end, eventRoom.getEventList())){
+            Event event = new Event(eventTitle, start, end, roomName, speakerEmails,vipRestricted);
+            this.addEvent(event, eventRoom, speakers , start, end);
             for (Speaker s: speakers){
                 userManager.addEvent(s.getEmail(), event.getEventId());
             }
@@ -166,9 +166,9 @@ public class EventManager{
     }
 
     /**
-     * Remove a talk from talkMap.
-     * @param t The talk you wish to remove.
-     * @return A boolean notifying if the talk was successfully removed.
+     * Remove an event from eventMap.
+     * @param t The event you wish to remove.
+     * @return A boolean notifying if the event was successfully removed.
      */
     public boolean removeEvent(Event t){
         boolean found = this.eventMap.containsKey(t) ;
@@ -232,8 +232,8 @@ public class EventManager{
 
 
     /**
-     * Get the talkMap
-     * @return A LinkedHashMap representing the talkMap of TalkManager.
+     * Get the eventMap
+     * @return A LinkedHashMap representing the eventMap of EventManager.
      */
     public HashMap<Event, EventFeatures> getEventMap(){
         return this.eventMap;
@@ -264,18 +264,18 @@ public class EventManager{
     }
 
     /**
-     * Get the speaker for a talk.
-     * @param id The talk.
-     * @return A Speaker representing the speaking of the talk.
+     * Get the speaker for a event.
+     * @param id The event.
+     * @return A Speaker representing the speaking of the event.
      */
     public ArrayList<Speaker> getEventSpeaker(String id){
         return this.eventMap.get(getEvent(id)).getSpeaker();
     }
 
     /**
-     * Get the room associated with a talk.
-     * @param id The talk.
-     * @return A room representing the room the talk is being held at.
+     * Get the room associated with a event.
+     * @param id The event.
+     * @return A room representing the room the event is being held at.
      */
     public Room getEventRoom(String id){
         return (Room) this.eventMap.get(getEvent(id)).getRoom();
@@ -388,9 +388,9 @@ public class EventManager{
     }
 
     /**
-     * A string representation of a talk with the talk's title, room, speaker, and start time.
-     * @param id id of the talk.
-     * @return A string representing a talk and its room and speaker.
+     * A string representation of a event with the event's title, room, speaker, and start time.
+     * @param id id of the event.
+     * @return A string representing a event and its room and speaker.
      */
     public String toStringEvent(String id){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -423,8 +423,8 @@ public class EventManager{
     }
 
     /**
-     * A string representation of talkMap, which represents all the talks being given at the conference.
-     * @return A string representing the talkMap of TalkManager.
+     * A string representation of eventMap, which represents all the events being given at the conference.
+     * @return A string representing the eventMap of EventManager.
      */
     public String EventMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();

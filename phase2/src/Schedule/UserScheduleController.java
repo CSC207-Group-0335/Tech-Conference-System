@@ -23,7 +23,7 @@ public class UserScheduleController{
      * Initializes a new controller for the user.
      * @param email The email of the user of the program.
      * @param userManager The userStorage associated with the conference.
-     * @param eventManager The talkManager of the conference.
+     * @param eventManager The eventManager of the conference.
      * @param mainMenuController The menu of the conference.
      * @param scanner The scanner of MainMenuController.
      */
@@ -43,7 +43,7 @@ public class UserScheduleController{
     /**
      * Let a user sign up for an event.
      * @return A string notifying the user if they have successfully enrolled in
-     * the talk or if talk was at full capacity.
+     * the event or if event was at full capacity.
      */
     public String signUp(String eventID) {
         if(!(this.eventManager.eventIdAtCapacity(eventID))){
@@ -86,8 +86,8 @@ public class UserScheduleController{
     }
 
     /**
-     * Get the talk that corresponds to the specified int. Since talk is stored in an ordered map this is possible.
-     * @return A talk representing the talk at the specified index.
+     * Get the event that corresponds to the specified int. Since event is stored in an ordered map this is possible.
+     * @return An eventId representing the event at the specified index.
      */
     public String getEventByIndex(int eventIndex){
         ArrayList<String> eventIds = eventManager.getEventIdsList();
@@ -102,7 +102,7 @@ public class UserScheduleController{
 
     /**
      * Let the user see the schedule of events for which they signed up.
-     * @return An ArrayList representing the talks the user has signed up for.
+     * @return An ArrayList representing the events the user has signed up for.
      */
     public ArrayList<String> getRegisteredEvents(){
         ArrayList<String> registeredEvents = userManager.emailToTalkList(email);
@@ -148,17 +148,17 @@ public class UserScheduleController{
     }
 
     /**
-     * Takes in a user input and registers them for an event/talk.
+     * Takes in a user input and registers them for an event.
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void registerTalk(UserSchedulePresenter1 presenter, Scanner scan){
-        // show them a list of all available talks
+    protected void registerEvent(UserSchedulePresenter1 presenter, Scanner scan){
+        // show them a list of all available events
         presenter.printEvents(eventManager.EventMapStringRepresentation());
-        //they will pick the number corresponding to each talk
+        //they will pick the number corresponding to each event
         presenter.ChoosingEvent(1);
         presenter.Choose("event");
-        //assuming they will have asked to see all talks they could register before selecting command 1
+        //assuming they will have asked to see all events they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
             int eventIndex = validatorController.userIntInputValidation("scheduling", "command", scan);
@@ -177,7 +177,7 @@ public class UserScheduleController{
                 }
                 else{
                     String signUpStatus = this.signUp(eventIdToRegister);
-                    if (signUpStatus.equals("User already registered for the requested talk.")){
+                    if (signUpStatus.equals("User already registered for the requested event.")){
                         presenter.printRegistrationBlocked(1);
                     }
                     else if(signUpStatus.equals("Double booking.")){
@@ -191,7 +191,7 @@ public class UserScheduleController{
                     }}}}}
 
     /**
-     * Takes in a user's input and shows them all the talks offered.
+     * Takes in a user's input and shows them all the eventss offered.
      * @param presenter The presenter.
      * @param scan The scanner.
      */
@@ -278,7 +278,7 @@ public class UserScheduleController{
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void cancelATalk(UserSchedulePresenter1 presenter,
+    protected void cancelAnEvent(UserSchedulePresenter1 presenter,
                                Scanner scan){
         ArrayList<String> registeredEvents = this.getRegisteredEvents();
         if (registeredEvents.size() != 0) {
@@ -324,24 +324,24 @@ public class UserScheduleController{
         while(doContinue) {
             Integer command = validatorController.userIntInputValidation("main", "command", scan);
             switch (command){
-            //if they want to register for a talk
+            //if they want to register for an event
                 case 1:
-                    this.registerTalk(presenter1, scan);
+                    this.registerEvent(presenter1, scan);
                     presenter1.printMenu();
                     break;
-                //If they want to see all available talks
+                //If they want to see all available events
                 case 2:
                     this.seeAll(presenter1, scan, "events");
                     presenter1.printMenu();
                     break;
-                //if they want to see all the talks they are currently registered for
+                //if they want to see all the events they are currently registered for
                 case 3:
                     this.seeAll(presenter1, scan, "registered");
                     presenter1.printMenu();
                     break;
                 // if they want to cancel a registration
                 case 4:
-                    this.cancelATalk(presenter1, scan);
+                    this.cancelAnEvent(presenter1, scan);
                     presenter1.printMenu();
                     break;
                 case 5:

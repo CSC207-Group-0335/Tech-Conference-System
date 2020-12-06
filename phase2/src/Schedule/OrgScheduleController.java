@@ -156,7 +156,7 @@ public class OrgScheduleController extends UserScheduleController {
         return null;
     }
         /**
-         * Allows the organizer to choose a day and hour for the start time of the talk.
+         * Allows the organizer to choose a day and hour for the start time of the event.
          * @param scan The scanner.
          * @return A LocalDateTime representing the start time chosen by the organizer.
          */
@@ -225,11 +225,11 @@ public class OrgScheduleController extends UserScheduleController {
         if (endTime == null){ return false;}
         if (speakers.size() == 0){
             System.out.println("Enter the title of the event.");
-            String talkTitle = scan.nextLine();
+            String eventTitle = scan.nextLine();
             System.out.println("Enter VIP if the event is restricted, none otherwise");
             String vip1 = scan.nextLine();
-            if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime, vip1)){
-                System.out.println(talkTitle + " added successfully");
+            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, vip1)){
+                System.out.println(eventTitle + " added successfully");
                 return true;
             }
             else{return  false;}
@@ -247,11 +247,11 @@ public class OrgScheduleController extends UserScheduleController {
         }
         System.out.println("Valid speakers, room and time for an event.");
         System.out.println("Enter the title of the event.");
-        String talkTitle = scan.nextLine();
+        String eventTitle = scan.nextLine();
         System.out.println("Enter VIP if the event is restricted, none otherwise");
         String vip2 = scan.nextLine();
-        if (eventManager.createEvent(talkTitle, speakers, room, startTime, endTime, vip2)){
-            System.out.println(talkTitle + " added successfully");
+        if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, vip2)){
+            System.out.println(eventTitle + " added successfully");
             return true;
         }
         else{return  false;}
@@ -374,19 +374,19 @@ public class OrgScheduleController extends UserScheduleController {
             int command = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
             if (command == 1) {
-                this.registerTalk(presenter1,scan);
+                this.registerEvent(presenter1,scan);
                 orgSchedulePresenter.printMenu(1);
-                //If they want to see all available talks
+                //If they want to see all available events
             }else if (command == 2) {
                 this.seeAll(presenter1,scan, "events");
                 orgSchedulePresenter.printMenu(1);
-                //if they want to see all the talks they are currently registered for
+                //if they want to see all the events they are currently registered for
             }else if (command == 3) {
                 this.seeAll(presenter1,scan, "registered");
                 orgSchedulePresenter.printMenu(1);
                 // if they want to cancel a registration
             }else if (command == 4) {
-                this.cancelATalk(presenter1,scan);
+                this.cancelAnEvent(presenter1,scan);
                 orgSchedulePresenter.printMenu(1);
             }else if (command == 5){
                 this.requestEvent(scan);
