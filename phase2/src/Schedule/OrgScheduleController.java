@@ -224,11 +224,17 @@ public class OrgScheduleController extends UserScheduleController {
         LocalDateTime endTime = pickTime(scan);
         if (endTime == null){ return false;}
         if (speakers.size() == 0){
+            System.out.println("Enter the capacity for this event");
+            int capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
+            while (capacity > roomStorage.roomNameToCapacity(room)){
+                System.out.println("Too high of a capacity.");
+                capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
+            }
             System.out.println("Enter the title of the event.");
             String eventTitle = scan.nextLine();
             System.out.println("Enter VIP if the event is restricted, none otherwise");
             String vip1 = scan.nextLine();
-            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, vip1)){
+            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip1)){
                 System.out.println(eventTitle + " added successfully");
                 return true;
             }
@@ -257,7 +263,7 @@ public class OrgScheduleController extends UserScheduleController {
         String eventTitle = scan.nextLine();
         System.out.println("Enter VIP if the event is restricted, none otherwise");
         String vip2 = scan.nextLine();
-        if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, vip2)){
+        if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip2)){
             System.out.println(eventTitle + " added successfully");
             return true;
         }

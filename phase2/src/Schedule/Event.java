@@ -138,6 +138,7 @@ public class Event {
 
     public String getRoomName() {return this.roomName;}
 
+    public int getCapacity() {return this.capacity;}
 
     public ArrayList<String> getUsersSignedUp() {
         return usersSignedUp;

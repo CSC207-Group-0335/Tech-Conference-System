@@ -46,7 +46,7 @@ public class UserScheduleController{
      * the event or if event was at full capacity.
      */
     public String signUp(String eventID) {
-        if(!(this.eventManager.eventIdAtCapacity(eventID))){
+        if(this.eventManager.eventIdAtCapacity(eventID)){
             return "Event is at full capacity.";
         }
         else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToTalkList(email)))){

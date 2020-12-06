@@ -98,7 +98,7 @@ public class EventManager{
      * updated.
      */
     public boolean createEvent(String eventId, String eventTitle, ArrayList<String> speakerEmails, String roomName,
-                               LocalDateTime start, LocalDateTime end, String vipRestricted){
+                               LocalDateTime start, LocalDateTime end, int capacity, String vipRestricted){
         Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
@@ -112,7 +112,7 @@ public class EventManager{
         }
         if (eventRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
                 checkDoubleBooking(start, end, eventRoom.getEventList())){
-                Event event = new Event(eventTitle, start, end, eventId, roomName, speakerEmails,vipRestricted);
+                Event event = new Event(eventTitle, start, end, eventId, roomName, speakerEmails, capacity, vipRestricted);
                 this.addEvent(event, eventRoom, speakers , start, end);
                 for (Speaker s: speakers){
                     userManager.addEvent(s.getEmail(), event.getEventId());
@@ -138,7 +138,7 @@ public class EventManager{
      * updated.
      */
     public boolean createEvent(String eventTitle, ArrayList<String> speakerEmails, String roomName, LocalDateTime start,
-                               LocalDateTime end, String vipRestricted){
+                               LocalDateTime end, int capacity, String vipRestricted){
         Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
@@ -152,7 +152,7 @@ public class EventManager{
         }
         if (eventRoom != null && start.getHour() >= 9 && end.getHour() <= 17  &&
                 checkDoubleBooking(start, end, eventRoom.getEventList())){
-            Event event = new Event(eventTitle, start, end, roomName, speakerEmails,vipRestricted);
+            Event event = new Event(eventTitle, start, end, roomName, speakerEmails, capacity, vipRestricted);
             this.addEvent(event, eventRoom, speakers , start, end);
             for (Speaker s: speakers){
                 userManager.addEvent(s.getEmail(), event.getEventId());
@@ -343,11 +343,7 @@ public class EventManager{
      */
     public boolean eventIdAtCapacity(String id){
         Event e = getEvent(id);
-        int capacity = roomStorage.roomNameToCapacity(eventIdToRoomName(id));
-        if (e.getUsersSignedUp().size() == capacity){
-            return false;
-        }
-        return true;
+        return e.getCapacity() == e.getUsersSignedUp().size();
     }
 
     /**
@@ -367,6 +363,10 @@ public class EventManager{
     public LocalDateTime eventIdToEndTime(String id){
         Event e = getEvent(id);
         return e.getEndTime();
+    }
+    public int eventIdToCapacity(String id){
+        Event e = getEvent(id);
+        return e.getCapacity();
     }
 
     /**
