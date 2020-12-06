@@ -384,22 +384,22 @@ public class OrgScheduleController extends UserScheduleController {
                     scan);
             switch (command){
                 case 1:
-                    this.registerEvent(presenter1,scan);
+                    this.registerEvent(presenter,scan);
                     orgSchedulePresenter1.printMenu();
                     break;
                 //If they want to see all available events
                 case 2:
-                    this.seeAll(presenter1,scan, "events");
+                    this.seeAll(presenter,scan, "events");
                     orgSchedulePresenter1.printMenu();
                     break;
                 //if they want to see all the events they are currently registered for
                 case 3 :
-                    this.seeAll(presenter1,scan, "registered");
+                    this.seeAll(presenter,scan, "registered");
                     orgSchedulePresenter1.printMenu();
                     break;
                 // if they want to cancel a registration
                 case 4:
-                    this.cancelAnEvent(presenter1,scan);
+                    this.cancelAnEvent(presenter,scan);
                     orgSchedulePresenter1.printMenu();
                     break;
                 case 5:
@@ -418,13 +418,6 @@ public class OrgScheduleController extends UserScheduleController {
                     this.cancelEvent(scan);
                     orgSchedulePresenter1.printMenu();
                     break;
-                case 9:
-                    this.seeAllSpeakers(presenter, scan);
-                    orgSchedulePresenter1.printMenu();
-                    break;
-                case 10:
-                    this.seeAllDays(presenter, scan);
-                    orgSchedulePresenter1.printMenu();
                 case 0:
                     doContinue = false;
                     mainMenuController.runMainMenu(email);

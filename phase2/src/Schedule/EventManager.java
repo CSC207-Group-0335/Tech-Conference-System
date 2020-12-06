@@ -263,21 +263,21 @@ public class EventManager{
         else{return false;}
     }
 
-    public ArrayList<String> sort(ArrayList<String> eventIdsList){
-        HashMap<Integer,ArrayList<String>> dayMap = new HashMap<>();
-        for (String id: eventIdsList){
-            if (dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()) == null) {
-                dayMap.put(this.eventIdToStartTime(id).getDayOfMonth(), new ArrayList<String>());
-            }
-            dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()).add(id);
-        }
-
-        for (Integer day: dayMap.keySet()){
-            for(String id:dayMap.get(day)){
-
-            }
-        }
-    }
+//    public ArrayList<String> sort(ArrayList<String> eventIdsList){
+//        HashMap<Integer,ArrayList<String>> dayMap = new HashMap<>();
+//        for (String id: eventIdsList){
+//            if (dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()) == null) {
+//                dayMap.put(this.eventIdToStartTime(id).getDayOfMonth(), new ArrayList<String>());
+//            }
+//            dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()).add(id);
+//        }
+//
+//        for (Integer day: dayMap.keySet()){
+//            for(String id:dayMap.get(day)){
+//
+//            }
+//        }
+//    }
 
     /**
      * Get the speaker for a event.

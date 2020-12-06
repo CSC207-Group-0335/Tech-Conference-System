@@ -62,4 +62,12 @@ public class UserSchedulePresenter1 extends SchedulePresenter{
 
     }}
 
+    public void scheduleBy(int i){
+        switch (i){
+            case 1:
+                System.out.println("There are no speakers talking at the conference yet.");
+            case 2:
+                System.out.println("There are no events in the conference yet.");
+    }}
+
 }

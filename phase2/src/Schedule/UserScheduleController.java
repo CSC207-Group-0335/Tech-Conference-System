@@ -14,8 +14,7 @@ public class UserScheduleController{
     EventManager eventManager;
     MainMenuController mainMenuController;
     RoomStorage roomStorage;
-    UserSchedulePresenter presenter;
-    UserSchedulePresenter1 presenter1;
+    UserSchedulePresenter1 presenter;
     Scanner scan;
     ValidatorController validatorController;
 
@@ -35,8 +34,7 @@ public class UserScheduleController{
         this.eventManager = eventManager;
         this.roomStorage = roomStorage;
         this.mainMenuController = mainMenuController;
-        presenter = new UserSchedulePresenter();
-        presenter1 = new UserSchedulePresenter1();
+        presenter = new UserSchedulePresenter1();
         validatorController = new ValidatorController();
     }
 
@@ -107,14 +105,14 @@ public class UserScheduleController{
     public ArrayList<String> getRegisteredEvents(){
         ArrayList<String> registeredEvents = userManager.emailToTalkList(email);
         if (registeredEvents.size() == 0){
-            presenter1.ChoosingEvent(3);
+            presenter.ChoosingEvent(3);
         }
         else{
             ArrayList<String> stringRepRegisteredEvents = new ArrayList<>();
             for(String event: registeredEvents){
                 stringRepRegisteredEvents.add(eventManager.toStringEvent(event));
             }
-            presenter1.printByIndex(stringRepRegisteredEvents);
+            presenter.printByIndex(stringRepRegisteredEvents);
         }
         return registeredEvents;
     }
@@ -227,57 +225,57 @@ public class UserScheduleController{
     protected void getAllSpeakers(){
         ArrayList<String> speakerNames = this.userManager.getSpeakerNameList();
         if (speakerNames.size() == 0){
-            presenter.printMenu(15);
-            presenter.printMenu(11);
+            presenter.scheduleBy(1);
+            presenter.printGoBack();
         }
-        presenter.printAllSpeakers(speakerNames);
-        presenter.printMenu(14);
+        presenter.printByIndex(speakerNames);
+        presenter.choose("speaker");
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try { int speakerIndex = Integer.parseInt(choice);
+            int speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
                 if (speakerIndex == 0){
-                    presenter.printMenu(10);
                     return;
                 }
                 else if (speakerIndex -1 >= userManager.getSpeakerEmailList().size()){
-                    presenter.printMenu(16);
+                    presenter.printTryAgain("speaker index");
                 }
                 else{
                     String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
-                    presenter.printSchedule(
-                            userManager.emailToTalkList(chosenSpeaker), eventManager, 2);
+                    ArrayList<String> eventList = new ArrayList<>();
+                    for (String id: userManager.emailToTalkList(chosenSpeaker)){
+                        eventList.add(eventManager.toStringEvent(id));
+                    }
+                    presenter.printByIndex(eventList);
                     return;
-                }}catch (NumberFormatException nfe){
-                presenter.printMenu(8);}}
-    }
+                }} }
 
     protected void getAllDays(){
         ArrayList<String> days = eventManager.getAllEventDays();
         if (days.size() == 0){
-            presenter.printMenu(16);
-
+            presenter.scheduleBy(2);
         }
-        presenter.printMenu(18);
-        presenter.printAllSpeakers(days);
+        presenter.choose("day index");
+        presenter.printByIndex(days);
         boolean doContinue  = true;
         while (doContinue){
-            String choice = scan.nextLine();
-            try { int dayIndex = Integer.parseInt(choice);
+            int dayIndex = validatorController.userIntInputValidation("scheduling", "command", scan);
                 if (dayIndex == 0){
-                    presenter.printMenu(10);
                     return;
                 }
                 else if (dayIndex -1 >= days.size()){
-                    presenter.printMenu(16);
+                    presenter.printTryAgain("day index");
                 }
                 else{
                     int chosenInt = eventManager.getAllEventDayMonth().get(dayIndex-1);
-                    presenter.printSchedule(eventManager.intDayToEventIDs(chosenInt), eventManager, 3);
+                    ArrayList<String> eventList = new ArrayList<>();
+                    for (String id: eventManager.intDayToEventIDs(chosenInt)){
+                        eventList.add(eventManager.toStringEvent(id));
+                    }
+                    presenter.printByIndex(eventList);
                     return;
-                }}catch (NumberFormatException nfe){
-                presenter.printMenu(8);}}
-    }
+                }
+    }}
 
     /**
      * Takes in a user's input and cancels their registration for a specified talk.
@@ -299,7 +297,7 @@ public class UserScheduleController{
             return;
         }
         else if (registeredEvents.size() <= Math.abs(cancelEventIndex - 1)){
-            presenter1.printTryAgain("event index");
+            presenter.printTryAgain("event index");
         }
         else{
             String eventIdToCancel = registeredEvents.get(cancelEventIndex - 1);
@@ -323,40 +321,40 @@ public class UserScheduleController{
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
     public void run(){
-        presenter1.printHello(userManager.emailToName(email));
-        presenter1.printMenu();
-        presenter1.InputCommandRequest();
+        presenter.printHello(userManager.emailToName(email));
+        presenter.printMenu();
+        presenter.InputCommandRequest();
         boolean doContinue = true;
         while(doContinue) {
             Integer command = validatorController.userIntInputValidation("main", "command", scan);
             switch (command){
             //if they want to register for an event
                 case 1:
-                    this.registerEvent(presenter1, scan);
-                    presenter1.printMenu();
+                    this.registerEvent(presenter, scan);
+                    presenter.printMenu();
                     break;
                 //If they want to see all available events
                 case 2:
-                    this.seeAll(presenter1, scan, "events");
-                    presenter1.printMenu();
+                    this.seeAll(presenter, scan, "events");
+                    presenter.printMenu();
                     break;
                 //if they want to see all the events they are currently registered for
                 case 3:
-                    this.seeAll(presenter1, scan, "registered");
-                    presenter1.printMenu();
+                    this.seeAll(presenter, scan, "registered");
+                    presenter.printMenu();
                     break;
                 // if they want to cancel a registration
                 case 4:
-                    this.cancelAnEvent(presenter1, scan);
-                    presenter1.printMenu();
+                    this.cancelAnEvent(presenter, scan);
+                    presenter.printMenu();
                     break;
                 case 5:
-                    this.seeAll(presenter1, scan, "speaker");
-                    presenter1.printMenu();
+                    this.seeAll(presenter, scan, "speaker");
+                    presenter.printMenu();
                     break;
                 case 6:
-                    this.seeAll(presenter1, scan, "day");
-                    presenter1.printMenu();
+                    this.seeAll(presenter, scan, "day");
+                    presenter.printMenu();
                     break;
                 case 0:
                     doContinue = false;
