@@ -245,7 +245,14 @@ public class OrgScheduleController extends UserScheduleController {
             if (endTime == null){ return false;}
             doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
         }
-        System.out.println("Valid speakers, room and time for an event.");
+        //ask and check for capacity
+        System.out.println("Enter the capacity for this event");
+        int capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
+        while (capacity > roomStorage.roomNameToCapacity(room)){
+            System.out.println("Too high of a capacity.");
+            capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
+        }
+        System.out.println("Valid speakers, room, time and capacity for an event.");
         System.out.println("Enter the title of the event.");
         String eventTitle = scan.nextLine();
         System.out.println("Enter VIP if the event is restricted, none otherwise");

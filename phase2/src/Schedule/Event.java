@@ -23,6 +23,7 @@ public class Event {
     String roomName;
     ArrayList<String> usersSignedUp;
     ArrayList<String> speakers;
+    int capacity;
     boolean vipRestricted;
 
     /**
@@ -31,7 +32,7 @@ public class Event {
      * @param startTime The start time of the Event.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime,
-                 String roomName, ArrayList<String> speakers, String vipRestricted){
+                 String roomName, ArrayList<String> speakers, int capacity, String vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -39,6 +40,7 @@ public class Event {
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
+        this.capacity = capacity;
         if (vipRestricted.equals("VIP")){
             this.vipRestricted = true;}
         else{
@@ -53,7 +55,7 @@ public class Event {
      * @param talkId The id of the talk.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId, String roomName,
-                 ArrayList<String> speakers, String vipRestricted){
+                 ArrayList<String> speakers, int capacity, String vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -61,6 +63,7 @@ public class Event {
         this.roomName = roomName;
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
+        this.capacity = capacity;
         if (vipRestricted.equals("VIP")){
         this.vipRestricted = true;}
         else{
