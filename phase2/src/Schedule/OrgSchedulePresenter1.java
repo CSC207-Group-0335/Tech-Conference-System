@@ -74,6 +74,44 @@ public class OrgSchedulePresenter1 extends UserSchedulePresenter1{
         }
     }
 
+    /**
+     * A series of phrases output depending on what the organizer does.
+     * @param i An int corresponding to specific output.
+     */
+    public void PrintRequestEventProcess(int i){
+        switch (i) {
+            case 1:
+                System.out.println("Please choose a day of the conference for your requested talk (By indicating day 1,2 or 3)");
+                break;
+            case 2:
+                System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator() +
+                        "Talks may start or end from 9:00 to 16:00" + System.lineSeparator() +
+                        "Indicate your chosen time by a number from 9 to 16.");
+                break;
+            case 3:
+                System.out.println("Chosen speaker is not available in the chosen hour and day.");
+                break;
+            case 4:
+                System.out.println("Chosen room is not available in the chosen hour and day.");
+                break;
+            case 5:
+                System.out.println("Pick again or press 0 to go back to the scheduling menu");
+                break;
+            case 6:
+                System.out.println("Both chosen room and speaker are not available in the chosen hour and day.");
+                break;
+            case 7:
+                System.out.println("Talk added successfully");
+                break;
+            case 8:
+                System.out.println("An error occurred, a talk was not added");
+                break;
+            case 9:
+                System.out.println("Enter talk title:");
+                break;
+        }
+    }
+
     public void printRequestEvent(int i, String str){
         switch (i){
             case 1:
