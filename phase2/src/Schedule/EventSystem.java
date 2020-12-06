@@ -69,11 +69,13 @@ public class EventSystem extends Observable{
         CSVReader fileReader = new CSVReader("src/Resources/Events.csv");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         for(ArrayList<String> talkData: fileReader.getData()){
+            //FAKE FIX
+            int capacity = 2;
             String[] speakersArray = talkData.get(2).substring(1,talkData.get(2).length()-1).split("/");
             ArrayList<String> speakers = new ArrayList<String>(Arrays.asList(speakersArray));
             this.eventManager.createEvent(talkData.get(0), talkData.get(1), speakers,
                     talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter),
-                    LocalDateTime.parse(talkData.get(5), formatter), talkData.get(6)
+                    LocalDateTime.parse(talkData.get(5), formatter), capacity, talkData.get(6)
                     );
         }
         messagingSystem.run();

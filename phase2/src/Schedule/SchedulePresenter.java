@@ -30,7 +30,7 @@ public class SchedulePresenter {
         System.out.println("Please input a command");
     }
 
-    public void Choose(String choice){
+    public void choose(String choice){
                 System.out.println("Enter the number corresponding to each " + choice + "." + System.lineSeparator()+
                         "Press 0 to go back to the scheduling menu.");
     }

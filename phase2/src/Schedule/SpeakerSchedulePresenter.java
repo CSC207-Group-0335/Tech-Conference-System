@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Prints to the console so that the speaker can have something to interact with.
  */
-public class SpeakerSchedulePresenter {
+public class SpeakerSchedulePresenter extends SchedulePresenter{
     /**
      * Prints the entire schedule of the speaker.
      * @param speakerTalkList The talkList of the speaker

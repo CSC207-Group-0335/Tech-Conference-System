@@ -45,6 +45,28 @@ public class UserManager extends Observable {
         return true;
     }
 
+    public boolean createUser(String usertype, String name, String password, String email, boolean vip) {
+        //Create instance of user depending on usertype
+        // First check if email is already in system
+        if (!(checkIfValidEmail(email))){
+            return false;
+        }
+        User newUser = createUserOfInstance(usertype, name, password, email);
+        if (newUser == null) {
+            return false;
+        }
+        if (newUser instanceof Attendee) {
+            ((Attendee) newUser).setVIPStatus(vip);
+        }
+        //Add the user to the UserList
+        this.userList.add(newUser);
+        //Add the Attendee/Organizer user to UserScheduleList
+        if (newUser instanceof Speaker){
+            this.speakerList.add((Speaker) newUser);
+        }
+        return true;
+    }
+
     /**
      * @return the list of users registered in the UserStorage
      */
@@ -115,7 +137,7 @@ public class UserManager extends Observable {
      * @param email the provided email.
      * @return a boolean value indicating whether or not the Email is valid.
      */
-    private boolean checkIfValidEmail(String email){
+    public boolean checkIfValidEmail(String email){
         for (User account: this.userList){
             if((account.getEmail()).equals(email)){
                 return false;

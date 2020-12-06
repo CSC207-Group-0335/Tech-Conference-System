@@ -54,6 +54,10 @@ public class Attendee extends User {
         return this.VIP;
     }
 
+    public void setVIPStatus(boolean bool){
+        this.VIP = bool;
+    }
+
     /**
      * Returns requests and their statuses (pending, approved, or rejected).
      *

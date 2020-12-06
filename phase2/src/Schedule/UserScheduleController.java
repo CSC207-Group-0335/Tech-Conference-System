@@ -157,7 +157,7 @@ public class UserScheduleController{
         presenter.printEvents(eventManager.EventMapStringRepresentation());
         //they will pick the number corresponding to each event
         presenter.ChoosingEvent(1);
-        presenter.Choose("event");
+        presenter.choose("event");
         //assuming they will have asked to see all events they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
@@ -283,7 +283,7 @@ public class UserScheduleController{
         ArrayList<String> registeredEvents = this.getRegisteredEvents();
         if (registeredEvents.size() != 0) {
             presenter.ChoosingEvent(2);
-            presenter.Choose("Event");
+            presenter.choose("Event");
         boolean doContinue  = true;
         while (doContinue){
             int cancelEventIndex = validatorController.userIntInputValidation("scheduling", "command",
