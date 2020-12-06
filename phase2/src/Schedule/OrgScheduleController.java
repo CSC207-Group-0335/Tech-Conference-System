@@ -33,7 +33,7 @@ public class OrgScheduleController extends UserScheduleController {
 
     public ArrayList<String> pickSpeakers(Scanner scan){
         ArrayList<String> speakerList = userManager.getSpeakerNameList();
-        orgSchedulePresenter.printAllSpeakers(speakerList);
+        orgSchedulePresenter1.printByIndex(speakerList);
         // put an option in the presenter class?
         System.out.println("Enter the number of speakers");
         ArrayList<String>chosenSpeakers = new ArrayList<>();
