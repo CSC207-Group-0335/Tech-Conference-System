@@ -32,15 +32,15 @@ public class UserManager extends Observable {
         if (!(checkIfValidEmail(email))){
             return false;
         }
-        User newuser = createUserOfInstance(usertype, name, password, email);
-        if (newuser == null) {
+        User newUser = createUserOfInstance(usertype, name, password, email);
+        if (newUser == null) {
             return false;
         }
         //Add the user to the UserList
-        this.userList.add(newuser);
+        this.userList.add(newUser);
         //Add the Attendee/Organizer user to UserScheduleList
-        if (newuser instanceof Speaker){
-            this.speakerList.add((Speaker) newuser);
+        if (newUser instanceof Speaker){
+            this.speakerList.add((Speaker) newUser);
         }
         return true;
     }
@@ -88,25 +88,25 @@ public class UserManager extends Observable {
      * usertype parameter.
      * @return a new user object (note that it could be null)
      */
-    private User createUserOfInstance(String usertype, String name, String password, String email){
-        User newuser = null;
+    private User createUserOfInstance(String userType, String name, String password, String email){
+        User newUser = null;
 
         //I think here would be a good place to see if the email is valid/has not been used before.
-        switch (usertype) {
+        switch (userType) {
             case "Attendee": {
-                newuser = new Attendee(name, password, email);
+                newUser = new Attendee(name, password, email);
                 break;
             }
             case "Organizer": {
-                newuser = new Organizer(name, password, email);
+                newUser = new Organizer(name, password, email);
                 break;
             }
             case "Speaker": {
-                newuser = new Speaker(name, password, email);
+                newUser = new Speaker(name, password, email);
                 break;
             }
         }
-        return newuser;
+        return newUser;
     }
 
     /**
