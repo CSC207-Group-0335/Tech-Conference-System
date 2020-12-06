@@ -37,6 +37,7 @@ public class JSONWriter {
             eventObject.put("usersSignedUp", event.getUsersSignedUp());
             eventObject.put("speakers", event.getSpeakers());
             eventObject.put("vipRestricted", event.getVIPStatus());
+            eventObject.put("capacity", event.getCapacity());
             eventArray.add(eventObject);
 
         }

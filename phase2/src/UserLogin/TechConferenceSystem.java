@@ -42,7 +42,7 @@ public class TechConferenceSystem {
      * update any files with possible changes that were made during the active session.
      */
 
-    public void run() {
+    public void run() throws Exception {
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
             this.userManager.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}

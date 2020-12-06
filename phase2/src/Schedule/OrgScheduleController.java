@@ -242,7 +242,11 @@ public class OrgScheduleController extends UserScheduleController {
             String eventTitle = scan.nextLine();
             orgSchedulePresenter1.printRequestEventMenu(4);
             String vip1 = scan.nextLine();
-            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip1)){
+            boolean vip1bool = false;
+            if (vip1.equals("VIP")){
+                vip1bool = true;
+            }
+            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip1bool)){
                 orgSchedulePresenter1.printRequestEvent(2, eventTitle);
                 return true;
             }
@@ -265,7 +269,12 @@ public class OrgScheduleController extends UserScheduleController {
         String eventTitle = scan.nextLine();
         orgSchedulePresenter1.printRequestEventMenu(4);
         String vip2 = scan.nextLine();
-        if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip2)){
+        boolean vip2bool = false;
+        if (vip2.equals("VIP")){
+            vip2bool = true;
+        }
+
+        if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip2bool)){
             orgSchedulePresenter1.printRequestEvent(2, eventTitle);
             return true;
         }

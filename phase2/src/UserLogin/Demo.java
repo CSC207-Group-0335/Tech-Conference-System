@@ -6,7 +6,7 @@ package UserLogin;
 
 public class Demo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         TechConferenceSystem tCS = new TechConferenceSystem();
         tCS.run();
     }

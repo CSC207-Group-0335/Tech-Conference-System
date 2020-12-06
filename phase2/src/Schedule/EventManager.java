@@ -98,7 +98,7 @@ public class EventManager{
      * updated.
      */
     public boolean createEvent(String eventId, String eventTitle, ArrayList<String> speakerEmails, String roomName,
-                               LocalDateTime start, LocalDateTime end, int capacity, String vipRestricted){
+                               LocalDateTime start, LocalDateTime end, int capacity, boolean vipRestricted){
         Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
@@ -138,7 +138,7 @@ public class EventManager{
      * updated.
      */
     public boolean createEvent(String eventTitle, ArrayList<String> speakerEmails, String roomName, LocalDateTime start,
-                               LocalDateTime end, int capacity, String vipRestricted){
+                               LocalDateTime end, int capacity, boolean vipRestricted){
         Room eventRoom = findRoom(roomName);
         ArrayList<Speaker> speakers = new ArrayList<Speaker>();
         for(String speaker: speakerEmails){
@@ -488,8 +488,7 @@ public class EventManager{
     }
     /**
      * Checks if any events in the list of event id's are taking place at the same time. Returns true if there is.
-     * @param start The start time.
-     * @param end The start time.
+     * @param eventId an id of an event.
      * @param eventIds The ArrayList of event ids.
      * @return The boolean signifier.
      */

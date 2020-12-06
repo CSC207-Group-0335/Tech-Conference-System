@@ -2,9 +2,12 @@ package Schedule;
 
 import Files.CSVReader;
 import Files.CSVWriter;
+import Files.JSONReader;
 import Files.JSONWriter;
 import MessagingPresenters.MessagingSystem;
 import UserLogin.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,19 +68,24 @@ public class EventSystem extends Observable{
     /**
      * Adds observers, calls the run methods of messagingSystem and scheduleSystem.
      */
-    public void run() {
-        CSVReader fileReader = new CSVReader("src/Resources/Events.csv");
+    public void run() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        for(ArrayList<String> talkData: fileReader.getData()){
-            //FAKE FIX
-            int capacity = 2;
-            String[] speakersArray = talkData.get(2).substring(1,talkData.get(2).length()-1).split("/");
-            ArrayList<String> speakers = new ArrayList<String>(Arrays.asList(speakersArray));
-            this.eventManager.createEvent(talkData.get(0), talkData.get(1), speakers,
-                    talkData.get(3), LocalDateTime.parse(talkData.get(4), formatter),
-                    LocalDateTime.parse(talkData.get(5), formatter), capacity, talkData.get(6)
-                    );
-        }
+        JSONReader jsonReader = new JSONReader();
+        Object obj = jsonReader.readJson("src/Resources/Events.json");
+        JSONArray eventList = (JSONArray) obj;
+        eventList.forEach(eve -> {
+            JSONObject event = (JSONObject) eve; //cast eve as a JSONObject
+            //get all of the necessary elements to create an event from the event object
+            String eventID = (String) event.get("eventId");
+            String title = (String) event.get("title");
+            String roomName = (String) event.get("roomName");
+            //int capacity = (int) event.get("capacity");
+            LocalDateTime startTime = LocalDateTime.parse((CharSequence) event.get("startTime"), formatter);
+            LocalDateTime endTime = LocalDateTime.parse((CharSequence) event.get("endTime"), formatter);
+            boolean vip = (boolean) event.get("vipRestricted");
+            ArrayList<String> speakerEmails = (ArrayList<String>) event.get("speakers");
+            this.eventManager.createEvent(eventID, title, speakerEmails, roomName, startTime, endTime, 2, vip);
+        });
         messagingSystem.run();
         scheduleSystem.run();
     }

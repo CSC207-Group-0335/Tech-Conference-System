@@ -26,7 +26,7 @@ public class RoomSystem extends Observable {
     /**
      * main method called for RoomSystem.
      */
-    public void run(){
+    public void run() throws Exception {
         TxtIterator txtIterator = new TxtIterator("src/Resources/RoomFile");
         for(String room: txtIterator.getProperties()){
             roomStorage.createRoom(room);

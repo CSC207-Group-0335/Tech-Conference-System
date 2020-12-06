@@ -32,7 +32,7 @@ public class Event {
      * @param startTime The start time of the Event.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime,
-                 String roomName, ArrayList<String> speakers, int capacity, String vipRestricted){
+                 String roomName, ArrayList<String> speakers, int capacity, boolean vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -41,11 +41,8 @@ public class Event {
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
         this.capacity = capacity;
-        if (vipRestricted.equals("VIP")){
-            this.vipRestricted = true;}
-        else{
-            this.vipRestricted = false;
-        }
+        this.vipRestricted = vipRestricted; //changed this to a boolean value
+
     }
 
     /**
@@ -55,7 +52,7 @@ public class Event {
      * @param talkId The id of the talk.
      */
     public Event(String title, LocalDateTime startTime, LocalDateTime endTime, String talkId, String roomName,
-                 ArrayList<String> speakers, int capacity, String vipRestricted){
+                 ArrayList<String> speakers, int capacity, boolean vipRestricted){
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -64,11 +61,7 @@ public class Event {
         this.usersSignedUp = new ArrayList<>();
         this.speakers = speakers;
         this.capacity = capacity;
-        if (vipRestricted.equals("VIP")){
-        this.vipRestricted = true;}
-        else{
-            this.vipRestricted = false;
-        }
+        this.vipRestricted = vipRestricted;
     }
 
     public boolean addUser(String userEmail){
