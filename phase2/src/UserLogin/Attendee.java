@@ -152,7 +152,7 @@ public class Attendee extends User {
                 return false;
             }
             else {
-                this.requests.put(req, "refused");
+                this.requests.put(req, "rejected");
             }
         }
         return true;

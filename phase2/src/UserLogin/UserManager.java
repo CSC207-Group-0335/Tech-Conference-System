@@ -208,6 +208,7 @@ public class UserManager extends Observable {
      * Creates a list of all speakers in the program
      * @return An ArrayList represent the list of all speakers.
      */
+
     public ArrayList<String> getSpeakerEmailList(){
         ArrayList<String> speakerList = new ArrayList<String>();
         for(User u: this.userList){
@@ -217,6 +218,12 @@ public class UserManager extends Observable {
         }
         return speakerList;
     }
+
+    /**
+     * Returns a list of speakers' email addresses.
+     *
+     * @return an ArrayList containing speakers' email addresses
+     */
 
     public ArrayList<String> getSpeakerNameList(){
         ArrayList<String> speakerNameList = new ArrayList<String>();
@@ -234,7 +241,7 @@ public class UserManager extends Observable {
     public boolean requestNotRepeat(String req, String email) {
         Attendee attendee = (Attendee) this.emailToUser(email);
         if (!(attendee == null)){
-            for (String r : attendee.getRequests()){
+            for (String r : attendee.getRequests().keySet()){
                 if (req.equals(r)){
                     return false;
                 }
@@ -249,7 +256,7 @@ public class UserManager extends Observable {
         return attendee.setRequests(request);
     }
 
-    public ArrayList<String> getRequestList(String email) {
+    public HashMap<String, String> getRequestList(String email) {
         Attendee attendee = (Attendee) this.emailToUser(email);
         return attendee.getRequests();
     }

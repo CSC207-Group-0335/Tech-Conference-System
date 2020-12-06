@@ -45,19 +45,19 @@ public class UserScheduleController{
      * @return A string notifying the user if they have successfully enrolled in
      * the talk or if talk was at full capacity.
      */
-    public String signUp(String eventid) {
-        if(!(this.eventManager.eventIdAtCapacity(eventid))){
+    public String signUp(String eventID) {
+        if(!(this.eventManager.eventIdAtCapacity(eventID))){
             return "Event is at full capacity.";
         }
-        else if(!(eventManager.checkDoubleBooking(eventid, userManager.emailToTalkList(email)))){
+        else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToTalkList(email)))){
             return "Double booking";
         }
-        else if (!(eventManager.checkIfUserAllowed(email, eventid))){
+        else if (!(eventManager.checkIfUserAllowed(email, eventID))){
             return "VIP only event";
         }
         else{
-            if (this.eventManager.addAttendee(email,eventid)){
-                this.userManager.addEvent(email, eventid);
+            if (this.eventManager.addAttendee(email,eventID)){
+                this.userManager.addEvent(email, eventID);
                 return "User added.";
             }
             return "User already signed up";
@@ -122,7 +122,9 @@ public class UserScheduleController{
     protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
-        ArrayList<String> requestList = userManager.getRequestList(email);
+        ArrayList<String> requestList = new ArrayList();
+        HashMap<String, String> requestMap = userManager.getRequestList(email);
+        requestList.addAll(requestMap.keySet());
         presenter.printAllRequests(requestList);
         System.out.println("Submit a request");
         boolean doContinue = true;
@@ -217,12 +219,12 @@ public class UserScheduleController{
      * @param scan The Scanner.
      */
     protected void seeAllSpeakers(UserSchedulePresenter presenter, Scanner scan){
-        ArrayList<String> speakersnames = this.userManager.getSpeakerNameList();
-        if (speakersnames.size() == 0){
+        ArrayList<String> speakerNames = this.userManager.getSpeakerNameList();
+        if (speakerNames.size() == 0){
             presenter.printMenu(15);
             presenter.printMenu(11);
         }
-        presenter.printAllSpeakers(speakersnames);
+        presenter.printAllSpeakers(speakerNames);
         presenter.printMenu(14);
         boolean doContinue  = true;
         while (doContinue){
@@ -255,16 +257,16 @@ public class UserScheduleController{
         boolean doContinue  = true;
         while (doContinue){
             String choice = scan.nextLine();
-            try { int dayindex = Integer.parseInt(choice);
-                if (dayindex == 0){
+            try { int dayIndex = Integer.parseInt(choice);
+                if (dayIndex == 0){
                     presenter.printMenu(10);
                     return;
                 }
-                else if (dayindex -1 >= days.size()){
+                else if (dayIndex -1 >= days.size()){
                     presenter.printMenu(16);
                 }
                 else{
-                    int chosenInt = eventManager.getAllEventDayMonth().get(dayindex-1);
+                    int chosenInt = eventManager.getAllEventDayMonth().get(dayIndex-1);
                     presenter.printSchedule(eventManager.intDayToEventIDs(chosenInt), eventManager, 3);
                     return;
                 }}catch (NumberFormatException nfe){
