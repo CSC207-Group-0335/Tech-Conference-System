@@ -203,6 +203,12 @@ public class UserScheduleController{
             case "registered":
                 this.getRegisteredEvents();
                 break;
+            case "speaker":
+                this.getAllSpeakers();
+            case "day":
+                this.getAllDays();
+
+
         }
         presenter.printGoBack();
         boolean doContinue  = true;
@@ -214,11 +220,11 @@ public class UserScheduleController{
     }
 
     /***
-     * Takes in a users input and shows them all the Speakers speaking at the conference.
-     * @param presenter The presenter.
-     * @param scan The Scanner.
+     * Shows all the Speakers speaking at the conference.
+     *
+     *
      */
-    protected void seeAllSpeakers(UserSchedulePresenter presenter, Scanner scan){
+    protected void getAllSpeakers(){
         ArrayList<String> speakerNames = this.userManager.getSpeakerNameList();
         if (speakerNames.size() == 0){
             presenter.printMenu(15);
@@ -246,7 +252,7 @@ public class UserScheduleController{
                 presenter.printMenu(8);}}
     }
 
-    protected void seeAllDays(UserSchedulePresenter presenter, Scanner scan){
+    protected void getAllDays(){
         ArrayList<String> days = eventManager.getAllEventDays();
         if (days.size() == 0){
             presenter.printMenu(16);
@@ -345,11 +351,11 @@ public class UserScheduleController{
                     presenter1.printMenu();
                     break;
                 case 5:
-                    this.seeAllSpeakers(presenter, scan);
+                    this.seeAll(presenter1, scan, "speaker");
                     presenter1.printMenu();
                     break;
                 case 6:
-                    this.seeAllDays(presenter, scan);
+                    this.seeAll(presenter1, scan, "day");
                     presenter1.printMenu();
                     break;
                 case 0:

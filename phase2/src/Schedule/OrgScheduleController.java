@@ -416,11 +416,11 @@ public class OrgScheduleController extends UserScheduleController {
                 orgSchedulePresenter.printMenu(1);
             }
             else if (command == 9){
-                this.seeAllSpeakers(presenter, scan);
+                this.seeAll(presenter1, scan, "speaker");
                 orgSchedulePresenter.printMenu(1);
             }
             else if (command == 10){
-                this.seeAllDays(presenter, scan);
+                this.seeAll(presenter1, scan, "day");
                 orgSchedulePresenter.printMenu(1);
             }
             else if (command ==0){
