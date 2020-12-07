@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A Presenter class that handles messages sent and received by an organizer.
  */
 
-public class OrganizerMessengerPresenter {
+public class OrganizerMessengerPresenter extends MessengerPresenter {
 
     /**
      * Prints the messaging menu.
