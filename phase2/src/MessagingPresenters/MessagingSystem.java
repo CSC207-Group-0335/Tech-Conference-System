@@ -21,7 +21,7 @@ public class MessagingSystem extends Observable{
     public String userEmail;
     public MessengerController messengerController;
     public MainMenuController mainMenuController;
-    public UserStorage userStorage;
+    public UserManager userManager;
     public EventManager eventManager;
 
     /**
@@ -29,10 +29,10 @@ public class MessagingSystem extends Observable{
      * ConversationStorage.
      */
 
-    public MessagingSystem(UserStorage userStorage,
+    public MessagingSystem(UserManager userManager,
                            EventManager eventManager) {
         this.conversationStorage = new ConversationStorage();
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.eventManager =eventManager;
     }
 
@@ -49,20 +49,20 @@ public class MessagingSystem extends Observable{
 
     public void instantiateControllers(String user, Scanner scanner) {
         this.addObserver(mainMenuController);
-        switch (userStorage.emailToType(user)) {
+        switch (userManager.emailToType(user)) {
             case "Attendee":
                 this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage, eventManager);
+                        userManager, conversationStorage, eventManager);
                 setMessengerController();
                 break;
             case "Speaker":
                 this.messengerController = new SpeakerMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage, eventManager);
+                        userManager, conversationStorage, eventManager);
                 setMessengerController();
                 break;
             case "Organizer":
                 this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage, eventManager);
+                        userManager, conversationStorage, eventManager);
                 setMessengerController();
                 break;
         }

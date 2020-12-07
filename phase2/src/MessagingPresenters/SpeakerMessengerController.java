@@ -4,7 +4,7 @@ import Schedule.Event;
 import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.User;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,9 +24,9 @@ public class SpeakerMessengerController extends MessengerController {
      */
 
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController,
-                                      UserStorage userStorage, ConversationStorage conversationStorage,
+                                      UserManager userManager, ConversationStorage conversationStorage,
                                       EventManager eventManager) {
-        super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage, eventManager);
+        super(speakerEmail, scanner, mainMenuController, userManager, conversationStorage, eventManager);
         this.presenter = new SpeakerMessengerPresenter();
     }
 
@@ -80,7 +80,7 @@ public class SpeakerMessengerController extends MessengerController {
                     presenter.printMenu(3);
                     String body = scan.nextLine();
 
-                    messageManager.messageOne(email, body);
+                    messageManager.message(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);
@@ -115,7 +115,7 @@ public class SpeakerMessengerController extends MessengerController {
                         continue;
                     }
                     for (User user : emails) {
-                        messageManager.messageOne(user.getEmail(), body);
+                        messageManager.message(user.getEmail(), body);
                     }
                     presenter.printMenu(4);
                 }

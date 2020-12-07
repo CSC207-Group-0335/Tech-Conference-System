@@ -70,7 +70,7 @@ public class SpeakerMessageManager extends MessageManager{
 
     public void messageAllAttendees(String messageContent) {
         for (User user : getFriendsList()) {
-            messageOne(user.getEmail(), messageContent);
+            message(user.getEmail(), messageContent);
         }
     }
 
@@ -79,7 +79,7 @@ public class SpeakerMessageManager extends MessageManager{
         Event event = eventManager.getEvent(talkID);
         ArrayList<User> attendees = getAttendeesOfTalk(event);
         for (User attendee: attendees){
-            messageOne(user.getEmail(), messageContent);
+            message(user.getEmail(), messageContent);
         }
 
     }

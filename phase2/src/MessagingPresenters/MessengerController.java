@@ -39,12 +39,12 @@ public abstract class MessengerController {
      * Sends a message containing </messageContent> to a user registered under the email </email> if and only if this
      * attendee is allowed to message that user.
      *
-     * @param email          a String representing the email of the recipient
+     * @param recipient          a String representing the email of the recipient
      * @param messageContent a String representing the content of the message
      */
 
-    public void message(String email, String messageContent) {
-        messageManager.messageOne(email, messageContent);
+    public void message(String recipient, String messageContent) {
+        messageManager.message(recipient, messageContent);
     }
     public ArrayList<Message> viewUnarchivedMessages(String email) {
         return messageManager.viewUnarchivedMessages(email);

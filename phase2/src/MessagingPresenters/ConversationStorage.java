@@ -34,6 +34,15 @@ public class ConversationStorage {
         return false;
     }
 
+    public boolean containsGroupChat(String talkID) {
+        for (GroupChatManager c : groupChatManagers) {
+            if (c.getTalkID().equals(talkID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Returns True if and only if groupChatManagers contains a specific talk ID.
      *

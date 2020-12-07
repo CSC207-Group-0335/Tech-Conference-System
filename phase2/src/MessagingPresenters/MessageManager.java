@@ -1,9 +1,7 @@
 package MessagingPresenters;
+import Schedule.Event;
 import Schedule.EventManager;
-import UserLogin.Attendee;
-import UserLogin.Speaker;
-import UserLogin.User;
-import UserLogin.UserManager;
+import UserLogin.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -48,6 +46,15 @@ public abstract class MessageManager {
         for (User friend : this.friendsList) {
             if (friend.getEmail().equals(friendEmail)) {
                 return true;
+            }
+        }
+        for (Event event: eventManager.eventList){
+            if (friendEmail.equals(event.getEventId())){
+                if (eventManager.getEvent(friendEmail).getSpeakers().contains(user.getEmail()) ||
+                        eventManager.getEvent(friendEmail).getUsersSignedUp().contains(user.getEmail()) ||
+                user instanceof Organizer){
+                    return true;
+                }
             }
         }
         return false;
@@ -112,18 +119,28 @@ public abstract class MessageManager {
     /**
      * Sends a message to a user.
      *
-     * @param email a String representing the recipient's email address
+     * @param recipient a String representing the recipient's email address
      * @param messageContent a String containing the content of the message
      */
 
-    public void messageOne(String email, String messageContent) {
-        if (this.canMessage(email)) {
-            if (containsConversationWith(email)) {
-                ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                c.addMessage(email, user.getEmail(), LocalDateTime.now(), messageContent);
-            } else {
-                ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
-                c.addMessage(email, user.getEmail(), LocalDateTime.now(), messageContent);
+    public void message(String recipient, String messageContent) {
+        if (this.canMessage(recipient)) {
+            if (recipient.contains("@")){
+                if (containsConversationWith(recipient)) {
+                    ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), recipient);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                } else {
+                    ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), recipient);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                }
+            }else{
+                if (conversationStorage.containsGroupChat(recipient)){
+                    GroupChatManager g = conversationStorage.getGroupChatManager(recipient);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                } else {
+                    GroupChatManager g = conversationStorage.addGroupChatManager(recipient);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                }
             }
         }
     }
@@ -196,16 +213,4 @@ public abstract class MessageManager {
         return emails;
     }
 
-    /**
-     * Sends a message to multiple users.
-     *
-     * @param emails an ArrayList containing emails of the recipients
-     * @param messageContent a String representing the content of the message
-     */
-
-    public void messageGroup(ArrayList<String> emails, String messageContent) {
-        for (String email: emails) {
-            messageOne(email, messageContent);
-        }
-    }
 }

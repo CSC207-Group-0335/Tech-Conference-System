@@ -29,8 +29,7 @@ public class GroupChatManager {
      * @param messageContent a String representing the content of this message
      */
 
-    public void addMessage(String senderEmail, String talkID,
-                           LocalDateTime timestamp, String messageContent) {
+    public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent) {
         if (this.talkID.equals(talkID) /*add way to check for participant*/) {
             Message message = new Message(talkID, senderEmail, timestamp, messageContent);
             this.messages.add(message);
