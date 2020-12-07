@@ -236,6 +236,11 @@ public class OrgScheduleController extends UserScheduleController {
         if (startTime==null){ return false;}
         LocalDateTime endTime = pickTime(scan);
         if (endTime == null){ return false;}
+        while (!(endTime.isAfter(startTime))){
+            System.out.println("End time must be after the start time. Pick another end time");
+            endTime = pickTime(scan);
+            if (endTime == null) {return false;}
+        }
         if (speakers.size() == 0){
             int capacity = pickCapacity(room);
             orgSchedulePresenter1.printRequestEventMenu(3);
