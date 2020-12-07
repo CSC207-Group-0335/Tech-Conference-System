@@ -93,4 +93,9 @@ public class SpeakerMessengerPresenter extends MessengerPresenter {
             System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
         }
     }
+
+    @Override
+    public void printMessagesMenu() {
+
+    }
 }

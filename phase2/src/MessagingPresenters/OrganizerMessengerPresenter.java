@@ -41,6 +41,13 @@ public class OrganizerMessengerPresenter extends MessengerPresenter {
         }
     }
 
+    @Override
+    public void printMessagesMenu() {
+        System.out.println("Press 1 to message one user" + System.lineSeparator() +
+                "Press 2 to message all speakers" + System.lineSeparator() +
+                "Press 3 to message all attendees" + System.lineSeparator());
+    }
+
     /**
      * Prints the emails this user has messaged or has been messaged by
      *

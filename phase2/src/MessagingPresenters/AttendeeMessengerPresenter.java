@@ -12,16 +12,16 @@ public class AttendeeMessengerPresenter extends MessengerPresenter {
      * Prints the messaging menu.
      */
 
-    public void printMenu(int i) {
+    public void p(int i) {
         switch (i) {
             case 0:
                 System.out.println("\nWelcome to the attendee messenger client" + System.lineSeparator() +
                         "Press 0 to quit the attendee messenger client" + System.lineSeparator() +
                         "Press 1 to send a message to a user" + System.lineSeparator() +
-                        "Press 2 to view all of your conversations");
+                        "Press 2 to view all of your conversations" + System.lineSeparator());
                 break;
             case 1:
-                System.out.println("Please enter the recipient's email address or 0 to go back:");
+                System.out.println();
                 break;
             case 2:
                 System.out.println("Do not use ';'. Please enter the content of your text or 0 to go back:");
@@ -37,6 +37,11 @@ public class AttendeeMessengerPresenter extends MessengerPresenter {
             case 6:
                 System.out.println("Invalid option. Try again.");
         }
+    }
+
+    @Override
+    public void printMessagesMenu() {
+        System.out.println("Press 1 to send a message to a user" + System.lineSeparator());
     }
 
     /**
