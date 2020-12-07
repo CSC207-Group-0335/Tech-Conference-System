@@ -3,7 +3,6 @@ package MessagingPresenters;
 import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.UserManager;
-import UserLogin.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;

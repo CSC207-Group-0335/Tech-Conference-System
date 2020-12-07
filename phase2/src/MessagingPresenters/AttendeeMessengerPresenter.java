@@ -1,7 +1,5 @@
 package MessagingPresenters;
 
-import java.util.ArrayList;
-
 /**
  * A Presenter class that handles messages sent and received by an attendee.
  */
@@ -9,11 +7,11 @@ import java.util.ArrayList;
 public class AttendeeMessengerPresenter extends MessengerPresenter {
     @Override
     public void printWelcomeMessage() {
-        System.out.println("Welcome to the attendee messenger client" + System.lineSeparator());
+        System.out.println("Welcome to the attendee messenger client");
     }
 
     @Override
     public void printMessagesMenu() {
-        System.out.println("Press 3 to send a message to a user" + System.lineSeparator());
+        System.out.println("Press 3 to send a message to a user");
     }
 }

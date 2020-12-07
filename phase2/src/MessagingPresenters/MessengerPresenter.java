@@ -7,12 +7,12 @@ public abstract class MessengerPresenter {
         printWelcomeMessage();
         printGoBack();
         System.out.println("Press 1 to view all of your individual conversations" + System.lineSeparator() +
-                "Press 2 to view all of your group chats" + System.lineSeparator());
+                "Press 2 to view all of your group chats");
         printMessagesMenu();
     }
 
     public void printGoBack() {
-        System.out.println("Press 0 to go back" + System.lineSeparator());
+        System.out.println("Press 0 to go back");
     }
 
     public abstract void printWelcomeMessage();
@@ -30,12 +30,6 @@ public abstract class MessengerPresenter {
     public void printSendMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back." + System.lineSeparator());}
 
     public void printInvalidOptionError() {System.out.println("Invalid option. Try again." + System.lineSeparator());}
-
-    public void askForArchivedOrNot() {
-        printGoBack();
-        System.out.println("Press 1 to view unarchived chats" + System.lineSeparator()+
-                "Press 2 to view archived chats" + System.lineSeparator());
-    }
 
     /**
      * Prints the emails this user has messaged or has been messaged by
@@ -70,7 +64,6 @@ public abstract class MessengerPresenter {
         else {
             System.out.println("Viewing unarchived messages. Enter 'a' to view archived messages");
         }
-        System.out.println(System.lineSeparator());
         if (messages.size() == 0) {
             System.out.println("Nothing to see here!");
         } else {
@@ -78,6 +71,6 @@ public abstract class MessengerPresenter {
                 System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
             }
         }
-        System.out.println("Press 0 to go back.");
+        System.out.println(System.lineSeparator() + "Press 0 to go back.");
     }
 }
