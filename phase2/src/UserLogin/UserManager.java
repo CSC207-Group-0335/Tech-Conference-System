@@ -256,9 +256,37 @@ public class UserManager extends Observable {
     }
 
 
-    public boolean requestNotAddressed(String email) {
+    /**
+     * Returns true if this request has not been addressed.
+     *
+     * @param req a String representing a request
+     * @param email a String representing an email
+     * @return a boolean representing whether or not this request is yet to addressed
+     */
+
+    public boolean requestNotAddressed(String req, String email) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        if (!(attendee == null)){
+            if (attendee.getRequests().containsKey(req)) {
+                if (attendee.getRequests().get(req).equals("pending")) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            return false;
+        }
         return false;
     }
+
+    /**
+     * Returns true if the request is not a repeat.
+     *
+     * @param req a String representing a request
+     * @param email a String representing an email address
+     * @return a boolean representing whether or not the request has already been sent
+     */
 
     public boolean requestNotRepeat(String req, String email) {
         Attendee attendee = (Attendee) this.emailToUser(email);
@@ -273,14 +301,55 @@ public class UserManager extends Observable {
         return false;
     }
 
+    /**
+     * Returns true if the request has been set.
+     *
+     * @param email a String representing an email address
+     * @param request a String representing a request
+     * @return a boolean representing whether or not a request has been successfully sent
+     */
+
     public boolean addRequest(String email, String request) {
         Attendee attendee = (Attendee) this.emailToUser(email);
         return attendee.setRequests(request);
     }
 
-    public HashMap<String, String> getRequestList(String email) {
+
+    /**
+     * Returns a list of requests sent in by the user with email </email>.
+     *
+     * @param email a String representing an email address
+     * @return an ArrayList containing requests
+     */
+
+    public ArrayList<String> getRequestList(String email) {
+        ArrayList<String> requests = new ArrayList<>();
         Attendee attendee = (Attendee) this.emailToUser(email);
-        return attendee.getRequests();
+        requests.addAll(attendee.getRequests().keySet());
+        return requests;
+    }
+
+    /**
+     * Returns a HashMap of email addresses paired with a list of requests sent in by the attendee registered under
+     * that email.
+     *
+     * @return a HashMap with email addresses as the keys and ArrayLists of requests as the values
+     */
+
+    public HashMap<String, ArrayList<String>> emailToRequest() {
+        HashMap<String, ArrayList<String>> emailRequestMap = new HashMap<>();
+        for (String email : getUserEmailList()) {
+            if (this.emailToUser(email) instanceof Attendee) {
+                ArrayList<String> userRequests = new ArrayList<>();
+                for (String req : ((Attendee) this.emailToUser(email)).requests.keySet()) {
+                    if (((Attendee) this.emailToUser(email)).requests.get(req).equals("pending")) {
+                        userRequests.add(req);
+                    }
+                }
+                emailRequestMap.put(email, userRequests);
+            }
+        }
+        return emailRequestMap;
     }
 }
 

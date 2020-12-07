@@ -161,4 +161,14 @@ public class Attendee extends User {
         }
         return true;
     }
+
+    /**
+     * Returns the number of requests this attendee has.
+     *
+     * @return an int representing the amount of requests
+     */
+
+    public int getNumberOfRequests() {
+        return requests.size();
+    }
 }
