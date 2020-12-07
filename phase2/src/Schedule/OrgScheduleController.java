@@ -117,17 +117,30 @@ public class OrgScheduleController extends UserScheduleController {
     public Integer pickDay(Scanner scan){
         boolean doContinue  = true;
         while(doContinue) {
+//            orgSchedulePresenter.PrintRequestTalkProcess(1);
+//            int days = validatorController.userIntInputValidation("scheduling", "command",
+//                    scan);
+//            if (days == 0){
+//                orgSchedulePresenter.printMenu(16);
+//                return null;
+//            }
+//            else if (days > 3 || days < 0){
+//                orgSchedulePresenter.printMenu(18);
+//            }
+//            else {
+//                return days;
+//            }
             orgSchedulePresenter.PrintRequestTalkProcess(1);
-            int days = validatorController.userIntInputValidation("scheduling", "command",
-                    scan);
-            if (days == 0){
+            String day = validatorController.userStringInputValidation("scheduling", "command", scan);
+            if (day.equals("Zero")){
                 orgSchedulePresenter.printMenu(16);
                 return null;
             }
-            else if (days > 3 || days < 0){
+            else if (!(day.equals("November 21")||day.equals("November 22") || day.equals("November 23") )){
                 orgSchedulePresenter.printMenu(18);
             }
-            else {
+            else{
+                int days = Integer.parseInt(day.substring(day.length()-2, day.length()))-1;
                 return days;
             }
         }

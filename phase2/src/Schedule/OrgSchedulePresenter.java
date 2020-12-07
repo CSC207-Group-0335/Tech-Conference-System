@@ -93,7 +93,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                 System.out.println("Returning to scheduling menu...");
                 break;
             case 18:
-                System.out.println("Invalid day number, try again");
+                System.out.println("Invalid day, try again");
                 break;
             case 19:
                 System.out.println("Invalid hour number, try again");
@@ -140,7 +140,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
     public void PrintRequestTalkProcess(int i){
         switch (i) {
             case 1:
-                System.out.println("Please choose a day of the conference for your requested talk (By indicating day 1,2 or 3)");
+                System.out.println("Please choose a day of the conference for your requested talk (By indicating day November 21, 22 or 23)");
                 break;
             case 2:
                 System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator() +
