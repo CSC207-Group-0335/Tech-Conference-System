@@ -330,8 +330,8 @@ public class UserManager extends Observable {
     }
 
     /**
-     * Returns a HashMap of email addresses paired with a list of requests sent in by the attendee registered under
-     * that email.
+     * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered
+     * under that email.
      *
      * @return a HashMap with email addresses as the keys and ArrayLists of requests as the values
      */

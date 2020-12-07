@@ -1,9 +1,12 @@
 package Schedule;
 
+import UserLogin.Attendee;
 import UserLogin.Speaker;
+import UserLogin.UserManager;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Prints to the console so that the organizer can have something to interact with.
@@ -193,6 +196,23 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         for (String t: eventIDArrayList){
             System.out.println(eventManager.toStringEvent(t) + System.lineSeparator());
         }}
+    }
+
+    public void printRequestEmails(UserManager userManager) {
+        HashMap<String, ArrayList<String>> allRequests = userManager.emailToRequest();
+        for (String email : allRequests.keySet()) {
+            Attendee attendee = (Attendee) userManager.emailToUser(email);
+            System.out.println(email + ": " + attendee.getNumberOfRequests() + System.lineSeparator());
+        }
+    }
+
+    public void printRequests(UserManager userManager, String email) {
+        HashMap<String, ArrayList<String>> allRequests = userManager.emailToRequest();
+        if (allRequests.containsKey(email)) {
+            for (String req : allRequests.get(email)) {
+                System.out.println(req + System.lineSeparator());
+            }
+        }
     }
 }
 
