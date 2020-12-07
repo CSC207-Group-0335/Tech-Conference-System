@@ -11,7 +11,8 @@ public class UserSchedulePresenter1 extends SchedulePresenter{
                 "Press 3 see all talks currently registered for " + System.lineSeparator() +
                 "Press 4 to  cancel a registration" + System.lineSeparator() +
                 "Press 5 to see schedule by speaker" + System.lineSeparator() +
-                "Press 6 to see schedule by day");
+                "Press 6 to see schedule by day" + System.lineSeparator() +
+                "Press 7 to review requests" );
     }
 
     public void printMenu() {

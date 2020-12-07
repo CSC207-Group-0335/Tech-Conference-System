@@ -2,6 +2,7 @@ package UserLogin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * A class that represents an Attendee, a specific type of User that attends the conference and can sign up to
@@ -12,7 +13,7 @@ public class Attendee extends User {
     public boolean VIP;
     //make it a list of strings for multiple requests?
     // strings are in format of "request, status", with status only being one of two "pending" or "addressed"
-    public HashMap<String, String> requests;
+    public LinkedHashMap<String, String> requests;
 
     /**
      * A constructor for an Attendee
@@ -24,13 +25,13 @@ public class Attendee extends User {
     public Attendee(String name, String password, String email) {
         super(name, password, email);
         this.VIP = false;
-        this.requests = new HashMap<>();
+        this.requests = new LinkedHashMap<>();
     }
 
     public Attendee(String name, String password, String email, boolean VIP) {
         super(name, password, email);
         this.VIP = VIP;
-        this.requests = new HashMap<>();
+        this.requests = new LinkedHashMap<>();
     }
 
 

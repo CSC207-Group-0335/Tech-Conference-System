@@ -401,6 +401,9 @@ public class OrgScheduleController extends UserScheduleController {
                     return;
                 } } } }
 
+    private void reviewRequests(Scanner scan) {
+    }
+
 
 
     public void run(){
@@ -447,11 +450,13 @@ public class OrgScheduleController extends UserScheduleController {
                     this.cancelEvent(scan);
                     orgSchedulePresenter1.printMenu();
                     break;
+                case 9:
+                    this.reviewRequests(scan);
+                    orgSchedulePresenter1.printMenu();
                 case 0:
                     doContinue = false;
                     mainMenuController.runMainMenu(email);
                     break;
         }}}
-
 }
 

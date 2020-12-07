@@ -351,6 +351,36 @@ public class UserManager extends Observable {
         }
         return emailRequestMap;
     }
+
+    public boolean hasRequests(User user) {
+        String email = user.getEmail();
+        String typeUser = this.emailToType(email);
+        if (typeUser.equals("Attendee")) {
+            if (!(((Attendee) user).getRequests().isEmpty())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public void addRequests(Attendee user, ArrayList<String> requestsPending) {
+        HashMap<String, String> userRequests = user.getRequests();
+
+
+    }
+
+
+    public ArrayList<String> userRequestsPending(){
+        ArrayList<String> requestsPending = new ArrayList<String>();
+        for (User a: userList){
+            if (this.hasRequests(a)){
+                return requestsPending;
+            }
+
+            }
+        return  requestsPending;
+    }
+
 }
 
 
