@@ -4,7 +4,7 @@ import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.Organizer;
 import UserLogin.Speaker;
-import UserLogin.UserStorage;
+import UserLogin.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,25 +13,25 @@ public abstract class MessengerController {
     public String email;
     public Scanner scan;
     public MainMenuController mainMenuController;
-    public UserStorage userStorage;
+    public UserManager userManager;
     public ConversationStorage conversationStorage;
     public MessageManager messageManager;
     public EventManager eventManager;
 
     public MessengerController(String email, Scanner scan, MainMenuController mainMenuController,
-                               UserStorage userStorage, ConversationStorage conversationStorage, EventManager eventManager) {
+                               UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
         this.email = email;
         this.scan = scan;
         this.mainMenuController = mainMenuController;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.conversationStorage = conversationStorage;
         this.eventManager = eventManager;
-        if (userStorage.emailToUser(email) instanceof Organizer){
-            this.messageManager = new OrganizerMessageManager(email, userStorage, conversationStorage);
-        }else if (userStorage.emailToUser(email) instanceof Speaker){
-            this.messageManager = new SpeakerMessageManager(email, userStorage, conversationStorage);
+        if (userManager.emailToUser(email) instanceof Organizer){
+            this.messageManager = new OrganizerMessageManager(email, userManager, conversationStorage);
+        }else if (userManager.emailToUser(email) instanceof Speaker){
+            this.messageManager = new SpeakerMessageManager(email, userManager, conversationStorage);
         }else{
-            this.messageManager = new AttendeeMessageManager(email, userStorage, conversationStorage);
+            this.messageManager = new AttendeeMessageManager(email, userManager, conversationStorage);
         }
     }
 

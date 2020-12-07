@@ -12,8 +12,8 @@ public class SpeakerMessageManager extends MessageManager{
      * @param speakerEmail the email of speaker whose messages will be managed
      */
 
-    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage, ConversationStorage conversationStorage) {
-        super(speakerEmail, userStorage, conversationStorage);
+    public SpeakerMessageManager(String speakerEmail, UserManager userManager, ConversationStorage conversationStorage) {
+        super(speakerEmail, userManager, conversationStorage);
     }
 
 
@@ -24,7 +24,7 @@ public class SpeakerMessageManager extends MessageManager{
      */
 
     public ArrayList<Event> getSpeakerTalks() {
-        ArrayList<String> eventIDs = userStorage.emailToTalkList(user.getEmail());
+        ArrayList<String> eventIDs = userManager.emailToTalkList(user.getEmail());
         ArrayList<Event> eventList = new ArrayList<Event>();
         for (String eventID: eventIDs){
             eventList.add(eventManager.getEvent(eventID));
@@ -42,7 +42,7 @@ public class SpeakerMessageManager extends MessageManager{
         HashSet<User> emails = new HashSet<>();
         for (Event event : getSpeakerTalks()) {
             for (String email: event.getUsersSignedUp()){
-                emails.add(userStorage.emailToUser(email));
+                emails.add(userManager.emailToUser(email));
             }
         }
         return emails;
@@ -57,7 +57,7 @@ public class SpeakerMessageManager extends MessageManager{
     public ArrayList<User> getAttendeesOfTalk(Event event) {
         ArrayList<User> emails = new ArrayList<>();
         for (String email: event.getUsersSignedUp()){
-            emails.add(userStorage.emailToUser(email));
+            emails.add(userManager.emailToUser(email));
         }
         return emails;
     }
