@@ -26,12 +26,16 @@ public class Attendee extends User {
         super(name, password, email);
         this.VIP = false;
         this.requests = new LinkedHashMap<>();
+        //testing purposes
+        this.setRequests("handicap");
     }
 
     public Attendee(String name, String password, String email, boolean VIP) {
         super(name, password, email);
         this.VIP = VIP;
         this.requests = new LinkedHashMap<>();
+        //testing purposes
+        this.setRequests("vegan");
     }
 
 
@@ -65,7 +69,7 @@ public class Attendee extends User {
      * @return a HashMap containing requests and their statuses
      */
 
-    public HashMap<String, String> getRequests() {
+    public LinkedHashMap<String, String> getRequests() {
         return this.requests;
     }
 

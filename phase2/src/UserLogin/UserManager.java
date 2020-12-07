@@ -364,21 +364,27 @@ public class UserManager extends Observable {
         return false;
     }
     public void addRequests(Attendee user, ArrayList<String> requestsPending) {
-        HashMap<String, String> userRequests = user.getRequests();
+        LinkedHashMap<String, String> userRequests = user.getRequests();
+        for (Map.Entry<String, String> entry : userRequests.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            // now work with key and value...
+            if (value.equals("pending")){
+                requestsPending.add(key);
+            }
+        }
 
 
     }
-
 
     public ArrayList<String> userRequestsPending(){
         ArrayList<String> requestsPending = new ArrayList<String>();
         for (User a: userList){
             if (this.hasRequests(a)){
-                return requestsPending;
+                this.addRequests(((Attendee) a), requestsPending);
             }
-
             }
-        return  requestsPending;
+        return requestsPending;
     }
 
 }

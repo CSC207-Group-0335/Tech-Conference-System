@@ -402,6 +402,8 @@ public class OrgScheduleController extends UserScheduleController {
                 } } } }
 
     private void reviewRequests(Scanner scan) {
+        ArrayList<String> requestsList = userManager.userRequestsPending();
+        orgSchedulePresenter.printByIndex(requestsList);
     }
 
 
