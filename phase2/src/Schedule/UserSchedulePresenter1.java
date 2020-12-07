@@ -70,4 +70,12 @@ public class UserSchedulePresenter1 extends SchedulePresenter{
                 System.out.println("There are no events in the conference yet.");
     }}
 
+    public void printAllRequests(ArrayList<String> requests) {
+        Integer i = 1;
+        for (String s : requests){
+            System.out.println(Integer.toString(i) + ") " + s);
+            i++;
+        }
+    }
+
 }

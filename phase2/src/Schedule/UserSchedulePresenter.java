@@ -21,6 +21,7 @@ public class UserSchedulePresenter extends SchedulePresenter{
                         "Press 4 to  cancel a registration" + System.lineSeparator() +
                         "Press 5 to see schedule by speaker" + System.lineSeparator() +
                         "Press 6 to see schedule by day" + System.lineSeparator() +
+                        "Press 7 to submit requests" + System.lineSeparator() +
                         "Press 0 to go back to the main menu");
                 break;
             case 2:
@@ -181,11 +182,4 @@ public class UserSchedulePresenter extends SchedulePresenter{
 
     }
 
-    public void printAllRequests(ArrayList<String> requests) {
-        Integer i = 1;
-        for (String s : requests){
-            System.out.println(Integer.toString(i) + ") " + s);
-            i++;
-        }
-    }
 }

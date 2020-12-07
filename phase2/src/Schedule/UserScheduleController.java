@@ -63,7 +63,7 @@ public class UserScheduleController{
     }
 
     public boolean submitRequest(String request) {
-        if (this.userManager.requestNotRepeat(email, request)){
+        if (this.userManager.requestNotRepeat(request, email)){
             this.userManager.addRequest(email, request);
             System.out.println("Request successfully added!");
             return true;
@@ -117,7 +117,7 @@ public class UserScheduleController{
         return registeredEvents;
     }
 
-    protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
+    protected void createRequest(UserSchedulePresenter1 presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
         ArrayList<String> requestList = userManager.getRequestList(email);
@@ -125,23 +125,17 @@ public class UserScheduleController{
         System.out.println("Submit a request");
         boolean doContinue = true;
         while (doContinue){
-            String request = scan.nextLine();
-            try {
-                if (request.equals("zero")){
-                    presenter.printMenu(10);
+            String request = validatorController.userStringInputValidation("scheduling", "command", scan );
+            if (request.equals("Zero")){
+                return;
+                }
+            else{
+                if (this.submitRequest(request)){
                     return;
                 }
-                else{
-                    if (this.submitRequest(request)){
-                        return;
-                    }
-                }
-
-            } catch (NumberFormatException nfe) {
-                presenter.printMenu(8);;
+            }
             }
         }
-    }
 
     /**
      * Takes in a user input and registers them for an event.
@@ -352,6 +346,10 @@ public class UserScheduleController{
                     break;
                 case 6:
                     this.seeAll(presenter, scan, "day");
+                    presenter.printMenu();
+                    break;
+                case 7:
+                    this.createRequest(presenter, scan);
                     presenter.printMenu();
                     break;
                 case 0:
