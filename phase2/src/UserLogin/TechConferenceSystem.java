@@ -1,12 +1,14 @@
 package UserLogin;
 
-import Files.CSVReader;
 import Files.CSVWriter;
+import Files.JSONReader;
 import Files.JSONWriter;
 import Schedule.RoomSystem;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Observable;
 
 /**
  * A Gateway class that interacts with an external file (.csv) that stores a collection of all accounts currently
@@ -43,9 +45,19 @@ public class TechConferenceSystem {
      */
 
     public void run() throws Exception {
-        CSVReader file = new CSVReader("src/Resources/Users.csv");
-        for(ArrayList<String> user: file.getData()){
-            this.userManager.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}
+        JSONReader jsonReader = new JSONReader();
+        Object obj = jsonReader.readJson("src/Resources/Users.json");
+        JSONArray userList = (JSONArray) obj;
+        userList.forEach(use -> {
+            JSONObject user = (JSONObject) use; //cast use as a JSONObject
+            //get all of the necessary elements to create a user from the user object
+            String type = (String) user.get("type");
+            String name = (String) user.get("name");
+            String password = (String) user.get("password");
+            String email = (String) user.get("email");
+            boolean vip = (boolean) user.get("vip");
+            this.userManager.createUser(type, name, password, email, vip);
+        });
         roomSystem.run();
         logInController.runLogIn();
         mainMenuController.runMainMenu(logInController.getEmail());
