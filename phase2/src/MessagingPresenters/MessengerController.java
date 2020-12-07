@@ -47,11 +47,11 @@ public abstract class MessengerController {
         messageManager.message(recipient, messageContent);
     }
     public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.viewUnarchivedMessages(email);
+        return messageManager.getUnarchivedMessages(email);
     }
 
     public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.viewArchivedMessages(email);
+        return messageManager.getArchivedMessages(email);
     }
 
     public void setStatus(int index, String status){

@@ -23,13 +23,19 @@ public abstract class MessengerPresenter {
 
     public void askForMessageBody() {System.out.println("Do not use ';'. Please enter the content of your text or 0 to go back:");}
 
-    public void printMessageSentSuccess() {System.out.println("Message successfully sent!");}
+    public void printMessageSentSuccess() {System.out.println("Message successfully sent!" + System.lineSeparator());}
 
-    public void printQuitMessage() {System.out.println("Quitting messenger client");}
+    public void printQuitMessage() {System.out.println("Quitting messenger client" + System.lineSeparator());}
 
-    public void printSendMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back.");}
+    public void printSendMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back." + System.lineSeparator());}
 
-    public void printInvalidOptionError() {System.out.println("Invalid option. Try again.");}
+    public void printInvalidOptionError() {System.out.println("Invalid option. Try again." + System.lineSeparator());}
+
+    public void askForArchivedOrNot() {
+        printGoBack();
+        System.out.println("Press 1 to view unarchived chats" + System.lineSeparator()+
+                "Press 2 to view archived chats" + System.lineSeparator());
+    }
 
     /**
      * Prints the emails this user has messaged or has been messaged by
@@ -57,9 +63,21 @@ public abstract class MessengerPresenter {
      * @param messages an ArrayList containing messages sent to or by this user.
      */
 
-    public void viewConversation(ArrayList<Message> messages) {
-        for (Message message : messages) {
-            System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
+    public void viewConversation(ArrayList<Message> messages, Boolean viewingArchivedMessages) {
+        if (viewingArchivedMessages) {
+            System.out.println("Viewing archived messages. Press 'a' to view unarchived messages");
         }
+        else {
+            System.out.println("Viewing unarchived messages. Enter 'a' to view archived messages");
+        }
+        System.out.println(System.lineSeparator());
+        if (messages.size() == 0) {
+            System.out.println("Nothing to see here!");
+        } else {
+            for (Message message : messages) {
+                System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
+            }
+        }
+        System.out.println("Press 0 to go back.");
     }
 }

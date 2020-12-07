@@ -51,7 +51,8 @@ public class AttendeeMessengerController extends MessengerController {
                     flag = false;
                     presenter.printQuitMessage();
                     mainMenuController.runMainMenu(email);
-                } else if (option == 1) {
+                }
+                else if (option == 1) {
                     // VIEW INDIVIDUAL CHATS
                     ArrayList<String> emails = getRecipients();
                     presenter.viewChats(emails);
@@ -60,11 +61,27 @@ public class AttendeeMessengerController extends MessengerController {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = viewUnarchivedMessages(email);
-                    presenter.viewConversation(messages);
-                } else if (option == 2) {
+                    Boolean viewingArchivedMessages = false;
+                    char input = 'a';
+                    while (input != '0') {
+                        ArrayList<Message> messages;
+                        if (viewingArchivedMessages) {
+                            messages = viewArchivedMessages(email);
+                        }
+                        else {
+                            messages = viewUnarchivedMessages(email);
+                        }
+                        presenter.viewConversation(messages, viewingArchivedMessages);
+                        input = scan.nextLine().toCharArray()[0];
+                        if (input == 'a') {
+                            viewingArchivedMessages = !viewingArchivedMessages;
+                        }
+                    }
+                }
+                else if (option == 2) {
                     // VIEW GROUP CHATS
-                } else if (option == 3) {
+                }
+                else if (option == 3) {
                     presenter.askForEmail();
                     String email = "";
                     boolean valid_recipient = false;
@@ -90,7 +107,8 @@ public class AttendeeMessengerController extends MessengerController {
                     message(email, body);
                     presenter.printMessageSentSuccess();
                 }
-            } catch (NumberFormatException nfe) {
+            }
+            catch (NumberFormatException nfe) {
                 presenter.printInvalidOptionError();
             }
         }

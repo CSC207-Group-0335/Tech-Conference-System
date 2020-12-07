@@ -6,7 +6,6 @@ import UserLogin.MainMenuController;
 import UserLogin.User;
 import UserLogin.UserManager;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -98,7 +97,7 @@ public class SpeakerMessengerController extends MessengerController {
                         continue;
                     }
                     String email = emails.get(index - 1);
-                    ArrayList<Message> messages = messageManager.viewUnarchivedMessages(email);
+                    ArrayList<Message> messages = messageManager.getUnarchivedMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
                     ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerTalks();

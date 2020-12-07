@@ -168,7 +168,7 @@ public abstract class MessageManager {
      * @return an ArrayList containing all messages sent between these two users
      */
 
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
+    public ArrayList<Message> getUnarchivedMessages(String email) {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
@@ -181,7 +181,7 @@ public abstract class MessageManager {
         return null;
     }
 
-    public ArrayList<Message> viewArchivedMessages(String email) {
+    public ArrayList<Message> getArchivedMessages(String email) {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
