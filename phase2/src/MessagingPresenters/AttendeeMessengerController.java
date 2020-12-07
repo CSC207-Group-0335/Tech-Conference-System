@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.UserStorage;
 
@@ -19,31 +20,13 @@ public class AttendeeMessengerController extends MessengerController {
      */
 
     public AttendeeMessengerController(String attendeeEmail, Scanner scanner, MainMenuController mainMenuController,
-                                       UserStorage userStorage, ConversationStorage conversationStorage) {
-        super(attendeeEmail, scanner, mainMenuController, userStorage, conversationStorage);
+                                       UserStorage userStorage, ConversationStorage conversationStorage, EventManager eventManager) {
+        super(attendeeEmail, scanner, mainMenuController, userStorage, conversationStorage, eventManager);
         messageManager = new AttendeeMessageManager(attendeeEmail, userStorage, conversationStorage);
         this.presenter = new AttendeeMessengerPresenter();
         this.userStorage = userStorage;
     }
 
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email> if and only if this
-     * attendee is allowed to message that user.
-     *
-     * @param email          a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
-
-    public void message(String email, String messageContent) {
-        messageManager.messageOne(email, messageContent);
-    }
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.viewUnarchivedMessages(email);
-    }
-
-    public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.viewArchivedMessages(email);
-    }
 
     /**
      * Returns a list containing all recipients.
@@ -53,14 +36,6 @@ public class AttendeeMessengerController extends MessengerController {
 
     public ArrayList<String> getRecipients() {
         return messageManager.getRecipients();
-    }
-
-    public void setStatus(int index, String status){
-        messageManager.changeMessageStatus(email, index, status);
-    }
-
-    public void deleteMessage(int index, String senderEmail){
-        messageManager.deleteMessage(senderEmail, index);
     }
 
     public void run() {

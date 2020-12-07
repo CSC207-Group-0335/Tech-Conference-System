@@ -52,7 +52,7 @@ public class MessagingSystem extends Observable{
         switch (userStorage.emailToType(user)) {
             case "Attendee":
                 this.messengerController = new AttendeeMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage);
+                        userStorage, conversationStorage, eventManager);
                 setMessengerController();
                 break;
             case "Speaker":
@@ -62,7 +62,7 @@ public class MessagingSystem extends Observable{
                 break;
             case "Organizer":
                 this.messengerController = new OrganizerMessengerController(userEmail, scanner, mainMenuController,
-                        userStorage, conversationStorage);
+                        userStorage, conversationStorage, eventManager);
                 setMessengerController();
                 break;
         }

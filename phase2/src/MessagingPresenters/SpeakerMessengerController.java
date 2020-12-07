@@ -15,7 +15,6 @@ import java.util.Scanner;
  */
 
 public class SpeakerMessengerController extends MessengerController {
-    public final SpeakerMessageManager messageManager;
     private final SpeakerMessengerPresenter presenter;
 
     /**
@@ -27,27 +26,8 @@ public class SpeakerMessengerController extends MessengerController {
     public SpeakerMessengerController(String speakerEmail, Scanner scanner, MainMenuController mainMenuController,
                                       UserStorage userStorage, ConversationStorage conversationStorage,
                                       EventManager eventManager) {
-        super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new SpeakerMessageManager(speakerEmail, userStorage, eventManager, conversationStorage);
+        super(speakerEmail, scanner, mainMenuController, userStorage, conversationStorage, eventManager);
         this.presenter = new SpeakerMessengerPresenter();
-    }
-
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email>.
-     * @param otherEmail a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
-
-    private void message(String otherEmail, String messageContent){
-        messageManager.messageOne(otherEmail, messageContent);
-    }
-
-    public void setStatus(int index, String status){
-        messageManager.changeMessageStatus(email, index, status);
-    }
-
-    public void deleteMessage(int index, String senderEmail){
-        messageManager.deleteMessage(senderEmail, index);
     }
 
     /**
@@ -56,24 +36,15 @@ public class SpeakerMessengerController extends MessengerController {
      */
 
     public void messageAllAttendees(String messageContent){
-        messageManager.messageAllAttendees(messageContent);
+        ((SpeakerMessageManager) messageManager).messageAllAttendees(messageContent);
     }
 
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.viewUnarchivedMessages(email);
-    }
-
-    public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.viewArchivedMessages(email);
-    }
-
-    // message attendees of one talk functions needs to be added
     public void messageAllAttendeesOfTalk(String messageContent, String talkID){
-        messageManager.messageAllAttendeesOfTalk(messageContent, talkID);
+        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfTalk(messageContent, talkID);
     }
 
     public ArrayList<Event> viewTalks(){
-        return messageManager.getSpeakerTalks();
+        return ((SpeakerMessageManager) messageManager).getSpeakerTalks();
     }
 
     /**
@@ -117,7 +88,7 @@ public class SpeakerMessengerController extends MessengerController {
                     if (body.equals("0")) {
                         continue;
                     }
-                    messageManager.messageAllAttendees(body);
+                    ((SpeakerMessageManager) messageManager).messageAllAttendees(body);
                     presenter.printMenu(4);
                 } else if (option == 3) {
                     ArrayList<String> emails = messageManager.getRecipients();
@@ -130,14 +101,14 @@ public class SpeakerMessengerController extends MessengerController {
                     ArrayList<Message> messages = messageManager.viewUnarchivedMessages(email);
                     presenter.viewConversation(messages);
                 } else if (option == 4) {
-                    ArrayList<Event> events = messageManager.getSpeakerTalks();
+                    ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerTalks();
                     presenter.viewTalks(events);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || events.size() == 0) {
                         continue;
                     }
                     Event event = events.get(index - 1);
-                    ArrayList<User> emails = messageManager.getAttendeesOfTalk(event);
+                    ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfTalk(event);
                     presenter.printMenu(3);
                     String body = scan.nextLine();
                     if (body.equals("0")) {

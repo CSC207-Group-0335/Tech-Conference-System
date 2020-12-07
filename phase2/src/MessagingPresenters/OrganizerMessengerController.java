@@ -1,6 +1,8 @@
 package MessagingPresenters;
 
+import Schedule.EventManager;
 import UserLogin.MainMenuController;
+import UserLogin.Organizer;
 import UserLogin.User;
 import UserLogin.UserStorage;
 
@@ -14,33 +16,17 @@ import java.util.Scanner;
 
 public class OrganizerMessengerController extends MessengerController {
     private final OrganizerMessengerPresenter presenter;
-    public final OrganizerMessageManager messageManager;
 
     /**
      * An organizer is required to create an instance of this class.\
      */
 
     public OrganizerMessengerController(String orgEmail, Scanner scanner, MainMenuController mainMenuController,
-                                        UserStorage userStorage, ConversationStorage conversationStorage) {
-        super(orgEmail, scanner, mainMenuController, userStorage, conversationStorage);
-        this.messageManager = new OrganizerMessageManager(orgEmail, userStorage, conversationStorage);
+                                        UserStorage userStorage, ConversationStorage conversationStorage, EventManager eventManager) {
+        super(orgEmail, scanner, mainMenuController, userStorage, conversationStorage, eventManager);
         this.presenter = new OrganizerMessengerPresenter();
     }
 
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email>.
-     *
-     * @param email          a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
-
-    public void messageOneUser(String email, String messageContent) {
-        messageManager.messageOne(email, messageContent);
-    }
-
-    public void setStatus(int index, String status){
-        messageManager.changeMessageStatus(email, index, status);
-    }
 
     /**
      * Sends a message containing </messageContent> to all attendees.
@@ -49,7 +35,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public void messageAllAttendees(String messageContent) {
-        messageManager.messageAllAttendees(messageContent);
+        ((OrganizerMessageManager) messageManager).messageAllAttendees(messageContent);
     }
 
     /**
@@ -59,7 +45,7 @@ public class OrganizerMessengerController extends MessengerController {
      */
 
     public void messageAllSpeakers(String messageContent) {
-        messageManager.messageAllSpeakers(messageContent);
+        ((OrganizerMessageManager) messageManager).messageAllSpeakers(messageContent);
     }
 
     /**
@@ -69,14 +55,6 @@ public class OrganizerMessengerController extends MessengerController {
      * @param email a String representing the email of the recipient
      * @return an arraylist containing all messages between this organizer and the user
      */
-
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.viewUnarchivedMessages(email);
-    }
-
-    public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.viewArchivedMessages(email);
-    }
 
     /**
      * Returns a list containing all recipients.
@@ -91,10 +69,6 @@ public class OrganizerMessengerController extends MessengerController {
     /**
      * Runs the presenter.
      */
-
-    public void deleteMessage(int index, String senderEmail){
-        messageManager.deleteMessage(senderEmail, index);
-    }
 
     public void run() {
         boolean flag = true;
@@ -128,7 +102,7 @@ public class OrganizerMessengerController extends MessengerController {
                         continue;
                     }
 
-                    messageOneUser(email, body);
+                    message(email, body);
                     presenter.printMenu(4);
                 } else if (option == 2) {
                     presenter.printMenu(3);

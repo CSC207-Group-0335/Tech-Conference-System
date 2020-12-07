@@ -12,12 +12,8 @@ public class SpeakerMessageManager extends MessageManager{
      * @param speakerEmail the email of speaker whose messages will be managed
      */
 
-    public EventManager eventManager;
-
-    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage,
-                                 EventManager eventManager, ConversationStorage conversationStorage) {
+    public SpeakerMessageManager(String speakerEmail, UserStorage userStorage, ConversationStorage conversationStorage) {
         super(speakerEmail, userStorage, conversationStorage);
-        this.eventManager = eventManager;
     }
 
 
