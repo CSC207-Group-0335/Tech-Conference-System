@@ -32,6 +32,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                         "Press 10 to see schedule by day" + System.lineSeparator() +
                         "Press 11 to change room capacity" + System.lineSeparator() +
                         "Press 12 to Speaker and Attendee accounts" + System.lineSeparator() +
+                        "Press 13 to see Attendee requests" + System.lineSeparator() + //added for requests
                         "Press 0 to go back to the main menu");
                 break;
             case 2:
@@ -109,6 +110,17 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
                 break;
             case 22:
                 System.out.println("Invalid user type, try again.");
+                break;
+            //cases below are for requests, feel free to remove if it messes things up
+            case 23:
+                System.out.println("Pick user requests by Index, press 0 to go back");
+                break;
+            case 24:
+                System.out.println("Pick request by Index, press 0 to go back");
+                break;
+            case 25:
+                System.out.println("Press 1 to approve request, press 2 to reject." + System.lineSeparator() +
+                        "Press 0 to go back");
                 break;
         }
     }
@@ -202,7 +214,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter{
         HashMap<String, ArrayList<String>> allRequests = userManager.emailToRequest();
         for (String email : allRequests.keySet()) {
             Attendee attendee = (Attendee) userManager.emailToUser(email);
-            System.out.println(email + ": " + attendee.getNumberOfRequests() + System.lineSeparator());
+            System.out.println(email + ": " + attendee.getNumberOfRequests() + " requests"+ System.lineSeparator());
         }
     }
 
