@@ -27,7 +27,7 @@ public abstract class MessengerPresenter {
 
     public void printQuitMessage() {System.out.println("Quitting messenger client");}
 
-    public void printMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back.");}
+    public void printSendMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back.");}
 
     public void printInvalidOptionError() {System.out.println("Invalid option. Try again.");}
 

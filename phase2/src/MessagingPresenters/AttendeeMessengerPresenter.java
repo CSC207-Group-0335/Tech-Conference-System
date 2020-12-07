@@ -14,6 +14,6 @@ public class AttendeeMessengerPresenter extends MessengerPresenter {
 
     @Override
     public void printMessagesMenu() {
-        System.out.println("Press 1 to send a message to a user" + System.lineSeparator());
+        System.out.println("Press 3 to send a message to a user" + System.lineSeparator());
     }
 }
