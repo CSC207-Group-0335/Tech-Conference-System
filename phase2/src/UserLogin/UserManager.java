@@ -352,6 +352,11 @@ public class UserManager extends Observable {
         return emailRequestMap;
     }
 
+    /**
+     * Checks to see if the user is an attendee and if they have requests
+     * @param user a user
+     * @return a boolean that says if the user is an attendee and if they have requests
+     */
     public boolean hasRequests(User user) {
         String email = user.getEmail();
         String typeUser = this.emailToType(email);
@@ -363,6 +368,12 @@ public class UserManager extends Observable {
         }
         return false;
     }
+
+    /**
+     * A helper function for userRequestsPending that adds the value that is pending to a list
+     * @param user a user
+     * @param requestsPending the list we want to add to
+     */
     public void addRequests(Attendee user, ArrayList<String> requestsPending) {
         LinkedHashMap<String, String> userRequests = user.getRequests();
         for (Map.Entry<String, String> entry : userRequests.entrySet()) {
@@ -374,22 +385,32 @@ public class UserManager extends Observable {
             }
         }
     }
-    public ArrayList<String> userRequestsPending(){
+
+    /**
+     * Gives a list only a user's pending requests
+     * @param email the email of the user
+     * @return an ArrayList of strings representing the Users Requests
+     */
+    public ArrayList<String> userRequestsPending(String email){
         ArrayList<String> requestsPending = new ArrayList<String>();
-        for (User a: userList){
-            if (this.hasRequests(a)){
-                this.addRequests(((Attendee) a), requestsPending);
-            }
+        User person = emailToUser(email);
+        if (this.hasRequests(person)){
+            this.addRequests(((Attendee) person), requestsPending);
             }
         return requestsPending;
     }
+
+    /**
+     * Gives a list of every user and an integer representing the total pending requests they have
+     * @return an Arraylist with a user's email and an int reprenting the total pending requests they have
+     */
     public ArrayList<String> totalPending(){
         ArrayList<String> requestsPending = new ArrayList<String>();
         for (User a: userList){
             if (this.hasRequests(a)){
                 int pending = ((Attendee) a).getNumberOfPending();
                 String pending1 = Integer.toString(pending);
-                String userPending = a.getName() + ", " + pending1;
+                String userPending = a.getEmail() + ", " + pending1;
                 requestsPending.add(userPending);
             }
         }
