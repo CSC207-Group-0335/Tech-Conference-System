@@ -11,17 +11,17 @@ import java.util.*;
  * and speaker schedule manager for for every user/speaker.
  */
 public class ScheduleSystem{
-    UserStorage storage;
+    UserManager storage;
     EventManager eventManager;
-    UserStorage userStorage;
+    UserManager userManager;
 
     /**
      * Creates a new ScheduleSystem with the specified talkManager.
      * @param eventManager The talkManager.
      */
-    public ScheduleSystem(EventManager eventManager, UserStorage userStorage){
+    public ScheduleSystem(EventManager eventManager, UserManager userManager){
         this.eventManager = eventManager;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
     }
 
     /**
@@ -31,12 +31,12 @@ public class ScheduleSystem{
         CSVReader fileReader = new CSVReader("src/Resources/Registration.csv");
         for(ArrayList<String> scheduleData: fileReader.getData()){
             String email = scheduleData.get(0);
-            if (userStorage.emailToType(email).equals("Organizer") ||
-                    userStorage.emailToType(email).equals("Attendee")){
+            if (userManager.emailToType(email).equals("Organizer") ||
+                    userManager.emailToType(email).equals("Attendee")){
             for(int i =1; i< scheduleData.size(); i++){
                 String id = scheduleData.get(i);
                 if (eventManager.exists(id)) {
-                    userStorage.addEvent(email, id);
+                    userManager.addEvent(email, id);
                 }
             }}}
         }
@@ -46,6 +46,6 @@ public class ScheduleSystem{
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRegistration("src/Resources/Registration.csv", userStorage);
+        csvWriter.writeToRegistration("src/Resources/Registration.csv", userManager);
     }
 }

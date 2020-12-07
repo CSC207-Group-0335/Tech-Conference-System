@@ -30,7 +30,7 @@ public class MainMenuController implements Observer {
     private MessagingSystem messagingSystem;
     private ScheduleSystem scheduleSystem;
     private TechConferenceSystem techConferenceSystem;
-    private UserStorage userStorage;
+    private UserManager userManager;
 
     /**
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
@@ -43,7 +43,7 @@ public class MainMenuController implements Observer {
      */
 
     public MainMenuController(RoomSystem roomSystem, EventSystem eventSystem,
-                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserStorage userStorage,
+                              MessagingSystem messagingSystem, ScheduleSystem scheduleSystem, UserManager userManager,
                               TechConferenceSystem techConferenceSystem) {
 
         this.roomSystem = roomSystem;
@@ -52,7 +52,7 @@ public class MainMenuController implements Observer {
         this.messagingSystem = messagingSystem;
         messagingSystem.setMainMenuController(this);
         this.scheduleSystem = scheduleSystem;
-        this.userStorage = userStorage;
+        this.userManager = userManager;
         this.techConferenceSystem = techConferenceSystem;
         this.presenter = new MainMenuPresenter();
     }
@@ -62,8 +62,8 @@ public class MainMenuController implements Observer {
      * @param useremail the users email provided, taken from userStorage
      */
     public void runMainMenu(String useremail) {
-        presenter.printHello(userStorage.emailToName(useremail));
-        switch (userStorage.emailToType(useremail)) {
+        presenter.printHello(userManager.emailToName(useremail));
+        switch (userManager.emailToType(useremail)) {
             case "Attendee":
                 runMainMenuAttendee();
                 break;
@@ -88,20 +88,23 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.userScheduleController.run();
-                    return;
-                } else if (command == 2) {
-                    this.attendeeMessengerController.run();
-                    return;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    logoutAndReRun();
-                    presenter.loggingOut();
-                    return; //Exit the while loop
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.userScheduleController.run();
+                        return;
+                    case 2:
+                        this.attendeeMessengerController.run();
+                        return;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        logoutAndReRun();
+                        presenter.loggingOut();
+                        return; //Exit the while loop
+
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
@@ -119,20 +122,23 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.speakerScheduleController.run();
-                    return;
-                } else if (command == 2) {
-                    this.speakerMessengerController.run();
-                    return;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    logoutAndReRun();
-                    presenter.loggingOut();
-                    return; //Exit the while loop
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.speakerScheduleController.run();
+                        return;
+                    case 2:
+                        this.speakerMessengerController.run();
+                        return;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        logoutAndReRun();
+                        presenter.loggingOut();
+                        return; //Exit the while loop
+
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();
@@ -149,18 +155,20 @@ public class MainMenuController implements Observer {
             String choice = scanner.nextLine();
             try {
                 int command = Integer.parseInt(choice);
-                if (command == 1) {
-                    this.orgScheduleController.run();
-                    return true;
-                } else if (command == 2) {
-                    this.orgMessengerController.run();
-                    return true;
-                } else if (command == 0) {
-                    //Run a log out sequence
-                    //Call all of the write signals to "save" everything that has been done by the user
-                    return logoutAndReRun();
-                } else {
-                    presenter.tryAgain();
+                switch (command) {
+                    case 1:
+                        this.orgScheduleController.run();
+                        return true;
+                    case 2:
+                        this.orgMessengerController.run();
+                        return true;
+                    case 0:
+                        //Run a log out sequence
+                        //Call all of the write signals to "save" everything that has been done by the user
+                        return logoutAndReRun();
+                    default:
+                        presenter.tryAgain();
+                        break;
                 }
             }catch (NumberFormatException nfe){
                 presenter.tryAgain();

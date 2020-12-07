@@ -1,8 +1,6 @@
 package UserLogin;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * A Use Case class that handles the back-end of the login process for a user attempting to login to their account.
@@ -15,8 +13,8 @@ public class LogInManager{
      * A constructor for a LogInManager, which initializes a new UserList.
      */
 
-    public LogInManager(UserStorage userStorage) {
-        this.userList = userStorage.getUserList();
+    public LogInManager(UserManager userManager) {
+        this.userList = userManager.getUserList();
     }
 
     /**

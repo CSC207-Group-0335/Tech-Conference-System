@@ -2,6 +2,7 @@ package UserLogin;
 
 import Files.CSVReader;
 import Files.CSVWriter;
+import Files.JSONWriter;
 import Schedule.RoomSystem;
 
 import java.util.ArrayList;
@@ -12,10 +13,9 @@ import java.util.Observable;
  * registered in the database.
  */
 
-public class TechConferenceSystem extends Observable {
+public class TechConferenceSystem {
 
-    public UserStorage userStorage;
-    public ArrayList<User> userList;
+    public UserManager userManager;
     public LogInController logInController;
     public RoomSystem roomSystem;
     public MainMenuController mainMenuController;
@@ -26,27 +26,26 @@ public class TechConferenceSystem extends Observable {
      */
 
     public TechConferenceSystem() {
-        this.userStorage = new UserStorage();
-        this.roomSystem = new RoomSystem(userStorage);
+        this.userManager = new UserManager();
+        this.roomSystem = new RoomSystem(userManager);
         this.mainMenuController = new MainMenuController(roomSystem,
                 roomSystem.eventSystem, roomSystem.eventSystem.messagingSystem, roomSystem.eventSystem.scheduleSystem,
-                userStorage,this);
+                userManager,this);
         this.logInController = new LogInController(this.mainMenuController, this.roomSystem.eventSystem,
-                this.roomSystem.eventSystem.messagingSystem, userStorage);
+                this.roomSystem.eventSystem.messagingSystem, userManager);
     }
 
     /**
-     * The main run method for the entire program. Observers are initialized so that everything is running over the
-     * same systems. The above set methods are called to update everything and notify all observers.
+     * The main run method for the entire program.
      * The system is run starting with Login, which, if successful, prompts a main menu, which the user can navigate
      * to prompt the different screens and do specific actions. The program will quit when the user logs out, and
      * update any files with possible changes that were made during the active session.
      */
 
-    public void run() {
+    public void run() throws Exception {
         CSVReader file = new CSVReader("src/Resources/Users.csv");
         for(ArrayList<String> user: file.getData()){
-            this.userStorage.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}
+            this.userManager.createUser(user.get(0), user.get(1), user.get(2), user.get(3));}
         roomSystem.run();
         logInController.runLogIn();
         mainMenuController.runMainMenu(logInController.getEmail());
@@ -57,6 +56,8 @@ public class TechConferenceSystem extends Observable {
      */
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToUsers("src/Resources/Users.csv", this.userStorage.getUserList());
+        csvWriter.writeToUsers("src/Resources/Users.csv", this.userManager.getUserList());
+        JSONWriter jsonWriter = new JSONWriter();
+        jsonWriter.writeToUsers("src/Resources/Users.json", this.userManager);
     }
 }

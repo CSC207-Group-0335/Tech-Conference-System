@@ -34,6 +34,13 @@ public class ConversationStorage {
         return false;
     }
 
+    /**
+     * Returns True if and only if groupChatManagers contains a specific talk ID.
+     *
+     * @param talkID a String representing a talk ID
+     * @return a boolean representing whether or not talkID is in groupChatManagers
+     */
+
     public boolean contains(String talkID) {
         for (GroupChatManager g : groupChatManagers) {
             if (g.getTalkID().equals(talkID)){
@@ -58,6 +65,13 @@ public class ConversationStorage {
         }
         return null;
     }
+
+    /**
+     * Returns the GroupChatManager with talk ID </talkID> if it exists.
+     *
+     * @param talkID a String representing a talk ID
+     * @return a GroupChatManager with talk ID </talkID> if it exists. Returns null otherwise
+     */
 
     public GroupChatManager getGroupChatManager(String talkID) {
         for (GroupChatManager g : groupChatManagers) {
@@ -85,6 +99,13 @@ public class ConversationStorage {
         return null;
     }
 
+    /**
+     * Adds a GroupChatManager with talk ID </talkID> if it does not already exist.
+     *
+     * @param talkID a String representing a talk ID
+     * @return the new GroupChatManager created. Returns null if it already exists
+     */
+
     public GroupChatManager addGroupChatManager(String talkID) {
         if (!this.contains(talkID)) {
             GroupChatManager g = new GroupChatManager(talkID);
@@ -103,6 +124,12 @@ public class ConversationStorage {
     public ArrayList<ConversationManager> getConversationManagers() {
         return conversationManagers;
     }
+
+    /**
+     * Returns a list of GroupChatManagers
+     *
+     * @return an ArrayList containing GroupChatManagers
+     */
 
     public ArrayList<GroupChatManager> getGroupChatManagers() {
         return groupChatManagers;

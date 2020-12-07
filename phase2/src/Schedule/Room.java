@@ -18,12 +18,12 @@ public class Room {
      * @param capacity The capacity of the room.
      */
 
-    ArrayList<String> talkList;
+    ArrayList<String> eventList;
 
     public Room(String roomName, int capacity){
         this.roomName = roomName;
         this.capacity = capacity;
-        this.talkList = new ArrayList<>();
+        this.eventList = new ArrayList<>();
     }
 
     /**
@@ -32,7 +32,7 @@ public class Room {
      */
     public Room(String roomName){
         this.roomName = roomName;
-        this.talkList = new ArrayList<>();
+        this.eventList = new ArrayList<>();
     }
 
     /**
@@ -51,18 +51,18 @@ public class Room {
         return this.capacity;
     }
 
-    public boolean addTalk(String talkId){
+    public boolean addEvent(String eventId){
         //boolean found = true;
-        for (String id : talkList){
-            if (id.equals(talkId)){
+        for (String id : eventList){
+            if (id.equals(eventId)){
                 return false;
             }
         }
-        this.talkList.add(talkId);
+        this.eventList.add(eventId);
         return true;
     }
-    public ArrayList<String> getTalkList(){
-        return this.talkList;
+    public ArrayList<String> getEventList(){
+        return this.eventList;
     }
 
     public void changeCapacity(int capacity){

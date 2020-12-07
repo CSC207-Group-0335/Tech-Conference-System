@@ -102,13 +102,13 @@ public class RoomStorage {
     public boolean addEvent(String roomName, String EventId, LocalDateTime start, LocalDateTime end){
         Room r = roomNameMap.get(roomName);
         boolean found = true;
-        for (String id : r.getTalkList()){
+        for (String id : r.getEventList()){
             if (id.equals(EventId)){
                 found = false;
             }
         }
         if (found){
-            r.addTalk(EventId);
+            r.addEvent(EventId);
             return true;
         }
         return false;
@@ -116,9 +116,9 @@ public class RoomStorage {
 
     public void removeEvent(String roomName, String EventId){
         Room r = roomNameMap.get(roomName);
-        for (String id : r.getTalkList()){
+        for (String id : r.getEventList()){
             if (id.equals(EventId)){
-                r.getTalkList().remove(EventId);
+                r.getEventList().remove(EventId);
             }
         }
     }
@@ -130,7 +130,7 @@ public class RoomStorage {
     }
     public ArrayList<String> roomNameToEventIds(String roomName){
         Room room = nameToRoom(roomName);
-        return room.getTalkList();
+        return room.getEventList();
     }
     public int roomNameToCapacity(String roomName){
         Room room = nameToRoom(roomName);

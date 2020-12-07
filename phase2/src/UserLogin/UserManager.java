@@ -6,7 +6,7 @@ import java.util.*;
  * A Use Case class that handles the creation and storage of all users in the database.
  */
 
-public class UserStorage extends Observable {
+public class UserManager extends Observable {
     public ArrayList<User> userList;
     public ArrayList<Speaker> speakerList;
 
@@ -14,7 +14,7 @@ public class UserStorage extends Observable {
      * Each user in UserStorage has an associated instance of UserScheduleManager.
      */
 
-    public UserStorage() {
+    public UserManager() {
         this.userList = new ArrayList<>();
         this.speakerList = new ArrayList<>();
 
@@ -32,15 +32,37 @@ public class UserStorage extends Observable {
         if (!(checkIfValidEmail(email))){
             return false;
         }
-        User newuser = createUserOfInstance(usertype, name, password, email);
-        if (newuser == null) {
+        User newUser = createUserOfInstance(usertype, name, password, email);
+        if (newUser == null) {
             return false;
         }
         //Add the user to the UserList
-        this.userList.add(newuser);
+        this.userList.add(newUser);
         //Add the Attendee/Organizer user to UserScheduleList
-        if (newuser instanceof Speaker){
-            this.speakerList.add((Speaker) newuser);
+        if (newUser instanceof Speaker){
+            this.speakerList.add((Speaker) newUser);
+        }
+        return true;
+    }
+
+    public boolean createUser(String usertype, String name, String password, String email, boolean vip) {
+        //Create instance of user depending on usertype
+        // First check if email is already in system
+        if (!(checkIfValidEmail(email))){
+            return false;
+        }
+        User newUser = createUserOfInstance(usertype, name, password, email);
+        if (newUser == null) {
+            return false;
+        }
+        if (newUser instanceof Attendee) {
+            ((Attendee) newUser).setVIPStatus(vip);
+        }
+        //Add the user to the UserList
+        this.userList.add(newUser);
+        //Add the Attendee/Organizer user to UserScheduleList
+        if (newUser instanceof Speaker){
+            this.speakerList.add((Speaker) newUser);
         }
         return true;
     }
@@ -88,25 +110,25 @@ public class UserStorage extends Observable {
      * usertype parameter.
      * @return a new user object (note that it could be null)
      */
-    private User createUserOfInstance(String usertype, String name, String password, String email){
-        User newuser = null;
+    private User createUserOfInstance(String userType, String name, String password, String email){
+        User newUser = null;
 
         //I think here would be a good place to see if the email is valid/has not been used before.
-        switch (usertype) {
+        switch (userType) {
             case "Attendee": {
-                newuser = new Attendee(name, password, email);
+                newUser = new Attendee(name, password, email);
                 break;
             }
             case "Organizer": {
-                newuser = new Organizer(name, password, email);
+                newUser = new Organizer(name, password, email);
                 break;
             }
             case "Speaker": {
-                newuser = new Speaker(name, password, email);
+                newUser = new Speaker(name, password, email);
                 break;
             }
         }
-        return newuser;
+        return newUser;
     }
 
     /**
@@ -115,7 +137,7 @@ public class UserStorage extends Observable {
      * @param email the provided email.
      * @return a boolean value indicating whether or not the Email is valid.
      */
-    private boolean checkIfValidEmail(String email){
+    public boolean checkIfValidEmail(String email){
         for (User account: this.userList){
             if((account.getEmail()).equals(email)){
                 return false;
@@ -180,10 +202,10 @@ public class UserStorage extends Observable {
     //Delete if not used
 
     public boolean emailToVIPStatus(String email){
-        if (emailToType(email) == "Organizer"){
+        if (emailToType(email).equals("Organizer")){
             return true;
         }
-        if (emailToType(email) == "Speaker"){
+        if (emailToType(email).equals("Speaker")){
             return false;
         }
         else{
@@ -208,6 +230,7 @@ public class UserStorage extends Observable {
      * Creates a list of all speakers in the program
      * @return An ArrayList represent the list of all speakers.
      */
+
     public ArrayList<String> getSpeakerEmailList(){
         ArrayList<String> speakerList = new ArrayList<String>();
         for(User u: this.userList){
@@ -218,6 +241,12 @@ public class UserStorage extends Observable {
         return speakerList;
     }
 
+    /**
+     * Returns a list of speakers' email addresses.
+     *
+     * @return an ArrayList containing speakers' email addresses
+     */
+
     public ArrayList<String> getSpeakerNameList(){
         ArrayList<String> speakerNameList = new ArrayList<String>();
         for (String email: getSpeakerEmailList()) {
@@ -227,6 +256,101 @@ public class UserStorage extends Observable {
     }
 
 
+    /**
+     * Returns true if this request has not been addressed.
+     *
+     * @param req a String representing a request
+     * @param email a String representing an email
+     * @return a boolean representing whether or not this request is yet to addressed
+     */
+
+    public boolean requestNotAddressed(String req, String email) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        if (!(attendee == null)){
+            if (attendee.getRequests().containsKey(req)) {
+                if (attendee.getRequests().get(req).equals("pending")) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the request is not a repeat.
+     *
+     * @param req a String representing a request
+     * @param email a String representing an email address
+     * @return a boolean representing whether or not the request has already been sent
+     */
+
+    public boolean requestNotRepeat(String req, String email) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        if (!(attendee == null)){
+            for (String r : attendee.getRequests().keySet()){
+                if (req.equals(r)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the request has been set.
+     *
+     * @param email a String representing an email address
+     * @param request a String representing a request
+     * @return a boolean representing whether or not a request has been successfully sent
+     */
+
+    public boolean addRequest(String email, String request) {
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        return attendee.setRequests(request);
+    }
+
+
+    /**
+     * Returns a list of requests sent in by the user with email </email>.
+     *
+     * @param email a String representing an email address
+     * @return an ArrayList containing requests
+     */
+
+    public ArrayList<String> getRequestList(String email) {
+        ArrayList<String> requests = new ArrayList<>();
+        Attendee attendee = (Attendee) this.emailToUser(email);
+        requests.addAll(attendee.getRequests().keySet());
+        return requests;
+    }
+
+    /**
+     * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered
+     * under that email.
+     *
+     * @return a HashMap with email addresses as the keys and ArrayLists of requests as the values
+     */
+
+    public HashMap<String, ArrayList<String>> emailToRequest() {
+        HashMap<String, ArrayList<String>> emailRequestMap = new HashMap<>();
+        for (String email : getUserEmailList()) {
+            if (this.emailToUser(email) instanceof Attendee) {
+                ArrayList<String> userRequests = new ArrayList<>();
+                for (String req : ((Attendee) this.emailToUser(email)).requests.keySet()) {
+                    if (((Attendee) this.emailToUser(email)).requests.get(req).equals("pending")) {
+                        userRequests.add(req);
+                    }
+                }
+                emailRequestMap.put(email, userRequests);
+            }
+        }
+        return emailRequestMap;
+    }
 }
 
 
