@@ -140,7 +140,7 @@ public class OrgScheduleController extends UserScheduleController {
                 orgSchedulePresenter.printMenu(18);
             }
             else{
-                int days = Integer.parseInt(day.substring(day.length()-2, day.length()))-1;
+                int days = Integer.parseInt(day.substring(day.length()-2, day.length()))-20;
                 return days;
             }
         }
