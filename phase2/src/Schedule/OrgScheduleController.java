@@ -403,7 +403,7 @@ public class OrgScheduleController extends UserScheduleController {
 
     private void reviewRequests(Scanner scan) {
         ArrayList<String> requestsList = userManager.userRequestsPending();
-        orgSchedulePresenter.printByIndex(requestsList);
+        orgSchedulePresenter1.printByIndex(requestsList);
     }
 
 
@@ -455,6 +455,7 @@ public class OrgScheduleController extends UserScheduleController {
                 case 9:
                     this.reviewRequests(scan);
                     orgSchedulePresenter1.printMenu();
+                    break;
                 case 0:
                     doContinue = false;
                     mainMenuController.runMainMenu(email);
