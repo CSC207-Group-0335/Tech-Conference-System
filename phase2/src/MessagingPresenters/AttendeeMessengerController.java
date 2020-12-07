@@ -82,6 +82,7 @@ public class AttendeeMessengerController extends MessengerController {
                     // VIEW GROUP CHATS
                 }
                 else if (option == 3) {
+                    // MESSAGE USER
                     presenter.askForEmail();
                     String email = "";
                     boolean valid_recipient = false;

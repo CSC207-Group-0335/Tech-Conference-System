@@ -54,17 +54,50 @@ public class SpeakerMessengerController extends MessengerController {
         boolean flag = true;
         OUTER_LOOP:
         while (flag) {
-            presenter.printMenu(0);
+            presenter.printMenu();
             int option = Integer.parseInt(scan.nextLine());
             try {
                 if (option == 0) {
+                    // QUIT
                     flag = false;
-                    presenter.printMenu(1);
+                    presenter.printQuitMessage();
                     mainMenuController.runMainMenu(email);
-                } else if (option == 1) {
-                    presenter.printMenu(2);
+                }
+                else if (option == 1) {
+                    // VIEW INDIVIDUAL CHATS
+                    ArrayList<String> emails = messageManager.getRecipients();
+                    presenter.viewChats(emails);
+                    int index = Integer.parseInt(scan.nextLine());
+                    if (index == 0 || emails.size() == 0) {
+                        continue;
+                    }
+                    String email = emails.get(index - 1);
+                    Boolean viewingArchivedMessages = false;
+                    char input = 'a';
+                    while (input != '0') {
+                        ArrayList<Message> messages;
+                        if (viewingArchivedMessages) {
+                            messages = viewArchivedMessages(email);
+                        }
+                        else {
+                            messages = viewUnarchivedMessages(email);
+                        }
+                        presenter.viewConversation(messages, viewingArchivedMessages);
+                        input = scan.nextLine().toCharArray()[0];
+                        if (input == 'a') {
+                            viewingArchivedMessages = !viewingArchivedMessages;
+                        }
+                    }
+                }
+                else if (option == 2) {
+                    // VIEW GROUP CHATS
+                }
+                else if (option == 3) {
+                    // MESSAGE ONE USER
+                    presenter.askForEmail();
                     String email = "";
                     boolean valid_recipient = false;
+
                     while (!valid_recipient) {
                         email = scan.nextLine();
                         if (email.equals("0")) {
@@ -73,33 +106,28 @@ public class SpeakerMessengerController extends MessengerController {
                         if (messageManager.canMessage(email)) {
                             valid_recipient = true;
                         } else {
-                            presenter.printMenu(5);
+                            presenter.printSendMessageError();
                         }
                     }
-                    presenter.printMenu(3);
+
+                    presenter.askForMessageBody();
                     String body = scan.nextLine();
 
                     messageManager.message(email, body);
-                    presenter.printMenu(4);
-                } else if (option == 2) {
-                    presenter.printMenu(3);
+                    presenter.printMessageSentSuccess();
+                }
+                else if (option == 4) {
+                    // MESSAGE ALL ATTENDEES
+                    presenter.askForMessageBody();
                     String body = scan.nextLine();
                     if (body.equals("0")) {
                         continue;
                     }
                     ((SpeakerMessageManager) messageManager).messageAllAttendees(body);
-                    presenter.printMenu(4);
-                } else if (option == 3) {
-                    ArrayList<String> emails = messageManager.getRecipients();
-                    presenter.viewChats(emails);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || emails.size() == 0) {
-                        continue;
-                    }
-                    String email = emails.get(index - 1);
-                    ArrayList<Message> messages = messageManager.getUnarchivedMessages(email);
-                    presenter.viewConversation(messages);
-                } else if (option == 4) {
+                    presenter.printMessageSentSuccess();
+                }
+                else if (option == 5) {
+                    // MESSAGE ALL ATTENDEES OF A SINGLE TALK
                     ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerTalks();
                     presenter.viewTalks(events);
                     int index = Integer.parseInt(scan.nextLine());
@@ -108,7 +136,7 @@ public class SpeakerMessengerController extends MessengerController {
                     }
                     Event event = events.get(index - 1);
                     ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfTalk(event);
-                    presenter.printMenu(3);
+                    presenter.askForMessageBody();
                     String body = scan.nextLine();
                     if (body.equals("0")) {
                         continue;
@@ -116,10 +144,10 @@ public class SpeakerMessengerController extends MessengerController {
                     for (User user : emails) {
                         messageManager.message(user.getEmail(), body);
                     }
-                    presenter.printMenu(4);
+                    presenter.printMessageSentSuccess();
                 }
             } catch (NumberFormatException nfe) {
-                presenter.printMenu(6);
+                presenter.printInvalidOptionError();
             }
         }
     }
