@@ -373,10 +373,7 @@ public class UserManager extends Observable {
                 requestsPending.add(key);
             }
         }
-
-
     }
-
     public ArrayList<String> userRequestsPending(){
         ArrayList<String> requestsPending = new ArrayList<String>();
         for (User a: userList){
@@ -386,6 +383,19 @@ public class UserManager extends Observable {
             }
         return requestsPending;
     }
+    public ArrayList<String> totalPending(){
+        ArrayList<String> requestsPending = new ArrayList<String>();
+        for (User a: userList){
+            if (this.hasRequests(a)){
+                int pending = ((Attendee) a).getNumberOfPending();
+                String pending1 = Integer.toString(pending);
+                String userPending = a.getName() + ", " + pending1;
+                requestsPending.add(userPending);
+            }
+        }
+        return requestsPending;
+    }
+
 
 }
 

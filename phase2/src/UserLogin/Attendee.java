@@ -3,6 +3,7 @@ package UserLogin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * A class that represents an Attendee, a specific type of User that attends the conference and can sign up to
@@ -175,5 +176,19 @@ public class Attendee extends User {
 
     public int getNumberOfRequests() {
         return requests.size();
+    }
+
+    public int getNumberOfPending(){
+        int pendingLeft = 0;
+        LinkedHashMap<String, String> userRequests = this.getRequests();
+        for (Map.Entry<String, String> entry : userRequests.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            // now work with key and value...
+            if (value.equals("pending")){
+                pendingLeft = pendingLeft + 1;
+            }
+        }
+        return pendingLeft;
     }
 }
