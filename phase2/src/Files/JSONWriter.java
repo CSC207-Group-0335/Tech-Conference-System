@@ -21,23 +21,23 @@ public class JSONWriter {
     public void writeToEvents(String json, EventManager events) {
         JSONArray eventArray = new JSONArray();
 
-        for (Event event:
-             events.eventList) {
+        for (String eventid:
+             events.getEventIdsList()) {
             JSONObject eventObject = new JSONObject();
-            eventObject.put("title", event.getTitle());
-            LocalDateTime startTime = event.getStartTime();
-            LocalDateTime endTime = event.getStartTime();
+            eventObject.put("title", events.eventIdToTitle(eventid));
+            LocalDateTime startTime = events.eventIdToStartTime(eventid);
+            LocalDateTime endTime = events.eventIdToEndTime(eventid);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             String formatted = startTime.format(formatter);
             String formatted2 = endTime.format(formatter);
             eventObject.put("startTime", formatted);
             eventObject.put("endTime", formatted2);
-            eventObject.put("eventId", event.getEventId());
-            eventObject.put("roomName", event.getRoomName());
-            eventObject.put("usersSignedUp", event.getUsersSignedUp());
-            eventObject.put("speakers", event.getSpeakers());
-            eventObject.put("vipRestricted", event.getVIPStatus());
-            eventObject.put("capacity", event.getCapacity());
+            eventObject.put("eventId", eventid);
+            eventObject.put("roomName", events.eventIdToRoomName(eventid));
+            eventObject.put("usersSignedUp", events.eventIdToUsersSignedUp(eventid));
+            eventObject.put("speakers", events.eventIdToSpeakerEmails(eventid));
+            eventObject.put("vipRestricted", events.eventIdToVIPStatus(eventid));
+            eventObject.put("capacity", events.eventIdToCapacity(eventid));
             eventArray.add(eventObject);
 
         }
@@ -52,15 +52,15 @@ public class JSONWriter {
     public void writeToUsers(String json, UserManager users) {
         JSONArray userArray = new JSONArray();
 
-        for (User user:
-                users.getUserList()) {
+        for (String email:
+                users.getUserEmailList()) {
             JSONObject userObject = new JSONObject();
-            userObject.put("type", user.getType());
-            userObject.put("vip", user.getVIPStatus());
-            userObject.put("name", user.getName());
-            userObject.put("password", user.getPassword());
-            userObject.put("email", user.getEmail());
-            userObject.put("ListOfTalkIDs", user.getEventList());
+            userObject.put("type", users.emailToType(email));
+            userObject.put("vip", users.emailToVIPStatus(email));
+            userObject.put("name", users.emailToName(email));
+            userObject.put("password", users.emailToPassword(email));
+            userObject.put("email", email);
+            userObject.put("ListOfTalkIDs", users.emailToTalkList(email));
             userArray.add(userObject);
 
         }
