@@ -76,6 +76,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 break;
             case 8:
                 System.out.println("Pick end time for event");
+                break;
             case 9:
                 System.out.println("End time must be after the start time. Pick another end time");
                 break;
@@ -134,6 +135,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 2:
                 System.out.println(str + " added successfully");
                 break;
+            case 3:
+                System.out.println("Too many speakers. Please choose at most " + str + " speakers.");
+                break;
         }
     }
 
@@ -143,10 +147,14 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Enter the number of speakers for the event:");
                 break;
             case 2:
-                System.out.println("speaker added");
+                System.out.println("Speaker added");
                 break;
             case 3:
                 System.out.println("Speaker already chosen. Please choose another speaker.");
+                break;
+            case 4:
+                System.out.println("Please choose at least 0 speakers for the event.");
+                break;
         }
     }
 }

@@ -41,15 +41,17 @@ public class OrgScheduleController extends UserScheduleController {
                 while (numberOfSpeakers > speakerList.size() || numberOfSpeakers < 0) {
                     //option to create a speaker here?
                     if (numberOfSpeakers < 0) {
-                        System.out.println("Please pick at least 0 speakers");
+                        presenter.printChooseSpeakers(4);
+                        presenter.printChooseSpeakers(1);
                     } else if (numberOfSpeakers > speakerList.size()) {
-                        System.out.println("Too many speakers. Please choose at most " + speakerList.size() + " speakers");
+                        presenter.printChoosingSpeakersProcess(3, Integer.toString(speakerList.size()));
+                        presenter.printChooseSpeakers(1);
                     }
                     next = scan.nextLine();
                     try {
                         numberOfSpeakers = Integer.parseInt(next);
                     } catch (NumberFormatException nfe) {
-                        System.out.println("Not valid a number");
+                        presenter.printTryAgain("number");
                     }
                 }
                 if (numberOfSpeakers == 0) {
@@ -78,7 +80,7 @@ public class OrgScheduleController extends UserScheduleController {
                 }
                 return chosenSpeakers;
             } catch (NumberFormatException nfe) {
-                System.out.println("Not a valid number");
+                presenter.printTryAgain("number");
             }
 
 //         }
