@@ -128,7 +128,7 @@ public class UserScheduleController{
         System.out.println("Submit a request");
         boolean doContinue = true;
         while (doContinue){
-            String request = validatorController.userStringInputValidation("scheduling", "command", scan );
+            String request = validatorController.userStringInputValidation("scheduling", "request", scan );
             if (request.equals("Zero")){
                 return;
                 }
@@ -154,7 +154,7 @@ public class UserScheduleController{
         //assuming they will have asked to see all events they could register before selecting command 1
         boolean doContinue  = true;
         while (doContinue){
-            Integer eventIndex = validatorController.userIntInputValidation("scheduling", "command", scan);
+            Integer eventIndex = validatorController.userIntInputValidation("scheduling", "event index", scan);
             if (eventIndex == null){
                 continue;
             }
@@ -209,7 +209,7 @@ public class UserScheduleController{
         presenter.printGoBack();
         boolean doContinue  = true;
         while (doContinue){
-            Integer choice = validatorController.userIntInputValidation("scheduling", "command", scan);
+            Integer choice = validatorController.userIntInputValidation("scheduling", "choice", scan);
             if (choice == null){
                 continue;
             }
@@ -233,7 +233,7 @@ public class UserScheduleController{
         presenter.choose("speaker");
         boolean doContinue  = true;
         while (doContinue){
-            Integer speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
+            Integer speakerIndex = validatorController.userIntInputValidation("scheduling", "speaker index",
                     scan);
             if (speakerIndex == null){
                 continue;
@@ -259,7 +259,7 @@ public class UserScheduleController{
         presenter.printByIndex(days);
         boolean doContinue  = true;
         while (doContinue){
-            Integer dayIndex = validatorController.userIntInputValidation("scheduling", "command", scan);
+            Integer dayIndex = validatorController.userIntInputValidation("scheduling", "day index", scan);
             if (dayIndex == null){
                 continue;
             }
@@ -293,7 +293,7 @@ public class UserScheduleController{
             presenter.choose("Event");
         boolean doContinue  = true;
         while (doContinue){
-            Integer cancelEventIndex = validatorController.userIntInputValidation("scheduling", "command",
+            Integer cancelEventIndex = validatorController.userIntInputValidation("scheduling", "event index",
                     scan);
             if (cancelEventIndex == null){
                 continue;
