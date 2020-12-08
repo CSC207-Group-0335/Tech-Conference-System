@@ -53,4 +53,19 @@ public class SchedulePresenter {
             i++;
         }
     }
+
+
+    public void printScheduleEmpty(int i){
+        switch (i){
+            case 1:
+                System.out.println("Speaker is not scheduled to speak at any event at the moment.");
+                break;
+            case 2:
+                System.out.println("No events are scheduled to occur within this room at the moment.");
+                break;
+            case 3:
+                System.out.println("You are not currently registered for any events.");
+                break;
+        }
+    }
 }
