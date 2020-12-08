@@ -123,10 +123,10 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
     public void printChoosingSpeakersProcess(int i, String str){
         switch (i){
             case 1:
-                if (str == "1"){
-                    System.out.println(str + "speaker chosen");
+                if (str.equals("1")){
+                    System.out.println(str + " speaker chosen");
                 }
-                else if(str == "0"){
+                else if(str.equals("0")){
                     System.out.println("No speakers chosen");
                 }
                 else{System.out.println( str + " speakers chosen");}
@@ -145,6 +145,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 2:
                 System.out.println("speaker added");
                 break;
+            case 3:
+                System.out.println("Speaker already chosen. Please choose another speaker.");
         }
     }
 }

@@ -28,45 +28,61 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns an ArrayList of speaker names representing the speakers chosen by the organizer.
      */
-    public ArrayList<String> pickSpeakers(Scanner scan){
+    public ArrayList<String> pickSpeakers(Scanner scan) {
         ArrayList<String> speakerList = userManager.getSpeakerNameList();
         presenter.printByIndex(speakerList);
         presenter.printChooseSpeakers(1);
-        ArrayList<String>chosenSpeakers = new ArrayList<>();
+        ArrayList<String> chosenSpeakers = new ArrayList<>();
         boolean doContinue = true;
-        while(doContinue){
+        while (doContinue) {
             String next = scan.nextLine();
-            int numberOfSpeakers = Integer.parseInt(next);
-            if (numberOfSpeakers == 0){
-                return chosenSpeakers;
-            }
-            while (numberOfSpeakers > speakerList.size()){
-                //option to create a speaker here?
-                next = scan.nextLine();
-                numberOfSpeakers = Integer.parseInt(next);
-            }
-            presenter.printChoosingSpeakersProcess(1, Integer.toString(numberOfSpeakers));
-            while(chosenSpeakers.size() < numberOfSpeakers){
-                // put an option in the presenter class?
-                presenter.choose("speaker");
-                int speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
-                        scan);
-                if (speakerIndex == 0){
-                    return null;
-                }
-                else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()){
-                    presenter.printTryAgain("speaker index");
-                }
-                else{
-                    String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
-                    if (!(chosenSpeakers.contains(chosenSpeaker))){
-                        this.getSchedule(email, 1, "User");
-                        chosenSpeakers.add(chosenSpeaker);
-                        presenter.printChooseSpeakers(2);
+            try {
+                int numberOfSpeakers = Integer.parseInt(next);
+                while (numberOfSpeakers > speakerList.size() || numberOfSpeakers < 0) {
+                    //option to create a speaker here?
+                    if (numberOfSpeakers < 0) {
+                        System.out.println("Please pick at least 0 speakers");
+                    } else if (numberOfSpeakers > speakerList.size()) {
+                        System.out.println("Too many speakers. Please choose at most " + speakerList.size() + " speakers");
+                    }
+                    next = scan.nextLine();
+                    try {
+                        numberOfSpeakers = Integer.parseInt(next);
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Not valid a number");
                     }
                 }
+                if (numberOfSpeakers == 0) {
+                    return chosenSpeakers;
+                }
+                presenter.printChoosingSpeakersProcess(1, Integer.toString(numberOfSpeakers));
+                while (chosenSpeakers.size() < numberOfSpeakers) {
+                    // put an option in the presenter class?
+                    presenter.choose("speaker");
+                    int speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
+                            scan);
+                    if (speakerIndex == 0) {
+                        return null;
+                    } else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()) {
+                        presenter.printTryAgain("speaker index");
+                    } else {
+                        String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
+                        if (!(chosenSpeakers.contains(chosenSpeaker))) {
+                            this.getSchedule(email, 1, "User");
+                            chosenSpeakers.add(chosenSpeaker);
+                            presenter.printChooseSpeakers(2);
+                        } else {
+                            presenter.printChooseSpeakers(3);
+                        }
+                    }
+                }
+                return chosenSpeakers;
+            } catch (NumberFormatException nfe) {
+                System.out.println("Not a valid number");
             }
-            return chosenSpeakers;
+
+//         }
+
         }
         return null;
     }
