@@ -133,7 +133,10 @@ public class OrgScheduleController extends UserScheduleController {
         while(doContinue) {
             presenter.printRequestEventProcess(1);
             String day = validatorController.userStringInputValidation("scheduling", "day", scan);
-            if (day.equals("Zero")){
+            if (day == null){
+                continue;
+            }
+            else if (day.equals("Zero")){
                 return null;
             }
             else if ((day.equals("November 21")||day.equals("November 22") || day.equals("November 23") )){
@@ -225,14 +228,18 @@ public class OrgScheduleController extends UserScheduleController {
 
     public Integer pickCapacity(String room){
         presenter.printRequestEventMenu(1);
-        Integer capacity = validatorController.userIntInputValidation("scheduling", "capacity", scan);
-        while (capacity > roomStorage.roomNameToCapacity(room) || capacity == null){
+        boolean doContinue = true;
+        while (doContinue){
+            Integer capacity = validatorController.userIntInputValidation("scheduling", "capacity", scan);
             if (capacity == null){
                 continue;
             }
-            presenter.printRequestEventMenu(2);
-            capacity = validatorController.userIntInputValidation("scheduling", "capacity", scan);
-        return capacity;
+            else if (capacity > roomStorage.roomNameToCapacity(room)){
+                presenter.printRequestEventMenu(2);
+            }
+            else {
+                return capacity;
+            }
         }
     return null;}
 
@@ -255,6 +262,7 @@ public class OrgScheduleController extends UserScheduleController {
         if (endTime == null){ return false;}
         while (!(endTime.isAfter(startTime))){
             presenter.printRequestEventMenu(9);
+
             endTime = pickTime(scan);
             if (endTime == null) {return false;}
         }
@@ -263,7 +271,7 @@ public class OrgScheduleController extends UserScheduleController {
             presenter.printRequestEventMenu(3);
             String eventTitle = scan.nextLine();
             presenter.printRequestEventMenu(4);
-            String vip1 = scan.nextLine();
+            String vip1 = validatorController.userStringInputValidation("scheduling", "VIP label", scan);
             boolean vip1bool = false;
             if (vip1.equals("VIP")){
                 vip1bool = true;
@@ -279,10 +287,18 @@ public class OrgScheduleController extends UserScheduleController {
             presenter.printRequestEventMenu(5);
             room = pickRoom(scan);
             if (room == null){return false;}
+            presenter.printRequestEventMenu(7);
             startTime = pickTime(scan);
             if (startTime==null){ return false;}
+            presenter.printRequestEventMenu(8);
             endTime = pickTime(scan);
             if (endTime == null){ return false;}
+            while (!(endTime.isAfter(startTime))){
+                presenter.printRequestEventMenu(9);
+
+                endTime = pickTime(scan);
+                if (endTime == null) {return false;}
+            }
             doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
         }
         int capacity = pickCapacity(room);
@@ -290,7 +306,7 @@ public class OrgScheduleController extends UserScheduleController {
         presenter.printRequestEventMenu(3);
         String eventTitle = scan.nextLine();
         presenter.printRequestEventMenu(4);
-        String vip2 = scan.nextLine();
+        String vip2 = validatorController.userStringInputValidation("scheduling", "VIP label", scan);
         boolean vip2bool = false;
         if (vip2.equals("VIP")){
             vip2bool = true;
@@ -337,6 +353,9 @@ public class OrgScheduleController extends UserScheduleController {
         while (doContinue) {
             String roomName = validatorController.userStringInputValidation("scheduling", "capacity",
                     scan);
+            if (roomName == null){
+                continue;
+            }
             presenter.printRegisterRoom(2);
             Integer capacity = validatorController.userIntInputValidation("scheduling", "capacity",
                     scan);
