@@ -5,6 +5,7 @@ import UserLogin.MainMenuController;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -100,7 +101,11 @@ public class OrganizerMessengerController extends MessengerController {
                         else {
                             messages = viewUnarchivedMessages(email);
                         }
-                        presenter.viewConversation(messages, viewingArchivedMessages);
+                        HashMap<String, String> messageMap = new HashMap<>();
+                        for (Message message: messages) {
+                            messageMap.put(message.getSenderEmail(), message.getMessageContent());
+                        }
+                        presenter.viewConversation(messageMap, viewingArchivedMessages);
                         input = scan.nextLine().toCharArray()[0];
                         if (input == 'a') {
                             viewingArchivedMessages = !viewingArchivedMessages;

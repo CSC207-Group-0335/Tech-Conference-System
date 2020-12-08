@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class MessengerPresenter {
     public void printMenu() {
@@ -51,6 +52,29 @@ public abstract class MessengerPresenter {
         }
     }
 
+    /**
+     * Prints a conversation.
+     *
+     * @param messages an ArrayList containing messages sent to or by this user.
+     */
+
+    public void viewConversation(HashMap<String, String> messages, Boolean viewingArchivedMessages) {
+        if (viewingArchivedMessages) {
+            System.out.println("Viewing archived messages. Press 'a' to view unarchived messages");
+        }
+        else {
+            System.out.println("Viewing unarchived messages. Enter 'a' to view archived messages");
+        }
+        if (messages.size() == 0) {
+            System.out.println("Nothing to see here!");
+        } else {
+            for (String sender : messages.keySet()) {
+                System.out.println(sender + ": " + messages.get(sender));
+            }
+        }
+        System.out.println(System.lineSeparator() + "Press 0 to go back.");
+    }
+
     public void viewGroupChats(ArrayList<String> talkIDs) {
         if (talkIDs.size() == 0) {
             System.out.println("No chats found");
@@ -63,29 +87,6 @@ public abstract class MessengerPresenter {
             System.out.println("Input the number corresponding to the email address with the conversation you wish " +
                     "to view or 0 to go back:");
         }
-    }
-
-    /**
-     * Prints a conversation.
-     *
-     * @param messages an ArrayList containing messages sent to or by this user.
-     */
-
-    public void viewConversation(ArrayList<Message> messages, Boolean viewingArchivedMessages) {
-        if (viewingArchivedMessages) {
-            System.out.println("Viewing archived messages. Press 'a' to view unarchived messages");
-        }
-        else {
-            System.out.println("Viewing unarchived messages. Enter 'a' to view archived messages");
-        }
-        if (messages.size() == 0) {
-            System.out.println("Nothing to see here!");
-        } else {
-            for (Message message : messages) {
-                System.out.println(message.getSenderEmail() + ": " + message.getMessageContent());
-            }
-        }
-        System.out.println(System.lineSeparator() + "Press 0 to go back.");
     }
 
     public void viewGroupChat(ArrayList<String> messages){
