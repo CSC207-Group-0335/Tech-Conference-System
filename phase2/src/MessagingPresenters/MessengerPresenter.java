@@ -32,6 +32,8 @@ public abstract class MessengerPresenter {
 
     public void printInvalidOptionError() {System.out.println("Invalid option. Try again." + System.lineSeparator());}
 
+    public void printSuccessfulDeletion() {System.out.println("Message deleted." + System.lineSeparator());}
+
     /**
      * Prints the emails this user has messaged or has been messaged by
      *
@@ -68,11 +70,26 @@ public abstract class MessengerPresenter {
         if (messages.size() == 0) {
             System.out.println("Nothing to see here!");
         } else {
+            int i = 1;
             for (String sender : messages.keySet()) {
-                System.out.println(sender + ": " + messages.get(sender));
+                System.out.println(i + " - " + sender + ": " + messages.get(sender));
             }
+            System.out.println("Enter the number corresponding to a message for additional options.");
         }
         System.out.println(System.lineSeparator() + "Press 0 to go back.");
+    }
+
+    public void viewMessageMenu(String message, Boolean isArchived) {
+        printGoBack();
+        System.out.println(message + System.lineSeparator() +
+                "Press 1 to delete" + System.lineSeparator() +
+                "Press 2 to mark as read" + System.lineSeparator());
+        if (isArchived) {
+            System.out.println("Press 3 to unarchive" + System.lineSeparator());
+        }
+        else {
+            System.out.println("Press 3 to archive" + System.lineSeparator());
+        }
     }
 
     public void viewGroupChats(ArrayList<String> talkIDs) {

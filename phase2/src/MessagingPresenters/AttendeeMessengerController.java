@@ -76,9 +76,29 @@ public class AttendeeMessengerController extends MessengerController {
                             messageMap.put(message.getSenderEmail(), message.getMessageContent());
                         }
                         presenter.viewConversation(messageMap, viewingArchivedMessages);
-                        input = scan.nextLine().toCharArray()[0];
+                        String in = scan.nextLine();
+                        input = in.toCharArray()[0];
                         if (input == 'a') {
                             viewingArchivedMessages = !viewingArchivedMessages;
+                        }
+                        else if (input != '0') {
+                            int position = Integer.parseInt(in) - 1;
+                            String msg = messages.get(position).getMessageContent();
+                            presenter.viewMessageMenu(msg, viewingArchivedMessages);
+                            int opt = Integer.parseInt(scan.nextLine());
+                            if (opt == 1) {
+                                // DELETION
+                                deleteMessage(position, messages.get(position).getSenderEmail());
+                                presenter.printSuccessfulDeletion();
+                            }
+                            else if (opt == 2) {
+                                // READ/UNREAD
+                                setStatus(position, "read"); //How does this method work??
+                            }
+                            else if (opt == 3) {
+                                // ARCHIVAL
+                                setStatus(position, "archive"); //How does this method work??
+                            }
                         }
                     }
                 }
