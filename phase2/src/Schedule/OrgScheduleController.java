@@ -61,9 +61,12 @@ public class OrgScheduleController extends UserScheduleController {
                 while (chosenSpeakers.size() < numberOfSpeakers) {
                     // put an option in the presenter class?
                     presenter.choose("speaker");
-                    int speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
+                    Integer speakerIndex = validatorController.userIntInputValidation("scheduling", "command",
                             scan);
-                    if (speakerIndex == 0) {
+                    if (speakerIndex  == null){
+                        continue;
+                    }
+                    else if (speakerIndex == 0) {
                         return null;
                     } else if (speakerIndex - 1 >= userManager.getSpeakerEmailList().size()) {
                         presenter.printTryAgain("speaker index");
@@ -100,9 +103,12 @@ public class OrgScheduleController extends UserScheduleController {
         presenter.choose("room");
         boolean doContinue  = true;
         while (doContinue){
-            int roomIndex = validatorController.userIntInputValidation("scheduling", "command",
+            Integer roomIndex = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
-            if (roomIndex == 0){
+            if (roomIndex == null){
+                continue;
+            }
+            else if (roomIndex == 0){
                 return null;
             }
             else if (roomIndex -1 >= roomStorage.getRoomNameList().size()){
@@ -126,14 +132,11 @@ public class OrgScheduleController extends UserScheduleController {
         boolean doContinue  = true;
         while(doContinue) {
             presenter.printRequestEventProcess(1);
-            String day = validatorController.userStringInputValidation("scheduling", "command", scan);
+            String day = validatorController.userStringInputValidation("scheduling", "day", scan);
             if (day.equals("Zero")){
                 return null;
             }
-            else if (!(day.equals("November 21")||day.equals("November 22") || day.equals("November 23") )){
-                presenter.printTryAgain("day");
-            }
-            else{
+            else if ((day.equals("November 21")||day.equals("November 22") || day.equals("November 23") )){
                 int days = Integer.parseInt(day.substring(day.length()-2, day.length()))-20;
                 return days;
             }
@@ -150,8 +153,11 @@ public class OrgScheduleController extends UserScheduleController {
         boolean doContinue = true;
         while (doContinue) {
             presenter.printRequestEventProcess(2);
-            int hours = validatorController.userIntInputValidation("scheduling", "command",
+            Integer hours = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
+            if (hours == null){
+                continue;
+            }
             if (hours == 0) {
                 return null;
             } else if (hours > 16.5 || hours < 9) {
@@ -219,8 +225,11 @@ public class OrgScheduleController extends UserScheduleController {
 
     public Integer pickCapacity(String room){
         presenter.printRequestEventMenu(1);
-        int capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
-        while (capacity > roomStorage.roomNameToCapacity(room)){
+        Integer capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
+        while (capacity > roomStorage.roomNameToCapacity(room) || capacity == null){
+            if (capacity == null){
+                continue;
+            }
             presenter.printRequestEventMenu(2);
             capacity = validatorController.userIntInputValidation("scheduling", "command", scan);
         return capacity;
@@ -329,8 +338,11 @@ public class OrgScheduleController extends UserScheduleController {
             String roomName = validatorController.userStringInputValidation("scheduling", "command",
                     scan);
             presenter.printRegisterRoom(2);
-            int capacity = validatorController.userIntInputValidation("scheduling", "command",
+            Integer capacity = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
+            if (capacity == null){
+                continue;
+            }
             if (roomName.equals("Zero")) {
                 return;
             } else if (this.addRoom(roomName, capacity)) {
@@ -380,9 +392,12 @@ public class OrgScheduleController extends UserScheduleController {
         presenter.cancelEvent(1, "event");
         boolean doContinue = true;
         while(doContinue){
-            int eventIndex = validatorController.userIntInputValidation("scheduling", "command",
+            Integer eventIndex = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
-            if (eventIndex == 0){
+            if (eventIndex == null){
+                continue;
+            }
+            else if (eventIndex == 0){
                 presenter.printGoBack();
                 return;
             }
@@ -408,8 +423,11 @@ public class OrgScheduleController extends UserScheduleController {
         presenter.InputCommandRequest();
         boolean doContinue = true;
         while(doContinue) {
-            int command = validatorController.userIntInputValidation("scheduling", "command",
+            Integer command = validatorController.userIntInputValidation("scheduling", "command",
                     scan);
+            if (command == null){
+                continue;
+            }
             switch (command){
                 //if they want to register for an event
                 case 1:
