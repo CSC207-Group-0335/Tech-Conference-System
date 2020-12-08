@@ -1,15 +1,14 @@
 package MessagingPresenters;
 
 import Files.CSVReader;
-import Schedule.Event;
 import Schedule.EventManager;
-import UserLogin.*;
+import UserLogin.MainMenuController;
+import UserLogin.UserManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 /**
@@ -33,7 +32,7 @@ public class MessagingSystem extends Observable{
                            EventManager eventManager) {
         this.conversationStorage = new ConversationStorage();
         this.userManager = userManager;
-        this.eventManager =eventManager;
+        this.eventManager = eventManager;
     }
 
     public void setEmail(String email){

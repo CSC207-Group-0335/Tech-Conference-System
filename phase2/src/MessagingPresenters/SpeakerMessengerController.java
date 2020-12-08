@@ -90,7 +90,19 @@ public class SpeakerMessengerController extends MessengerController {
                     }
                 }
                 else if (option == 2) {
-                    // VIEW GROUP CHATS
+                    //VIEW GROUP CHATS
+                    ArrayList<String> talkIDS = getEventIDS();
+                    presenter.viewGroupChats(talkIDS);
+                    int index = Integer.parseInt(scan.nextLine());
+                    if (index == 0 || talkIDS.size() == 0) {
+                        continue;
+                    }
+                    String groupChatID = talkIDS.get(index - 1);
+                    char input = 'a';
+                    while (input != '0'){
+                        presenter.viewGroupChat(getGroupChatMessages(groupChatID));
+                        input = scan.nextLine().toCharArray()[0];
+                    }
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER

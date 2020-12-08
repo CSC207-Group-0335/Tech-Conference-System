@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import Schedule.EventManager;
 import UserLogin.*;
 import java.util.*;
 
@@ -12,9 +13,9 @@ public class AttendeeMessageManager extends MessageManager {
      * A user is needed to create an instance of AttendeeMessageManager.
      */
 
-    public AttendeeMessageManager(String email, UserManager userManager, ConversationStorage conversationStorage) {
+    public AttendeeMessageManager(String email, UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
 
-        super(email, userManager, conversationStorage);
+        super(email, userManager, conversationStorage, eventManager);
     }
 
     /**

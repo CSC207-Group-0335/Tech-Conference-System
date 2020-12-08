@@ -51,6 +51,20 @@ public abstract class MessengerPresenter {
         }
     }
 
+    public void viewGroupChats(ArrayList<String> talkIDs) {
+        if (talkIDs.size() == 0) {
+            System.out.println("No chats found");
+        } else {
+            int i = 1;
+            for (String talkID : talkIDs) {
+                System.out.println(i + " - " + "Group Chat with Event ID: "+ talkID);
+                i++;
+            }
+            System.out.println("Input the number corresponding to the email address with the conversation you wish " +
+                    "to view or 0 to go back:");
+        }
+    }
+
     /**
      * Prints a conversation.
      *
@@ -72,5 +86,17 @@ public abstract class MessengerPresenter {
             }
         }
         System.out.println(System.lineSeparator() + "Press 0 to go back.");
+    }
+
+    public void viewGroupChat(ArrayList<String> messages){
+        if (messages.size() == 0) {
+            System.out.println("Nothing to see here!");
+            System.out.println(System.lineSeparator() + "Press 0 to go back.");
+        } else {
+            for (String message : messages) {
+                System.out.println(message);
+            }
+            System.out.println(System.lineSeparator() + "Press 0 to go back.");
+        }
     }
 }

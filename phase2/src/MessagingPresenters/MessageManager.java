@@ -9,9 +9,9 @@ import java.util.*;
 public abstract class MessageManager {
     public User user;
     public UserManager userManager;
-    public EventManager eventManager;
     public ConversationStorage conversationStorage;
     public HashSet<User> friendsList;
+    public EventManager eventManager;
 
     /***
      * An email is required to create an instance of MessageManager.
@@ -19,7 +19,7 @@ public abstract class MessageManager {
      * @param email a String representing an email address
      */
 
-    public MessageManager(String email, UserManager userManager, ConversationStorage conversationStorage) {
+    public MessageManager(String email, UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
         this.userManager = userManager;
         User user = null;
         for (int i = 0; i < userManager.userList.size(); i++) {
@@ -30,6 +30,7 @@ public abstract class MessageManager {
         this.user = user;
         this.conversationStorage = conversationStorage;
         this.friendsList = getFriendsList();
+        this.eventManager = eventManager;
     }
 
 
@@ -213,4 +214,27 @@ public abstract class MessageManager {
         return emails;
     }
 
-}
+    public ArrayList<String> getEventIDs() {
+        ArrayList<String> talkIDs = new ArrayList<>();
+        for (Event event : eventManager.eventList) {
+            if (event.getSpeakers().contains(user.getEmail()) ||
+                    event.getUsersSignedUp().contains(user.getEmail()) ||
+                    user instanceof Organizer) {
+                talkIDs.add(event.getEventId());
+            }
+        }
+        return talkIDs;
+        }
+
+
+    public ArrayList<String> getGroupChatMessages(String eventID) {
+        ArrayList<String> messages = new ArrayList<>();
+        for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
+            messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
+            }
+        return messages;
+        }
+    }
+
+
+

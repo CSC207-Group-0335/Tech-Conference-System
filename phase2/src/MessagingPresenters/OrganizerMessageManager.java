@@ -1,7 +1,11 @@
 package MessagingPresenters;
 
-import UserLogin.*;
-import java.util.*;
+import Schedule.EventManager;
+import UserLogin.User;
+import UserLogin.UserManager;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * A class that manages messaging.
@@ -12,9 +16,9 @@ public class OrganizerMessageManager extends MessageManager {
      * A user is needed to create an instance of OrganizerMessageManager.
      */
 
-    public OrganizerMessageManager(String email, UserManager userManager, ConversationStorage conversationStorage) {
+    public OrganizerMessageManager(String email, UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
 
-        super(email, userManager, conversationStorage);
+        super(email, userManager, conversationStorage, eventManager);
     }
 
     /**

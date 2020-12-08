@@ -27,11 +27,11 @@ public abstract class MessengerController {
         this.conversationStorage = conversationStorage;
         this.eventManager = eventManager;
         if (userManager.emailToUser(email) instanceof Organizer){
-            this.messageManager = new OrganizerMessageManager(email, userManager, conversationStorage);
+            this.messageManager = new OrganizerMessageManager(email, userManager, conversationStorage, eventManager);
         }else if (userManager.emailToUser(email) instanceof Speaker){
-            this.messageManager = new SpeakerMessageManager(email, userManager, conversationStorage);
+            this.messageManager = new SpeakerMessageManager(email, userManager, conversationStorage, eventManager);
         }else{
-            this.messageManager = new AttendeeMessageManager(email, userManager, conversationStorage);
+            this.messageManager = new AttendeeMessageManager(email, userManager, conversationStorage, eventManager);
         }
     }
 
@@ -61,6 +61,10 @@ public abstract class MessengerController {
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
+
+    public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
+
+    public ArrayList<String> getGroupChatMessages(String talkID){return messageManager.getGroupChatMessages(talkID);}
 
 
 
