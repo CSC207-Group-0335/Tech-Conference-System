@@ -93,7 +93,8 @@ public class AttendeeMessengerController extends MessengerController {
                     String groupChatID = talkIDS.get(index - 1);
                     char input = 'a';
                     while (input != '0'){
-                        presenter.viewGroupChat(getGroupChatMessages(groupChatID));
+                        ArrayList<String> messages = getGroupChatMessages(groupChatID);
+                        presenter.viewGroupChat(messages);
                         input = scan.nextLine().toCharArray()[0];
                     }
                 }

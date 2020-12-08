@@ -78,7 +78,8 @@ public abstract class MessengerPresenter {
     public void viewGroupChats(ArrayList<String> talkIDs) {
         if (talkIDs.size() == 0) {
             System.out.println("No chats found");
-        } else {
+        }
+        else {
             int i = 1;
             for (String talkID : talkIDs) {
                 System.out.println(i + " - " + "Group Chat with Event ID: "+ talkID);
@@ -92,12 +93,11 @@ public abstract class MessengerPresenter {
     public void viewGroupChat(ArrayList<String> messages){
         if (messages.size() == 0) {
             System.out.println("Nothing to see here!");
-            System.out.println(System.lineSeparator() + "Press 0 to go back.");
         } else {
             for (String message : messages) {
                 System.out.println(message);
             }
-            System.out.println(System.lineSeparator() + "Press 0 to go back.");
         }
+        System.out.println(System.lineSeparator() + "Press 0 to go back.");
     }
 }
