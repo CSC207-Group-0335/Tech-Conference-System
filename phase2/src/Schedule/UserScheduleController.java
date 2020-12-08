@@ -14,7 +14,7 @@ public class UserScheduleController{
     EventManager eventManager;
     MainMenuController mainMenuController;
     RoomStorage roomStorage;
-    UserSchedulePresenter1 presenter;
+    UserSchedulePresenter presenter;
     Scanner scan;
     ValidatorController validatorController;
 
@@ -34,7 +34,7 @@ public class UserScheduleController{
         this.eventManager = eventManager;
         this.roomStorage = roomStorage;
         this.mainMenuController = mainMenuController;
-        presenter = new UserSchedulePresenter1();
+        presenter = new UserSchedulePresenter();
         validatorController = new ValidatorController();
     }
 
@@ -102,22 +102,25 @@ public class UserScheduleController{
      * Let the user see the schedule of events for which they signed up.
      * @return An ArrayList representing the events the user has signed up for.
      */
-    public ArrayList<String> getRegisteredEvents(){
-        ArrayList<String> registeredEvents = userManager.emailToTalkList(email);
-        if (registeredEvents.size() == 0){
-            presenter.ChoosingEvent(3);
+    public ArrayList<String> getSchedule(String identifier, int i, String type){
+        ArrayList<String> registeredEvents = new ArrayList<>();
+        if (type == "User"){
+         registeredEvents = userManager.emailToTalkList(identifier);}
+        else if (type == "Room"){
+            registeredEvents = roomStorage.roomNameToEventIds(identifier);
         }
-        else{
+        if(registeredEvents.size() != 0){
             ArrayList<String> stringRepRegisteredEvents = new ArrayList<>();
             for(String event: registeredEvents){
                 stringRepRegisteredEvents.add(eventManager.toStringEvent(event));
             }
             presenter.printByIndex(stringRepRegisteredEvents);
         }
+        else{presenter.printScheduleEmpty(i);}
         return registeredEvents;
     }
 
-    protected void createRequest(UserSchedulePresenter1 presenter, Scanner scan){
+    protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
         ArrayList<String> requestList = userManager.getRequestList(email);
@@ -142,7 +145,7 @@ public class UserScheduleController{
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void registerEvent(UserSchedulePresenter1 presenter, Scanner scan){
+    protected void registerEvent(UserSchedulePresenter presenter, Scanner scan){
         // show them a list of all available events
         presenter.printEvents(eventManager.EventMapStringRepresentation());
         //they will pick the number corresponding to each event
@@ -185,18 +188,18 @@ public class UserScheduleController{
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void seeAll(UserSchedulePresenter1 presenter, Scanner scan, String events){
+    protected void seeAll(UserSchedulePresenter presenter, Scanner scan, String events){
         switch (events) {
             case "events":
                 presenter.printEvents(eventManager.EventMapStringRepresentation());
                 break;
             case "registered":
-                this.getRegisteredEvents();
+                this.getSchedule(email, 3, "User");
                 break;
             case "speaker":
-                this.getAllSpeakers();
+                this.seeSpeakerSchedule();
             case "day":
-                this.getAllDays();
+                this.seeDaySchedule();
 
 
         }
@@ -214,7 +217,7 @@ public class UserScheduleController{
      *
      *
      */
-    protected void getAllSpeakers(){
+    protected void seeSpeakerSchedule(){
         ArrayList<String> speakerNames = this.userManager.getSpeakerNameList();
         if (speakerNames.size() == 0){
             presenter.scheduleBy(1);
@@ -234,15 +237,11 @@ public class UserScheduleController{
                 }
                 else{
                     String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
-                    ArrayList<String> eventList = new ArrayList<>();
-                    for (String id: userManager.emailToTalkList(chosenSpeaker)){
-                        eventList.add(eventManager.toStringEvent(id));
-                    }
-                    presenter.printByIndex(eventList);
+                    this.getSchedule(chosenSpeaker, 1, "User");
                     return;
                 }} }
 
-    protected void getAllDays(){
+    protected void seeDaySchedule(){
         ArrayList<String> days = eventManager.getAllEventDays();
         if (days.size() == 0){
             presenter.scheduleBy(2);
@@ -274,9 +273,9 @@ public class UserScheduleController{
      * @param presenter The presenter.
      * @param scan The scanner.
      */
-    protected void cancelAnEvent(UserSchedulePresenter1 presenter,
-                               Scanner scan){
-        ArrayList<String> registeredEvents = this.getRegisteredEvents();
+    protected void cancelAnEvent(UserSchedulePresenter presenter,
+                                 Scanner scan){
+        ArrayList<String> registeredEvents = this.getSchedule(email, 3, "User");
         if (registeredEvents.size() != 0) {
             presenter.ChoosingEvent(2);
             presenter.choose("Event");
