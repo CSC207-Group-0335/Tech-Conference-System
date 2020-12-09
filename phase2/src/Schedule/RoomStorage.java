@@ -118,7 +118,7 @@ public class RoomStorage {
         Room r = roomNameMap.get(roomName);
         for (String id : r.getEventList()){
             if (id.equals(EventId)){
-                r.getEventList().remove(EventId);
+                r.getEventList().remove(id);
             }
         }
     }

@@ -431,8 +431,9 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else{
                 String eventIdToCancel= getEventByIndex(eventIndex);
+                String title = eventManager.eventIdToTitle(eventIdToCancel);
                 if (this.eventManager.cancelEvent(eventIdToCancel)) {
-                    presenter.cancelEvent(2, eventManager.eventIdToTitle(eventIdToCancel));
+                    presenter.cancelEvent(2, title);
                     return;
                 } } } }
 
