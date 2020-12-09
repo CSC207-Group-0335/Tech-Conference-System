@@ -92,14 +92,14 @@ public class JSONWriter {
             JSONArray messagesArray = new JSONArray();
             JSONObject convoObject = new JSONObject();
             convoObject.put("participants", convo.getParticipants());
-            for (Message message: convo.getMessages()){
+            for (String messageid: convo.getMessageIDs()){
                 JSONObject messageobj = new JSONObject();
-                messageobj.put("recipient", message.getRecipientEmail());
-                messageobj.put("sender", message.getSenderEmail());
-                LocalDateTime startTime = message.getTimestamp();
-                String formatted = startTime.format(formatter);
+                messageobj.put("recipient", convo.getRecipientOfMessageWithID(messageid));
+                messageobj.put("sender", convo.getSenderOfMessageWithID(messageid));
+                LocalDateTime time = convo.getTimestampOfMessageWithID(messageid);
+                String formatted = time.format(formatter);
                 messageobj.put("time", formatted);
-                messageobj.put("content", message.getMessageContent());
+                messageobj.put("content", convo.getContentOfMessageWithID(messageid));
                 messagesArray.add(messageobj);
             }
             convoObject.put("chatLog", messagesArray);
