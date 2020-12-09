@@ -376,6 +376,8 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else if (this.addRoom(roomName, capacity)) {
                 presenter.printSuccess();
+                presenter.printGoodbye("scheduling");
+                return;
             } else {
                 presenter.printRegisterRoom(3);
             } } }
@@ -405,10 +407,14 @@ public class OrgScheduleController extends UserScheduleController {
             if (vip.equals("VIP") || vip.equals("vip")){
                 this.requestUser(name, password, email, type, true);
                 presenter.printSuccess();
+                presenter.printGoodbye("scheduling");
+                return;
             }
         }
         if (this.requestUser(name, password, email, type, false)){
             presenter.printSuccess();
+            presenter.printGoodbye("scheduling");
+            return;
         }
 
     }
@@ -435,8 +441,9 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else{
                 String eventIdToCancel= getEventByIndex(eventIndex);
+                String title = eventManager.eventIdToTitle(eventIdToCancel);
                 if (this.eventManager.cancelEvent(eventIdToCancel)) {
-                    presenter.cancelEvent(2, eventManager.eventIdToTitle(eventIdToCancel));
+                    presenter.cancelEvent(2, title);
                     return;
                 } } } }
 

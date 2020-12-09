@@ -62,6 +62,7 @@ public class JSONWriter {
             userObject.put("password", users.emailToPassword(email));
             userObject.put("email", email);
             userObject.put("ListOfTalkIDs", users.emailToTalkList(email));
+            userObject.put("requests", users.emailToRequests(email));
             userArray.add(userObject);
 
         }

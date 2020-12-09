@@ -226,6 +226,11 @@ public class UserManager extends Observable {
         return null;
     }
 
+    public LinkedHashMap<String, String> emailToRequests(String email){
+        User user = emailToUser(email);
+        return user.getRequestMap();
+    }
+
     /**
      * Creates a list of all speakers in the program
      * @return An ArrayList represent the list of all speakers.

@@ -1,10 +1,13 @@
 package Schedule;
 
 import Files.CSVWriter;
+import Files.JSONReader;
 import Files.JSONWriter;
-import Files.TxtIterator;
 import UserLogin.UserManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -28,10 +31,14 @@ public class RoomSystem extends Observable {
      * main method called for RoomSystem.
      */
     public void run() throws Exception {
-        TxtIterator txtIterator = new TxtIterator("src/Resources/RoomFile");
-        for(String room: txtIterator.getProperties()){
-            roomStorage.createRoom(room);
-        }
+        JSONReader jsonReader = new JSONReader();
+        Object obj = jsonReader.readJson("src/Resources/Rooms.json");
+        JSONArray roomList = (JSONArray) obj;
+        roomList.forEach(roo -> {
+            JSONObject room = (JSONObject) roo; //cast roo as a JSONObject
+            String roomName = (String) room.get("roomname"); //fetch the name of the room
+            roomStorage.createRoom(roomName); //create a room with the fetched roomName
+        });
         eventSystem.run();
     }
 
