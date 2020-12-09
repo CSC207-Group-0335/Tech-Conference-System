@@ -480,6 +480,7 @@ public class OrgScheduleController extends UserScheduleController {
                 String status = scan.nextLine();
                 this.userManager.updateRequests(requestToChange, status, attendeeEmail);
                 presenter.printReviewRequests(3);
+                presenter.printGoodbye("scheduling");
                 return;
             }
         }
@@ -515,6 +516,7 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else{
                 this.reviewAttendeeRequests(scan, requestsList, attendeeIndex);
+                return;
             }
 
         }
