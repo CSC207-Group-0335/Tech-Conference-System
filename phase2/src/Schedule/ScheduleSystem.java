@@ -7,7 +7,7 @@ import UserLogin.*;
 import java.util.*;
 
 /**
- * Gateway Class that reads a .csv file for all user schedules and adds talks to the appropriate user schedule manager
+ * Gateway Class that reads a .csv file for all user schedules and adds events to the appropriate user schedule manager
  * and speaker schedule manager for for every user/speaker.
  */
 public class ScheduleSystem{
@@ -16,8 +16,8 @@ public class ScheduleSystem{
     UserManager userManager;
 
     /**
-     * Creates a new ScheduleSystem with the specified talkManager.
-     * @param eventManager The talkManager.
+     * Creates a new ScheduleSystem with the specified EventManager.
+     * @param eventManager The EventManager.
      */
     public ScheduleSystem(EventManager eventManager, UserManager userManager){
         this.eventManager = eventManager;

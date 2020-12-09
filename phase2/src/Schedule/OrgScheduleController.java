@@ -217,9 +217,9 @@ public class OrgScheduleController extends UserScheduleController {
 
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
         //LocalDateTime end = dateTime.plusHours(1);
-         if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToTalkList(speaker))
+         if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))
                 && !eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 1;}
-        else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToTalkList(speaker))){
+        else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))){
             return 2;
         }
         else if(!eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 3;}

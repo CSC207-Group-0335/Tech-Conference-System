@@ -225,11 +225,11 @@ public class UserManager extends Observable {
     }
 
     /**
-     * Get the TalkList of the user that is associated with the email provided.
+     * Get the EventList of the user that is associated with the email provided.
      * @param email the provided email of the user.
-     * @return the user's TalkList, or null if no such user exists.
+     * @return the user's EventList, or null if no such user exists.
      */
-    public ArrayList<String> emailToTalkList(String email){
+    public ArrayList<String> emailToEventList(String email){
         User user = emailToUser(email);
         if (user != null) {
             return user.getEventList();

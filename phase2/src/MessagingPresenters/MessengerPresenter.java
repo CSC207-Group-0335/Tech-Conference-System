@@ -92,14 +92,14 @@ public abstract class MessengerPresenter {
         }
     }
 
-    public void viewGroupChats(ArrayList<String> talkIDs) {
-        if (talkIDs.size() == 0) {
+    public void viewGroupChats(ArrayList<String> eventIDs) {
+        if (eventIDs.size() == 0) {
             System.out.println("No chats found");
         }
         else {
             int i = 1;
-            for (String talkID : talkIDs) {
-                System.out.println(i + " - " + "Group Chat with Event ID: "+ talkID);
+            for (String eventID : eventIDs) {
+                System.out.println(i + " - " + "Group Chat with Event ID: "+ eventID);
                 i++;
             }
             System.out.println("Input the number corresponding to the email address with the conversation you wish " +

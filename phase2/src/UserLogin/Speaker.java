@@ -1,7 +1,7 @@
 package UserLogin;
 
 /**
- * A class that represents a Speaker, a specific type of User that gives Talks.
+ * A class that represents a Speaker, a specific type of User that gives talks at Events.
  */
 
 public class Speaker extends User {

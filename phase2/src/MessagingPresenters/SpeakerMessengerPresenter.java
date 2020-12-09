@@ -18,18 +18,18 @@ public class SpeakerMessengerPresenter extends MessengerPresenter {
     public void printMessagesMenu() {
         System.out.println("Press 3 to message one user" + System.lineSeparator() +
                 "Press 4 to message all attendees" + System.lineSeparator() +
-                "Press 5 to message all attendees of a single talk.");
+                "Press 5 to message all attendees of a single event.");
     }
 
     /**
-     * Prints a list of talks.
+     * Prints a list of events.
      *
-     * @param events an ArrayList containing talks
+     * @param events an ArrayList containing events
      */
 
-    public void viewTalks(ArrayList<Event> events) {
+    public void viewEvents(ArrayList<Event> events) {
         if (events.size() == 0) {
-            System.out.println("No talks found");
+            System.out.println("No events found");
         } else {
             int i = 1;
             for (Event event : events) {
@@ -37,7 +37,7 @@ public class SpeakerMessengerPresenter extends MessengerPresenter {
                         event.getStartTime().toString().replace("T", " "));
                 i++;
             }
-            System.out.println("Input the number corresponding to the talk you wish to view or press 0 to exit:");
+            System.out.println("Input the number corresponding to the event you wish to view or press 0 to exit:");
         }
     }
 }

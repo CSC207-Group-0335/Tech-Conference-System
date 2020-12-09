@@ -41,21 +41,21 @@ public class UserSchedulePresenter extends SchedulePresenter{
     public void printRegistrationBlocked(int i){
         switch (i) {
             case 1:
-                System.out.println("You have already registered for this talk," + System.lineSeparator() +
-                        "If you would like to register for another talk, please enter the corresponding number.");
+                System.out.println("You have already registered for this event," + System.lineSeparator() +
+                        "If you would like to register for another event, please enter the corresponding number.");
                 break;
             case 2:
                 System.out.println("Event is at full capacity" + System.lineSeparator() +
-                        "If you would like to register for another talk, please enter the corresponding number.");
+                        "If you would like to register for another event, please enter the corresponding number.");
                 break;
             case 3:
                 System.out.println("You are registered for a different event during this event's time" +
                         System.lineSeparator() +
-                        "If you would like to register for another talk, please enter the corresponding number.");
+                        "If you would like to register for another event, please enter the corresponding number.");
                 break;
             case 4:
                 System.out.println("Sorry, this event is restricted" + System.lineSeparator() +
-                        "If you would like to register for another talk, please enter the corresponding number.");
+                        "If you would like to register for another event, please enter the corresponding number.");
                 break;
 
     }}
@@ -63,7 +63,7 @@ public class UserSchedulePresenter extends SchedulePresenter{
     public void scheduleBy(int i){
         switch (i){
             case 1:
-                System.out.println("There are no speakers talking at the conference yet.");
+                System.out.println("There are no speakers attending the conference yet.");
             case 2:
                 System.out.println("There are no events in the conference yet.");
     }}

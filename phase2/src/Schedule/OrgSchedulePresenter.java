@@ -140,11 +140,11 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
     public void printRequestEventProcess(int i){
         switch (i) {
             case 1:
-                System.out.println("Please choose a day of the conference for your requested talk (By indicating day NOVEMBER 21, 22 or 23)");
+                System.out.println("Please choose a day of the conference for your requested event (By indicating day NOVEMBER 21, 22 or 23)");
                 break;
             case 2:
-                System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator() +
-                        "Talks may start or from 9:00 to 16:00 and end from 10:00 to 17:00" + System.lineSeparator() +
+                System.out.println("Choose a time (by hour) for your requested event." + System.lineSeparator() +
+                        "Events may start or from 9:00 to 16:00 and end from 10:00 to 17:00" + System.lineSeparator() +
                         "Indicate your chosen time by a number from 9 to 17");
                 break;
             case 3:
@@ -160,13 +160,13 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Both chosen room and speaker are not available in the chosen hour and day.");
                 break;
             case 7:
-                System.out.println("Talk added successfully");
+                System.out.println("Event added successfully");
                 break;
             case 8:
-                System.out.println("An error occurred, a talk was not added");
+                System.out.println("An error occurred, an event was not added");
                 break;
             case 9:
-                System.out.println("Enter talk title:");
+                System.out.println("Enter event title:");
                 break;
         }
     }

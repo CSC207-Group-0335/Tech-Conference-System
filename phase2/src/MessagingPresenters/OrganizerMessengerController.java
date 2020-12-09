@@ -114,13 +114,13 @@ public class OrganizerMessengerController extends MessengerController {
                 }
                 else if (option == 2) {
                     //VIEW GROUP CHATS
-                    ArrayList<String> talkIDS = getEventIDS();
-                    presenter.viewGroupChats(talkIDS);
+                    ArrayList<String> eventIDS = getEventIDS();
+                    presenter.viewGroupChats(eventIDS);
                     int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || talkIDS.size() == 0) {
+                    if (index == 0 || eventIDS.size() == 0) {
                         continue;
                     }
-                    String groupChatID = talkIDS.get(index - 1);
+                    String groupChatID = eventIDS.get(index - 1);
                     char input = 'a';
                     while (input != '0'){
                         ArrayList<String> messages = getGroupChatMessages(groupChatID);

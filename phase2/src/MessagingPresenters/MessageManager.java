@@ -215,15 +215,15 @@ public abstract class MessageManager {
     }
 
     public ArrayList<String> getEventIDs() {
-        ArrayList<String> talkIDs = new ArrayList<>();
+        ArrayList<String> eventIDs = new ArrayList<>();
         for (Event event : eventManager.eventList) {
             if (event.getSpeakers().contains(user.getEmail()) ||
                     event.getUsersSignedUp().contains(user.getEmail()) ||
                     user instanceof Organizer) {
-                talkIDs.add(event.getEventId());
+                eventIDs.add(event.getEventId());
             }
         }
-        return talkIDs;
+        return eventIDs;
         }
 
 

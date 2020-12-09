@@ -36,7 +36,7 @@ public class MainMenuController implements Observer {
      * A Constructor for a MainMenuController, which initializes all of the systems needed to be accessed from the
      * MainMenu.
      * @param roomSystem A RoomSystem object that is used to save data concerning Rooms.
-     * @param eventSystem A TalkSystem object that is used to save data concerning Talks.
+     * @param eventSystem An EventSystem object that is used to save data concerning Events.
      * @param messagingSystem A MessagingSystem object that is used to save data concerning Messages and Conversations.
      * @param scheduleSystem A ScheduleSystem object that is used to save data concerning Schedules.
      * @param techConferenceSystem A TechConferenceSystem object that is used to save data concerning the UserList.

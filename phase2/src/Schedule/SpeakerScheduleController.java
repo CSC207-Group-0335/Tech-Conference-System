@@ -53,12 +53,12 @@ public class SpeakerScheduleController{
             }
             switch (command){
                 case 1:
-                    if (userManager.emailToTalkList(speakerEmail).size()==0){
+                    if (userManager.emailToEventList(speakerEmail).size()==0){
                         presenter.printScheduleEmpty(4);
                     }
                     else {
                         ArrayList<String> eventList = new ArrayList<>();
-                        for (String event : userManager.emailToTalkList(speakerEmail)){
+                        for (String event : userManager.emailToEventList(speakerEmail)){
                             eventList.add(eventManager.toStringEvent(event));
                         }
                         presenter.printByIndex(eventList);

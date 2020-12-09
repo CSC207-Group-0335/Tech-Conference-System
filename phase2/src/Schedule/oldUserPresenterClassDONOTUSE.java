@@ -97,7 +97,7 @@ public class oldUserPresenterClassDONOTUSE extends SchedulePresenter{
      * Prints al the talks in the conference.
      * @param eventManager The talkManager.
      */
-    public void printAllTalks(EventManager eventManager){
+    public void printAllEvents(EventManager eventManager){
         System.out.println(eventManager.EventMapStringRepresentation());
     }
 
@@ -113,9 +113,6 @@ public class oldUserPresenterClassDONOTUSE extends SchedulePresenter{
         }
     }
 
-
-
-
     /**
      * Greets the user with their name.
      *
@@ -128,6 +125,7 @@ public class oldUserPresenterClassDONOTUSE extends SchedulePresenter{
      * If the registration was not successful lets the user know.
      * @param i An integer corresponding to a specific action.
      */
+
     public void printRegistrationBlocked(int i){
         switch (i) {
             case 1:
@@ -153,7 +151,7 @@ public class oldUserPresenterClassDONOTUSE extends SchedulePresenter{
     /**
      * Output the schedule for the chosen room or chosen speaker if the talkArrayList is not empty.
      * @param eventIDArrayList The talkArraylist.
-     * @param eventManager The TalkManager.
+     * @param eventManager The EventManager.
      * @param i The integer corresponding to a specific action.
      */
     public void printSchedule(ArrayList<String> eventIDArrayList, EventManager eventManager, int i){
