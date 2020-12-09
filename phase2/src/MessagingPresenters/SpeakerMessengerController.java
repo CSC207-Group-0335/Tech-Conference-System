@@ -39,12 +39,12 @@ public class SpeakerMessengerController extends MessengerController {
         ((SpeakerMessageManager) messageManager).messageAllAttendees(messageContent);
     }
 
-    public void messageAllAttendeesOfEvent(String messageContent, String eventID){
-        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfEvent(messageContent, eventID);
+    public void messageAllAttendeesOfTalk(String messageContent, String talkID){
+        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfTalk(messageContent, talkID);
     }
 
-    public ArrayList<Event> viewEvents(){
-        return ((SpeakerMessageManager) messageManager).getSpeakerEvents();
+    public ArrayList<Event> viewTalks(){
+        return ((SpeakerMessageManager) messageManager).getSpeakerTalks();
     }
 
     /**
@@ -67,48 +67,12 @@ public class SpeakerMessengerController extends MessengerController {
                 else if (option == 1) {
                     // VIEW INDIVIDUAL CHATS
                     ArrayList<String> emails = messageManager.getRecipients();
-                    presenter.viewChats(emails);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || emails.size() == 0) {
-                        continue;
-                    }
-                    String email = emails.get(index - 1);
-                    Boolean viewingArchivedMessages = false;
-                    char input = 'a';
-                    while (input != '0') {
-                        ArrayList<Message> messages;
-                        if (viewingArchivedMessages) {
-                            messages = viewArchivedMessages(email);
-                        }
-                        else {
-                            messages = viewUnarchivedMessages(email);
-                        }
-                        HashMap<String, String> messageMap = new HashMap<>();
-                        for (Message message: messages) {
-                            messageMap.put(message.getSenderEmail(), message.getMessageContent());
-                        }
-                        presenter.viewConversation(messageMap, viewingArchivedMessages);
-                        input = scan.nextLine().toCharArray()[0];
-                        if (input == 'a') {
-                            viewingArchivedMessages = !viewingArchivedMessages;
-                        }
-                    }
+                    runIndividualChatMenu(presenter, emails);
                 }
                 else if (option == 2) {
                     //VIEW GROUP CHATS
-                    ArrayList<String> eventIDs = getEventIDS();
-                    presenter.viewGroupChats(eventIDs);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || eventIDs.size() == 0) {
-                        continue;
-                    }
-                    String groupChatID = eventIDs.get(index - 1);
-                    char input = 'a';
-                    while (input != '0'){
-                        ArrayList<String> messages = getGroupChatMessages(groupChatID);
-                        presenter.viewGroupChat(messages);
-                        input = scan.nextLine().toCharArray()[0];
-                    }
+                    ArrayList<String> talkIDS = getEventIDS();
+                    runIndividualChatMenu(presenter, talkIDS);
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
@@ -145,15 +109,15 @@ public class SpeakerMessengerController extends MessengerController {
                     presenter.printMessageSentSuccess();
                 }
                 else if (option == 5) {
-                    // MESSAGE ALL ATTENDEES OF A SINGLE EVENT
-                    ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerEvents();
-                    presenter.viewEvents(events);
+                    // MESSAGE ALL ATTENDEES OF A SINGLE TALK
+                    ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerTalks();
+                    presenter.viewTalks(events);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || events.size() == 0) {
                         continue;
                     }
                     Event event = events.get(index - 1);
-                    ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfEvent(event);
+                    ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfTalk(event);
                     presenter.askForMessageBody();
                     String body = scan.nextLine();
                     if (body.equals("0")) {

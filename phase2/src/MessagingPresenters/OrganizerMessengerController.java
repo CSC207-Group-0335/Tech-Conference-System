@@ -85,54 +85,19 @@ public class OrganizerMessengerController extends MessengerController {
                 else if (option == 1) {
                     // VIEW INDIVIDUAL CHATS
                     ArrayList<String> emails = getRecipients();
-                    presenter.viewChats(emails);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || emails.size() == 0) {
-                        continue;
-                    }
-                    String email = emails.get(index - 1);
-                    Boolean viewingArchivedMessages = false;
-                    char input = 'a';
-                    while (input != '0') {
-                        ArrayList<Message> messages;
-                        if (viewingArchivedMessages) {
-                            messages = viewArchivedMessages(email);
-                        }
-                        else {
-                            messages = viewUnarchivedMessages(email);
-                        }
-                        HashMap<String, String> messageMap = new HashMap<>();
-                        for (Message message: messages) {
-                            messageMap.put(message.getSenderEmail(), message.getMessageContent());
-                        }
-                        presenter.viewConversation(messageMap, viewingArchivedMessages);
-                        input = scan.nextLine().toCharArray()[0];
-                        if (input == 'a') {
-                            viewingArchivedMessages = !viewingArchivedMessages;
-                        }
-                    }
+                    runIndividualChatMenu(presenter, emails);
                 }
                 else if (option == 2) {
                     //VIEW GROUP CHATS
-                    ArrayList<String> eventIDS = getEventIDS();
-                    presenter.viewGroupChats(eventIDS);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || eventIDS.size() == 0) {
-                        continue;
-                    }
-                    String groupChatID = eventIDS.get(index - 1);
-                    char input = 'a';
-                    while (input != '0'){
-                        ArrayList<String> messages = getGroupChatMessages(groupChatID);
-                        presenter.viewGroupChat(messages);
-                        input = scan.nextLine().toCharArray()[0];
-                    }
+                    ArrayList<String> talkIDS = getEventIDS();
+                    runGroupChatMenu(presenter, talkIDS);
                 }
                 else if (option == 3) {
                     // MESSAGE INDIVIDUAL USER
                     presenter.askForEmail();
                     String email = "";
                     boolean valid_recipient = false;
+
                     while (!valid_recipient) {
                         email = scan.nextLine();
                         if (email.equals("0")) {
@@ -144,6 +109,7 @@ public class OrganizerMessengerController extends MessengerController {
                             presenter.printSendMessageError();
                         }
                     }
+
                     presenter.askForMessageBody();
                     String body = scan.nextLine();
                     if (body.equals("0")) {
