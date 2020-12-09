@@ -35,6 +35,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 2:
                 System.out.println("Event " + event + " cancelled successfully");
                 break;
+            case 3:
+                System.out.println("No events available to cancel.");
                 }}
 
     public void registerUserMenu(int i){

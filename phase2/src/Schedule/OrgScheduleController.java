@@ -423,6 +423,10 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The Scanner
      */
     public void cancelEvent(Scanner scan){
+        if (eventManager.getEventIdsList().size() == 0){
+            presenter.cancelEvent(3, "");
+            return;
+        }
         presenter.printEvents(eventManager.EventMapStringRepresentation());
         presenter.cancelEvent(1, "event");
         boolean doContinue = true;
