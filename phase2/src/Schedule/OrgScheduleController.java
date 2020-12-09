@@ -475,6 +475,7 @@ public class OrgScheduleController extends UserScheduleController {
                 presenter.printReviewRequests(2);
                 String status = scan.nextLine();
                 this.userManager.updateRequests(requestToChange, status, attendeeEmail);
+                presenter.printReviewRequests(3);
                 return;
             }
         }
