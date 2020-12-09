@@ -1,6 +1,7 @@
 package UserLogin;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
  * An abstract class that represents a User.
@@ -11,6 +12,7 @@ public abstract class User {
     private String password;
     private String email;
     private ArrayList<String> eventList;
+    private LinkedHashMap<String, String> requestMap;
 
     /**
      * A user is identified by a name, password and email address (the email will be used as a unique identifier).
@@ -63,6 +65,14 @@ public abstract class User {
 
     public ArrayList<String> getEventList() {
         return eventList;
+    }
+
+    //NOTE TO REQUEST TEAM: I added this because i need it for writing and reading, since that invloves a general user
+    //object. so this means we will need requestMaps in other users that maybe are just empty? idk exactly how you wanna
+    //do that in your implementation of requests. I just need a method like this is here (it can be abstract if you want)
+    // - Nathan (early morning Dec 9th)
+    public LinkedHashMap<String, String> getRequestMap(){
+        return requestMap;
     }
 
     public boolean addEvent(String eventId){
