@@ -44,7 +44,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Enter the name of the new room to register, press 0 to go back");
                 break;
             case 2:
-                System.out.println("enter the capacity for this event");
+                System.out.println("Enter the capacity for this room");
                 break;
             case 3:
                 System.out.println("Room already exists in the system, try registering a different room.");
