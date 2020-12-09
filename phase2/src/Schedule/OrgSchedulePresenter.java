@@ -12,6 +12,15 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         printGoBack();
     }
 
+    public void printReviewRequests(int i){
+        switch (i){
+            case 1:
+                System.out.println("Which attendee's request would you like to review?");
+            case 2:
+                System.out.println("What status would like to set request to? approved or rejected?");
+        }
+    }
+
     public void cancelEvent(int i, String event){
         switch (i){
             case 1:

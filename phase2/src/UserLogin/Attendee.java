@@ -109,7 +109,7 @@ public class Attendee extends User {
 
     public boolean requestComplete(String request) {
         if (requests.containsKey(request)) {
-            requests.put(request, "addressed");
+            requests.put(request, "approved");
             return true;
         }
         return false;
@@ -128,7 +128,7 @@ public class Attendee extends User {
                 return false;
             }
             else {
-                this.requests.put(req, "addressed");
+                this.requests.put(req, "approved");
             }
         }
         return true;

@@ -333,6 +333,20 @@ public class UserManager extends Observable {
         requests.addAll(attendee.getRequests().keySet());
         return requests;
     }
+//tried to get getRequestList to show the status of the request too and not just print the requests
+    //public ArrayList<String> getRequestList(String email) {
+        //ArrayList<String> requests = new ArrayList<>();
+        //Attendee attendee = (Attendee) this.emailToUser(email);
+        //LinkedHashMap<String, String> attendeeRequests = attendee.getRequests();
+        //requests.addAll(attendeeRequests.keySet());
+        //int i = 0;
+        //for (String r : requests){
+            //String requestStatus = attendeeRequests.get(r);
+            //requests.set(0, r + ", " + requestStatus);
+            //i++;
+        //}
+        //return requests;
+    //}
 
     /**
      * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered
@@ -341,8 +355,8 @@ public class UserManager extends Observable {
      * @return a HashMap with email addresses as the keys and ArrayLists of requests as the values
      */
 
-    public HashMap<String, ArrayList<String>> emailToRequest() {
-        HashMap<String, ArrayList<String>> emailRequestMap = new HashMap<>();
+    public LinkedHashMap<String, ArrayList<String>> emailToRequest() {
+        LinkedHashMap<String, ArrayList<String>> emailRequestMap = new LinkedHashMap<>();
         for (String email : getUserEmailList()) {
             if (this.emailToUser(email) instanceof Attendee) {
                 ArrayList<String> userRequests = new ArrayList<>();
@@ -405,6 +419,13 @@ public class UserManager extends Observable {
         return requestsPending;
     }
 
+
+    public String findEmail(ArrayList<String> totalPending, int i){
+        String emailRequestTotal = totalPending.get(i);
+        int indexComma = emailRequestTotal.indexOf(",");
+        return emailRequestTotal.substring(0, indexComma);
+    }
+
     /**
      * Gives a list of every user and an integer representing the total pending requests they have
      * @return an Arraylist with a user's email and an int reprenting the total pending requests they have
@@ -420,6 +441,18 @@ public class UserManager extends Observable {
             }
         }
         return requestsPending;
+    }
+    public boolean updateRequests(String request, String status, String email){
+        User user = this.emailToUser(email);
+        if (status.equals("rejected")){
+            return ((Attendee) user).requestDeny(request);
+        }
+        else if (status.equals("approved")){
+            return ((Attendee) user).requestComplete(request);
+        }
+        else{
+            return false;
+        }
     }
 
 

@@ -447,9 +447,75 @@ public class OrgScheduleController extends UserScheduleController {
                     return;
                 } } } }
 
+
+
+
+
+
+
+    private void reviewAttendeeRequests(Scanner scan, ArrayList<String> requestsList, int attendeeIndex){
+        String attendeeEmail = this.getAttendeeByIndex(requestsList, attendeeIndex);
+        ArrayList<String> attendeeRequests = userManager.userRequestsPending(attendeeEmail);
+        presenter.printByIndex(attendeeRequests);
+        super.presenter.choose("Requests");
+        boolean doContinue = true;
+        while (doContinue){
+            Integer requestIndex = validatorController.userIntInputValidation("scheduling", "request index", scan);
+            if (requestIndex == null){
+                continue;
+            }
+            else if (requestIndex == 0){
+                return;
+            }
+            else if (requestIndex - 1 >= attendeeRequests.size()){
+                presenter.printTryAgain("attendee index");
+            }
+            else{
+                String requestToChange = requestsList.get(requestIndex - 1);
+                presenter.printReviewRequests(2);
+                String status = scan.nextLine();
+                this.userManager.updateRequests(requestToChange, status, attendeeEmail);
+                return;
+            }
+        }
+    }
+
+    public String getAttendeeByIndex(ArrayList<String> requestsList, int attendeeIndex){
+        if (attendeeIndex -1 >= requestsList.size()){
+            return null;
+        }
+        else{
+            String mail = userManager.findEmail(requestsList, attendeeIndex - 1);
+            return mail;
+        }
+    }
+
     private void reviewRequests(Scanner scan) {
         ArrayList<String> requestsList = userManager.totalPending();
+        // show them a list of all attendee's and the number of pending requests they have
         presenter.printByIndex(requestsList);
+        presenter.printReviewRequests(1);
+        super.presenter.choose("Attendee");
+        boolean doContinue = true;
+        while (doContinue){
+            Integer attendeeIndex = validatorController.userIntInputValidation("scheduling", "attendee index", scan);
+            if (attendeeIndex == null){
+                continue;
+            }
+            else if (attendeeIndex == 0){
+                return;
+            }
+            else if (getAttendeeByIndex(requestsList, attendeeIndex) == null){
+                presenter.printTryAgain("attendee index");
+            }
+            else{
+                this.reviewAttendeeRequests(scan, requestsList, attendeeIndex);
+            }
+
+        }
+
+
+
     }
 
 
