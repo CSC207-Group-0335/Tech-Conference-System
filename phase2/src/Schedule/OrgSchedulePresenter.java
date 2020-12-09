@@ -44,7 +44,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Enter the name of the new room to register, press 0 to go back");
                 break;
             case 2:
-                System.out.println("enter the capacity for this event");
+                System.out.println("enter the capacity for this room:");
                 break;
             case 3:
                 System.out.println("Room already exists in the system, try registering a different room.");
@@ -94,8 +94,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 break;
             case 2:
                 System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator() +
-                        "Talks may start or end from 9:00 to 16:30" + System.lineSeparator() +
-                        "Indicate your chosen time by a number from 9 to 16.5 (half hours indicated by .5)");
+                        "Talks may start or from 9:00 to 16:00 and end from 10:00 to 17:00" + System.lineSeparator() +
+                        "Indicate your chosen time by a number from 9 to 17");
                 break;
             case 3:
                 System.out.println("Chosen speaker is not available in the chosen hour and day.");
@@ -156,5 +156,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Please choose at least 0 speakers for the event.");
                 break;
         }
+    }
+
+    public void printSchedule(String object){
+        System.out.println("Schedule for chosen " + object + ":");
     }
 }

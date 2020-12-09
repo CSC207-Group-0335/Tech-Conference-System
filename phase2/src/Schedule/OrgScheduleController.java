@@ -73,6 +73,7 @@ public class OrgScheduleController extends UserScheduleController {
                     } else {
                         String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
                         if (!(chosenSpeakers.contains(chosenSpeaker))) {
+                            presenter.printSchedule("speaker");
                             this.getSchedule(email, 1, "User");
                             chosenSpeakers.add(chosenSpeaker);
                             presenter.printChooseSpeakers(2);
@@ -116,6 +117,7 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else{
                 String chosenRoom = roomStorage.getRoomNameList().get(roomIndex - 1);
+                presenter.printSchedule("room");
                 this.getSchedule(chosenRoom, 2, "Room");
                 return chosenRoom;
             }
@@ -139,9 +141,14 @@ public class OrgScheduleController extends UserScheduleController {
             else if (day.equals("Zero")){
                 return null;
             }
-            else if ((day.equals("November 21")||day.equals("November 22") || day.equals("November 23") )){
+            else if (day.equals("November 21")||day.equals("November 22") || day.equals("November 23")
+            || day.equals("november 21")||day.equals("november 22") || day.equals("november 23") ||
+            day.equals("NOVEMBER 21")||day.equals("NOVEMBER 22") || day.equals("NOVEMBER 23")){
                 int days = Integer.parseInt(day.substring(day.length()-2, day.length()))-20;
                 return days;
+            }
+            else{
+                presenter.printTryAgain("day");
             }
         }
     return null;
@@ -152,7 +159,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns a int representing the hour chosen by the organizer.
      */
-    public Integer pickHour(Scanner scan) {
+    public Integer pickHour(Scanner scan, int end) {
         boolean doContinue = true;
         while (doContinue) {
             presenter.printRequestEventProcess(2);
@@ -163,7 +170,7 @@ public class OrgScheduleController extends UserScheduleController {
             }
             if (hours == 0) {
                 return null;
-            } else if (hours > 16.5 || hours < 9) {
+            } else if (hours > 16+end || hours < 9) {
                 presenter.printTryAgain("hour");
             } else {
                 return hours;
@@ -177,13 +184,13 @@ public class OrgScheduleController extends UserScheduleController {
          * @param scan The scanner.
          * @return A LocalDateTime representing the start time chosen by the organizer.
          */
-        public LocalDateTime pickTime (Scanner scan){
+        public LocalDateTime pickTime (Scanner scan, int end){
             // first they pick a speaker, then they pick a room, then they pick a time and check if it works
             Integer day = pickDay(scan);
             if (day == null) {
                 return null;
             }
-            Integer hour = pickHour(scan);
+            Integer hour = pickHour(scan, end);
             if (hour == null) {
                 return null;
             }
@@ -255,15 +262,15 @@ public class OrgScheduleController extends UserScheduleController {
         String room = pickRoom(scan);
         if (room == null){return false;}
         presenter.printRequestEventMenu(7);
-        LocalDateTime startTime = pickTime(scan);
+        LocalDateTime startTime = pickTime(scan, 0);
         if (startTime==null){ return false;}
         presenter.printRequestEventMenu(8);
-        LocalDateTime endTime = pickTime(scan);
+        LocalDateTime endTime = pickTime(scan, 1);
         if (endTime == null){ return false;}
         while (!(endTime.isAfter(startTime))){
             presenter.printRequestEventMenu(9);
 
-            endTime = pickTime(scan);
+            endTime = pickTime(scan, 1);
             if (endTime == null) {return false;}
         }
         if (speakers.size() == 0){
@@ -288,15 +295,15 @@ public class OrgScheduleController extends UserScheduleController {
             room = pickRoom(scan);
             if (room == null){return false;}
             presenter.printRequestEventMenu(7);
-            startTime = pickTime(scan);
+            startTime = pickTime(scan, 0);
             if (startTime==null){ return false;}
             presenter.printRequestEventMenu(8);
-            endTime = pickTime(scan);
+            endTime = pickTime(scan, 1);
             if (endTime == null){ return false;}
             while (!(endTime.isAfter(startTime))){
                 presenter.printRequestEventMenu(9);
 
-                endTime = pickTime(scan);
+                endTime = pickTime(scan, 1);
                 if (endTime == null) {return false;}
             }
             doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
@@ -356,15 +363,18 @@ public class OrgScheduleController extends UserScheduleController {
             if (roomName == null){
                 continue;
             }
+            if (roomName.equals("Zero")) {
+                return;}
             presenter.printRegisterRoom(2);
             Integer capacity = validatorController.userIntInputValidation("scheduling", "capacity",
                     scan);
             if (capacity == null){
                 continue;
             }
-            if (roomName.equals("Zero")) {
+            if (capacity == 0){
                 return;
-            } else if (this.addRoom(roomName, capacity)) {
+            }
+            else if (this.addRoom(roomName, capacity)) {
                 presenter.printSuccess();
             } else {
                 presenter.printRegisterRoom(3);
