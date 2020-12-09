@@ -111,7 +111,8 @@ public class UserScheduleController{
         }
         if(registeredEvents.size() != 0){
             ArrayList<String> stringRepRegisteredEvents = new ArrayList<>();
-            for(String event: registeredEvents){
+            ArrayList<String> sortedEvents = eventManager.sort(registeredEvents);
+            for(String event: sortedEvents){
                 stringRepRegisteredEvents.add(eventManager.toStringEvent(event));
             }
             presenter.printByIndex(stringRepRegisteredEvents);
@@ -271,8 +272,14 @@ public class UserScheduleController{
             }
             else{
                 int chosenInt = eventManager.getAllEventDayMonth().get(dayIndex-1);
-                ArrayList<String> eventList = new ArrayList<>();
+                ArrayList<String> eventIdsList = new ArrayList<>();
                 for (String id: eventManager.intDayToEventIDs(chosenInt)){
+                    //eventList.add(eventManager.toStringEvent(id));
+                    eventIdsList.add(id);
+                }
+                ArrayList<String> sortedIds = eventManager.sort(eventIdsList);
+                ArrayList<String> eventList = new ArrayList<>();
+                for (String id : sortedIds){
                     eventList.add(eventManager.toStringEvent(id));
                 }
                 presenter.printByIndex(eventList);

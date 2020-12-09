@@ -90,7 +90,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
     public void printRequestEventProcess(int i){
         switch (i) {
             case 1:
-                System.out.println("Please choose a day of the conference for your requested talk (By indicating day November 21, 22 or 23)");
+                System.out.println("Please choose a day of the conference for your requested talk (By indicating day NOVEMBER 21, 22 or 23)");
                 break;
             case 2:
                 System.out.println("Choose a time (by hour) for your requested talk." + System.lineSeparator() +
