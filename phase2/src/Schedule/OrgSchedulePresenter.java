@@ -16,8 +16,13 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         switch (i){
             case 1:
                 System.out.println("Which attendee's request would you like to review?");
+                break;
             case 2:
                 System.out.println("What status would like to set request to? approved or rejected?");
+                break;
+            case 3:
+                System.out.println("Request status successfully updated");
+                break;
         }
     }
 

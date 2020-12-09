@@ -471,23 +471,16 @@ public class OrgScheduleController extends UserScheduleController {
             else if (requestIndex == 0){
                 return;
             }
-            else if (requestIndex - 1 >= requestsList.size()){
+            else if (requestIndex - 1 >= attendeeRequests.size()){
                 presenter.printTryAgain("attendee index");
             }
             else{
                 String requestToChange = requestsList.get(requestIndex - 1);
-                presenter.printReviewRequests(requestIndex);
+                presenter.printReviewRequests(2);
                 String status = scan.nextLine();
-                if (status.equals("approved") || status.equals("rejected")) {
-                    this.userManager.updateRequests(requestToChange, status, attendeeEmail);
-                    requestsList.remove(attendeeIndex - 1);
-                    presenter.printSuccess();
-                }
-                else {
-                    presenter.printTryAgain("status");
-                }
-                presenter.printByIndex(requestsList);
-                presenter.printGoBack();
+                this.userManager.updateRequests(requestToChange, status, attendeeEmail);
+                presenter.printReviewRequests(3);
+                presenter.printGoodbye("scheduling");
                 return;
             }
         }
@@ -523,6 +516,7 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else{
                 this.reviewAttendeeRequests(scan, requestsList, attendeeIndex);
+                return;
             }
 
         }
