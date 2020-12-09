@@ -263,21 +263,23 @@ public class EventManager{
         else{return false;}
     }
 
-//    public ArrayList<String> sort(ArrayList<String> eventIdsList){
-//        HashMap<Integer,ArrayList<String>> dayMap = new HashMap<>();
-//        for (String id: eventIdsList){
-//            if (dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()) == null) {
-//                dayMap.put(this.eventIdToStartTime(id).getDayOfMonth(), new ArrayList<String>());
-//            }
-//            dayMap.get(this.eventIdToStartTime(id).getDayOfMonth()).add(id);
-//        }
-//
-//        for (Integer day: dayMap.keySet()){
-//            for(String id:dayMap.get(day)){
-//
-//            }
-//        }
-//    }
+    /**
+     * Takes in an ArrayList of event ids and sorts them by the start time of the event corresponding to each id
+     * @param eventIdsList The list of event ids
+     * @return Returns an ArrayList of the event ids in a sorted order based on the start time of the corresponding event
+     */
+    public ArrayList<String> sort(ArrayList<String> eventIdsList){
+        ArrayList<Event> eventList2 = new ArrayList<>();
+        for (String id : eventIdsList){
+            eventList2.add(getEvent(id));
+        }
+        Collections.sort(eventList2, Comparator.comparing(Event::getStartTime));
+        ArrayList<String>sorted = new ArrayList<>();
+        for (Event t : eventList2){
+            sorted.add(t.getEventId());
+        }
+        return sorted;
+    }
 
     /**
      * Get the speaker for a event.
@@ -449,8 +451,9 @@ public class EventManager{
      */
     public String EventMapStringRepresentation(){
         ArrayList<String> lines = new ArrayList<String>();
-        for(Event t: eventMap.keySet()){
-            String line = toStringEvent(t.getEventId());
+        ArrayList<String> idsSorted = sort(eventIdsList);
+        for(String id : idsSorted){
+            String line = toStringEvent(id);
             lines.add(line);
         }
         String totalString = "";
