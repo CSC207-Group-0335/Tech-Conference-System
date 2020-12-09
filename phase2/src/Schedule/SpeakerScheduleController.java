@@ -18,6 +18,7 @@ public class SpeakerScheduleController{
     Scanner scan;
     SpeakerSchedulePresenter presenter;
     UserManager userManager;
+    ValidatorController validatorController;
 
     /**
      * Creates a new controller for the speaker.
@@ -34,6 +35,7 @@ public class SpeakerScheduleController{
         this.scan = scanner;
         this.userManager = userManager;
         this.presenter = new SpeakerSchedulePresenter();
+        this.validatorController = new ValidatorController();
     }
 
     /**
@@ -44,26 +46,26 @@ public class SpeakerScheduleController{
         presenter.printHelloMessage(userManager.emailToName(speakerEmail));
         boolean doContinue = true;
         while(doContinue) {
-            String choice = scan.nextLine();
-            try {
-                int command = Integer.parseInt(choice);
-            if (command == 1) {
-                if (userManager.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
-                    presenter.printNoTalks();
-                }
-                else {
-                    presenter.printSchedule(userManager.emailToTalkList(speakerEmail), eventManager);
-                }
+            Integer command = validatorController.userIntInputValidation("scheduling", "command",
+                    scan);
+            if (command == null){
+                continue;
             }
-            else if (command == 0){
-                doContinue = false;
-                presenter.printGoodbye();
-                mainMenuController.runMainMenu(speakerEmail);
+            switch (command){
+                case 1:
+                    if (userManager.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
+                        presenter.printNoTalks();
+                    }
+                    else {
+                        presenter.printSchedule(userManager.emailToTalkList(speakerEmail), eventManager);
+                    }
+                    break;
+                case 0:
+                    doContinue = false;
+                    mainMenuController.runMainMenu(this.speakerEmail);
+                    break;
+
             }
-            else{presenter.printTryAgain();}
-            }
-            catch (NumberFormatException nfe){
-                presenter.printTryAgain();;}
         }
     }
 }
