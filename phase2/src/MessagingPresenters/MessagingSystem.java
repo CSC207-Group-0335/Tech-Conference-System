@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import Files.JSONReader;
+import Files.JSONWriter;
 import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.UserManager;
@@ -107,8 +108,8 @@ public class MessagingSystem extends Observable{
      */
 
     public void save() {
-        ConversationCSVWriter csvWriter = new ConversationCSVWriter("src/Resources/Conversations.csv",
-                this.conversationStorage.getConversationManagers());
+        JSONWriter jsonWriter = new JSONWriter();
+        jsonWriter.writeToConversations("src/Resources/Conversations.json", conversationStorage);
     }
 
     public void setMainMenuController(MainMenuController mainMenuController){

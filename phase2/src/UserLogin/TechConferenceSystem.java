@@ -67,8 +67,6 @@ public class TechConferenceSystem {
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().
      */
     public void save() {
-        CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToUsers("src/Resources/Users.csv", this.userManager.getUserList());
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToUsers("src/Resources/Users.json", this.userManager);
     }

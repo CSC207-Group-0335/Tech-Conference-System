@@ -352,6 +352,11 @@ public class EventManager{
         }
     }
 
+    public boolean eventIdToVIPboolean(String id){
+        Event e = getEvent(id);
+        return e.vipRestricted;
+    }
+
     /**
      * Takes in an event ID and returns True if it has room for new users to attend.
      * @param id The event id.
