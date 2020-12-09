@@ -40,11 +40,11 @@ public class SpeakerMessengerController extends MessengerController {
     }
 
     public void messageAllAttendeesOfTalk(String messageContent, String talkID){
-        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfTalk(messageContent, talkID);
+        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfEvent(messageContent, talkID);
     }
 
     public ArrayList<Event> viewTalks(){
-        return ((SpeakerMessageManager) messageManager).getSpeakerTalks();
+        return ((SpeakerMessageManager) messageManager).getSpeakerEvents();
     }
 
     /**
@@ -110,14 +110,14 @@ public class SpeakerMessengerController extends MessengerController {
                 }
                 else if (option == 5) {
                     // MESSAGE ALL ATTENDEES OF A SINGLE TALK
-                    ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerTalks();
-                    presenter.viewTalks(events);
+                    ArrayList<Event> events = ((SpeakerMessageManager) messageManager).getSpeakerEvents();
+                    presenter.viewEvents(events);
                     int index = Integer.parseInt(scan.nextLine());
                     if (index == 0 || events.size() == 0) {
                         continue;
                     }
                     Event event = events.get(index - 1);
-                    ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfTalk(event);
+                    ArrayList<User> emails = ((SpeakerMessageManager) messageManager).getAttendeesOfEvent(event);
                     presenter.askForMessageBody();
                     String body = scan.nextLine();
                     if (body.equals("0")) {

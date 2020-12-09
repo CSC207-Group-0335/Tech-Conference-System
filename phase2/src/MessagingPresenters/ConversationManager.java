@@ -6,8 +6,6 @@ import java.util.ArrayList;
 public class ConversationManager {
     private final ArrayList<String> participants;
     private final ArrayList<Message> messages;
-    public ArrayList<Boolean> readStatus;
-    public ArrayList<Boolean> archivedStatus;
 
     /**
      * A sender and recipient is required to create instance of ConversationManager.
