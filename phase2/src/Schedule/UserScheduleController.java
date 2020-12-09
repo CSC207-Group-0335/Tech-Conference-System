@@ -47,7 +47,7 @@ public class UserScheduleController{
         if(this.eventManager.eventIdAtCapacity(eventID)){
             return "Event is at full capacity.";
         }
-        else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToTalkList(email)))){
+        else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToEventList(email)))){
             return "Double booking";
         }
         else if (!(eventManager.checkIfUserAllowed(email, eventID))){
@@ -105,7 +105,7 @@ public class UserScheduleController{
     public ArrayList<String> getSchedule(String identifier, int i, String type){
         ArrayList<String> registeredEvents = new ArrayList<>();
         if (type == "User"){
-         registeredEvents = userManager.emailToTalkList(identifier);}
+         registeredEvents = userManager.emailToEventList(identifier);}
         else if (type == "Room"){
             registeredEvents = roomStorage.roomNameToEventIds(identifier);
         }
@@ -223,9 +223,8 @@ public class UserScheduleController{
 
     /***
      * Shows all the Speakers speaking at the conference.
-     *
-     *
      */
+
     protected void seeSpeakerSchedule(){
         ArrayList<String> speakerNames = this.userManager.getSpeakerNameList();
         if (speakerNames.size() == 0){
@@ -290,10 +289,11 @@ public class UserScheduleController{
     }}
 
     /**
-     * Takes in a user's input and cancels their registration for a specified talk.
+     * Takes in a user's input and cancels their registration for a specified event.
      * @param presenter The presenter.
      * @param scan The scanner.
      */
+
     protected void cancelAnEvent(UserSchedulePresenter presenter,
                                  Scanner scan){
         ArrayList<String> registeredEvents = this.getSchedule(email, 3, "User");

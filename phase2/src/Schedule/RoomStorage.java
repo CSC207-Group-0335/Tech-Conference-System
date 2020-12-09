@@ -99,6 +99,7 @@ public class RoomStorage {
      * Gets the schedule list.
      * @return A HashMap representing the scheduleList of RoomStorage.
      */
+
     public boolean addEvent(String roomName, String EventId, LocalDateTime start, LocalDateTime end){
         Room r = roomNameMap.get(roomName);
         boolean found = true;
@@ -114,29 +115,66 @@ public class RoomStorage {
         return false;
     }
 
-    public void removeEvent(String roomName, String EventId){
+    /**
+     * Removes an event.
+     *
+     * @param roomName a String representing a room name
+     * @param eventId a String representing an event ID
+     */
+
+    public void removeEvent(String roomName, String eventId){
         Room r = roomNameMap.get(roomName);
         for (String id : r.getEventList()){
-            if (id.equals(EventId)){
+            if (id.equals(eventId)){
                 r.getEventList().remove(id);
                 return;
             }
         }
     }
+
+    /**
+     * Returns the room with the name </roomName>, if it exists.
+     *
+     * @param roomName a String representing the name of the room
+     * @return a Room
+     */
+
     public Room nameToRoom(String roomName){
         if (roomNameMap.containsKey(roomName)){
             return roomNameMap.get(roomName);
         }
         return null;
     }
+
+    /**
+     * Returns a list of event IDs scheduled to occur in room </roomName>.
+     *
+     * @param roomName the name of the room
+     * @return an ArrayList containing event IDs
+     */
+
     public ArrayList<String> roomNameToEventIds(String roomName){
         Room room = nameToRoom(roomName);
         return room.getEventList();
     }
+
+    /**
+     * Returns the capacity of a room.
+     *
+     * @param roomName the name of the room
+     * @return the capacity of the room
+     */
+
     public int roomNameToCapacity(String roomName){
         Room room = nameToRoom(roomName);
         return room.getCapacity();
     }
+
+    /**
+     * Returns a list of room names.
+     *
+     * @return an ArrayList containing room names
+     */
 
     public ArrayList<String> getRoomNameList() {
         return this.roomNameList;

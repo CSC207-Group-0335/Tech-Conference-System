@@ -8,15 +8,15 @@ import java.util.ArrayList;
  */
 
 public class GroupChatManager {
-    private String talkID;
+    private String eventID;
     private ArrayList<Message> messages;
 
     /**
-     * A talk ID is required to create an instance of GroupChatManager
+     * An event ID is required to create an instance of GroupChatManager
      */
 
-    public GroupChatManager(String talkID) {
-        this.talkID = talkID;
+    public GroupChatManager(String eventID) {
+        this.eventID = eventID;
         this.messages = new ArrayList<>();
     }
 
@@ -24,14 +24,13 @@ public class GroupChatManager {
      * Adds a message.
      *
      * @param senderEmail a String representing the email of the sender
-     * @param talkID a String representing a talk ID
      * @param timestamp a LocalDateTime object representing the time at which this message was sent
      * @param messageContent a String representing the content of this message
      */
 
     public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent) {
-        if (this.talkID.equals(talkID) /*add way to check for participant*/) {
-            Message message = new Message(talkID, senderEmail, timestamp, messageContent);
+        if (this.eventID.equals(eventID) /*add way to check for participant*/) {
+            Message message = new Message(eventID, senderEmail, timestamp, messageContent);
             this.messages.add(message);
         }
     }
@@ -48,13 +47,13 @@ public class GroupChatManager {
     }
 
     /**
-     * Returns the talk ID.
+     * Returns the event ID.
      *
-     * @return a String representing the talk ID
+     * @return a String representing the event ID
      */
 
-    public String getTalkID() {
-        return talkID;
+    public String getEventID() {
+        return eventID;
     }
 }
 

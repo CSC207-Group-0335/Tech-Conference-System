@@ -34,16 +34,25 @@ public class ConversationStorage {
         return false;
     }
 
+    public boolean containsGroupChat(String eventID) {
+        for (GroupChatManager c : groupChatManagers) {
+            if (c.getEventID().equals(eventID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
-     * Returns True if and only if groupChatManagers contains a specific talk ID.
+     * Returns True if and only if groupChatManagers contains a specific event ID.
      *
-     * @param talkID a String representing a talk ID
-     * @return a boolean representing whether or not talkID is in groupChatManagers
+     * @param eventID a String representing a event ID
+     * @return a boolean representing whether or not eventID is in groupChatManagers
      */
 
-    public boolean contains(String talkID) {
+    public boolean contains(String eventID) {
         for (GroupChatManager g : groupChatManagers) {
-            if (g.getTalkID().equals(talkID)){
+            if (g.getEventID().equals(eventID)){
                 return true;
             }
         }
@@ -67,15 +76,15 @@ public class ConversationStorage {
     }
 
     /**
-     * Returns the GroupChatManager with talk ID </talkID> if it exists.
+     * Returns the GroupChatManager with event ID </eventID> if it exists.
      *
-     * @param talkID a String representing a talk ID
-     * @return a GroupChatManager with talk ID </talkID> if it exists. Returns null otherwise
+     * @param eventID a String representing an event ID
+     * @return a GroupChatManager with event ID </eventID> if it exists. Returns null otherwise
      */
 
-    public GroupChatManager getGroupChatManager(String talkID) {
+    public GroupChatManager getGroupChatManager(String eventID) {
         for (GroupChatManager g : groupChatManagers) {
-            if (g.getTalkID().equals(talkID)) {
+            if (g.getEventID().equals(eventID)) {
                 return g;
             }
         }
@@ -100,15 +109,15 @@ public class ConversationStorage {
     }
 
     /**
-     * Adds a GroupChatManager with talk ID </talkID> if it does not already exist.
+     * Adds a GroupChatManager with event ID </eventID> if it does not already exist.
      *
-     * @param talkID a String representing a talk ID
+     * @param eventID a String representing a event ID
      * @return the new GroupChatManager created. Returns null if it already exists
      */
 
-    public GroupChatManager addGroupChatManager(String talkID) {
-        if (!this.contains(talkID)) {
-            GroupChatManager g = new GroupChatManager(talkID);
+    public GroupChatManager addGroupChatManager(String eventID) {
+        if (!this.contains(eventID)) {
+            GroupChatManager g = new GroupChatManager(eventID);
             groupChatManagers.add(g);
             return g;
         }

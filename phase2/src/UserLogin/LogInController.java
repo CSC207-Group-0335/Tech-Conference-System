@@ -24,7 +24,7 @@ public class LogInController extends Observable {
     /**
      * A constructor for a LogInController
      * @param mainMenuController the MainMenuController that is instantiated with this LogInController
-     * @param eventSystem the TalkSystem that interacts with is instantiated LogInController
+     * @param eventSystem the EventSystem that interacts with is instantiated LogInController
      * @param messagingSystem the MessagingSystem that interacts with is instantiated LogInController
      */
 
@@ -60,7 +60,7 @@ public class LogInController extends Observable {
                 this.email = email;
                 setUserEmail(this.email); //set the user
 
-                //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in talkSystem
+                //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in eventSystem
                 //and messagingSystem.
                 this.eventSystem.setEmail(this.email);
                 this.messagingSystem.setEmail(this.email);

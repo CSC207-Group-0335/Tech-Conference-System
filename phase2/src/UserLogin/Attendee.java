@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * A class that represents an Attendee, a specific type of User that attends the conference and can sign up to
- * attend Talks.
+ * attend events.
  */
 
 public class Attendee extends User {
@@ -177,6 +177,12 @@ public class Attendee extends User {
     public int getNumberOfRequests() {
         return requests.size();
     }
+
+    /**
+     * Returns the number of pending requests this attendee has.
+     *
+     * @return an int representing the number of pending requests
+     */
 
     public int getNumberOfPending(){
         int pendingLeft = 0;

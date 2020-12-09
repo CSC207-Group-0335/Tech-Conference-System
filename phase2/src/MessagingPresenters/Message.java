@@ -21,7 +21,7 @@ public class Message {
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
      * Message has a uniquely generated ID.
      *
-     * @param recipientEmail the email address of the recipient or the talkID
+     * @param recipientEmail the email address of the recipient or the eventID
      * @param senderEmail    the email address of the sender
      * @param timestamp      the time and date this message was sent
      * @param messageContent the content of the message

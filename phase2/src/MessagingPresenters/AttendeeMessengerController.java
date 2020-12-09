@@ -59,8 +59,8 @@ public class AttendeeMessengerController extends MessengerController {
                 }
                 else if (option == 2) {
                     //VIEW GROUP CHATS
-                    ArrayList<String> talkIDS = getEventIDS();
-                    runGroupChatMenu(presenter, talkIDS);
+                    ArrayList<String> eventIDS = getEventIDS();
+                    runGroupChatMenu(presenter, eventIDS);
                 }
                 else if (option == 3) {
                     // MESSAGE USER

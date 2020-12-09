@@ -98,8 +98,8 @@ public class CSVWriter {
                     csvWriter.append(userEmail);
                     csvWriter.append(",");
                     int j = 0;
-                    while (j <= userManager.emailToTalkList(userEmail).size() - 1){
-                        csvWriter.append(userManager.emailToTalkList(userEmail).get(j));
+                    while (j <= userManager.emailToEventList(userEmail).size() - 1){
+                        csvWriter.append(userManager.emailToEventList(userEmail).get(j));
                         csvWriter.append(',');
                         j ++;
                     }

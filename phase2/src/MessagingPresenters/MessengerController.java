@@ -65,7 +65,7 @@ public abstract class MessengerController {
 
     public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
 
-    public ArrayList<String> getGroupChatMessages(String talkID){return messageManager.getGroupChatMessages(talkID);}
+    public ArrayList<String> getGroupChatMessages(String eventID){return messageManager.getGroupChatMessages(eventID);}
 
     public void runIndividualChatMenu(MessengerPresenter presenter, ArrayList<String> emails) {
         presenter.viewChats(emails);

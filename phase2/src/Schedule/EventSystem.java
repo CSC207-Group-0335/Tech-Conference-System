@@ -100,9 +100,21 @@ public class EventSystem extends Observable{
         jsonWriter.writeToEvents("src/Resources/Events.json", this.eventManager);
     }
 
+    /**
+     * Sets an email address.
+     *
+     * @param userEmail a String representing the email
+     */
+
     public void setEmail(String userEmail){
         this.userEmail = userEmail;
     }
+
+    /**
+     * Sets a main menu controller.
+     *
+     * @param mainMenuController a MainMenuController
+     */
 
     public void setMainMenuController(MainMenuController mainMenuController){
         this.mainMenuController = mainMenuController;
