@@ -8,6 +8,7 @@ import java.util.*;
 /**
  * A controller class describing the actions an organizer can perform in the program
  */
+
 public class OrgScheduleController extends UserScheduleController {
     OrgSchedulePresenter presenter;
 
@@ -17,6 +18,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param mainMenuController The mainMenuController.
      * @param scanner The scanner.
      */
+
     public OrgScheduleController(String email, EventManager eventManager, UserManager userManager,
                                  MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
         super(email, eventManager, userManager, mainMenuController, roomStorage, scanner);
@@ -28,6 +30,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns an ArrayList of speaker names representing the speakers chosen by the organizer.
      */
+
     public ArrayList<String> pickSpeakers(Scanner scan) {
         ArrayList<String> speakerList = userManager.getSpeakerNameList();
         presenter.printByIndex(speakerList);
@@ -92,6 +95,7 @@ public class OrgScheduleController extends UserScheduleController {
         }
         return null;
     }
+
     /**
      * Allows the organizer to choose a room from a list of rooms.
      * @param scan The scanner.
@@ -130,6 +134,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns a int representing the day chosen by the organizer.
      */
+
     public Integer pickDay(Scanner scan){
         boolean doContinue  = true;
         while(doContinue) {
@@ -159,6 +164,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return Returns a int representing the hour chosen by the organizer.
      */
+
     public Integer pickHour(Scanner scan, int end) {
         boolean doContinue = true;
         while (doContinue) {
@@ -179,11 +185,13 @@ public class OrgScheduleController extends UserScheduleController {
         }
         return null;
     }
+
         /**
          * Allows the organizer to choose a day and hour for the start time of the event.
          * @param scan The scanner.
          * @return A LocalDateTime representing the start time chosen by the organizer.
          */
+
         public LocalDateTime pickTime (Scanner scan, int end){
             // first they pick a speaker, then they pick a room, then they pick a time and check if it works
             Integer day = pickDay(scan);
@@ -206,6 +214,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param startTime The start time.
      * @return An int representing one of the three aforementioned options.
      */
+
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
         //LocalDateTime end = dateTime.plusHours(1);
          if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToTalkList(speaker))
@@ -224,6 +233,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param endTime The end time.
      * @return An boolean representing if all the speakers are available at the room and time or not.
      */
+
     public boolean checkDoubleBookingSpeakers(ArrayList<String> speakers, String room, LocalDateTime startTime, LocalDateTime endTime){
         for (String s : speakers){
             if (!(checkDoubleBooking(s, room, startTime, endTime)==0)){
@@ -255,6 +265,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param scan The scanner.
      * @return A boolean notifying the organizer that they have successfully created an event.
      */
+
     public boolean requestEvent(Scanner scan){
         ArrayList<String> speakers = pickSpeakers(scan);
         if (speakers == null){ return false;}
@@ -334,6 +345,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param cap The capacity of the room.
      * @return A boolean notifying the organizer if they have successfully created a room.
      */
+
     public boolean addRoom(String roomName, int cap) {
         return this.roomStorage.createRoom(roomName, cap);
     }
@@ -346,6 +358,7 @@ public class OrgScheduleController extends UserScheduleController {
      * @param type The type of the user
      * @return A boolean notifying the organizer if they have successfully created a user.
      */
+
     public boolean requestUser(String name, String password, String email, String type, boolean vip) {
         return this.userManager.createUser(type, name, password, email, vip);
     }
@@ -354,6 +367,7 @@ public class OrgScheduleController extends UserScheduleController {
      * Uses the addRoom method to register a room.
      * @param scan The scanner.
      */
+
     public void registerRoom(Scanner scan) {
         presenter.printRegisterRoom(1);
         boolean doContinue = true;
@@ -422,6 +436,7 @@ public class OrgScheduleController extends UserScheduleController {
      * Lists out all the events in the schedule and lets an organizer cancel an event from the schedule based on their input.
      * @param scan The Scanner
      */
+
     public void cancelEvent(Scanner scan){
         if (eventManager.getEventIdsList().size() == 0){
             presenter.cancelEvent(3, "");
@@ -452,10 +467,13 @@ public class OrgScheduleController extends UserScheduleController {
                 } } } }
 
 
-
-
-
-
+    /**
+     * Prints email addresses of attendees who have requests.
+     *
+     * @param scan a Scanner
+     * @param requestsList an ArrayList of email addresses
+     * @param attendeeIndex an int representing the index of each attendee
+     */
 
     private void reviewAttendeeRequests(Scanner scan, ArrayList<String> requestsList, int attendeeIndex){
         String attendeeEmail = this.getAttendeeByIndex(requestsList, attendeeIndex);
@@ -493,6 +511,14 @@ public class OrgScheduleController extends UserScheduleController {
         }
     }
 
+    /**
+     * Returns a the email of that attendee at index </attendeeIndex>.
+     *
+     * @param requestsList an ArrayList of emails
+     * @param attendeeIndex an int representing the index
+     * @return a String representing an email
+     */
+
     public String getAttendeeByIndex(ArrayList<String> requestsList, int attendeeIndex){
         if (attendeeIndex -1 >= requestsList.size()){
             return null;
@@ -502,6 +528,12 @@ public class OrgScheduleController extends UserScheduleController {
             return mail;
         }
     }
+
+    /**
+     * Prints a list of attendees and the amount of requests they have.
+     *
+     * @param scan a Scanner
+     */
 
     private void reviewRequests(Scanner scan) {
         ArrayList<String> requestsList = userManager.totalPending();
@@ -531,6 +563,9 @@ public class OrgScheduleController extends UserScheduleController {
 
     }
 
+    /**
+     * Runs the presenter.
+     */
 
     public void run(){
         presenter.printHello(this.userManager.emailToName(email));

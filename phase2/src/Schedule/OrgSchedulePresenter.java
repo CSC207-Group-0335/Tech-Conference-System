@@ -12,6 +12,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         printGoBack();
     }
 
+    /**
+     * Prints attendee emails and the amount of request s.
+     *
+     * @param i an int representing the case
+     */
+
     public void printReviewRequests(int i){
         switch (i){
             case 1:
@@ -28,6 +34,13 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         }
     }
 
+    /**
+     * Presents the process of cancelling an event.
+     *
+     * @param i an int representing the case
+     * @param event a String representing the event
+     */
+
     public void cancelEvent(int i, String event){
         switch (i){
             case 1:
@@ -40,6 +53,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 3:
                 System.out.println("No events available to cancel.");
                 }}
+
+    /**
+     * Prints the process of registering a new user.
+     *
+     * @param i an int representing a case
+     */
 
     public void registerUserMenu(int i){
         switch (i){
@@ -56,6 +75,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 break;
     }}
 
+    /**
+     * Prints the process of registering a new room.
+     *
+     * @param i an int representing a case
+     */
+
     public void printRegisterRoom(int i){
         switch (i) {
             case 1:
@@ -68,6 +93,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("Room already exists in the system, try registering a different room.");
                 break;
         } }
+
+    /**
+     * Prints the process of requesting a new event.
+     *
+     * @param i an int representing a case
+     */
 
     public void printRequestEventMenu(int i){
         switch (i){
@@ -105,6 +136,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
      * A series of phrases output depending on what the organizer does.
      * @param i An int corresponding to specific output.
      */
+
     public void printRequestEventProcess(int i){
         switch (i) {
             case 1:
@@ -139,6 +171,13 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         }
     }
 
+    /**
+     * Prints the process of choosing a speaker.
+     *
+     * @param i an int representing a case
+     * @param str a String representing the number of speakers
+     */
+
     public void printChoosingSpeakersProcess(int i, String str){
         switch (i){
             case 1:
@@ -159,6 +198,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
         }
     }
 
+    /**
+     * Prints the process of choosing speakers.
+     *
+     * @param i an int representing a case
+     */
+
     public void printChooseSpeakers(int i){
         switch (i){
             case 1:
@@ -175,6 +220,12 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 break;
         }
     }
+
+    /**
+     * Prints a schedule.
+     *
+     * @param object a String representing the object whose schedule is to be viewed
+     */
 
     public void printSchedule(String object){
         System.out.println("Schedule for chosen " + object + ":");

@@ -45,6 +45,17 @@ public class UserManager extends Observable {
         return true;
     }
 
+    /**
+     * Returns true if a new user account with the given credentials was successfully created.
+     *
+     * @param usertype a String representing the user type
+     * @param name a String representing the name of the user
+     * @param password a String representing a password
+     * @param email a String representing an email address
+     * @param vip a boolean representing whether or not this user has VIP status
+     * @return a boolean representing whether or not an account has been successfully created
+     */
+
     public boolean createUser(String usertype, String name, String password, String email, boolean vip) {
         //Create instance of user depending on usertype
         // First check if email is already in system
@@ -376,6 +387,7 @@ public class UserManager extends Observable {
      * @param user a user
      * @return a boolean that says if the user is an attendee and if they have requests
      */
+
     public boolean hasRequests(User user) {
         String email = user.getEmail();
         String typeUser = this.emailToType(email);
@@ -410,6 +422,7 @@ public class UserManager extends Observable {
      * @param email the email of the user
      * @return an ArrayList of strings representing the Users Requests
      */
+
     public ArrayList<String> userRequestsPending(String email){
         ArrayList<String> requestsPending = new ArrayList<String>();
         User person = emailToUser(email);
@@ -419,6 +432,13 @@ public class UserManager extends Observable {
         return requestsPending;
     }
 
+    /**
+     * Returns an email based on its index.
+     *
+     * @param totalPending an ArrayList of user emails with pending requests
+     * @param i an int representing an index
+     * @return
+     */
 
     public String findEmail(ArrayList<String> totalPending, int i){
         String emailRequestTotal = totalPending.get(i);
@@ -428,8 +448,9 @@ public class UserManager extends Observable {
 
     /**
      * Gives a list of every user and an integer representing the total pending requests they have
-     * @return an Arraylist with a user's email and an int reprenting the total pending requests they have
+     * @return an Arraylist with a user's email and an int representing the total pending requests they have
      */
+
     public ArrayList<String> totalPending(){
         ArrayList<String> requestsPending = new ArrayList<String>();
         for (User a: userList){
@@ -442,6 +463,16 @@ public class UserManager extends Observable {
         }
         return requestsPending;
     }
+
+    /**
+     * Returns true if the request was successfully approved or denied.
+     *
+     * @param request a String representing the request
+     * @param status the status of the request
+     * @param email the email of the requester
+     * @return
+     */
+
     public boolean updateRequests(String request, String status, String email){
         User user = this.emailToUser(email);
         if (status.equals("rejected")){

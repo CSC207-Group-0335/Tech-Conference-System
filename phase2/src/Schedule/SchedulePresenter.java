@@ -6,8 +6,8 @@ public class SchedulePresenter {
 
     /**
      * Greets the user with their name.
-     *
      */
+
     public void printHello(String name){
         System.out.println("Hello " + name);
     }
@@ -15,6 +15,7 @@ public class SchedulePresenter {
     /**
      * Prints a message letting the speaker it's returning to the main menu.
      */
+
     public void printGoodbye(String menu){
                 System.out.println("Returning to " + menu + " menu...");
     }
@@ -22,22 +23,39 @@ public class SchedulePresenter {
     /**
      * On an unsuccessful attempt.
      */
+
     public void printTryAgain(String invalid){
         System.out.println("Invalid "+ invalid + ", please try again.");
     }
 
+    /**
+     * Prints a command message.
+     */
+
     public void InputCommandRequest(){
         System.out.println("Please input a command");
     }
+
+    /**
+     * Prints a choice depending on the menu.
+     */
 
     public void choose(String choice){
                 System.out.println("Enter the number corresponding to each " + choice + "." + System.lineSeparator()+
                         "Press 0 to go back to the scheduling menu.");
     }
 
+    /**
+     * Prints a success message.
+     */
+
     public void printSuccess(){
         System.out.println("Success");
     }
+
+    /**
+     * Prints an option to return to scheduling menu.
+     */
 
     public void printGoBack(){
         System.out.println("Press 0 to go back to the scheduling menu");
@@ -45,6 +63,11 @@ public class SchedulePresenter {
 
     public void printMenu(){}
 
+    /**
+     * Prints a list based on index.
+     *
+     * @param lst the ArrayList
+     */
 
     public void printByIndex(ArrayList<String> lst) {
         Integer i = 1;
@@ -54,6 +77,9 @@ public class SchedulePresenter {
         }
     }
 
+    /**
+     * Prints when schedule is empty.
+     */
 
     public void printScheduleEmpty(int i){
         switch (i){
