@@ -53,7 +53,12 @@ public class EventManager{
         EventFeatures q = new EventFeatures(r, s, start, end);
         eventMap.put(t, q);
         eventList.add(t);
-        eventIdsList.add(t.getEventId());
+        Collections.sort(eventList, Comparator.comparing(Event::getStartTime));
+        eventIdsList.clear();
+        for (Event e : eventList){
+            eventIdsList.add(e.getEventId());
+        }
+        //eventIdsList.add(t.getEventId());
     }
 
     /**

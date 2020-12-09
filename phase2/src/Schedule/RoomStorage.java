@@ -119,6 +119,7 @@ public class RoomStorage {
         for (String id : r.getEventList()){
             if (id.equals(EventId)){
                 r.getEventList().remove(id);
+                return;
             }
         }
     }
