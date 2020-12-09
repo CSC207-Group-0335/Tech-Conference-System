@@ -5,6 +5,7 @@ import MessagingPresenters.ConversationStorage;
 import MessagingPresenters.Message;
 import Schedule.Event;
 import Schedule.EventManager;
+import Schedule.RoomStorage;
 import UserLogin.User;
 import UserLogin.UserManager;
 import org.json.simple.JSONArray;
@@ -110,6 +111,19 @@ public class JSONWriter {
             e.printStackTrace();
         }
 
+    }
+    public void writeToRooms(String json, RoomStorage rooms){
+        JSONArray roomsArray = new JSONArray();
+        for (String name: rooms.getRoomNameList()){
+            JSONObject newobj = new JSONObject();
+            newobj.put("roomname", name);
+            roomsArray.add(newobj);
+        }
+        try {
+            Files.write(Paths.get(json), roomsArray.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

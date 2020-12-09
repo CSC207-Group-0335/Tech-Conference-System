@@ -1,6 +1,7 @@
 package Schedule;
 
 import Files.CSVWriter;
+import Files.JSONWriter;
 import Files.TxtIterator;
 import UserLogin.UserManager;
 
@@ -40,5 +41,7 @@ public class RoomSystem extends Observable {
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeToRooms("src/Resources/RoomFile", roomStorage);
+        JSONWriter jsonWriter = new JSONWriter();
+        jsonWriter.writeToRooms("src/Resources/Rooms.json", roomStorage);
     }
 }
