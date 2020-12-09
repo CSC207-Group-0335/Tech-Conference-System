@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * A class that represents a message.
@@ -14,6 +15,7 @@ public class Message {
     private final String messageContent;
     private String senderStatus;
     private String recipientStatus;
+    private String messageID;
 
     /**
      * A recipient and sender email address, and a timestamp are required to create an instance of Message. This
@@ -38,6 +40,7 @@ public class Message {
         }else{
             this.recipientStatus = null;
         }
+        this.messageID = UUID.randomUUID().toString();
     }
 
 
@@ -99,5 +102,7 @@ public class Message {
             return false;
         }
     }
+
+    public String getMessageID() { return messageID; }
 
 }

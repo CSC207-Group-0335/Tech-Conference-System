@@ -135,7 +135,7 @@ public abstract class MessageManager {
                     c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
                 }
             }else{
-                if (conversationStorage.containsGroupChat(recipient)){
+                if (conversationStorage.contains(recipient)){
                     GroupChatManager g = conversationStorage.getGroupChatManager(recipient);
                     g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
                 } else {
