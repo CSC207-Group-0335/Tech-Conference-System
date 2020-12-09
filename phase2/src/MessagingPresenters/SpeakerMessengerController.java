@@ -67,48 +67,12 @@ public class SpeakerMessengerController extends MessengerController {
                 else if (option == 1) {
                     // VIEW INDIVIDUAL CHATS
                     ArrayList<String> emails = messageManager.getRecipients();
-                    presenter.viewChats(emails);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || emails.size() == 0) {
-                        continue;
-                    }
-                    String email = emails.get(index - 1);
-                    Boolean viewingArchivedMessages = false;
-                    char input = 'a';
-                    while (input != '0') {
-                        ArrayList<Message> messages;
-                        if (viewingArchivedMessages) {
-                            messages = viewArchivedMessages(email);
-                        }
-                        else {
-                            messages = viewUnarchivedMessages(email);
-                        }
-                        HashMap<String, String> messageMap = new HashMap<>();
-                        for (Message message: messages) {
-                            messageMap.put(message.getSenderEmail(), message.getMessageContent());
-                        }
-                        presenter.viewConversation(messageMap, viewingArchivedMessages);
-                        input = scan.nextLine().toCharArray()[0];
-                        if (input == 'a') {
-                            viewingArchivedMessages = !viewingArchivedMessages;
-                        }
-                    }
+                    runIndividualChatMenu(presenter, emails);
                 }
                 else if (option == 2) {
                     //VIEW GROUP CHATS
                     ArrayList<String> talkIDS = getEventIDS();
-                    presenter.viewGroupChats(talkIDS);
-                    int index = Integer.parseInt(scan.nextLine());
-                    if (index == 0 || talkIDS.size() == 0) {
-                        continue;
-                    }
-                    String groupChatID = talkIDS.get(index - 1);
-                    char input = 'a';
-                    while (input != '0'){
-                        ArrayList<String> messages = getGroupChatMessages(groupChatID);
-                        presenter.viewGroupChat(messages);
-                        input = scan.nextLine().toCharArray()[0];
-                    }
+                    runIndividualChatMenu(presenter, talkIDS);
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER

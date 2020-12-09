@@ -7,6 +7,7 @@ import UserLogin.Speaker;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public abstract class MessengerController {
@@ -66,7 +67,69 @@ public abstract class MessengerController {
 
     public ArrayList<String> getGroupChatMessages(String talkID){return messageManager.getGroupChatMessages(talkID);}
 
+    public void runIndividualChatMenu(MessengerPresenter presenter, ArrayList<String> emails) {
+        presenter.viewChats(emails);
+        int index = Integer.parseInt(scan.nextLine());
+        if (index == 0 || emails.size() == 0) {
+            return;
+        }
+        String email = emails.get(index - 1);
+        Boolean viewingArchivedMessages = false;
+        char input = 'a';
+        while (input != '0') {
+            ArrayList<Message> messages;
+            if (viewingArchivedMessages) {
+                messages = viewArchivedMessages(email);
+            }
+            else {
+                messages = viewUnarchivedMessages(email);
+            }
+            HashMap<String, String> messageMap = new HashMap<>();
+            for (Message message: messages) {
+                messageMap.put(message.getSenderEmail(), message.getMessageContent());
+            }
+            presenter.viewConversation(messageMap, viewingArchivedMessages);
+            String in = scan.nextLine();
+            input = in.toCharArray()[0];
+            if (input == 'a') {
+                viewingArchivedMessages = !viewingArchivedMessages;
+            }
+            else if (input != '0') {
+                int position = Integer.parseInt(in) - 1;
+                String msg = messages.get(position).getMessageContent();
+                presenter.viewMessageMenu(msg, viewingArchivedMessages);
+                int opt = Integer.parseInt(scan.nextLine());
+                if (opt == 1) {
+                    // DELETION
+                    deleteMessage(position, messages.get(position).getSenderEmail());
+                    presenter.printSuccessfulDeletion();
+                }
+                else if (opt == 2) {
+                    // READ/UNREAD
+                    setStatus(position, "read"); //How does this method work??
+                }
+                else if (opt == 3) {
+                    // ARCHIVAL
+                    setStatus(position, "archive"); //How does this method work??
+                }
+            }
+        }
+    }
 
+    public void runGroupChatMenu(MessengerPresenter presenter, ArrayList<String> talkIDS) {
+        presenter.viewGroupChats(talkIDS);
+        int index = Integer.parseInt(scan.nextLine());
+        if (index == 0 || talkIDS.size() == 0) {
+            return;
+        }
+        String groupChatID = talkIDS.get(index - 1);
+        char input = 'a';
+        while (input != '0'){
+            ArrayList<String> messages = getGroupChatMessages(groupChatID);
+            presenter.viewGroupChat(messages);
+            input = scan.nextLine().toCharArray()[0];
+        }
+    }
 
     public abstract void run();
 }
