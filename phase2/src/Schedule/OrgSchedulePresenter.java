@@ -21,8 +21,10 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 System.out.println("What status would like to set request to? approved or rejected?");
                 break;
             case 3:
-                System.out.println("Request status successfully updated");
+                System.out.println("Request status successfully updated.");
                 break;
+            case 4:
+                System.out.println("Invalid status; please enter either \"approved\" or \"rejected.\"");
         }
     }
 
