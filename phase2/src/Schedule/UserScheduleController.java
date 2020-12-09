@@ -202,8 +202,10 @@ public class UserScheduleController{
                 break;
             case "speaker":
                 this.seeSpeakerSchedule();
+                break;
             case "day":
                 this.seeDaySchedule();
+                break;
 
 
         }
