@@ -1,9 +1,11 @@
 package MessagingPresenters;
 
-import Files.CSVReader;
+import Files.JSONReader;
 import Schedule.EventManager;
 import UserLogin.MainMenuController;
 import UserLogin.UserManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -73,27 +75,33 @@ public class MessagingSystem extends Observable{
         notifyObservers(messengerController);
     }
 
-    public void run() {
-        CSVReader fileReader = new CSVReader("src/Resources/Conversations.csv");
-        for (ArrayList<String> scheduleData : fileReader.getData()) {
-            String participantOne = scheduleData.get(0);
-            String participantTwo = scheduleData.get(1);
+    public void run() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        JSONReader jsonReader = new JSONReader();
+        Object obj = jsonReader.readJson("src/Resources/Conversations.json");
+        JSONArray convoList = (JSONArray) obj;
+        convoList.forEach(con -> {
+            JSONObject convo = (JSONObject) con; //cast eve as a JSONObject
+            //get all of the necessary elements to create an convo from the object
+            ArrayList<String> participants = (ArrayList<String>) convo.get("participants");
+            //access each participant from the stored participants arrayList
+            String participantOne = participants.get(0);
+            String participantTwo = participants.get(1);
+            //create a conversation manager with the participants
             ConversationManager c = conversationStorage.addConversationManager(participantOne, participantTwo);
-            String messages = scheduleData.get(2);
-            String[] individualMessages = messages.split(";");
-            for (String entry : individualMessages) {
-                String[] singleMessage = entry.split("~");
-                String recipient = singleMessage[0];
-                String sender = singleMessage[1];
-                String timestampString = singleMessage[2];
-                String messageContent = singleMessage[3].replace("commaseparator", ",");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
-                c.addMessage(recipient, sender, timestamp, messageContent);
-            }
-        }
-    }
-
+            //create a new JSONArray from chatLog. Similar process to above because of nested arrays
+            Object messObj = convo.get("chatLog");
+            JSONArray messagesList = (JSONArray) messObj;
+            messagesList.forEach(mes -> {
+                JSONObject message = (JSONObject) mes;
+                String sender = (String) message.get("sender");
+                String recipient = (String) message.get("recipient");
+                LocalDateTime time = (LocalDateTime.parse((CharSequence) message.get("time"), formatter));
+                String content = (String )message.get("content");
+                c.addMessage(recipient, sender, time, content); //Add the message to the convoManagers messageList
+                });
+            });
+        };
     /**
      * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
      */
