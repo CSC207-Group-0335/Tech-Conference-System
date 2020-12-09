@@ -3,6 +3,7 @@ package Schedule;
 import UserLogin.MainMenuController;
 import UserLogin.UserManager;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -16,7 +17,7 @@ public class SpeakerScheduleController{
     EventManager eventManager;
     MainMenuController mainMenuController;
     Scanner scan;
-    SpeakerSchedulePresenter presenter;
+    SchedulePresenter presenter;
     UserManager userManager;
     ValidatorController validatorController;
 
@@ -34,16 +35,15 @@ public class SpeakerScheduleController{
         this.mainMenuController = mainMenuController;
         this.scan = scanner;
         this.userManager = userManager;
-        this.presenter = new SpeakerSchedulePresenter();
+        this.presenter = new SchedulePresenter();
         this.validatorController = new ValidatorController();
     }
 
     /**
      * Lists all the available actions a speaker can perform and choose from, takes their input and outputs a text UI.
      */
-    //Nathan: Changed presenter to match clean architecture NOV 28.
     public void run(){
-        presenter.printHelloMessage(userManager.emailToName(speakerEmail));
+        presenter.printHello(userManager.emailToName(speakerEmail));
         boolean doContinue = true;
         while(doContinue) {
             Integer command = validatorController.userIntInputValidation("scheduling", "command",
@@ -53,11 +53,15 @@ public class SpeakerScheduleController{
             }
             switch (command){
                 case 1:
-                    if (userManager.emailToTalkList(speakerEmail).size()==0){ //ask in meeting tmr
-                        presenter.printNoTalks();
+                    if (userManager.emailToTalkList(speakerEmail).size()==0){
+                        presenter.printScheduleEmpty(4);
                     }
                     else {
-                        presenter.printSchedule(userManager.emailToTalkList(speakerEmail), eventManager);
+                        ArrayList<String> eventList = new ArrayList<>();
+                        for (String event : userManager.emailToTalkList(speakerEmail)){
+                            eventList.add(eventManager.toStringEvent(event));
+                        }
+                        presenter.printByIndex(eventList);
                     }
                     break;
                 case 0:

@@ -66,6 +66,8 @@ public class SchedulePresenter {
             case 3:
                 System.out.println("You are not currently registered for any events.");
                 break;
+            case 4:
+                System.out.println("You are not currently booked to give any talks at the conference.");
         }
     }
 }
