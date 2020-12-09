@@ -110,4 +110,53 @@ public class ConversationManager {
 
     public ArrayList<Message> getMessages() { return this.messages; }
 
+    // FOR JSON READER AND WRITER
+    public ArrayList<String> getMessageIDs() {
+        ArrayList<String> messageIDs = new ArrayList<String>();
+        for (Message message: messages) {
+            messageIDs.add(message.getMessageID());
+        }
+        return messageIDs;
+    }
+
+    public String getRecipientOfMessageWithID(String messageID) {
+        String recipient = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                recipient = message.getRecipientEmail();
+            }
+        }
+        return recipient;
+    }
+
+    public String getSenderOfMessageWithID(String messageID) {
+        String sender = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                sender = message.getSenderEmail();
+            }
+        }
+        return sender;
+    }
+
+    public LocalDateTime getTimestampOfMessageWithID(String messageID) {
+        LocalDateTime time = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                time = message.getTimestamp();
+            }
+        }
+        return time;
+    }
+
+    public String getContentOfMessageWithID(String messageID) {
+        String content = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                content = message.getMessageContent();
+            }
+        }
+        return content;
+    }
+
 }
