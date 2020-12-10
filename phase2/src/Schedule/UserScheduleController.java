@@ -48,6 +48,9 @@ public class UserScheduleController{
             return "Event is at full capacity.";
         }
         else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToEventList(email)))){
+            if (eventManager.eventIdToUsersSignedUp(eventID).contains(email)){
+                return "User already signed up";
+            }
             return "Double booking";
         }
         else if (!(eventManager.checkIfUserAllowed(email, eventID))){
@@ -58,17 +61,17 @@ public class UserScheduleController{
                 this.userManager.addEvent(email, eventID);
                 return "User added.";
             }
-            return "User already signed up";
+            return null;
         }
     }
 
     public boolean submitRequest(String request) {
         if (this.userManager.requestNotRepeat(request, email)){
             this.userManager.addRequest(email, request);
-            System.out.println("Request successfully added!");
+            presenter.printRequestforUser(2);
             return true;
         }
-        System.out.println("You have already made this request");
+        presenter.printRequestforUser(3);
         return false;
     }
 
@@ -121,12 +124,18 @@ public class UserScheduleController{
         return registeredEvents;
     }
 
+    /**
+     * Presents the process of creating a request.
+     * @param presenter a UserSchedulePresenter
+     * @param scan a Scanner
+     */
+
     protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
-        ArrayList<String> requestList = userManager.getRequestList(email);
+        ArrayList<Map.Entry<String, String>> requestList = userManager.getRequestList(email);
         presenter.printAllRequests(requestList);
-        System.out.println("Submit a request");
+        presenter.printRequestforUser(1);
         boolean doContinue = true;
         while (doContinue){
             String request = validatorController.userStringInputValidation("scheduling", "request", scan );
@@ -174,10 +183,10 @@ public class UserScheduleController{
                 }
                 else{
                     String signUpStatus = this.signUp(eventIdToRegister);
-                    if (signUpStatus.equals("User already registered for the requested event.")){
+                    if (signUpStatus.equals("User already signed up")){
                         presenter.printRegistrationBlocked(1);
                     }
-                    else if(signUpStatus.equals("Double booking.")){
+                    else if(signUpStatus.equals("Double booking")){
                         presenter.printRegistrationBlocked(3);
                     }
                     else if(signUpStatus.equals("VIP only event")){
@@ -251,6 +260,11 @@ public class UserScheduleController{
                 this.getSchedule(chosenSpeaker, 1, "User");
                 return;
             }} }
+
+
+    /**
+     * Presents a schedule.
+     */
 
     protected void seeDaySchedule(){
         ArrayList<String> days = eventManager.getAllEventDays();
@@ -338,6 +352,7 @@ public class UserScheduleController{
     /**
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
+
     public void run(){
         presenter.printHello(userManager.emailToName(email));
         presenter.printMenu();

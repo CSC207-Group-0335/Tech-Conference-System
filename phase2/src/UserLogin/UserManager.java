@@ -67,10 +67,6 @@ public class UserManager extends Observable {
         if (newUser == null) {
             return false;
         }
-        if (newUser instanceof Attendee) {
-            //((Attendee) newUser).setVIPStatus(vip);
-            //((Attendee) newUser).setupRequests(requestMap);
-        }
         //Add the user to the UserList
         this.userList.add(newUser);
         //Add the Attendee/Organizer user to UserScheduleList
@@ -214,6 +210,12 @@ public class UserManager extends Observable {
     }
     //Delete if not used
 
+    /**
+     * Returns true if the user with email </email> is of VIP status.
+     * @param email the email of the user
+     * @return a boolean representing whether a user is VIP
+     */
+
     public boolean emailToVIPStatus(String email){
         if (emailToType(email).equals("Organizer")){
             return true;
@@ -348,26 +350,16 @@ public class UserManager extends Observable {
      * @return an ArrayList containing requests
      */
 
-    public ArrayList<String> getRequestList(String email) {
+    public ArrayList<Map.Entry<String, String>> getRequestList(String email) {
         ArrayList<String> requests = new ArrayList<>();
         Attendee attendee = (Attendee) this.emailToUser(email);
-        requests.addAll(attendee.getRequests().keySet());
-        return requests;
+        //requests.addAll(attendee.getRequests().keySet());
+        LinkedHashMap<String, String> requestMap = attendee.getRequests();
+        Set<Map.Entry<String, String>> entrySet  = requestMap.entrySet();
+        // Creating an ArrayList of Entry objects
+        ArrayList<Map.Entry<String,String>> listOfEntry = new ArrayList<Map.Entry<String, String>>(entrySet);
+        return listOfEntry;
     }
-//tried to get getRequestList to show the status of the request too and not just print the requests
-    //public ArrayList<String> getRequestList(String email) {
-        //ArrayList<String> requests = new ArrayList<>();
-        //Attendee attendee = (Attendee) this.emailToUser(email);
-        //LinkedHashMap<String, String> attendeeRequests = attendee.getRequests();
-        //requests.addAll(attendeeRequests.keySet());
-        //int i = 0;
-        //for (String r : requests){
-            //String requestStatus = attendeeRequests.get(r);
-            //requests.set(0, r + ", " + requestStatus);
-            //i++;
-        //}
-        //return requests;
-    //}
 
     /**
      * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered
@@ -410,12 +402,18 @@ public class UserManager extends Observable {
         return false;
     }
 
+    /**
+     * Checks to see if the user is an attendee and if they have more than 0 pending requests
+     * @param email A string representing the email of the user
+     * @return a boolean that says if the user is an attendee and if they have requests
+     */
     public boolean hasRequests(String email) {
         User user = this.emailToUser(email);
         String typeUser = this.emailToType(email);
         if (typeUser.equals("Attendee")) {
             if (!(((Attendee) user).getRequests().isEmpty())) {
-                return true;
+                if (((Attendee) user).getNumberOfPending() > 0){ return true;}
+                return false;
             }
             return false;
         }

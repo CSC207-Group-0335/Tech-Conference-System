@@ -64,6 +64,12 @@ public class Event {
         this.vipRestricted = vipRestricted;
     }
 
+    /**
+     * Returns true if the user was successfully added.
+     * @param userEmail the email of the user
+     * @return a booleans representing whether or not the user was added
+     */
+
     public boolean addUser(String userEmail){
         for (String user : usersSignedUp){
             if (user.equals(userEmail)){
@@ -74,6 +80,12 @@ public class Event {
         return true;
     }
 
+    /**
+     * Returns true if the user was successfully removed.
+     * @param userEmail the email of the user
+     * @return a booleans representing whether or not the user was removed
+     */
+
     public boolean removeUser(String userEmail){
         if (usersSignedUp.contains(userEmail)) {
             usersSignedUp.remove(userEmail);
@@ -82,6 +94,11 @@ public class Event {
         else{return false;}
     }
 
+    /**
+     * Returns true if the speaker was successfully added.
+     * @param speakerEmail the email of the speaker
+     * @return a booleans representing whether or not the speaker was added
+     */
 
     public boolean addSpeaker(String speakerEmail){
         for (String speaker : speakers){
@@ -93,9 +110,15 @@ public class Event {
         return true;
     }
 
-    public boolean removeSpeaker(String userEmail){
-        if (speakers.contains(userEmail)) {
-            speakers.remove(userEmail);
+    /**
+     * Returns true if the speaker was successfully removed.
+     * @param speakerEmail the email of the speaker
+     * @return a booleans representing whether or not the speaker was removed
+     */
+
+    public boolean removeSpeaker(String speakerEmail){
+        if (speakers.contains(speakerEmail)) {
+            speakers.remove(speakerEmail);
             return true;
         }
         else{return false;}
@@ -113,6 +136,7 @@ public class Event {
      * Retrieves the start time of the talk.
      * @return A LocalDateTime representing the start time of the talk.
      */
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -121,27 +145,65 @@ public class Event {
      * Retrieves the id of the talk.
      * @return A UUID representing the id of the talk.
      */
+
     public LocalDateTime getEndTime() {
         return endTime;
     }
+
+    /**
+     * Returns the event ID.
+     * @return a UUID representing the event ID
+     */
 
     public String getEventId() {
         return eventId;
     }
 
+    /**
+     * Returns the name of the room.
+     * @return a String representing the room name
+     */
+
     public String getRoomName() {return this.roomName;}
 
+    /**
+     * Returns the capacity of this event.
+     * @return an int representing the capacity of the event
+     */
+
     public int getCapacity() {return this.capacity;}
+
+    /**
+     * Returns a list of emails of users signed up for this event
+     * @return an ArrayList containing user emails
+     */
 
     public ArrayList<String> getUsersSignedUp() {
         return usersSignedUp;
     }
 
+    /**
+     * Returns a list of emails of speakers signed up for this event
+     * @return an ArrayList containing speaker emails
+     */
+
     public ArrayList<String> getSpeakers() {
         return speakers;
     }
 
+    /**
+     * Returns true if this event is VIP restricted
+     * @return a boolean representing whether this event is exclusive to VIPs
+     */
+
     public boolean getVIPStatus(){
         return this.vipRestricted;
     }
+
+    /**
+     * Sets the capacity of this event.
+     * @param cap an int representing the new capacity of this event
+     */
+
+    public void setCapacity(int cap) { this.capacity = cap;}
 }

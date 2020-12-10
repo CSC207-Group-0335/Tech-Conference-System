@@ -69,6 +69,11 @@ public abstract class User {
      */
     public void setupRequests(LinkedHashMap<String, String> hash) {this.requestMap = hash;}
 
+    /**
+     * Returns a list of events.
+     * @return an ArrayList containing a collection of events.
+     */
+
     public ArrayList<String> getEventList() {
         return eventList;
     }
@@ -77,9 +82,21 @@ public abstract class User {
     //object. so this means we will need requestMaps in other users that maybe are just empty? idk exactly how you wanna
     //do that in your implementation of requests. I just need a method like this is here (it can be abstract if you want)
     // - Nathan (early morning Dec 9th)
+
+    /**
+     * Returns this user's requests.
+     * @return a HashMap containing this user's requests and their approval statuses (pending, approved, or rejected)
+     */
+
     public LinkedHashMap<String, String> getRequestMap(){
         return requestMap;
     }
+
+    /**
+     * Returns true if the event has been successfully added
+     * @param eventId a String representing the ID of the event
+     * @return a boolean representing whether the event has been added
+     */
 
     public boolean addEvent(String eventId){
         if(eventList.contains(eventId)){
@@ -89,6 +106,12 @@ public abstract class User {
         return true;}
     }
 
+    /**
+     * Returns true if the event exists and has been successfully removed.
+     * @param eventId the ID of the event
+     * @return a boolean representing whether the event has been removed
+     */
+
     public boolean removeEvent(String eventId){
         if (eventList.contains(eventId)) {
             eventList.remove(eventId);
@@ -96,6 +119,11 @@ public abstract class User {
         }
         else{return false;}
     }
+
+    /**
+     * Returns whether this user is of VIP status.
+     * @return a boolean representing whether this user is VIP
+     */
     public boolean getVIPStatus(){
         return false;
     }

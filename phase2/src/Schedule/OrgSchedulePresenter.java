@@ -1,6 +1,14 @@
 package Schedule;
 
+/**
+ * A presenter class for organizer schedules.
+ */
+
 public class OrgSchedulePresenter extends UserSchedulePresenter {
+
+    /**
+     * Prints the menu.
+     */
 
     public void printMenu(){
         printUserMenu();
@@ -8,7 +16,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 "Press 8 to register a room " + System.lineSeparator() +
                 "Press 9 to request to register a user" + System.lineSeparator() +
                 "Press 10 to cancel an event" + System.lineSeparator() +
-                "Press 11 to review user requests");
+                "Press 11 to change an event's capacity" + System.lineSeparator() +
+                "Press 12 to review user requests");
         printGoBack();
     }
 
@@ -41,7 +50,7 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
      * @param event a String representing the event
      */
 
-    public void cancelEvent(int i, String event){
+    public void changeEvent(int i, String event){
         switch (i){
             case 1:
                 choose(event);
@@ -52,7 +61,16 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
                 break;
             case 3:
                 System.out.println("No events available to cancel.");
+                break;
+            case 4:
+                System.out.println("Choose the event for which you would like to change its capacity:");
+                break;
+            case 5:
+                System.out.println("Capacity chosen is lower then the number of attendees registered, " +
+                        "cannot double book attendees for an event. Please choose capacity again.");
+                break;
                 }}
+
 
     /**
      * Prints the process of registering a new user.

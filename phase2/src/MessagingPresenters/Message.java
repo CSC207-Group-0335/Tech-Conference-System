@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class Message {
      */
 
     public Message(String recipientEmail, String senderEmail,
-                   LocalDateTime timestamp, String messageContent) {
+                   LocalDateTime timestamp, String messageContent, ArrayList<String> senderStatuses, ArrayList<String> recipientStatuses) {
 
         this.recipientEmail = recipientEmail;
         this.senderEmail = senderEmail;
@@ -37,13 +38,10 @@ public class Message {
         this.messageContent = messageContent;
         this.senderStatuses = new ArrayList<>();
         this.recipientStatuses = new ArrayList<>();
-        this.senderStatuses.add("Read");
-        this.senderStatuses.add("Unarchived");
-        this.recipientStatuses.add("Unread");
-        this.recipientStatuses.add("Unarchived");
+        this.senderStatuses = senderStatuses;
+        this.recipientStatuses = recipientStatuses;
         this.messageID = UUID.randomUUID().toString();
     }
-
 
     /**
      * Returns the email address of the user to which this message is being sent.
@@ -71,7 +69,6 @@ public class Message {
      * @return a LocalDateTime object representing the time at which this message was sent
      */
 
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
@@ -82,10 +79,19 @@ public class Message {
      * @return a String representing the content of message that was sent
      */
 
+    /**
+     * Getter for message content.
+     * @return String content.
+     */
     public String getMessageContent() {
         return messageContent;
     }
 
+    /**
+     * Method to add status to recipient or sender.
+     * @param email String email.
+     * @param status String status.
+     */
     public void addStatus(String email, String status) {
         if (email.equals(senderEmail)) {
             this.senderStatuses.add(status);
@@ -93,7 +99,11 @@ public class Message {
             this.recipientStatuses.add(status);
         }
     }
-
+    /**
+     * Method to remove status from recipient or sender.
+     * @param email String email.
+     * @param status String status.
+     */
     public void removeStatus(String email, String status) {
         if (email.equals(senderEmail)) {
             this.senderStatuses.remove(status);
@@ -102,6 +112,12 @@ public class Message {
         }
     }
 
+    /**
+     * Method to check if there is a status.
+     * @param email String email.
+     * @param status String status.
+     * @return Boolean.
+     */
     public boolean hasStatus(String email, String status) {
         if (email.equals(senderEmail) && senderStatuses.contains(status)) {
             return true;
@@ -112,14 +128,33 @@ public class Message {
         }
     }
 
+    /**
+     * Getter to return messageID.
+     * @return String messageID.
+     */
     public String getMessageID() { return messageID; }
 
+    /**
+     * Getter for Sender Statuses.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getSenderStatuses() {
         return this.senderStatuses;
     }
 
+    /**
+     * Getter for Recipient Statuses
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getRecipientStatuses() {
         return this.recipientStatuses;
     }
 
+    public void setSenderStatuses(ArrayList<String> senderStatuses) {
+        this.senderStatuses = senderStatuses;
+    }
+
+    public void setRecipientStatuses(ArrayList<String> recipientStatuses) {
+        this.recipientStatuses = recipientStatuses;
+    }
 }

@@ -58,15 +58,25 @@ public class TechConferenceSystem {
             String password = (String) user.get("password");
             String email = (String) user.get("email");
             boolean vip = (boolean) user.get("vip");
-            //LinkedHashMap<String, String> requests = (LinkedHashMap<String, String>) user.get("requests");
-            //Just here to get the program running
+            Object reqobj = (Object) user.get("requests");
+            //code for reading and store the requests
+            JSONArray requestList = (JSONArray) reqobj;
             LinkedHashMap<String, String> requestMap = new LinkedHashMap<String, String>();
+            requestList.forEach(req -> {
+                JSONObject request = (JSONObject) req;
+                String reqName = (String) request.get("request");
+                String status = (String) request.get("status");
+                requestMap.put(reqName, status);
+            });
+
             this.userManager.createUser(type, name, password, email, vip, requestMap);
         });
         roomSystem.run();
         logInController.runLogIn();
         mainMenuController.runMainMenu(logInController.getEmail());
     }
+
+    //"requests":[{"request":"Vegan","status":"pending"},{"request":"Disabled","status":"pending"}]
 
     /**
      * Method to write the changes to the Users.json.

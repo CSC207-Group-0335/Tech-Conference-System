@@ -133,5 +133,4 @@ public class ConversationStorage {
     public ArrayList<GroupChatManager> getGroupChatManagers() {
         return groupChatManagers;
     }
-
 }

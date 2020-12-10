@@ -29,8 +29,8 @@ public abstract class MessageManager {
         }
         this.user = user;
         this.conversationStorage = conversationStorage;
-        this.friendsList = getFriendsList();
         this.eventManager = eventManager;
+        this.friendsList = getFriendsList();
     }
 
     public abstract HashSet<User> getFriendsList();
@@ -111,14 +111,14 @@ public abstract class MessageManager {
     public void addMessageStatus(String email, int index, String status){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.addStatus(email, index, status);
+            c.addStatus(user.getEmail(), index, status);
         }
     }
 
     public void deleteMessageStatus(String email, int index, String status){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.removeStatus(email, index, status);
+            c.removeStatus(user.getEmail(), index, status);
         }
     }
 
@@ -126,35 +126,41 @@ public abstract class MessageManager {
         Boolean returnStatus = null;
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            returnStatus = c.hasStatus(email, index, status);
+            returnStatus = c.hasStatus(user.getEmail(), index, status);
         }
         return returnStatus;
     }
 
     /**
      * Sends a message to a user.
-     *
-     * @param recipient a String representing the recipient's email address
+     *  @param recipient a String representing the recipient's email address
      * @param messageContent a String containing the content of the message
+     * @param individual
      */
 
-    public void message(String recipient, String messageContent) {
+    public void message(String recipient, String messageContent, Boolean individual) {
         if (this.canMessage(recipient)) {
-            if (recipient.contains("@")){
+            ArrayList<String> senderStatuses = new ArrayList<>();
+            senderStatuses.add("Read");
+            senderStatuses.add("Unarchived");
+            ArrayList<String> recipientStatuses = new ArrayList<>();
+            recipientStatuses.add("Unread");
+            recipientStatuses.add("Unarchived");
+            if (individual){
                 if (containsConversationWith(recipient)) {
                     ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), recipient);
-                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 } else {
                     ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), recipient);
-                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 }
             }else{
                 if (conversationStorage.contains(recipient)){
                     GroupChatManager g = conversationStorage.getGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 } else {
                     GroupChatManager g = conversationStorage.addGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 }
             }
         }
@@ -226,6 +232,10 @@ public abstract class MessageManager {
         return emails;
     }
 
+    /**
+     * Method that returns an ArrayList of all EventID's
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getEventIDs() {
         ArrayList<String> eventIDs = new ArrayList<>();
         for (Event event : eventManager.eventList) {
@@ -236,13 +246,105 @@ public abstract class MessageManager {
             }
         }
         return eventIDs;
-        }
+    }
 
+    /**
+     * Returns ArrayList of string representations of group chat messages by eventID
+     * @param eventID The String eventID.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
         for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
             messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
         return messages;
+    }
+
+    /**
+     * Method to get formatted messages.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param recipientEmail The String recipients' email.
+     * @return ArrayList of String formatted messages.
+     */
+    public ArrayList<String> getFormattedMessages(Boolean viewingArchivedMessages, String recipientEmail) {
+        ArrayList<Message> messages;
+        if (viewingArchivedMessages) {
+            messages = getArchivedMessages(recipientEmail);
+        }
+        else {
+            messages = getUnarchivedMessages(recipientEmail);
+        }
+        ArrayList<String> outputMessages = new ArrayList<>();
+        for (int i = 1; i <= messages.size(); i++) {
+            Message message = messages.get(i - 1);
+            String readStatement = "Read by: ";
+            Boolean hasSenderRead = message.hasStatus(message.getSenderEmail(), "Read");
+            Boolean hasRecipientRead = message.hasStatus(message.getRecipientEmail(), "Read");
+            if (hasSenderRead) {
+                readStatement += message.getSenderEmail();
+                if (hasRecipientRead) {
+                    readStatement += " and " + message.getRecipientEmail();
+                }
+            }
+            else if (hasRecipientRead) {
+                readStatement += message.getRecipientEmail();
+            }
+            else {
+                readStatement += "none";
+            }
+            outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent() + " - " + readStatement);
+        }
+        return outputMessages;
+    }
+
+    /**
+     * Method to return a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The String recipient email.
+     * @return Message object.
+     */
+    public Message getMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        if (viewingArchivedMessages) {
+            return getArchivedMessages(recipientEmail).get(index);
+        }
+        else {
+            return getUnarchivedMessages(recipientEmail).get(index);
         }
     }
+
+    /**
+     * Method to return the content of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The String recipient email.
+     * @return String content.
+     */
+    public String getContentOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getMessageContent();
+    }
+
+    /**
+     * Method to return the read status of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The string recipient email.
+     * @param senderEmail The string sender email.
+     * @return Boolean.
+     */
+    public Boolean getReadStatusOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail, String senderEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).hasStatus(senderEmail, "Read");
+    }
+
+    /**
+     * Method to get the sender of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The recipient email.
+     * @return String email.
+     */
+    public String getSenderOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getSenderEmail();
+    }
+}

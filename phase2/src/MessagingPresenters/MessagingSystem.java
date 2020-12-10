@@ -38,6 +38,10 @@ public class MessagingSystem extends Observable{
         this.eventManager = eventManager;
     }
 
+    /**
+     * Method to set Email.
+     * @param email
+     */
     public void setEmail(String email){
         this.userEmail = email;
     }
@@ -70,18 +74,25 @@ public class MessagingSystem extends Observable{
         }
     }
 
+    /**
+     * Method to notify observers.
+     */
     public void setMessengerController(){
         setChanged();
         notifyObservers(messengerController);
     }
 
+    /**
+     * Run method that runs the messaging system in the program
+     * @throws Exception
+     */
     public void run() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         JSONReader jsonReader = new JSONReader();
         Object obj = jsonReader.readJson("src/Resources/Conversations.json");
         JSONArray convoList = (JSONArray) obj;
         convoList.forEach(con -> {
-            JSONObject convo = (JSONObject) con; //cast eve as a JSONObject
+            JSONObject convo = (JSONObject) con; //cast con as a JSONObject
             //get all of the necessary elements to create an convo from the object
             ArrayList<String> participants = (ArrayList<String>) convo.get("participants");
             //access each participant from the stored participants arrayList
@@ -97,8 +108,10 @@ public class MessagingSystem extends Observable{
                 String sender = (String) message.get("sender");
                 String recipient = (String) message.get("recipient");
                 LocalDateTime time = (LocalDateTime.parse((CharSequence) message.get("time"), formatter));
-                String content = (String )message.get("content");
-                c.addMessage(recipient, sender, time, content); //Add the message to the convoManagers messageList
+                String content = (String) message.get("content");
+                ArrayList<String> recipientStatus = (ArrayList<String>) message.get("recipientstatus");
+                ArrayList<String> senderStatus = (ArrayList<String>) message.get("senderstatus");
+                c.addMessage(recipient, sender, time, content, senderStatus, recipientStatus);
                 });
             });
         };
@@ -111,6 +124,10 @@ public class MessagingSystem extends Observable{
         jsonWriter.writeToConversations("src/Resources/Conversations.json", conversationStorage);
     }
 
+    /**
+     * Method to set the MainMenuController.
+     * @param mainMenuController The MainMenuController.
+     */
     public void setMainMenuController(MainMenuController mainMenuController){
         this.mainMenuController = mainMenuController;
     }

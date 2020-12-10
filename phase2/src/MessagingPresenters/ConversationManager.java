@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -37,6 +38,11 @@ public class ConversationManager {
         return unarchivedMessages;
     }
 
+    /**
+     * Method the get a users' archived messages by their email.
+     * @param email The String email.
+     * @return An ArrayList of Messages.
+     */
     public ArrayList<Message> getArchivedMessages(String email) {
         ArrayList<Message> archivedMessages = new ArrayList<>();
         for (Message message: messages){
@@ -66,30 +72,57 @@ public class ConversationManager {
      * @param messageContent a String representing the content of the message
      */
 
+    /**
+     * Method to add a message to the smessages list
+     * @param recipientEmail The String recipient's email.
+     * @param senderEmail The String sender's email.
+     * @param timestamp The LocalDateTime timestamp.
+     * @param messageContent The String message content.
+     */
     public void addMessage(String recipientEmail, String senderEmail,
-                           LocalDateTime timestamp, String messageContent) {
+                           LocalDateTime timestamp, String messageContent, ArrayList<String> senderStatuses, ArrayList<String> recipientStatuses) {
         if (this.participants.contains(recipientEmail) && this.participants.contains(senderEmail)) {
-            Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent);
+            Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent, senderStatuses, recipientStatuses);
             this.messages.add(message);
         }
     }
 
+
     private boolean indexExists(int index){
-        return index - 1 == messages.size();
+        return index < messages.size();
     }
 
+    /**
+     * Method to add a status to a specific message by index and user email.
+     * @param email The String email.
+     * @param index The int index.
+     * @param status The String status.
+     */
     public void addStatus(String email, int index, String status){
         if (indexExists(index)){
             messages.get(index).addStatus(email, status);
         }
     }
 
+    /**
+     * Method to remove a status to a specific message by index and user email.
+     * @param email The String email.
+     * @param index The int index.
+     * @param status The String status.
+     */
     public void removeStatus(String email, int index, String status){
         if (indexExists(index)){
             messages.get(index).removeStatus(email, status);
         }
     }
 
+    /**
+     * Method that returns a boolean signifying if the user has a status with a specific message.
+     * @param email The String email.
+     * @param index The int index.
+     * @param status The String status.
+     * @return Boolean.
+     */
     public Boolean hasStatus(String email, int index, String status){
         Boolean returnStatus = null;
         if (indexExists(index)){
@@ -107,26 +140,40 @@ public class ConversationManager {
         }
     }
 
+    /**
+     * Method to delete a message by index and email.
+     * @param email The string email.
+     * @param index The int index.
+     */
     public void deleteMessage(String email, int index) {
         if (this.isValidIndex(index) && email.equals(messages.get(index).getSenderEmail())) {
-            System.out.println(index);
-            System.out.println(messages.size());
             this.messages.remove(index);
-            System.out.println(messages.size());
         }
     }
 
     /**
      * Returns set of participants.
      */
-
+    /**
+     * Method that returns the participants.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getParticipants() {
         return this.participants;
     }
 
+    /**
+     * Method to return the messages in this conversation.
+     * @return ArrayList of Messages
+     */
     public ArrayList<Message> getMessages() { return this.messages; }
 
     // FOR JSON READER AND WRITER
+
+    /**
+     * Method to return message IDs in this conversation.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getMessageIDs() {
         ArrayList<String> messageIDs = new ArrayList<String>();
         for (Message message: messages) {
@@ -135,64 +182,89 @@ public class ConversationManager {
         return messageIDs;
     }
 
+    /**
+     * Method to return recipient of a message by messageID.
+     * @param messageID The String messageID.
+     * @return String email.
+     */
     public String getRecipientOfMessageWithID(String messageID) {
         String recipient = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 recipient = message.getRecipientEmail();
             }
         }
         return recipient;
     }
 
+    /**
+     * Method to return sender of a message by messageID.
+     * @param messageID The String messageID.
+     * @return String email.
+     */
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 sender = message.getSenderEmail();
             }
         }
         return sender;
     }
-
+    /**
+     * Method to return timestamp of a message by messageID.
+     * @param messageID The String messageID.
+     * @return LocalDateTime.
+     */
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 time = message.getTimestamp();
             }
         }
         return time;
     }
-
+    /**
+     * Method to return content of a message by messageID.
+     * @param messageID The String messageID.
+     * @return String content.
+     */
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 content = message.getMessageContent();
             }
         }
         return content;
     }
-
+    /**
+     * Method to return sender status of a message by messageID.
+     * @param messageID The String messageID.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getSenderStatusesOfMessageWithID(String messageID) {
         ArrayList<String> senderStatuses = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 senderStatuses = message.getSenderStatuses();
             }
         }
         return senderStatuses;
     }
-
+    /**
+     * Method to return recipient status of a message by messageID.
+     * @param messageID The String messageID.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getRecipientStatusesOfMessageWithID(String messageID) {
         ArrayList<String> recipientStatuses = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 recipientStatuses = message.getRecipientStatuses();
             }
         }
         return recipientStatuses;
     }
-
 }

@@ -7,7 +7,6 @@ import UserLogin.Speaker;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public abstract class MessengerController {
@@ -19,6 +18,15 @@ public abstract class MessengerController {
     public MessageManager messageManager;
     public EventManager eventManager;
 
+    /**
+     * The constructor method
+     * @param email The users email.
+     * @param scan The scanner.
+     * @param mainMenuController The MainMenuController
+     * @param userManager The UserManager
+     * @param conversationStorage The ConverastionStorage.
+     * @param eventManager The EventManager
+     */
     public MessengerController(String email, Scanner scan, MainMenuController mainMenuController,
                                UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
         this.email = email;
@@ -36,55 +44,38 @@ public abstract class MessengerController {
         }
     }
 
+
     /**
-     * Sends a message containing </messageContent> to a user registered under the email </email> if and only if this
-     * attendee is allowed to message that user.
-     *
-     * @param recipient          a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
+     * Method that deletes a senders message by index.
+     * @param index The string index.
+     * @param senderEmail The sender email.
      */
-
-    public void message(String recipient, String messageContent) {
-        messageManager.message(recipient, messageContent);
-    }
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.getUnarchivedMessages(email);
-    }
-
-    public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.getArchivedMessages(email);
-    }
-
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
 
+    /**
+     * Method that returns ArrayList of EventID's.
+     * @return ArrayList Strings.
+     */
     public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
 
-    public ArrayList<String> getGroupChatMessages(String eventID){return messageManager.getGroupChatMessages(eventID);}
-
+    /**
+     * Method that runs an individual chat menu
+     * @param presenter The presenter.
+     * @param emails The String ArrayList of emails.
+     */
     public void runIndividualChatMenu(MessengerPresenter presenter, ArrayList<String> emails) {
         presenter.viewChats(emails);
         int index = Integer.parseInt(scan.nextLine());
         if (index == 0 || emails.size() == 0) {
             return;
         }
-        String email = emails.get(index - 1);
+        String recipientEmail = emails.get(index - 1);
         Boolean viewingArchivedMessages = false;
         char input = 'a';
         while (input != '0') {
-            ArrayList<Message> messages;
-            if (viewingArchivedMessages) {
-                messages = viewArchivedMessages(email);
-            }
-            else {
-                messages = viewUnarchivedMessages(email);
-            }
-            ArrayList<String> outputMessages = new ArrayList<>();
-            for (int i = 1; i <= messages.size(); i++) {
-                Message message = messages.get(i - 1);
-                outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent());
-            }
+            ArrayList<String> outputMessages = messageManager.getFormattedMessages(viewingArchivedMessages, recipientEmail);
             presenter.viewConversation(outputMessages, viewingArchivedMessages);
             String in = scan.nextLine();
             input = in.toCharArray()[0];
@@ -93,36 +84,46 @@ public abstract class MessengerController {
             }
             else if (input != '0') {
                 int position = Integer.parseInt(in) - 1;
-                String msg = messages.get(position).getMessageContent();
-                presenter.viewMessageMenu(msg, viewingArchivedMessages);
+                String messageBody = messageManager.getContentOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail);
+                Boolean isRead = messageManager.getReadStatusOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail, email);
+                presenter.viewMessageMenu(messageBody, viewingArchivedMessages, isRead);
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
-                    deleteMessage(position, messages.get(position).getSenderEmail());
+                    deleteMessage(position, messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, index, recipientEmail));
                     presenter.printSuccessfulDeletion();
                 }
                 else if (opt == 2) {
                     // READ/UNREAD
-                    if (messageManager.hasMessageStatus(email, position, "Unread")) {
-                        messageManager.deleteMessageStatus(email, position, "Unread");
-                        messageManager.addMessageStatus(email, position, "Read");
+                    if (messageManager.hasMessageStatus(recipientEmail, position, "Unread")) {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Unread");
+                        messageManager.addMessageStatus(recipientEmail, position, "Read");
                     }
                     else {
-                        messageManager.deleteMessageStatus(email, position, "Read");
-                        messageManager.addMessageStatus(email, position, "Unread");
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Read");
+                        messageManager.addMessageStatus(recipientEmail, position, "Unread");
                     }
                 }
                 else if (opt == 3) {
                     // ARCHIVAL
-                    if (messageManager.hasMessageStatus(email, position, "Archived")) {
-                        messageManager.deleteMessageStatus(email, position, "Archived");
-                        messageManager.addMessageStatus(email, position, "Unarchived");
+                    if (messageManager.hasMessageStatus(recipientEmail, position, "Archived")) {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Archived");
+                        messageManager.addMessageStatus(recipientEmail, position, "Unarchived");
+                    }
+                    else {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Unarchived");
+                        messageManager.addMessageStatus(recipientEmail, position, "Archived");
                     }
                 }
             }
         }
     }
 
+    /**
+     * Mehtod that runs a group chat menu.
+     * @param presenter The presenter.
+     * @param talkIDS ArrayList of String talkID's.
+     */
     public void runGroupChatMenu(MessengerPresenter presenter, ArrayList<String> talkIDS) {
         presenter.viewGroupChats(talkIDS);
         int index = Integer.parseInt(scan.nextLine());
@@ -132,11 +133,47 @@ public abstract class MessengerController {
         String groupChatID = talkIDS.get(index - 1);
         char input = 'a';
         while (input != '0'){
-            ArrayList<String> messages = getGroupChatMessages(groupChatID);
+            ArrayList<String> messages = messageManager.getGroupChatMessages(groupChatID);
             presenter.viewGroupChat(messages);
             input = scan.nextLine().toCharArray()[0];
         }
     }
 
+
+    /**
+     * Method that runs a message individuals menu.
+     * @param presenter The presenter.
+     */
+    public void runMessageIndividualUserMenu(MessengerPresenter presenter) {
+        presenter.askForEmail();
+        String email = "";
+        boolean valid_recipient = false;
+
+        while (!valid_recipient) {
+            email = scan.nextLine();
+            if (email.equals("0")) {
+                return;
+            }
+            if (messageManager.canMessage(email)) {
+                valid_recipient = true;
+            } else {
+                presenter.printSendMessageError();
+            }
+        }
+
+        presenter.askForMessageBody();
+        String body = scan.nextLine();
+
+        if (body.equals("0")) {
+            return;
+        }
+
+        messageManager.message(email, body, true);
+        presenter.printMessageSentSuccess();
+    }
+
+    /**
+     * Abstract run method.
+     */
     public abstract void run();
 }

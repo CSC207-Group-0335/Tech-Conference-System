@@ -41,6 +41,7 @@ public class ScheduleSystem{
                 for (String eventID: eventList) {
                     if (eventManager.exists(eventID)) {
                         userManager.addEvent(email, eventID);
+                        eventManager.addAttendee(email, eventID);
                     }
                 }
             }

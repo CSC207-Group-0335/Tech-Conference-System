@@ -71,7 +71,6 @@ public class OrganizerMessengerController extends MessengerController {
 
     public void run() {
         boolean flag = true;
-        OUTER_LOOP:
         while (flag) {
             presenter.printMenu();
             int option = Integer.parseInt(scan.nextLine());
@@ -94,30 +93,7 @@ public class OrganizerMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE INDIVIDUAL USER
-                    presenter.askForEmail();
-                    String email = "";
-                    boolean valid_recipient = false;
-
-                    while (!valid_recipient) {
-                        email = scan.nextLine();
-                        if (email.equals("0")) {
-                            continue OUTER_LOOP;
-                        }
-                        if (messageManager.canMessage(email)) {
-                            valid_recipient = true;
-                        } else {
-                            presenter.printSendMessageError();
-                        }
-                    }
-
-                    presenter.askForMessageBody();
-                    String body = scan.nextLine();
-                    if (body.equals("0")) {
-                        continue;
-                    }
-
-                    message(email, body);
-                    presenter.printMessageSentSuccess();
+                    runMessageIndividualUserMenu(presenter);
                 }
                 else if (option == 4) {
                     // MESSAGE ALL SPEAKERS

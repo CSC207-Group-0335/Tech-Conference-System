@@ -7,7 +7,6 @@ import UserLogin.User;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -34,16 +33,28 @@ public class SpeakerMessengerController extends MessengerController {
      * Sends a message containing </messageContent> to all attendees.
      * @param messageContent a String representing the content of the message
      */
-
+    /**
+     * Method to message all attendees.
+     * @param messageContent String.
+     */
     public void messageAllAttendees(String messageContent){
         ((SpeakerMessageManager) messageManager).messageAllAttendees(messageContent);
     }
 
-    public void messageAllAttendeesOfTalk(String messageContent, String talkID){
+    /**
+     * Method to message all attendees of one event.
+     * @param messageContent String.
+     * @param talkID String.
+     */
+    public void messageAllAttendeesOfEvent(String messageContent, String talkID){
         ((SpeakerMessageManager) messageManager).messageAllAttendeesOfEvent(messageContent, talkID);
     }
 
-    public ArrayList<Event> viewTalks(){
+    /**
+     * Method to return array of one event.
+     * @return
+     */
+    public ArrayList<Event> viewEvents(){
         return ((SpeakerMessageManager) messageManager).getSpeakerEvents();
     }
 
@@ -53,7 +64,6 @@ public class SpeakerMessengerController extends MessengerController {
 
     public void run() {
         boolean flag = true;
-        OUTER_LOOP:
         while (flag) {
             presenter.printMenu();
             int option = Integer.parseInt(scan.nextLine());
@@ -76,27 +86,7 @@ public class SpeakerMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
-                    presenter.askForEmail();
-                    String email = "";
-                    boolean valid_recipient = false;
-
-                    while (!valid_recipient) {
-                        email = scan.nextLine();
-                        if (email.equals("0")) {
-                            continue OUTER_LOOP;
-                        }
-                        if (messageManager.canMessage(email)) {
-                            valid_recipient = true;
-                        } else {
-                            presenter.printSendMessageError();
-                        }
-                    }
-
-                    presenter.askForMessageBody();
-                    String body = scan.nextLine();
-
-                    messageManager.message(email, body);
-                    presenter.printMessageSentSuccess();
+                    runMessageIndividualUserMenu(presenter);
                 }
                 else if (option == 4) {
                     // MESSAGE ALL ATTENDEES
@@ -124,7 +114,7 @@ public class SpeakerMessengerController extends MessengerController {
                         continue;
                     }
                     for (User user : emails) {
-                        messageManager.message(user.getEmail(), body);
+                        messageManager.message(user.getEmail(), body, true);
                     }
                     presenter.printMessageSentSuccess();
                 }

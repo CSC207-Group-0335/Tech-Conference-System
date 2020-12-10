@@ -77,7 +77,7 @@ public class OrgScheduleController extends UserScheduleController {
                         String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
                         if (!(chosenSpeakers.contains(chosenSpeaker))) {
                             presenter.printSchedule("speaker");
-                            this.getSchedule(email, 1, "User");
+                            this.getSchedule(chosenSpeaker, 1, "User");
                             chosenSpeakers.add(chosenSpeaker);
                             presenter.printChooseSpeakers(2);
                         } else {
@@ -242,6 +242,12 @@ public class OrgScheduleController extends UserScheduleController {
         }
         return true;
     }
+
+    /**
+     * Runs the process of picking a capacity for an event.
+     * @param room the name of the room
+     * @return an int representing the capacity of the event
+     */
 
     public Integer pickCapacity(String room){
         presenter.printRequestEventMenu(1);
@@ -441,11 +447,11 @@ public class OrgScheduleController extends UserScheduleController {
 
     public void cancelEvent(Scanner scan){
         if (eventManager.getEventIdsList().size() == 0){
-            presenter.cancelEvent(3, "");
+            presenter.changeEvent(3, "");
             return;
         }
         presenter.printEvents(eventManager.EventMapStringRepresentation());
-        presenter.cancelEvent(1, "event");
+        presenter.changeEvent(1, "event");
         boolean doContinue = true;
         while(doContinue){
             Integer eventIndex = validatorController.userIntInputValidation("scheduling", "event index",
@@ -464,7 +470,7 @@ public class OrgScheduleController extends UserScheduleController {
                 String eventIdToCancel= getEventByIndex(eventIndex);
                 String title = eventManager.eventIdToTitle(eventIdToCancel);
                 if (this.eventManager.cancelEvent(eventIdToCancel)) {
-                    presenter.cancelEvent(2, title);
+                    presenter.changeEvent(2, title);
                     return;
                 } } } }
 
@@ -571,10 +577,40 @@ public class OrgScheduleController extends UserScheduleController {
             }
 
         }
-
-
-
     }
+
+    /**
+     * Runs the process of changing the event capacity.
+     */
+
+    public void changeEventCapacity(){
+        presenter.changeEvent(4,"");
+        presenter.choose("event");
+        presenter.printEvents(eventManager.EventMapStringRepresentation());
+        boolean doContinue = true;
+        while (doContinue){
+            Integer eventIndex = validatorController.userIntInputValidation("scheduling", "event index", scan);
+            if (eventIndex == null){
+                continue;
+            }
+            else if (eventIndex == 0){
+                return;
+            }
+            else if (getEventByIndex(eventIndex) == null){
+                presenter.printTryAgain("event index");
+            }
+            else{
+                String event = getEventByIndex(eventIndex);
+                int capacity  = pickCapacity(eventManager.eventIdToRoomName(event));
+                while (capacity < eventManager.eventIdToUsersSignedUp(event).size()){
+                    presenter.changeEvent(5, "");
+                    capacity  = pickCapacity(eventManager.eventIdToRoomName(event));
+                }
+                eventManager.setCapacity(event, capacity);
+                presenter.printSuccess();
+                return;
+            } }}
+
 
     /**
      * Runs the presenter.
@@ -637,6 +673,10 @@ public class OrgScheduleController extends UserScheduleController {
                     presenter.printMenu();
                     break;
                 case 11:
+                    this.changeEventCapacity();
+                    presenter.printMenu();
+                    break;
+                case 12:
                     this.reviewRequests(scan);
                     presenter.printMenu();
                     break;
@@ -644,6 +684,6 @@ public class OrgScheduleController extends UserScheduleController {
                     doContinue = false;
                     mainMenuController.runMainMenu(email);
                     break;
-        }}}
+            }}}
 }
 
