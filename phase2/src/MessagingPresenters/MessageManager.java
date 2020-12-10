@@ -227,8 +227,8 @@ public abstract class MessageManager {
     }
 
     /**
-     *
-     * @return
+     * Method that returns an ArrayList of all EventID's
+     * @return ArrayList of Strings.
      */
     public ArrayList<String> getEventIDs() {
         ArrayList<String> eventIDs = new ArrayList<>();
@@ -242,6 +242,11 @@ public abstract class MessageManager {
         return eventIDs;
     }
 
+    /**
+     * Returns ArrayList of string representations of group chat messages by eventID
+     * @param eventID The String eventID.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
         for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
@@ -250,6 +255,12 @@ public abstract class MessageManager {
         return messages;
     }
 
+    /**
+     * Method to get formatted messages.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param recipientEmail The String recipients' email.
+     * @return ArrayList of String formatted messages.
+     */
     public ArrayList<String> getFormattedMessages(Boolean viewingArchivedMessages, String recipientEmail) {
         ArrayList<Message> messages;
         if (viewingArchivedMessages) {
@@ -281,6 +292,13 @@ public abstract class MessageManager {
         return outputMessages;
     }
 
+    /**
+     * Method to return a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The String recipient email.
+     * @return Message object.
+     */
     public Message getMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
         if (viewingArchivedMessages) {
             return getArchivedMessages(recipientEmail).get(index);
@@ -290,14 +308,36 @@ public abstract class MessageManager {
         }
     }
 
+    /**
+     * Method to return the content of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The String recipient email.
+     * @return String content.
+     */
     public String getContentOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
         return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getMessageContent();
     }
 
+    /**
+     * Method to return the read status of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The string recipient email.
+     * @param senderEmail The string sender email.
+     * @return Boolean.
+     */
     public Boolean getReadStatusOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail, String senderEmail) {
         return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).hasStatus(senderEmail, "Read");
     }
 
+    /**
+     * Method to get the sender of a message by index.
+     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
+     * @param index The int index.
+     * @param recipientEmail The recipient email.
+     * @return String email.
+     */
     public String getSenderOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
         return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getSenderEmail();
     }
