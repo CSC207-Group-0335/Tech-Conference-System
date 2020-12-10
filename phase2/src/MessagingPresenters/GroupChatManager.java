@@ -90,15 +90,4 @@ public class GroupChatManager {
         }
         return content;
     }
-
-
-    public String getGroupchatIDOfMessageWithID(String messageID) {
-        String groupID = null;
-        for (GroupChatMessage message: messages) {
-            if (message.getMessageID().equals(messageID)) {
-                groupID = message.getGroupChatID();
-            }
-        }
-        return groupID;
-    }
 }
