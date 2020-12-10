@@ -29,10 +29,8 @@ public class GroupChatManager {
      */
 
     public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent) {
-        if (this.eventID.equals(eventID) /*add way to check for participant*/) {
-            GroupChatMessage message = new GroupChatMessage(eventID, senderEmail, timestamp, messageContent);
-            this.messages.add(message);
-        }
+       GroupChatMessage message = new GroupChatMessage(eventID, senderEmail, timestamp, messageContent);
+       this.messages.add(message);
     }
 
     /**

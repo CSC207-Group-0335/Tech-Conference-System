@@ -89,7 +89,7 @@ public class MessagingSystem extends Observable{
     public void run() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         JSONReader jsonReader = new JSONReader();
-        Object obj = jsonReader.readJson("src/Resources/GroupConversations.json");
+        Object obj = jsonReader.readJson("src/Resources/Conversations.json");
         JSONArray convoList = (JSONArray) obj;
         convoList.forEach(con -> {
             JSONObject convo = (JSONObject) con; //cast con as a JSONObject
