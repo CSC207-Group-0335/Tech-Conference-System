@@ -127,4 +127,21 @@ public class JSONWriter {
         }
     }
 
+    public void writeToRegistration(String json, UserManager users){
+        JSONArray userArray = new JSONArray();
+        for(String email: users.getUserEmailList()){
+            JSONObject newobj = new JSONObject();
+            newobj.put(email, users.emailToEventList(email));
+            userArray.add(newobj);
+        }
+        try {
+            Files.write(Paths.get(json), userArray.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 }
