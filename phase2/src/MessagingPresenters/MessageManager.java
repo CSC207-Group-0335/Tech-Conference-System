@@ -269,7 +269,7 @@ public abstract class MessageManager {
             else if (hasRecipientRead) {
                 readStatement += message.getRecipientEmail();
             }
-            else if (!hasSenderRead && !hasRecipientRead) {
+            else {
                 readStatement += "none";
             }
             outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent() + " - " + readStatement);
