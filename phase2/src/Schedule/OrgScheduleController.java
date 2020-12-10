@@ -441,11 +441,11 @@ public class OrgScheduleController extends UserScheduleController {
 
     public void cancelEvent(Scanner scan){
         if (eventManager.getEventIdsList().size() == 0){
-            presenter.cancelEvent(3, "");
+            presenter.changeEvent(3, "");
             return;
         }
         presenter.printEvents(eventManager.EventMapStringRepresentation());
-        presenter.cancelEvent(1, "event");
+        presenter.changeEvent(1, "event");
         boolean doContinue = true;
         while(doContinue){
             Integer eventIndex = validatorController.userIntInputValidation("scheduling", "event index",
@@ -464,7 +464,7 @@ public class OrgScheduleController extends UserScheduleController {
                 String eventIdToCancel= getEventByIndex(eventIndex);
                 String title = eventManager.eventIdToTitle(eventIdToCancel);
                 if (this.eventManager.cancelEvent(eventIdToCancel)) {
-                    presenter.cancelEvent(2, title);
+                    presenter.changeEvent(2, title);
                     return;
                 } } } }
 
@@ -571,10 +571,32 @@ public class OrgScheduleController extends UserScheduleController {
             }
 
         }
-
-
-
     }
+
+    public void changeEventCapacity(){
+        presenter.changeEvent(4,"");
+        presenter.choose("event");
+        presenter.printEvents(eventManager.EventMapStringRepresentation());
+        boolean doContinue = true;
+        while (doContinue){
+            Integer eventIndex = validatorController.userIntInputValidation("scheduling", "event index", scan);
+            if (eventIndex == null){
+                continue;
+            }
+            else if (eventIndex == 0){
+                return;
+            }
+            else if (getEventByIndex(eventIndex) == null){
+                presenter.printTryAgain("event index");
+            }
+            else{
+                String event = getEventByIndex(eventIndex);
+                int capacity  = pickCapacity(eventManager.eventIdToRoomName(event));
+                while (capacity < eventManager.eventIdToUsersSignedUp(event).size()){
+                    presenter.changeEvent(5, "");
+                    capacity  = pickCapacity(eventManager.eventIdToRoomName(event));
+                } } }}
+
 
     /**
      * Runs the presenter.
@@ -637,6 +659,10 @@ public class OrgScheduleController extends UserScheduleController {
                     presenter.printMenu();
                     break;
                 case 11:
+                    this.changeEventCapacity();
+                    presenter.printMenu();
+                    break;
+                case 12:
                     this.reviewRequests(scan);
                     presenter.printMenu();
                     break;
@@ -644,6 +670,6 @@ public class OrgScheduleController extends UserScheduleController {
                     doContinue = false;
                     mainMenuController.runMainMenu(email);
                     break;
-        }}}
+            }}}
 }
 
