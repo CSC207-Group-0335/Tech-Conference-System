@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -79,9 +80,9 @@ public class ConversationManager {
      * @param messageContent The String message content.
      */
     public void addMessage(String recipientEmail, String senderEmail,
-                           LocalDateTime timestamp, String messageContent) {
+                           LocalDateTime timestamp, String messageContent, ArrayList<String> senderStatuses, ArrayList<String> recipientStatuses) {
         if (this.participants.contains(recipientEmail) && this.participants.contains(senderEmail)) {
-            Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent);
+            Message message = new Message(recipientEmail, senderEmail, timestamp, messageContent, senderStatuses, recipientStatuses);
             this.messages.add(message);
         }
     }
@@ -266,5 +267,4 @@ public class ConversationManager {
         }
         return recipientStatuses;
     }
-
 }

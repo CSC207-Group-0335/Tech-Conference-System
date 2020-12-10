@@ -1,5 +1,6 @@
 package MessagingPresenters;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class Message {
      */
 
     public Message(String recipientEmail, String senderEmail,
-                   LocalDateTime timestamp, String messageContent) {
+                   LocalDateTime timestamp, String messageContent, ArrayList<String> senderStatuses, ArrayList<String> recipientStatuses) {
 
         this.recipientEmail = recipientEmail;
         this.senderEmail = senderEmail;
@@ -37,10 +38,8 @@ public class Message {
         this.messageContent = messageContent;
         this.senderStatuses = new ArrayList<>();
         this.recipientStatuses = new ArrayList<>();
-        this.senderStatuses.add("Read");
-        this.senderStatuses.add("Unarchived");
-        this.recipientStatuses.add("Unread");
-        this.recipientStatuses.add("Unarchived");
+        this.senderStatuses = senderStatuses;
+        this.recipientStatuses = recipientStatuses;
         this.messageID = UUID.randomUUID().toString();
     }
 
@@ -151,4 +150,11 @@ public class Message {
         return this.recipientStatuses;
     }
 
+    public void setSenderStatuses(ArrayList<String> senderStatuses) {
+        this.senderStatuses = senderStatuses;
+    }
+
+    public void setRecipientStatuses(ArrayList<String> recipientStatuses) {
+        this.recipientStatuses = recipientStatuses;
+    }
 }

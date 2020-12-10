@@ -140,21 +140,27 @@ public abstract class MessageManager {
 
     public void message(String recipient, String messageContent, Boolean individual) {
         if (this.canMessage(recipient)) {
+            ArrayList<String> senderStatuses = new ArrayList<>();
+            senderStatuses.add("Read");
+            senderStatuses.add("Unarchived");
+            ArrayList<String> recipientStatuses = new ArrayList<>();
+            senderStatuses.add("Unread");
+            senderStatuses.add("Unarchived");
             if (individual){
                 if (containsConversationWith(recipient)) {
                     ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), recipient);
-                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 } else {
                     ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), recipient);
-                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);
+                    c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 }
             }else{
                 if (conversationStorage.contains(recipient)){
                     GroupChatManager g = conversationStorage.getGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 } else {
                     GroupChatManager g = conversationStorage.addGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
                 }
             }
         }
