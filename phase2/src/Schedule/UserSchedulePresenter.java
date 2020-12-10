@@ -1,6 +1,7 @@
 package Schedule;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class UserSchedulePresenter extends SchedulePresenter{
 
@@ -68,10 +69,10 @@ public class UserSchedulePresenter extends SchedulePresenter{
                 System.out.println("There are no events in the conference yet.");
     }}
 
-    public void printAllRequests(ArrayList<String> requests) {
+    public void printAllRequests(ArrayList<Map.Entry<String, String>> requests) {
         Integer i = 1;
-        for (String s : requests){
-            System.out.println(Integer.toString(i) + ") " + s);
+        for (Map.Entry<String, String> s : requests){
+            System.out.println(i + ") " + s);
             i++;
         }
     }
