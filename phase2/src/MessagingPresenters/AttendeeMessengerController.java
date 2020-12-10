@@ -40,7 +40,6 @@ public class AttendeeMessengerController extends MessengerController {
 
     public void run() {
         boolean flag = true;
-        OUTER_LOOP:
         while (flag) {
             presenter.printMenu();
             int option = Integer.parseInt(scan.nextLine());
