@@ -3,11 +3,8 @@ package Files;
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.ConversationStorage;
 import MessagingPresenters.GroupChatManager;
-import MessagingPresenters.Message;
-import Schedule.Event;
 import Schedule.EventManager;
 import Schedule.RoomStorage;
-import UserLogin.User;
 import UserLogin.UserManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
@@ -141,6 +137,41 @@ public class JSONWriter {
                 messageobj.put("content", convo.getContentOfMessageWithID(messageid));
                 messageobj.put("recipientstatus", convo.getRecipientStatusesOfMessageWithID(messageid));
                 messageobj.put("senderstatus", convo.getSenderStatusesOfMessageWithID(messageid));
+                messagesArray.add(messageobj);
+            }
+            convoObject.put("chatLog", messagesArray);
+            convoArray.add(convoObject);
+        }
+
+        try {
+            Files.write(Paths.get(json), convoArray.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Method to save conversations from the program.
+     * @param json The sting location of the JSON.
+     * @param convos The ConversationStorage.
+     */
+    public void writeToGroupConversations(String json, ConversationStorage convos){
+        JSONArray convoArray = new JSONArray();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (GroupChatManager groupConvo:
+                convos.getGroupChatManagers()) {
+            JSONArray messagesArray = new JSONArray();
+            JSONObject convoObject = new JSONObject();
+            convoObject.put("groupChatID", groupConvo.getEventID());
+            for (String messageid: groupConvo.getMessageIDs()){
+                JSONObject messageobj = new JSONObject();
+                messageobj.put("sender", groupConvo.getSenderOfMessageWithID(messageid));
+                LocalDateTime time = groupConvo.getTimestampOfMessageWithID(messageid);
+                String formatted = time.format(formatter);
+                messageobj.put("time", formatted);
+                messageobj.put("content", groupConvo.getContentOfMessageWithID(messageid));
                 messagesArray.add(messageobj);
             }
             convoObject.put("chatLog", messagesArray);
