@@ -22,7 +22,7 @@ public class AttendeeMessageManager extends MessageManager {
      * Returns a list of users that this user is allowed to message. Attendees can message all attendees and speakers,
      * organizers can message all users, and speakers can message all attendees.
      *
-     * @return the list of users that user can message
+     * @return the HashSet of users that user can message
      */
 
     public HashSet<User> getFriendsList() {
