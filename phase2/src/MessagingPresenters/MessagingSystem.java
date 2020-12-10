@@ -89,7 +89,7 @@ public class MessagingSystem extends Observable{
     public void run() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         JSONReader jsonReader = new JSONReader();
-        Object obj = jsonReader.readJson("src/Resources/Conversations.json");
+        Object obj = jsonReader.readJson("src/Resources/GroupConversations.json");
         JSONArray convoList = (JSONArray) obj;
         convoList.forEach(con -> {
             JSONObject convo = (JSONObject) con; //cast con as a JSONObject
@@ -114,6 +114,25 @@ public class MessagingSystem extends Observable{
                 c.addMessage(recipient, sender, time, content, senderStatus, recipientStatus);
                 });
             });
+        Object obj2 = jsonReader.readJson("src/Resources/GroupConversations.json");
+        JSONArray convoList2 = (JSONArray) obj;
+        convoList2.forEach(con -> {
+            JSONObject convo2 = (JSONObject) con; //cast con as a JSONObject
+            //get all of the necessary elements to create an convo from the object
+            String eventID = (String) convo2.get("groupChatID");
+            //create a conversation manager with the participants
+            GroupChatManager g = conversationStorage.addGroupChatManager(eventID);
+            //create a new JSONArray from chatLog. Similar process to above because of nested arrays
+            Object messObj2 = convo2.get("chatLog");
+            JSONArray messagesList2 = (JSONArray) messObj2;
+            messagesList2.forEach(mes -> {
+                JSONObject message = (JSONObject) mes;
+                String sender = (String) message.get("sender");
+                LocalDateTime time = (LocalDateTime.parse((CharSequence) message.get("time"), formatter));
+                String content = (String) message.get("content");
+                g.addMessage(sender, time, content);
+            });
+        });
         };
     /**
      * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
@@ -122,6 +141,7 @@ public class MessagingSystem extends Observable{
     public void save() {
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToConversations("src/Resources/Conversations.json", conversationStorage);
+        jsonWriter.writeToGroupConversations("src/Resources/GroupConversations.json", conversationStorage);
     }
 
     /**
