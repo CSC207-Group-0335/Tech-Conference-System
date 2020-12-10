@@ -30,23 +30,6 @@ public class SpeakerMessengerController extends MessengerController {
     }
 
     /**
-     * Sends a message containing </messageContent> to all attendees.
-     * @param messageContent a String representing the content of the message
-     */
-
-    public void messageAllAttendees(String messageContent){
-        ((SpeakerMessageManager) messageManager).messageAllAttendees(messageContent);
-    }
-
-    public void messageAllAttendeesOfTalk(String messageContent, String talkID){
-        ((SpeakerMessageManager) messageManager).messageAllAttendeesOfEvent(messageContent, talkID);
-    }
-
-    public ArrayList<Event> viewTalks(){
-        return ((SpeakerMessageManager) messageManager).getSpeakerEvents();
-    }
-
-    /**
      * Runs the presenters.
      */
 
