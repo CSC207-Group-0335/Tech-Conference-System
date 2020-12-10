@@ -135,7 +135,7 @@ public class ConversationManager {
     public String getRecipientOfMessageWithID(String messageID) {
         String recipient = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 recipient = message.getRecipientEmail();
             }
         }
@@ -145,7 +145,7 @@ public class ConversationManager {
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 sender = message.getSenderEmail();
             }
         }
@@ -155,7 +155,7 @@ public class ConversationManager {
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 time = message.getTimestamp();
             }
         }
@@ -165,7 +165,7 @@ public class ConversationManager {
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 content = message.getMessageContent();
             }
         }
@@ -175,7 +175,7 @@ public class ConversationManager {
     public ArrayList<String> getSenderStatusesOfMessageWithID(String messageID) {
         ArrayList<String> senderStatuses = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 senderStatuses = message.getSenderStatuses();
             }
         }
@@ -185,7 +185,7 @@ public class ConversationManager {
     public ArrayList<String> getRecipientStatusesOfMessageWithID(String messageID) {
         ArrayList<String> recipientStatuses = null;
         for (Message message: messages) {
-            if (message.getMessageID() == messageID) {
+            if (message.getMessageID().equals(messageID)) {
                 recipientStatuses = message.getRecipientStatuses();
             }
         }
