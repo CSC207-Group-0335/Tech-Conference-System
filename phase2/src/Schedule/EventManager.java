@@ -270,8 +270,7 @@ public class EventManager{
      * @return The boolean signifying if the Event exists.
      */
     public boolean exists(String id){
-        if (eventMap.keySet().contains(id)){return true;}
-        else{return false;}
+        return eventIdsList.contains(id);
     }
 
     /**
