@@ -80,11 +80,12 @@ public abstract class MessengerController {
             else {
                 messages = viewUnarchivedMessages(email);
             }
-            HashMap<String, String> messageMap = new HashMap<>();
-            for (Message message: messages) {
-                messageMap.put(message.getSenderEmail(), message.getMessageContent());
+            ArrayList<String> outputMessages = new ArrayList<>();
+            for (int i = 1; i <= messages.size(); i++) {
+                Message message = messages.get(i - 1);
+                outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent());
             }
-            presenter.viewConversation(messageMap, viewingArchivedMessages);
+            presenter.viewConversation(outputMessages, viewingArchivedMessages);
             String in = scan.nextLine();
             input = in.toCharArray()[0];
             if (input == 'a') {

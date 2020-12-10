@@ -60,7 +60,7 @@ public abstract class MessengerPresenter {
      * @param messages an ArrayList containing messages sent to or by this user.
      */
 
-    public void viewConversation(HashMap<String, String> messages, Boolean viewingArchivedMessages) {
+    public void viewConversation(ArrayList<String> messages, Boolean viewingArchivedMessages) {
         if (viewingArchivedMessages) {
             System.out.println("Viewing archived messages. Press 'a' to view unarchived messages");
         }
@@ -71,8 +71,8 @@ public abstract class MessengerPresenter {
             System.out.println("Nothing to see here!");
         } else {
             int i = 1;
-            for (String sender : messages.keySet()) {
-                System.out.println(i + " - " + sender + ": " + messages.get(sender));
+            for (String m : messages) {
+                System.out.println(m);
                 i++;
             }
             System.out.println("Enter the number corresponding to a message for additional options.");
