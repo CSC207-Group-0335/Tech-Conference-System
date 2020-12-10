@@ -17,7 +17,7 @@ public class SpeakerScheduleController{
     EventManager eventManager;
     MainMenuController mainMenuController;
     Scanner scan;
-    SchedulePresenter presenter;
+    UserSchedulePresenter presenter;
     UserManager userManager;
     ValidatorController validatorController;
 
@@ -35,7 +35,7 @@ public class SpeakerScheduleController{
         this.mainMenuController = mainMenuController;
         this.scan = scanner;
         this.userManager = userManager;
-        this.presenter = new SchedulePresenter();
+        this.presenter = new UserSchedulePresenter();
         this.validatorController = new ValidatorController();
     }
 
@@ -44,6 +44,7 @@ public class SpeakerScheduleController{
      */
     public void run(){
         presenter.printHello(userManager.emailToName(speakerEmail));
+        presenter.printSpeakerMenu();
         boolean doContinue = true;
         while(doContinue) {
             Integer command = validatorController.userIntInputValidation("scheduling", "command",
