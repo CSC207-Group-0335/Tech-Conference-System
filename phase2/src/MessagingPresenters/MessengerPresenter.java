@@ -16,22 +16,48 @@ public abstract class MessengerPresenter {
         System.out.println("Press 0 to go back");
     }
 
+    /**
+     * Abstract welcome message
+     */
     public abstract void printWelcomeMessage();
 
+    /**
+     * Abstract print messages menu.
+     */
     public abstract void printMessagesMenu();
 
+    /**
+     * Prints Asks for email
+     */
     public void askForEmail() {System.out.println("Please enter the recipient's email address or 0 to go back:");}
 
+    /**
+     * Prints Tells users to type message.
+     */
     public void askForMessageBody() {System.out.println("Do not use ';'. Please enter the content of your text or 0 to go back:");}
 
+    /**
+     * Prints Tells user the message was sent.
+     */
     public void printMessageSentSuccess() {System.out.println("Message successfully sent!" + System.lineSeparator());}
 
+    /**
+     * Prints Quit message.
+     */
     public void printQuitMessage() {System.out.println("Quitting messenger client" + System.lineSeparator());}
 
+    /**
+     * Prints Send message error.
+     */
     public void printSendMessageError() {System.out.println("Email address not found or access denied. Please try again or press 0 to go back." + System.lineSeparator());}
-
+    /**
+     * Prints InvalidOptionError.
+     */
     public void printInvalidOptionError() {System.out.println("Invalid option. Try again." + System.lineSeparator());}
 
+    /**
+     * Prints successful deletion .
+     */
     public void printSuccessfulDeletion() {System.out.println("Message deleted." + System.lineSeparator());}
 
     /**
@@ -39,7 +65,9 @@ public abstract class MessengerPresenter {
      *
      * @param emails an ArrayList containing Strings representing emails
      */
-
+    /*8
+    Method that prints the chats available for the user to select.
+     */
     public void viewChats(ArrayList<String> emails) {
         if (emails.size() == 0) {
             System.out.println("No chats found");
@@ -80,6 +108,12 @@ public abstract class MessengerPresenter {
         System.out.println("Press 0 to go back.");
     }
 
+    /**
+     * Method that prints the viewmessagemenu.
+     * @param message String.
+     * @param isArchived Boolean.
+     * @param isRead Boolean.
+     */
     public void viewMessageMenu(String message, Boolean isArchived, Boolean isRead) {
         System.out.println(message + System.lineSeparator() +
                 "Press 1 to delete");
@@ -98,6 +132,10 @@ public abstract class MessengerPresenter {
         printGoBack();
     }
 
+    /**
+     * Method that prunts group chat view.
+     * @param eventIDs String eventIDs.
+     */
     public void viewGroupChats(ArrayList<String> eventIDs) {
         if (eventIDs.size() == 0) {
             System.out.println("No chats found");
@@ -113,6 +151,10 @@ public abstract class MessengerPresenter {
         }
     }
 
+    /**
+     * Method that prints groupchat view.
+     * @param messages ArrayList of Strings.
+     */
     public void viewGroupChat(ArrayList<String> messages){
         if (messages.size() == 0) {
             System.out.println("Nothing to see here!");

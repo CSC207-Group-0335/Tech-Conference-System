@@ -11,6 +11,9 @@ public class OrganizerMessengerPresenter extends MessengerPresenter {
     }
 
     @Override
+    /**
+     * Prints message menu.
+     */
     public void printMessagesMenu() {
         System.out.println("Press 3 to message one user" + System.lineSeparator() +
                 "Press 4 to message all speakers" + System.lineSeparator() +
