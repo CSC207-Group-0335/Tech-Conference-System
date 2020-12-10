@@ -79,12 +79,13 @@ public class EventSystem extends Observable{
             String eventID = (String) event.get("eventId");
             String title = (String) event.get("title");
             String roomName = (String) event.get("roomName");
-            //int capacity = (int) event.get("capacity");
+            Long capacity = (Long) event.get("capacity");
+            int c = capacity.intValue();
             LocalDateTime startTime = LocalDateTime.parse((CharSequence) event.get("startTime"), formatter);
             LocalDateTime endTime = LocalDateTime.parse((CharSequence) event.get("endTime"), formatter);
             boolean vip = (boolean) event.get("vipRestricted");
             ArrayList<String> speakerEmails = (ArrayList<String>) event.get("speakers");
-            this.eventManager.createEvent(eventID, title, speakerEmails, roomName, startTime, endTime, 2, vip);
+            this.eventManager.createEvent(eventID, title, speakerEmails, roomName, startTime, endTime, c, vip);
         });
         messagingSystem.run();
         scheduleSystem.run();
