@@ -92,4 +92,12 @@ public class UserSchedulePresenter extends SchedulePresenter{
                 break;
         }
     }
+
+    /**
+     * Method for printing a speakers menu.
+     */
+    public void printSpeakerMenu() {
+        System.out.println("Press 1 to see a list of Events that you are speaking at." + System.lineSeparator() +
+                "Press 0 to go back to the main menu.");
+    }
 }
