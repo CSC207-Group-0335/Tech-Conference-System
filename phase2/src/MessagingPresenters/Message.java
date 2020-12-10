@@ -114,4 +114,12 @@ public class Message {
 
     public String getMessageID() { return messageID; }
 
+    public ArrayList<String> getSenderStatuses() {
+        return this.senderStatuses;
+    }
+
+    public ArrayList<String> getRecipientStatuses() {
+        return this.recipientStatuses;
+    }
+
 }

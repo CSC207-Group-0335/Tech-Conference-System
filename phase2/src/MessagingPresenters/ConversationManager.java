@@ -172,4 +172,24 @@ public class ConversationManager {
         return content;
     }
 
+    public ArrayList<String> getSenderStatusesOfMessageWithID(String messageID) {
+        ArrayList<String> senderStatuses = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                senderStatuses = message.getSenderStatuses();
+            }
+        }
+        return senderStatuses;
+    }
+
+    public ArrayList<String> getRecipientStatusesOfMessageWithID(String messageID) {
+        ArrayList<String> recipientStatuses = null;
+        for (Message message: messages) {
+            if (message.getMessageID() == messageID) {
+                recipientStatuses = message.getRecipientStatuses();
+            }
+        }
+        return recipientStatuses;
+    }
+
 }
