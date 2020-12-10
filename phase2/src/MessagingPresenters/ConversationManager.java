@@ -109,10 +109,7 @@ public class ConversationManager {
 
     public void deleteMessage(String email, int index) {
         if (this.isValidIndex(index) && email.equals(messages.get(index).getSenderEmail())) {
-            System.out.println(index);
-            System.out.println(messages.size());
             this.messages.remove(index);
-            System.out.println(messages.size());
         }
     }
 
