@@ -12,7 +12,7 @@ public abstract class User {
     private String password;
     private String email;
     private ArrayList<String> eventList;
-    private LinkedHashMap<String, String> requestMap;
+    protected LinkedHashMap<String, String> requestMap;
 
     /**
      * A user is identified by a name, password and email address (the email will be used as a unique identifier).
@@ -63,6 +63,11 @@ public abstract class User {
      */
 
     public abstract String getType();
+
+    /**
+     * Sets the attendees requests map.
+     */
+    public void setupRequests(LinkedHashMap<String, String> hash) {this.requestMap = hash;}
 
     public ArrayList<String> getEventList() {
         return eventList;

@@ -565,6 +565,7 @@ public class OrgScheduleController extends UserScheduleController {
 
             }
             else{
+                // this one doesn't work since hasRequests 
                 presenter.printTryAgain("attendee has no pending requests");
                 //return;
             }

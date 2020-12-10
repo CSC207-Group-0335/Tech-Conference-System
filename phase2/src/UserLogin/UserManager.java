@@ -381,8 +381,8 @@ public class UserManager extends Observable {
         for (String email : getUserEmailList()) {
             if (this.emailToUser(email) instanceof Attendee) {
                 ArrayList<String> userRequests = new ArrayList<>();
-                for (String req : ((Attendee) this.emailToUser(email)).requests.keySet()) {
-                    if (((Attendee) this.emailToUser(email)).requests.get(req).equals("pending")) {
+                for (String req : ((Attendee) this.emailToUser(email)).requestMap.keySet()) {
+                    if (((Attendee) this.emailToUser(email)).requestMap.get(req).equals("pending")) {
                         userRequests.add(req);
                     }
                 }

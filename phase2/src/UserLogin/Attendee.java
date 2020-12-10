@@ -14,7 +14,7 @@ public class Attendee extends User {
     public boolean VIP;
     //make it a list of strings for multiple requests?
     // strings are in format of "request, status", with status only being one of two "pending" or "addressed"
-    public LinkedHashMap<String, String> requests;
+    //public LinkedHashMap<String, String> requests;
 
     /**
      * A constructor for an Attendee
@@ -26,15 +26,16 @@ public class Attendee extends User {
     public Attendee(String name, String password, String email) {
         super(name, password, email);
         this.VIP = false;
-        this.requests = new LinkedHashMap<>();
+        //this.requests = new LinkedHashMap<>();
         //testing purposes
-        this.setRequests("handicap");
+        //this.setRequests("handicap");
     }
 
     public Attendee(String name, String password, String email, boolean VIP, LinkedHashMap<String, String> requestMap) {
         super(name, password, email);
         this.VIP = VIP;
-        this.requests = requestMap;
+        this.setupRequests(requestMap);
+        //this.requests = requestMap;
         //this.requests = new LinkedHashMap<>();
         //testing purposes
         //this.setRequests("vegan");
@@ -72,7 +73,7 @@ public class Attendee extends User {
      */
 
     public LinkedHashMap<String, String> getRequests() {
-        return this.requests;
+        return this.requestMap;
     }
 
     /**
@@ -83,14 +84,9 @@ public class Attendee extends User {
      */
 
     public boolean setRequests(String request) {
-        requests.put(request, "pending");
+        requestMap.put(request, "pending");
         return true;
     }
-
-    /**
-     * Sets the attendees requests map.
-     */
-    public void setupRequests(LinkedHashMap<String, String> hash) {this.requests = hash;}
 
     /**
      * Returns true if and only if the requests have been set.
@@ -101,7 +97,7 @@ public class Attendee extends User {
 
     public boolean setRequests(ArrayList<String> requests) {
         for (String req : requests) {
-            this.requests.put(req, "pending");
+            this.requestMap.put(req, "pending");
         }
         return true;
     }
@@ -114,8 +110,8 @@ public class Attendee extends User {
      */
 
     public boolean requestComplete(String request) {
-        if (requests.containsKey(request)) {
-            requests.put(request, "approved");
+        if (requestMap.containsKey(request)) {
+            requestMap.put(request, "approved");
             return true;
         }
         return false;
@@ -130,11 +126,11 @@ public class Attendee extends User {
 
     public boolean requestCompleteAll(ArrayList<String> requests) {
         for (String req : requests) {
-            if (!this.requests.containsKey(req)) {
+            if (!this.requestMap.containsKey(req)) {
                 return false;
             }
             else {
-                this.requests.put(req, "approved");
+                this.requestMap.put(req, "approved");
             }
         }
         return true;
@@ -148,8 +144,8 @@ public class Attendee extends User {
      */
 
     public boolean requestDeny(String request) {
-        if (requests.containsKey(request)) {
-            requests.put(request, "rejected");
+        if (requestMap.containsKey(request)) {
+            requestMap.put(request, "rejected");
             return true;
         }
         return false;
@@ -164,11 +160,11 @@ public class Attendee extends User {
 
     public boolean requestDenyAll(ArrayList<String> requests) {
         for (String req : requests) {
-            if (!this.requests.containsKey(req)) {
+            if (!this.requestMap.containsKey(req)) {
                 return false;
             }
             else {
-                this.requests.put(req, "rejected");
+                this.requestMap.put(req, "rejected");
             }
         }
         return true;
@@ -181,7 +177,7 @@ public class Attendee extends User {
      */
 
     public int getNumberOfRequests() {
-        return requests.size();
+        return requestMap.size();
     }
 
     /**
