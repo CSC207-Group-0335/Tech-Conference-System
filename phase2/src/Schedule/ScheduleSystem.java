@@ -1,9 +1,10 @@
 package Schedule;
 
-import Files.CSVReader;
-import Files.CSVWriter;
+import Files.JSONReader;
 import Files.JSONWriter;
 import UserLogin.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -12,7 +13,6 @@ import java.util.*;
  * and speaker schedule manager for for every user/speaker.
  */
 public class ScheduleSystem{
-    UserManager storage;
     EventManager eventManager;
     UserManager userManager;
 
@@ -28,26 +28,29 @@ public class ScheduleSystem{
     /**
      * Reads the cvs and creates the userScheduleMap.
      */
-    public void run(){
-        CSVReader fileReader = new CSVReader("src/Resources/Registration.csv");
-        for(ArrayList<String> scheduleData: fileReader.getData()){
-            String email = scheduleData.get(0);
+    public void run() throws Exception {
+        JSONReader jsonReader = new JSONReader();
+        Object obj = jsonReader.readJson("src/Resources/Registration.json");
+        JSONArray regList = (JSONArray) obj;
+        regList.forEach(reg -> {
+            JSONObject regist = (JSONObject) reg; //cast reg as a JSONObject
+            String email = (String) regist.get("email");
+            ArrayList<String> eventList = (ArrayList<String>) regist.get("eventList");
             if (userManager.emailToType(email).equals("Organizer") ||
                     userManager.emailToType(email).equals("Attendee")){
-            for(int i =1; i< scheduleData.size(); i++){
-                String id = scheduleData.get(i);
-                if (eventManager.exists(id)) {
-                    userManager.addEvent(email, id);
+                for (String eventID: eventList) {
+                    if (eventManager.exists(eventID)) {
+                        userManager.addEvent(email, eventID);
+                    }
                 }
-            }}}
+            }
+        });
         }
 
     /**
      * Method to write the changes to the Registration.csv, called in MainMenuController.logout().
      */
-    public void save() {
-        CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRegistration("src/Resources/Registration.csv", userManager);
+    public void save(){
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToRegistration("src/Resources/Registration.json", userManager);
     }

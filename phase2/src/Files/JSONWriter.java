@@ -134,7 +134,8 @@ public class JSONWriter {
         JSONArray userArray = new JSONArray();
         for(String email: users.getUserEmailList()){
             JSONObject newobj = new JSONObject();
-            newobj.put(email, users.emailToEventList(email));
+            newobj.put("email", email);
+            newobj.put("eventList", users.emailToEventList(email));
             userArray.add(newobj);
         }
         try {
