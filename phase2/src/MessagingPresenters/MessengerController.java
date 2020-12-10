@@ -172,5 +172,8 @@ public abstract class MessengerController {
         presenter.printMessageSentSuccess();
     }
 
+    /**
+     * Abstract run method.
+     */
     public abstract void run();
 }

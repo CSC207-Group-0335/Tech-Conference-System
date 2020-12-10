@@ -10,11 +10,17 @@ import java.util.ArrayList;
 
 public class SpeakerMessengerPresenter extends MessengerPresenter {
     @Override
+    /**
+     * Method to print welcome message.
+     */
     public void printWelcomeMessage() {
         System.out.println(System.lineSeparator() + "Welcome to the speaker messenger client");
     }
 
     @Override
+    /**
+     * Method to print messages menu.
+     */
     public void printMessagesMenu() {
         System.out.println("Press 3 to message one user" + System.lineSeparator() +
                 "Press 4 to message all attendees" + System.lineSeparator() +
