@@ -44,7 +44,6 @@ public class Message {
         this.messageID = UUID.randomUUID().toString();
     }
 
-
     /**
      * Returns the email address of the user to which this message is being sent.
      *
@@ -70,7 +69,6 @@ public class Message {
      *
      * @return a LocalDateTime object representing the time at which this message was sent
      */
-
 
     public LocalDateTime getTimestamp() {
         return timestamp;

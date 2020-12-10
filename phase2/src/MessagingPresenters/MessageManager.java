@@ -257,7 +257,22 @@ public abstract class MessageManager {
         ArrayList<String> outputMessages = new ArrayList<>();
         for (int i = 1; i <= messages.size(); i++) {
             Message message = messages.get(i - 1);
-            outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent());
+            String readStatement = "Read by: ";
+            Boolean hasSenderRead = message.hasStatus(message.getSenderEmail(), "Read");
+            Boolean hasRecipientRead = message.hasStatus(message.getRecipientEmail(), "Read");
+            if (hasSenderRead) {
+                readStatement += message.getSenderEmail();
+                if (hasRecipientRead) {
+                    readStatement += " and " + message.getRecipientEmail();
+                }
+            }
+            else if (hasRecipientRead) {
+                readStatement += message.getRecipientEmail();
+            }
+            else {
+                readStatement += "none";
+            }
+            outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent() + " - " + readStatement);
         }
         return outputMessages;
     }

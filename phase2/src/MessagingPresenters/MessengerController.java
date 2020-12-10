@@ -72,9 +72,9 @@ public abstract class MessengerController {
             }
             else if (input != '0') {
                 int position = Integer.parseInt(in) - 1;
-                String msg = messageManager.getContentOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail);
+                String messageBody = messageManager.getContentOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail);
                 Boolean isRead = messageManager.getReadStatusOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail, email);
-                presenter.viewMessageMenu(msg, viewingArchivedMessages, isRead);
+                presenter.viewMessageMenu(messageBody, viewingArchivedMessages, isRead);
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
