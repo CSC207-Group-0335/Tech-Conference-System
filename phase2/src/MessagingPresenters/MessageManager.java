@@ -110,11 +110,27 @@ public abstract class MessageManager {
         }
     }
 
-    public void changeMessageStatus(String email, int index, String status){
+    public void addMessageStatus(String email, int index, String status){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.changeStatus(email, index, status);
+            c.addStatus(email, index, status);
         }
+    }
+
+    public void deleteMessageStatus(String email, int index, String status){
+        if (containsConversationWith(email)){
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            c.removeStatus(email, index, status);
+        }
+    }
+
+    public Boolean hasMessageStatus(String email, int index, String status){
+        Boolean returnStatus = null;
+        if (containsConversationWith(email)){
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            returnStatus = c.hasStatus(email, index, status);
+        }
+        return returnStatus;
     }
 
     /**

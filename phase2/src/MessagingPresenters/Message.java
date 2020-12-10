@@ -1,6 +1,7 @@
 package MessagingPresenters;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -13,8 +14,8 @@ public class Message {
     private final String senderEmail;
     private final LocalDateTime timestamp;
     private final String messageContent;
-    private String senderStatus;
-    private String recipientStatus;
+    private ArrayList<String> senderStatuses;
+    private ArrayList<String> recipientStatuses;
     private String messageID;
 
     /**
@@ -34,12 +35,12 @@ public class Message {
         this.senderEmail = senderEmail;
         this.timestamp = timestamp;
         this.messageContent = messageContent;
-        this.senderStatus = "Read";
-        if (this.recipientEmail.contains("a")) {
-            this.recipientStatus = "Unread";
-        }else{
-            this.recipientStatus = null;
-        }
+        this.senderStatuses = new ArrayList<>();
+        this.recipientStatuses = new ArrayList<>();
+        this.senderStatuses.add("Read");
+        this.senderStatuses.add("Unarchived");
+        this.recipientStatuses.add("Unread");
+        this.recipientStatuses.add("Unarchived");
         this.messageID = UUID.randomUUID().toString();
     }
 
@@ -85,18 +86,26 @@ public class Message {
         return messageContent;
     }
 
-    public void setStatus(String email, String status) {
+    public void addStatus(String email, String status) {
         if (email.equals(senderEmail)) {
-            this.senderStatus = status;
+            this.senderStatuses.add(status);
         } else {
-            this.recipientStatus = status;
+            this.recipientStatuses.add(status);
         }
     }
 
-    public boolean getStatus(String email, String status) {
-        if (email.equals(senderEmail) && senderStatus.equals(status)) {
+    public void removeStatus(String email, String status) {
+        if (email.equals(senderEmail)) {
+            this.senderStatuses.remove(status);
+        } else {
+            this.recipientStatuses.remove(status);
+        }
+    }
+
+    public boolean hasStatus(String email, String status) {
+        if (email.equals(senderEmail) && senderStatuses.contains(status)) {
             return true;
-        } else if (email.equals(recipientEmail) && recipientStatus.equals(status)) {
+        } else if (email.equals(recipientEmail) && recipientStatuses.contains(status)) {
             return true;
         }else{
             return false;

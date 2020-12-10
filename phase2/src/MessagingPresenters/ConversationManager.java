@@ -30,7 +30,7 @@ public class ConversationManager {
     public ArrayList<Message> getUnarchivedMessages(String email) {
         ArrayList<Message> unarchivedMessages = new ArrayList<>();
         for (Message message: messages){
-            if (message.getStatus(email, "unarchived")){
+            if (message.hasStatus(email, "Unarchived")){
                 unarchivedMessages.add(message);
             }
         }
@@ -40,7 +40,7 @@ public class ConversationManager {
     public ArrayList<Message> getArchivedMessages(String email) {
         ArrayList<Message> unarchivedMessages = new ArrayList<>();
         for (Message message: messages){
-            if (!message.getStatus(email, "unarchived")){
+            if (!message.hasStatus(email, "Archived")){
                 unarchivedMessages.add(message);
             }
         }
@@ -78,12 +78,25 @@ public class ConversationManager {
         return index - 1 == messages.size();
     }
 
-    public void changeStatus(String email, int index, String status){
+    public void addStatus(String email, int index, String status){
         if (indexExists(index)){
-            messages.get(index).setStatus(email, status);
+            messages.get(index).addStatus(email, status);
         }
     }
 
+    public void removeStatus(String email, int index, String status){
+        if (indexExists(index)){
+            messages.get(index).removeStatus(email, status);
+        }
+    }
+
+    public Boolean hasStatus(String email, int index, String status){
+        Boolean returnStatus = null;
+        if (indexExists(index)){
+            returnStatus = messages.get(index).hasStatus(email, status);
+        }
+        return returnStatus;
+    }
 
     private Boolean isValidIndex(Integer index) {
         if (index >= 0 && index < this.messages.size()) {

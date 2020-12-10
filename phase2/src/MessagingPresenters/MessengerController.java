@@ -55,10 +55,6 @@ public abstract class MessengerController {
         return messageManager.getArchivedMessages(email);
     }
 
-    public void setStatus(int index, String status){
-        messageManager.changeMessageStatus(email, index, status);
-    }
-
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
@@ -106,11 +102,21 @@ public abstract class MessengerController {
                 }
                 else if (opt == 2) {
                     // READ/UNREAD
-                    setStatus(position, "read"); //How does this method work??
+                    if (messageManager.hasMessageStatus(email, position, "Unread")) {
+                        messageManager.deleteMessageStatus(email, position, "Unread");
+                        messageManager.addMessageStatus(email, position, "Read");
+                    }
+                    else {
+                        messageManager.deleteMessageStatus(email, position, "Read");
+                        messageManager.addMessageStatus(email, position, "Unread");
+                    }
                 }
                 else if (opt == 3) {
                     // ARCHIVAL
-                    setStatus(position, "archive"); //How does this method work??
+                    if (messageManager.hasMessageStatus(email, position, "Archived")) {
+                        messageManager.deleteMessageStatus(email, position, "Archived");
+                        messageManager.addMessageStatus(email, position, "Unarchived");
+                    }
                 }
             }
         }
