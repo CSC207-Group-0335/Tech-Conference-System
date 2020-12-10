@@ -157,10 +157,10 @@ public abstract class MessageManager {
             }else{
                 if (conversationStorage.contains(recipient)){
                     GroupChatManager g = conversationStorage.getGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
                 } else {
                     GroupChatManager g = conversationStorage.addGroupChatManager(recipient);
-                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent, senderStatuses, recipientStatuses);
+                    g.addMessage(user.getEmail(), LocalDateTime.now(), messageContent);
                 }
             }
         }
@@ -255,11 +255,9 @@ public abstract class MessageManager {
      */
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
-        if (conversationStorage.getGroupChatManager(eventID) != null) {
-            for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
-                messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
+        for (GroupChatMessage message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
+            messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
-        }
         return messages;
     }
 
@@ -312,7 +310,7 @@ public abstract class MessageManager {
             return getArchivedMessages(recipientEmail).get(index);
         }
         else {
-            return getUnarchivedMessages(recipientEmail).get(index-1);
+            return getUnarchivedMessages(recipientEmail).get(index);
         }
     }
 

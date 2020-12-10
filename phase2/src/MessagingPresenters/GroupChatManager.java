@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GroupChatManager {
     private String eventID;
-    private ArrayList<Message> messages;
+    private ArrayList<GroupChatMessage> messages;
 
     /**
      * An event ID is required to create an instance of GroupChatManager
@@ -28,9 +28,9 @@ public class GroupChatManager {
      * @param messageContent a String representing the content of this message
      */
 
-    public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent, ArrayList<String> senderStatuses, ArrayList<String> recipientStatuses) {
+    public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent) {
         if (this.eventID.equals(eventID) /*add way to check for participant*/) {
-            Message message = new Message(eventID, senderEmail, timestamp, messageContent, senderStatuses, recipientStatuses);
+            GroupChatMessage message = new GroupChatMessage(eventID, senderEmail, timestamp, messageContent);
             this.messages.add(message);
         }
     }
@@ -41,7 +41,7 @@ public class GroupChatManager {
      * @return an arraylist containing all messages sent between these two users
      */
 
-    public ArrayList<Message> getMessages() {
+    public ArrayList<GroupChatMessage> getMessages() {
         return messages;
     }
 
@@ -55,26 +55,17 @@ public class GroupChatManager {
         return eventID;
     }
 
-    /**
-     * Return ArrayList of messsageIDs in this chat.
-     * @return ArrayList of Strings.
-     */
     public ArrayList<String> getMessageIDs() {
         ArrayList<String> messageIDs = new ArrayList<String>();
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             messageIDs.add(message.getMessageID());
         }
         return messageIDs;
     }
 
-    /**
-     * Returns sender by messageID.
-     * @param messageID String messageID.
-     * @return String email.
-     */
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 sender = message.getSenderEmail();
             }
@@ -82,29 +73,9 @@ public class GroupChatManager {
         return sender;
     }
 
-    /**
-     * Returns recipient by messageID.
-     * @param messageID String messageID.
-     * @return String email.
-     */
-    public String getRecipientOfMessageWithID(String messageID) {
-        String recipient = null;
-        for (Message message: messages) {
-            if (message.getMessageID().equals(messageID)) {
-                recipient = message.getRecipientEmail();
-            }
-        }
-        return recipient;
-    }
-
-    /**
-     * Method to get timestamp by messageID.
-     * @param messageID String messageID.
-     * @return LocalDateTime.
-     */
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 time = message.getTimestamp();
             }
@@ -112,14 +83,9 @@ public class GroupChatManager {
         return time;
     }
 
-    /**
-     * Return content of message by messageID.
-     * @param messageID String messageID.
-     * @return String content.
-     */
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 content = message.getMessageContent();
             }
@@ -128,16 +94,11 @@ public class GroupChatManager {
     }
 
 
-    /**
-     * Method to return groupchatID by messageID.
-     * @param messageID String messageID.
-     * @return String groupID.
-     */
-    public String getGroupChatIDOfMessageWithID(String messageID) {
+    public String getGroupchatIDOfMessageWithID(String messageID) {
         String groupID = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
-                groupID = getEventID();
+                groupID = message.getGroupChatID();
             }
         }
         return groupID;
