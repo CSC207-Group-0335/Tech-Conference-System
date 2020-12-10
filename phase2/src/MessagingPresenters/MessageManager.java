@@ -255,9 +255,11 @@ public abstract class MessageManager {
      */
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
-        for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
-            messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
+        if (conversationStorage.getGroupChatManager(eventID) != null) {
+            for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
+                messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
+        }
         return messages;
     }
 
@@ -310,7 +312,7 @@ public abstract class MessageManager {
             return getArchivedMessages(recipientEmail).get(index);
         }
         else {
-            return getUnarchivedMessages(recipientEmail).get(index);
+            return getUnarchivedMessages(recipientEmail).get(index-1);
         }
     }
 
