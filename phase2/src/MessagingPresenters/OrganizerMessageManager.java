@@ -47,7 +47,7 @@ public class OrganizerMessageManager extends MessageManager {
     public void messageAllAttendees(String messageContent) {
         ArrayList<User> attendees = this.getAttendees();
         for (User attendee : attendees) {
-            message(attendee.getEmail(), messageContent);
+            message(attendee.getEmail(), messageContent, true);
         }
     }
 
@@ -60,7 +60,7 @@ public class OrganizerMessageManager extends MessageManager {
     public void messageAllSpeakers(String messageContent) {
         ArrayList<User> speakers = this.getSpeakers();
         for (User speaker : speakers) {
-            message(speaker.getEmail(), messageContent);
+            message(speaker.getEmail(), messageContent, true);
         }
     }
 }

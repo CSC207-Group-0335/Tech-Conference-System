@@ -133,14 +133,14 @@ public abstract class MessageManager {
 
     /**
      * Sends a message to a user.
-     *
-     * @param recipient a String representing the recipient's email address
+     *  @param recipient a String representing the recipient's email address
      * @param messageContent a String containing the content of the message
+     * @param individual
      */
 
-    public void message(String recipient, String messageContent) {
+    public void message(String recipient, String messageContent, Boolean individual) {
         if (this.canMessage(recipient)) {
-            if (recipient.contains("@")){
+            if (individual){
                 if (containsConversationWith(recipient)) {
                     ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), recipient);
                     c.addMessage(recipient, user.getEmail(), LocalDateTime.now(), messageContent);

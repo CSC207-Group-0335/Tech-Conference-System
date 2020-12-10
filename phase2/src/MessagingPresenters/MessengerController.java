@@ -142,7 +142,7 @@ public abstract class MessengerController {
             return;
         }
 
-        messageManager.message(email, body);
+        messageManager.message(email, body, true);
         presenter.printMessageSentSuccess();
     }
 

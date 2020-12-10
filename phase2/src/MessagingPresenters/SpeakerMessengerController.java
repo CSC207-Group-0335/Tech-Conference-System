@@ -7,7 +7,6 @@ import UserLogin.User;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -103,7 +102,7 @@ public class SpeakerMessengerController extends MessengerController {
                         continue;
                     }
                     for (User user : emails) {
-                        messageManager.message(user.getEmail(), body);
+                        messageManager.message(user.getEmail(), body, true);
                     }
                     presenter.printMessageSentSuccess();
                 }
