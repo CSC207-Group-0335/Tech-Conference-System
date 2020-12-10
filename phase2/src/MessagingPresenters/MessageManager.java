@@ -144,8 +144,8 @@ public abstract class MessageManager {
             senderStatuses.add("Read");
             senderStatuses.add("Unarchived");
             ArrayList<String> recipientStatuses = new ArrayList<>();
-            senderStatuses.add("Unread");
-            senderStatuses.add("Unarchived");
+            recipientStatuses.add("Unread");
+            recipientStatuses.add("Unarchived");
             if (individual){
                 if (containsConversationWith(recipient)) {
                     ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), recipient);
