@@ -84,7 +84,7 @@ public class SpeakerMessageManager extends MessageManager{
         Event event = eventManager.getEvent(eventID);
         ArrayList<User> attendees = getAttendeesOfEvent(event);
         for (User attendee: attendees){
-            message(user.getEmail(), messageContent, true);
+            message(attendee.getEmail(), messageContent, true);
         }
 
     }
