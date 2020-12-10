@@ -38,6 +38,10 @@ public class MessagingSystem extends Observable{
         this.eventManager = eventManager;
     }
 
+    /**
+     * Method to set Email.
+     * @param email
+     */
     public void setEmail(String email){
         this.userEmail = email;
     }
@@ -70,11 +74,18 @@ public class MessagingSystem extends Observable{
         }
     }
 
+    /**
+     * Method to notify observers.
+     */
     public void setMessengerController(){
         setChanged();
         notifyObservers(messengerController);
     }
 
+    /**
+     * Run method that runs the messaging system in the program
+     * @throws Exception
+     */
     public void run() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         JSONReader jsonReader = new JSONReader();
@@ -111,6 +122,10 @@ public class MessagingSystem extends Observable{
         jsonWriter.writeToConversations("src/Resources/Conversations.json", conversationStorage);
     }
 
+    /**
+     * Method to set the MainMenuController.
+     * @param mainMenuController The MainMenuController.
+     */
     public void setMainMenuController(MainMenuController mainMenuController){
         this.mainMenuController = mainMenuController;
     }
