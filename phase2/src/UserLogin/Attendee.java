@@ -31,12 +31,13 @@ public class Attendee extends User {
         this.setRequests("handicap");
     }
 
-    public Attendee(String name, String password, String email, boolean VIP) {
+    public Attendee(String name, String password, String email, boolean VIP, LinkedHashMap<String, String> requestMap) {
         super(name, password, email);
         this.VIP = VIP;
-        this.requests = new LinkedHashMap<>();
+        this.requests = requestMap;
+        //this.requests = new LinkedHashMap<>();
         //testing purposes
-        this.setRequests("vegan");
+        //this.setRequests("vegan");
     }
 
 
@@ -85,6 +86,11 @@ public class Attendee extends User {
         requests.put(request, "pending");
         return true;
     }
+
+    /**
+     * Sets the attendees requests map.
+     */
+    public void setupRequests(LinkedHashMap<String, String> hash) {this.requests = hash;}
 
     /**
      * Returns true if and only if the requests have been set.

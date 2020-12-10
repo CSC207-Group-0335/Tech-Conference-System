@@ -359,8 +359,9 @@ public class OrgScheduleController extends UserScheduleController {
      * @return A boolean notifying the organizer if they have successfully created a user.
      */
 
-    public boolean requestUser(String name, String password, String email, String type, boolean vip) {
-        return this.userManager.createUser(type, name, password, email, vip);
+    public boolean requestUser(String name, String password, String email, String type, boolean vip,
+                               LinkedHashMap<String, String> requestMap) {
+        return this.userManager.createUser(type, name, password, email, vip, requestMap);
     }
 
     /**
@@ -406,6 +407,7 @@ public class OrgScheduleController extends UserScheduleController {
         String name = scan.nextLine();
         String password = scan.nextLine();
         String email = scan.nextLine();
+        LinkedHashMap<String, String> requestMap = new LinkedHashMap<>(); //an empty request map for attendees
         while(!email.contains("@") || !userManager.checkIfValidEmail(email)){
             presenter.printTryAgain("email address");
             email = scan.nextLine();
@@ -419,13 +421,13 @@ public class OrgScheduleController extends UserScheduleController {
             presenter.registerUserMenu(2);
             String vip = scan.nextLine();
             if (vip.equals("VIP") || vip.equals("vip")){
-                this.requestUser(name, password, email, type, true);
+                this.requestUser(name, password, email, type, true, requestMap);
                 presenter.printSuccess();
                 presenter.printGoodbye("scheduling");
                 return;
             }
         }
-        if (this.requestUser(name, password, email, type, false)){
+        if (this.requestUser(name, password, email, type, false, requestMap)){
             presenter.printSuccess();
             presenter.printGoodbye("scheduling");
             return;
@@ -489,23 +491,28 @@ public class OrgScheduleController extends UserScheduleController {
             else if (requestIndex == 0){
                 return;
             }
-            else if (requestIndex - 1 >= requestsList.size()){
+            //DONT USE REQUESTSLIST FOR THIS PART
+            else if (requestIndex - 1 >= attendeeRequests.size()){
                 presenter.printTryAgain("attendee index");
             }
             else{
-                String requestToChange = requestsList.get(requestIndex - 1);
+                String requestToChange = attendeeRequests.get(requestIndex - 1);
                 presenter.printReviewRequests(2);
                 String status = scan.nextLine();
                 if (status.equals("approved") || status.equals("rejected")) {
                     this.userManager.updateRequests(requestToChange, status, attendeeEmail);
-                    requestsList.remove(attendeeIndex - 1);
+                    // requestsList.remove(attendeeIndex - 1);
                     presenter.printReviewRequests(3);
                 }
                 else {
                     presenter.printReviewRequests(4);
                 }
-                presenter.printByIndex(requestsList);
-                presenter.printGoBack();
+                //presenter.printByIndex(requestsList);
+                //presenter.printGoodbye("scheduling");
+                presenter.printByIndex(userManager.totalPending());
+                presenter.printReviewRequests(1);
+                super.presenter.choose("Attendee");
+                //presenter.printGoBack();
                 return;
             }
         }
@@ -553,8 +560,13 @@ public class OrgScheduleController extends UserScheduleController {
             else if (getAttendeeByIndex(requestsList, attendeeIndex) == null){
                 presenter.printTryAgain("attendee index");
             }
-            else{
+            else if (userManager.hasRequests(getAttendeeByIndex(requestsList, attendeeIndex))){
                 this.reviewAttendeeRequests(scan, requestsList, attendeeIndex);
+
+            }
+            else{
+                presenter.printTryAgain("attendee has no pending requests");
+                //return;
             }
 
         }

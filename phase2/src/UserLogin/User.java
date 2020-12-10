@@ -27,6 +27,7 @@ public abstract class User {
         this.password = password;
         this.email = email;
         this.eventList = new ArrayList<>();
+        this.requestMap = new LinkedHashMap<>();
     }
 
     /**
