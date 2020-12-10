@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GroupChatManager {
     private String eventID;
-    private ArrayList<Message> messages;
+    private ArrayList<GroupChatMessage> messages;
 
     /**
      * An event ID is required to create an instance of GroupChatManager
@@ -30,7 +30,7 @@ public class GroupChatManager {
 
     public void addMessage(String senderEmail, LocalDateTime timestamp, String messageContent) {
         if (this.eventID.equals(eventID) /*add way to check for participant*/) {
-            Message message = new Message(eventID, senderEmail, timestamp, messageContent);
+            GroupChatMessage message = new GroupChatMessage(eventID, senderEmail, timestamp, messageContent);
             this.messages.add(message);
         }
     }
@@ -41,7 +41,7 @@ public class GroupChatManager {
      * @return an arraylist containing all messages sent between these two users
      */
 
-    public ArrayList<Message> getMessages() {
+    public ArrayList<GroupChatMessage> getMessages() {
         return messages;
     }
 
@@ -57,7 +57,7 @@ public class GroupChatManager {
 
     public ArrayList<String> getMessageIDs() {
         ArrayList<String> messageIDs = new ArrayList<String>();
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             messageIDs.add(message.getMessageID());
         }
         return messageIDs;
@@ -65,7 +65,7 @@ public class GroupChatManager {
 
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 sender = message.getSenderEmail();
             }
@@ -75,7 +75,7 @@ public class GroupChatManager {
 
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 time = message.getTimestamp();
             }
@@ -85,7 +85,7 @@ public class GroupChatManager {
 
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
                 content = message.getMessageContent();
             }
@@ -94,12 +94,11 @@ public class GroupChatManager {
     }
 
 
-
     public String getGroupchatIDOfMessageWithID(String messageID) {
         String groupID = null;
-        for (Message message: messages) {
+        for (GroupChatMessage message: messages) {
             if (message.getMessageID().equals(messageID)) {
-                groupID = getEventID();
+                groupID = message.getGroupChatID();
             }
         }
         return groupID;
