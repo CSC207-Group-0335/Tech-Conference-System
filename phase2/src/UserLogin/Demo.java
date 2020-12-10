@@ -5,6 +5,9 @@ package UserLogin;
  */
 
 public class Demo {
+    /*8
+    The main method of the program.
+     */
 
     public static void main(String[] args) throws Exception {
         TechConferenceSystem tCS = new TechConferenceSystem();
