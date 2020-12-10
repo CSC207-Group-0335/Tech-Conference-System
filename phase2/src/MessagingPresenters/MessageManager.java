@@ -236,7 +236,7 @@ public abstract class MessageManager {
             }
         }
         return eventIDs;
-        }
+    }
 
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
@@ -244,5 +244,42 @@ public abstract class MessageManager {
             messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
         return messages;
+    }
+
+    public ArrayList<String> getFormattedMessages(Boolean viewingArchivedMessages, String recipientEmail) {
+        ArrayList<Message> messages;
+        if (viewingArchivedMessages) {
+            messages = getArchivedMessages(recipientEmail);
+        }
+        else {
+            messages = getUnarchivedMessages(recipientEmail);
+        }
+        ArrayList<String> outputMessages = new ArrayList<>();
+        for (int i = 1; i <= messages.size(); i++) {
+            Message message = messages.get(i - 1);
+            outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent());
+        }
+        return outputMessages;
+    }
+
+    public Message getMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        if (viewingArchivedMessages) {
+            return getArchivedMessages(recipientEmail).get(index);
+        }
+        else {
+            return getUnarchivedMessages(recipientEmail).get(index);
         }
     }
+
+    public String getContentOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getMessageContent();
+    }
+
+    public Boolean getReadStatusOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail, String senderEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).hasStatus(senderEmail, "Read");
+    }
+
+    public String getSenderOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
+        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getSenderEmail();
+    }
+}
