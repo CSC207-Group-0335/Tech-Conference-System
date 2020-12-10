@@ -22,7 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class JSONWriter {
-
+    /**
+     * Method to store events from the program.
+     * @param json The string location of the JSON file.
+     * @param events The EventManager.
+     */
     public void writeToEvents(String json, EventManager events) {
         JSONArray eventArray = new JSONArray();
 
@@ -54,6 +58,12 @@ public class JSONWriter {
 
 
     }
+
+    /**
+     * Method to store Users from the program.
+     * @param json The string location of the JSON.
+     * @param users The UserManager.
+     */
     public void writeToUsers(String json, UserManager users) {
         JSONArray userArray = new JSONArray();
 
@@ -106,6 +116,12 @@ public class JSONWriter {
 
 
     }
+
+    /**
+     * Method to save conversations from the program.
+     * @param json The sting location of the JSON.
+     * @param convos The ConversationStorage.
+     */
     public void writeToConversations(String json, ConversationStorage convos){
         JSONArray convoArray = new JSONArray();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -138,6 +154,12 @@ public class JSONWriter {
         }
 
     }
+
+    /**
+     * Method to save rooms from the program.
+     * @param json The string location of the JSON.
+     * @param rooms The RoomStorage.
+     */
     public void writeToRooms(String json, RoomStorage rooms){
         JSONArray roomsArray = new JSONArray();
         for (String name: rooms.getRoomNameList()){
@@ -152,6 +174,11 @@ public class JSONWriter {
         }
     }
 
+    /**
+     * Method to save events signups.
+     * @param json The string location of the JSON.
+     * @param users The UserManager.
+     */
     public void writeToRegistration(String json, UserManager users){
         JSONArray userArray = new JSONArray();
         for(String email: users.getUserEmailList()){
@@ -167,6 +194,7 @@ public class JSONWriter {
         }
 
     }
+
 
 //    public void writeToGroupchat(String json, ConversationStorage storage){
 //        JSONArray convoArray = new JSONArray();
