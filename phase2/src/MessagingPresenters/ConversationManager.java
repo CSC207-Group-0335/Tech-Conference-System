@@ -40,7 +40,7 @@ public class ConversationManager {
     public ArrayList<Message> getArchivedMessages(String email) {
         ArrayList<Message> archivedMessages = new ArrayList<>();
         for (Message message: messages){
-            if (!message.hasStatus(email, "Archived")){
+            if (message.hasStatus(email, "Archived")){
                 archivedMessages.add(message);
             }
         }

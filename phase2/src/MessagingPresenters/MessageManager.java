@@ -189,10 +189,10 @@ public abstract class MessageManager {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                return c.getUnarchivedMessages(email);
+                return c.getUnarchivedMessages(user.getEmail());
             } else {
                 ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
-                return c.getUnarchivedMessages(email);
+                return c.getUnarchivedMessages(user.getEmail());
             }
         }
         return null;
@@ -202,10 +202,10 @@ public abstract class MessageManager {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
                 ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-                return c.getArchivedMessages(email);
+                return c.getArchivedMessages(user.getEmail());
             } else {
                 ConversationManager c = conversationStorage.addConversationManager(user.getEmail(), email);
-                return c.getArchivedMessages(email);
+                return c.getArchivedMessages(user.getEmail());
             }
         }
         return null;
