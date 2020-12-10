@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * A Gateway class that interacts with an external file (.csv) that stores a collection of all accounts currently
@@ -56,7 +58,10 @@ public class TechConferenceSystem {
             String password = (String) user.get("password");
             String email = (String) user.get("email");
             boolean vip = (boolean) user.get("vip");
-            this.userManager.createUser(type, name, password, email, vip);
+            //LinkedHashMap<String, String> requests = (LinkedHashMap<String, String>) user.get("requests");
+            //Just here to get the program running
+            LinkedHashMap<String, String> requestMap = new LinkedHashMap<String, String>();
+            this.userManager.createUser(type, name, password, email, vip, requestMap);
         });
         roomSystem.run();
         logInController.runLogIn();
@@ -64,7 +69,7 @@ public class TechConferenceSystem {
     }
 
     /**
-     * Method to write the changes to the RoomFile, called in MainMenuController.logout().
+     * Method to write the changes to the Users.json.
      */
     public void save() {
         JSONWriter jsonWriter = new JSONWriter();

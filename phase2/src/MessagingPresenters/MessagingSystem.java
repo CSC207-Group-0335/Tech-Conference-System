@@ -70,7 +70,6 @@ public class MessagingSystem extends Observable{
         }
     }
 
-
     public void setMessengerController(){
         setChanged();
         notifyObservers(messengerController);

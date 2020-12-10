@@ -359,8 +359,9 @@ public class OrgScheduleController extends UserScheduleController {
      * @return A boolean notifying the organizer if they have successfully created a user.
      */
 
-    public boolean requestUser(String name, String password, String email, String type, boolean vip) {
-        return this.userManager.createUser(type, name, password, email, vip);
+    public boolean requestUser(String name, String password, String email, String type, boolean vip,
+                               LinkedHashMap<String, String> requestMap) {
+        return this.userManager.createUser(type, name, password, email, vip, requestMap);
     }
 
     /**
@@ -406,6 +407,7 @@ public class OrgScheduleController extends UserScheduleController {
         String name = scan.nextLine();
         String password = scan.nextLine();
         String email = scan.nextLine();
+        LinkedHashMap<String, String> requestMap = new LinkedHashMap<>(); //an empty request map for attendees
         while(!email.contains("@") || !userManager.checkIfValidEmail(email)){
             presenter.printTryAgain("email address");
             email = scan.nextLine();
@@ -419,13 +421,13 @@ public class OrgScheduleController extends UserScheduleController {
             presenter.registerUserMenu(2);
             String vip = scan.nextLine();
             if (vip.equals("VIP") || vip.equals("vip")){
-                this.requestUser(name, password, email, type, true);
+                this.requestUser(name, password, email, type, true, requestMap);
                 presenter.printSuccess();
                 presenter.printGoodbye("scheduling");
                 return;
             }
         }
-        if (this.requestUser(name, password, email, type, false)){
+        if (this.requestUser(name, password, email, type, false, requestMap)){
             presenter.printSuccess();
             presenter.printGoodbye("scheduling");
             return;

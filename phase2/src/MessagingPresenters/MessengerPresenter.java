@@ -76,20 +76,20 @@ public abstract class MessengerPresenter {
             }
             System.out.println("Enter the number corresponding to a message for additional options.");
         }
-        System.out.println(System.lineSeparator() + "Press 0 to go back.");
+        System.out.println("Press 0 to go back.");
     }
 
     public void viewMessageMenu(String message, Boolean isArchived) {
-        printGoBack();
         System.out.println(message + System.lineSeparator() +
                 "Press 1 to delete" + System.lineSeparator() +
-                "Press 2 to mark as read" + System.lineSeparator());
+                "Press 2 to mark as read");
         if (isArchived) {
-            System.out.println("Press 3 to unarchive" + System.lineSeparator());
+            System.out.println("Press 3 to unarchive");
         }
         else {
-            System.out.println("Press 3 to archive" + System.lineSeparator());
+            System.out.println("Press 3 to archive");
         }
+        printGoBack();
     }
 
     public void viewGroupChats(ArrayList<String> eventIDs) {

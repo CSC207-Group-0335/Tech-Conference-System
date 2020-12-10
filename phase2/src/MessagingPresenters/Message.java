@@ -107,7 +107,7 @@ public class Message {
             return true;
         } else if (email.equals(recipientEmail) && recipientStatuses.contains(status)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

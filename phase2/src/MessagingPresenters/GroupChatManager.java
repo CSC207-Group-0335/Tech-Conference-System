@@ -35,7 +35,6 @@ public class GroupChatManager {
         }
     }
 
-
     /**
      * Returns a list of messages sent between the users registered under the emails </sender> and </recipient>.
      *

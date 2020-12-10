@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class SpeakerMessengerPresenter extends MessengerPresenter {
     @Override
     public void printWelcomeMessage() {
-        System.out.println("Welcome to the speaker messenger client");
+        System.out.println(System.lineSeparator() + "Welcome to the speaker messenger client");
     }
 
     @Override

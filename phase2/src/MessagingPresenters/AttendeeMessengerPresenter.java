@@ -7,7 +7,7 @@ package MessagingPresenters;
 public class AttendeeMessengerPresenter extends MessengerPresenter {
     @Override
     public void printWelcomeMessage() {
-        System.out.println("Welcome to the attendee messenger client");
+        System.out.println(System.lineSeparator() + "Welcome to the attendee messenger client");
     }
 
     @Override
