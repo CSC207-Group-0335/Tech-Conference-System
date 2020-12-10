@@ -124,7 +124,7 @@ public class UserScheduleController{
     protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
-        ArrayList<String> requestList = userManager.getRequestList(email);
+        ArrayList<Map.Entry<String, String>> requestList = userManager.getRequestList(email);
         presenter.printAllRequests(requestList);
         System.out.println("Submit a request");
         boolean doContinue = true;

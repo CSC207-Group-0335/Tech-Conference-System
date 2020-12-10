@@ -348,11 +348,15 @@ public class UserManager extends Observable {
      * @return an ArrayList containing requests
      */
 
-    public ArrayList<String> getRequestList(String email) {
+    public ArrayList<Map.Entry<String, String>> getRequestList(String email) {
         ArrayList<String> requests = new ArrayList<>();
         Attendee attendee = (Attendee) this.emailToUser(email);
-        requests.addAll(attendee.getRequests().keySet());
-        return requests;
+        //requests.addAll(attendee.getRequests().keySet());
+        LinkedHashMap<String, String> requestMap = attendee.getRequests();
+        Set<Map.Entry<String, String>> entrySet  = requestMap.entrySet();
+        // Creating an ArrayList of Entry objects
+        ArrayList<Map.Entry<String,String>> listOfEntry = new ArrayList<Map.Entry<String, String>>(entrySet);
+        return listOfEntry;
     }
 //tried to get getRequestList to show the status of the request too and not just print the requests
     //public ArrayList<String> getRequestList(String email) {
@@ -410,6 +414,11 @@ public class UserManager extends Observable {
         return false;
     }
 
+    /**
+     * Checks to see if the user is an attendee and if they have more than 0 pending requests
+     * @param email A string representing the email of the user
+     * @return a boolean that says if the user is an attendee and if they have requests
+     */
     public boolean hasRequests(String email) {
         User user = this.emailToUser(email);
         String typeUser = this.emailToType(email);
