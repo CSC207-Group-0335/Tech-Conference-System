@@ -72,7 +72,15 @@ public class GroupChatManager {
         }
         return sender;
     }
-
+    public String getRecipientOfMessageWithID(String messageID) {
+        String recipient = null;
+        for (Message message: messages) {
+            if (message.getMessageID().equals(messageID)) {
+                recipient = message.getRecipientEmail();
+            }
+        }
+        return recipient;
+    }
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
         for (Message message: messages) {

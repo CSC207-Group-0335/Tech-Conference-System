@@ -2,6 +2,7 @@ package Files;
 
 import MessagingPresenters.ConversationManager;
 import MessagingPresenters.ConversationStorage;
+import MessagingPresenters.GroupChatManager;
 import MessagingPresenters.Message;
 import Schedule.Event;
 import Schedule.EventManager;
@@ -16,6 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class JSONWriter {
 
@@ -62,7 +66,25 @@ public class JSONWriter {
             userObject.put("password", users.emailToPassword(email));
             userObject.put("email", email);
             userObject.put("ListOfTalkIDs", users.emailToEventList(email));
-            userObject.put("requests", users.emailToRequests(email));
+            LinkedHashMap<String, String> requests = users.emailToRequests(email);
+            if (!requests.isEmpty()){
+                Set<String> keys = requests.keySet();
+
+                JSONArray requestarray = new JSONArray();
+            for(String request: keys){
+                String status =  requests.get(request);
+                JSONObject requestobj = new JSONObject();
+                requestobj.put("request", request);
+                requestobj.put("status", status);
+                requestarray.add(requestobj);
+            }
+            userObject.put("requests", requestarray);
+            }
+            if(requests.isEmpty()){
+                JSONArray requestarray = new JSONArray();
+                userObject.put("requests", requestarray);}
+
+
 
             userArray.add(userObject);
 
@@ -146,6 +168,34 @@ public class JSONWriter {
 
     }
 
-
-
+//    public void writeToGroupchat(String json, ConversationStorage storage){
+//        JSONArray convoArray = new JSONArray();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//
+//        for(GroupChatManager chat: storage.getGroupChatManagers()){
+//            JSONArray messagesArray = new JSONArray();
+//            JSONObject convoObject = new JSONObject();
+//            convoObject.put("eventID", chat.getEventID());
+//            for(String messageid: chat.getMessageIDs()){
+//            JSONObject messageobj = new JSONObject();
+//            messageobj.put("recipient", chat.getRecipientOfMessageWithID(messageid));
+//            messageobj.put("sender", chat.getSenderOfMessageWithID(messageid));
+//            LocalDateTime time = chat.getTimestampOfMessageWithID(messageid);
+//            String formatted = time.format(formatter);
+//            messageobj.put("time", formatted);
+//            messageobj.put("content", chat.getContentOfMessageWithID(messageid));
+//            messageobj.put("recipientstatus", chat.getRecipientStatusesOfMessageWithID(messageid));
+//            messageobj.put("senderstatus", chat.getSenderStatusesOfMessageWithID(messageid));
+//            messagesArray.add(messageobj);
+//
+//
+//
+//
+//        }
+//
+//    }
+//
+//
+//
+//}
 }
