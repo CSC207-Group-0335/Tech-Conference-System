@@ -26,24 +26,24 @@ public class UserManager extends Observable {
      * @return true if a new user is created, false otherwise.
      */
 
-    public boolean createUser(String usertype, String name, String password, String email) {
-        //Create instance of user depending on usertype
-        // First check if email is already in system
-        if (!(checkIfValidEmail(email))){
-            return false;
-        }
-        User newUser = createUserOfInstance(usertype, name, password, email);
-        if (newUser == null) {
-            return false;
-        }
-        //Add the user to the UserList
-        this.userList.add(newUser);
-        //Add the Attendee/Organizer user to UserScheduleList
-        if (newUser instanceof Speaker){
-            this.speakerList.add((Speaker) newUser);
-        }
-        return true;
-    }
+//    public boolean createUser(String usertype, String name, String password, String email) {
+//        //Create instance of user depending on usertype
+//        // First check if email is already in system
+//        if (!(checkIfValidEmail(email))){
+//            return false;
+//        }
+//        User newUser = createUserOfInstance(usertype, name, password, email);
+//        if (newUser == null) {
+//            return false;
+//        }
+//        //Add the user to the UserList
+//        this.userList.add(newUser);
+//        //Add the Attendee/Organizer user to UserScheduleList
+//        if (newUser instanceof Speaker){
+//            this.speakerList.add((Speaker) newUser);
+//        }
+//        return true;
+//    }
 
     /**
      * Returns true if a new user account with the given credentials was successfully created.
@@ -56,18 +56,20 @@ public class UserManager extends Observable {
      * @return a boolean representing whether or not an account has been successfully created
      */
 
-    public boolean createUser(String usertype, String name, String password, String email, boolean vip) {
+    public boolean createUser(String usertype, String name, String password, String email, boolean vip,
+                              LinkedHashMap<String, String> requestMap) {
         //Create instance of user depending on usertype
         // First check if email is already in system
         if (!(checkIfValidEmail(email))){
             return false;
         }
-        User newUser = createUserOfInstance(usertype, name, password, email);
+        User newUser = createUserOfInstance(usertype, name, password, email, vip, requestMap);
         if (newUser == null) {
             return false;
         }
         if (newUser instanceof Attendee) {
-            ((Attendee) newUser).setVIPStatus(vip);
+            //((Attendee) newUser).setVIPStatus(vip);
+            //((Attendee) newUser).setupRequests(requestMap);
         }
         //Add the user to the UserList
         this.userList.add(newUser);
@@ -121,13 +123,13 @@ public class UserManager extends Observable {
      * usertype parameter.
      * @return a new user object (note that it could be null)
      */
-    private User createUserOfInstance(String userType, String name, String password, String email){
+    private User createUserOfInstance(String userType, String name, String password, String email, boolean vip,
+                                      LinkedHashMap<String, String> requestMap){
         User newUser = null;
 
-        //I think here would be a good place to see if the email is valid/has not been used before.
         switch (userType) {
             case "Attendee": {
-                newUser = new Attendee(name, password, email);
+                newUser = new Attendee(name, password, email, vip, requestMap);
                 break;
             }
             case "Organizer": {
@@ -237,9 +239,17 @@ public class UserManager extends Observable {
         return null;
     }
 
+    /**
+     * Get the requestList of the user that is associated with the email provided.
+     * @param email the provided email of the user.
+     * @return the user's requestList, or null if no such user exists.
+     */
     public LinkedHashMap<String, String> emailToRequests(String email){
         User user = emailToUser(email);
-        return user.getRequestMap();
+        if (user != null) {
+            return user.getRequestMap();
+        }
+        return null;
     }
 
     /**
