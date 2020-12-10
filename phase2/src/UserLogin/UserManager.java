@@ -67,10 +67,6 @@ public class UserManager extends Observable {
         if (newUser == null) {
             return false;
         }
-        if (newUser instanceof Attendee) {
-            //((Attendee) newUser).setVIPStatus(vip);
-            //((Attendee) newUser).setupRequests(requestMap);
-        }
         //Add the user to the UserList
         this.userList.add(newUser);
         //Add the Attendee/Organizer user to UserScheduleList

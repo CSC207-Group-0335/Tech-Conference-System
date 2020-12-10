@@ -2,7 +2,6 @@ package MessagingPresenters;
 
 import Schedule.*;
 import UserLogin.*;
-
 import java.util.*;
 
 public class SpeakerMessageManager extends MessageManager{

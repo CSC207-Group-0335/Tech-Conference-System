@@ -29,8 +29,8 @@ public abstract class MessageManager {
         }
         this.user = user;
         this.conversationStorage = conversationStorage;
-        this.friendsList = getFriendsList();
         this.eventManager = eventManager;
+        this.friendsList = getFriendsList();
     }
 
     public abstract HashSet<User> getFriendsList();
