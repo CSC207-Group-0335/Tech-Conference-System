@@ -103,7 +103,7 @@ public class GroupChatManager {
 
 
 
-    public String getGroupchatIDOfMessageWithID(String messageID) {
+    public String getGroupChatIDOfMessageWithID(String messageID) {
         String groupID = null;
         for (Message message: messages) {
             if (message.getMessageID().equals(messageID)) {
