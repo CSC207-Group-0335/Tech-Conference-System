@@ -38,13 +38,13 @@ public class ConversationManager {
     }
 
     public ArrayList<Message> getArchivedMessages(String email) {
-        ArrayList<Message> unarchivedMessages = new ArrayList<>();
+        ArrayList<Message> archivedMessages = new ArrayList<>();
         for (Message message: messages){
             if (!message.hasStatus(email, "Archived")){
-                unarchivedMessages.add(message);
+                archivedMessages.add(message);
             }
         }
-        return unarchivedMessages;
+        return archivedMessages;
     }
 
     /**
