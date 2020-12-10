@@ -114,8 +114,8 @@ public class MessagingSystem extends Observable{
                 c.addMessage(recipient, sender, time, content, senderStatus, recipientStatus);
                 });
             });
-        /**Object obj2 = jsonReader.readJson("src/Resources/GroupConversations.json");
-        JSONArray convoList2 = (JSONArray) obj;
+        Object obj2 = jsonReader.readJson("src/Resources/GroupConversations.json");
+        JSONArray convoList2 = (JSONArray) obj2;
         convoList2.forEach(con -> {
             JSONObject convo2 = (JSONObject) con; //cast con as a JSONObject
             //get all of the necessary elements to create an convo from the object
@@ -132,7 +132,7 @@ public class MessagingSystem extends Observable{
                 String content = (String) message.get("content");
                 g.addMessage(sender, time, content);
             });
-        });*/
+        });
         };
     /**
      * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
@@ -141,7 +141,7 @@ public class MessagingSystem extends Observable{
     public void save() {
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToConversations("src/Resources/Conversations.json", conversationStorage);
-        //jsonWriter.writeToGroupConversations("src/Resources/GroupConversations.json", conversationStorage);
+        jsonWriter.writeToGroupConversations("src/Resources/GroupConversations.json", conversationStorage);
     }
 
     /**

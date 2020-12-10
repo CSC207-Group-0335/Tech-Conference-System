@@ -255,6 +255,9 @@ public abstract class MessageManager {
      */
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
+        if (conversationStorage.getGroupChatManager(eventID) == null){
+            conversationStorage.addGroupChatManager(eventID);
+        }
         for (GroupChatMessage message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
             messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
