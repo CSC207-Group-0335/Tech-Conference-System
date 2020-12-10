@@ -7,7 +7,6 @@ import UserLogin.Speaker;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public abstract class MessengerController {
@@ -69,16 +68,16 @@ public abstract class MessengerController {
         if (index == 0 || emails.size() == 0) {
             return;
         }
-        String email = emails.get(index - 1);
+        String recipientEmail = emails.get(index - 1);
         Boolean viewingArchivedMessages = false;
         char input = 'a';
         while (input != '0') {
             ArrayList<Message> messages;
             if (viewingArchivedMessages) {
-                messages = viewArchivedMessages(email);
+                messages = viewArchivedMessages(recipientEmail);
             }
             else {
-                messages = viewUnarchivedMessages(email);
+                messages = viewUnarchivedMessages(recipientEmail);
             }
             ArrayList<String> outputMessages = new ArrayList<>();
             for (int i = 1; i <= messages.size(); i++) {
@@ -94,7 +93,8 @@ public abstract class MessengerController {
             else if (input != '0') {
                 int position = Integer.parseInt(in) - 1;
                 String msg = messages.get(position).getMessageContent();
-                presenter.viewMessageMenu(msg, viewingArchivedMessages);
+                Boolean isRead = messages.get(position).hasStatus(email, "Read");
+                presenter.viewMessageMenu(msg, viewingArchivedMessages, isRead);
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
@@ -103,20 +103,24 @@ public abstract class MessengerController {
                 }
                 else if (opt == 2) {
                     // READ/UNREAD
-                    if (messageManager.hasMessageStatus(email, position, "Unread")) {
-                        messageManager.deleteMessageStatus(email, position, "Unread");
-                        messageManager.addMessageStatus(email, position, "Read");
+                    if (messageManager.hasMessageStatus(recipientEmail, position, "Unread")) {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Unread");
+                        messageManager.addMessageStatus(recipientEmail, position, "Read");
                     }
                     else {
-                        messageManager.deleteMessageStatus(email, position, "Read");
-                        messageManager.addMessageStatus(email, position, "Unread");
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Read");
+                        messageManager.addMessageStatus(recipientEmail, position, "Unread");
                     }
                 }
                 else if (opt == 3) {
                     // ARCHIVAL
-                    if (messageManager.hasMessageStatus(email, position, "Archived")) {
-                        messageManager.deleteMessageStatus(email, position, "Archived");
-                        messageManager.addMessageStatus(email, position, "Unarchived");
+                    if (messageManager.hasMessageStatus(recipientEmail, position, "Archived")) {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Archived");
+                        messageManager.addMessageStatus(recipientEmail, position, "Unarchived");
+                    }
+                    else {
+                        messageManager.deleteMessageStatus(recipientEmail, position, "Unarchived");
+                        messageManager.addMessageStatus(recipientEmail, position, "Archived");
                     }
                 }
             }

@@ -75,7 +75,7 @@ public class ConversationManager {
     }
 
     private boolean indexExists(int index){
-        return index - 1 == messages.size();
+        return index < messages.size();
     }
 
     public void addStatus(String email, int index, String status){

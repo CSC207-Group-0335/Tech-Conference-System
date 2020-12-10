@@ -80,10 +80,15 @@ public abstract class MessengerPresenter {
         System.out.println("Press 0 to go back.");
     }
 
-    public void viewMessageMenu(String message, Boolean isArchived) {
+    public void viewMessageMenu(String message, Boolean isArchived, Boolean isRead) {
         System.out.println(message + System.lineSeparator() +
-                "Press 1 to delete" + System.lineSeparator() +
-                "Press 2 to mark as read");
+                "Press 1 to delete");
+        if (isRead) {
+            System.out.println("Press 2 to mark as unread");
+        }
+        else {
+            System.out.println("Press 2 to mark as read");
+        }
         if (isArchived) {
             System.out.println("Press 3 to unarchive");
         }
