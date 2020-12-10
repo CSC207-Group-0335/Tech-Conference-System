@@ -2,6 +2,7 @@ package Schedule;
 
 import Files.CSVReader;
 import Files.CSVWriter;
+import Files.JSONWriter;
 import UserLogin.*;
 
 import java.util.*;
@@ -47,5 +48,7 @@ public class ScheduleSystem{
     public void save() {
         CSVWriter csvWriter = new CSVWriter();
         csvWriter.writeToRegistration("src/Resources/Registration.csv", userManager);
+        JSONWriter jsonWriter = new JSONWriter();
+        jsonWriter.writeToRegistration("src/Resources/Registration.json", userManager);
     }
 }
