@@ -63,6 +63,7 @@ public class JSONWriter {
             userObject.put("email", email);
             userObject.put("ListOfTalkIDs", users.emailToEventList(email));
             userObject.put("requests", users.emailToRequests(email));
+
             userArray.add(userObject);
 
         }
@@ -100,6 +101,8 @@ public class JSONWriter {
                 String formatted = time.format(formatter);
                 messageobj.put("time", formatted);
                 messageobj.put("content", convo.getContentOfMessageWithID(messageid));
+                messageobj.put("recipientstatus", convo.getRecipientStatusesOfMessageWithID(messageid));
+                messageobj.put("senderstatus", convo.getSenderStatusesOfMessageWithID(messageid));
                 messagesArray.add(messageobj);
             }
             convoObject.put("chatLog", messagesArray);
