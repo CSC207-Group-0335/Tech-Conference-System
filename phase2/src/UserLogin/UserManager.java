@@ -381,8 +381,8 @@ public class UserManager extends Observable {
         for (String email : getUserEmailList()) {
             if (this.emailToUser(email) instanceof Attendee) {
                 ArrayList<String> userRequests = new ArrayList<>();
-                for (String req : ((Attendee) this.emailToUser(email)).requests.keySet()) {
-                    if (((Attendee) this.emailToUser(email)).requests.get(req).equals("pending")) {
+                for (String req : ((Attendee) this.emailToUser(email)).requestMap.keySet()) {
+                    if (((Attendee) this.emailToUser(email)).requestMap.get(req).equals("pending")) {
                         userRequests.add(req);
                     }
                 }
@@ -400,6 +400,18 @@ public class UserManager extends Observable {
 
     public boolean hasRequests(User user) {
         String email = user.getEmail();
+        String typeUser = this.emailToType(email);
+        if (typeUser.equals("Attendee")) {
+            if (!(((Attendee) user).getRequests().isEmpty())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean hasRequests(String email) {
+        User user = this.emailToUser(email);
         String typeUser = this.emailToType(email);
         if (typeUser.equals("Attendee")) {
             if (!(((Attendee) user).getRequests().isEmpty())) {

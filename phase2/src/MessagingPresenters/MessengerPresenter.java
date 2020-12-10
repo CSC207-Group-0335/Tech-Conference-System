@@ -73,6 +73,7 @@ public abstract class MessengerPresenter {
             int i = 1;
             for (String sender : messages.keySet()) {
                 System.out.println(i + " - " + sender + ": " + messages.get(sender));
+                i++;
             }
             System.out.println("Enter the number corresponding to a message for additional options.");
         }

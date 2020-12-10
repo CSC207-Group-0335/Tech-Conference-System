@@ -491,23 +491,28 @@ public class OrgScheduleController extends UserScheduleController {
             else if (requestIndex == 0){
                 return;
             }
-            else if (requestIndex - 1 >= requestsList.size()){
+            //DONT USE REQUESTSLIST FOR THIS PART
+            else if (requestIndex - 1 >= attendeeRequests.size()){
                 presenter.printTryAgain("attendee index");
             }
             else{
-                String requestToChange = requestsList.get(requestIndex - 1);
+                String requestToChange = attendeeRequests.get(requestIndex - 1);
                 presenter.printReviewRequests(2);
                 String status = scan.nextLine();
                 if (status.equals("approved") || status.equals("rejected")) {
                     this.userManager.updateRequests(requestToChange, status, attendeeEmail);
-                    requestsList.remove(attendeeIndex - 1);
+                    // requestsList.remove(attendeeIndex - 1);
                     presenter.printReviewRequests(3);
                 }
                 else {
                     presenter.printReviewRequests(4);
                 }
-                presenter.printByIndex(requestsList);
-                presenter.printGoBack();
+                //presenter.printByIndex(requestsList);
+                //presenter.printGoodbye("scheduling");
+                presenter.printByIndex(userManager.totalPending());
+                presenter.printReviewRequests(1);
+                super.presenter.choose("Attendee");
+                //presenter.printGoBack();
                 return;
             }
         }
@@ -555,8 +560,14 @@ public class OrgScheduleController extends UserScheduleController {
             else if (getAttendeeByIndex(requestsList, attendeeIndex) == null){
                 presenter.printTryAgain("attendee index");
             }
-            else{
+            else if (userManager.hasRequests(getAttendeeByIndex(requestsList, attendeeIndex))){
                 this.reviewAttendeeRequests(scan, requestsList, attendeeIndex);
+
+            }
+            else{
+                // this one doesn't work since hasRequests 
+                presenter.printTryAgain("attendee has no pending requests");
+                //return;
             }
 
         }
