@@ -243,6 +243,12 @@ public class OrgScheduleController extends UserScheduleController {
         return true;
     }
 
+    /**
+     * Runs the process of picking a capacity for an event.
+     * @param room the name of the room
+     * @return an int representing the capacity of the event
+     */
+
     public Integer pickCapacity(String room){
         presenter.printRequestEventMenu(1);
         boolean doContinue = true;
@@ -572,6 +578,10 @@ public class OrgScheduleController extends UserScheduleController {
 
         }
     }
+
+    /**
+     * Runs the process of changing the event capacity.
+     */
 
     public void changeEventCapacity(){
         presenter.changeEvent(4,"");

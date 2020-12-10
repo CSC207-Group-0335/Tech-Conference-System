@@ -2,6 +2,10 @@ package Schedule;
 
 import java.util.ArrayList;
 
+/**
+ * A presenter class representing a scheduling system.
+ */
+
 public class SchedulePresenter {
 
     /**
@@ -60,6 +64,10 @@ public class SchedulePresenter {
     public void printGoBack(){
         System.out.println("Press 0 to go back to the scheduling menu");
     }
+
+    /**
+     * Prints the menu.
+     */
 
     public void printMenu(){}
 

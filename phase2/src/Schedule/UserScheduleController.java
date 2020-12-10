@@ -124,6 +124,12 @@ public class UserScheduleController{
         return registeredEvents;
     }
 
+    /**
+     * Presents the process of creating a request.
+     * @param presenter a UserSchedulePresenter
+     * @param scan a Scanner
+     */
+
     protected void createRequest(UserSchedulePresenter presenter, Scanner scan){
         //present the requests if you're an organizer and you can decide which request you want to deal with
         //based on index
@@ -255,6 +261,11 @@ public class UserScheduleController{
                 return;
             }} }
 
+
+    /**
+     * Presents a schedule.
+     */
+
     protected void seeDaySchedule(){
         ArrayList<String> days = eventManager.getAllEventDays();
         if (days.size() == 0){
@@ -341,6 +352,7 @@ public class UserScheduleController{
     /**
      * Lists all the available actions a user can perform and choose from, takes their input and outputs a text UI.
      */
+
     public void run(){
         presenter.printHello(userManager.emailToName(email));
         presenter.printMenu();

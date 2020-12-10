@@ -210,6 +210,12 @@ public class UserManager extends Observable {
     }
     //Delete if not used
 
+    /**
+     * Returns true if the user with email </email> is of VIP status.
+     * @param email the email of the user
+     * @return a boolean representing whether a user is VIP
+     */
+
     public boolean emailToVIPStatus(String email){
         if (emailToType(email).equals("Organizer")){
             return true;

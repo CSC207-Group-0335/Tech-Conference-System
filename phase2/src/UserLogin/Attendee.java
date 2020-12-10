@@ -31,6 +31,15 @@ public class Attendee extends User {
         //this.setRequests("handicap");
     }
 
+    /**
+     * A constructor for an Attendee.
+     * @param name the name of the attendee
+     * @param password the password of the attendee
+     * @param email the email of the attendee
+     * @param VIP a boolean representing whether or not this attendee is of VIP status
+     * @param requestMap a HashMap containing this attendee's requests
+     */
+
     public Attendee(String name, String password, String email, boolean VIP, LinkedHashMap<String, String> requestMap) {
         super(name, password, email);
         this.VIP = VIP;
@@ -61,6 +70,11 @@ public class Attendee extends User {
     public boolean getVIPStatus() {
         return this.VIP;
     }
+
+    /**
+     * Sets the VIP status of this attendee
+     * @param bool a boolean representing whether or not this attendee is VIP
+     */
 
     public void setVIPStatus(boolean bool){
         this.VIP = bool;

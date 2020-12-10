@@ -3,7 +3,15 @@ package Schedule;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * A presenter class representing a user scheduling system.
+ */
+
 public class UserSchedulePresenter extends SchedulePresenter{
+
+    /**
+     * Prints the user menu.
+     */
 
     public void printUserMenu(){
         System.out.println("Welcome to the scheduling Menu" + System.lineSeparator() +
@@ -15,17 +23,31 @@ public class UserSchedulePresenter extends SchedulePresenter{
                 "Press 6 to see schedule by day");
     }
 
+    /**
+     * Prints a request menu.
+     */
+
     public void printMenu() {
         printUserMenu();
         System.out.println("Press 7 to review requests" );
         printGoBack();
     }
 
+    /**
+     * Prints a list of events.
+     * @param events a String representing an event
+     */
+
      public void printEvents(String events){
          System.out.println(events);
      }
 
-     public void ChoosingEvent(int i){
+    /**
+     * Presents the options of choosing or cancelling an event.
+     * @param i an int corresponding to an option
+     */
+
+    public void ChoosingEvent(int i){
         switch(i){
             case 1:
                 System.out.println("What event would you like to register for?");
@@ -61,6 +83,11 @@ public class UserSchedulePresenter extends SchedulePresenter{
 
     }}
 
+    /**
+     * Presents an empty event or an event without a speaker.
+     * @param i an int corresponding to a specific case
+     */
+
     public void scheduleBy(int i){
         switch (i){
             case 1:
@@ -71,6 +98,11 @@ public class UserSchedulePresenter extends SchedulePresenter{
                 break;
     }}
 
+    /**
+     * Prints a list of requests.
+     * @param requests an ArrayList containing requests
+     */
+
     public void printAllRequests(ArrayList<Map.Entry<String, String>> requests) {
         Integer i = 1;
         for (Map.Entry<String, String> s : requests){
@@ -78,6 +110,11 @@ public class UserSchedulePresenter extends SchedulePresenter{
             i++;
         }
     }
+
+    /**
+     * Prints the process of submitting a request.
+     * @param i an int corresponding to a specific case
+     */
 
     public void printRequestforUser(int i) {
         switch(i){

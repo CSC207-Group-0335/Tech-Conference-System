@@ -1,6 +1,14 @@
 package Schedule;
 
+/**
+ * A presenter class for organizer schedules.
+ */
+
 public class OrgSchedulePresenter extends UserSchedulePresenter {
+
+    /**
+     * Prints the menu.
+     */
 
     public void printMenu(){
         printUserMenu();

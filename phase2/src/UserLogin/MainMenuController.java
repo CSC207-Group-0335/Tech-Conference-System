@@ -218,9 +218,19 @@ public class MainMenuController implements Observer {
         }
     }
 
+    /**
+     * Sets a scanner.
+     * @param scanner a Scanner
+     */
+
     public void setScanner(Scanner scanner){
         this.scanner = scanner;
     }
+
+    /**
+     * Sets a LogInController.
+     * @param logInController a LogInController object
+     */
 
     public void setLogInController(LogInController logInController){
         this.logInController = logInController;
