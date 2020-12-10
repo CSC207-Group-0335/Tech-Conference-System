@@ -18,6 +18,15 @@ public abstract class MessengerController {
     public MessageManager messageManager;
     public EventManager eventManager;
 
+    /**
+     * The constructor method
+     * @param email The users email.
+     * @param scan The scanner.
+     * @param mainMenuController The MainMenuController
+     * @param userManager The UserManager
+     * @param conversationStorage The ConverastionStorage.
+     * @param eventManager The EventManager
+     */
     public MessengerController(String email, Scanner scan, MainMenuController mainMenuController,
                                UserManager userManager, ConversationStorage conversationStorage, EventManager eventManager) {
         this.email = email;
@@ -35,20 +44,27 @@ public abstract class MessengerController {
         }
     }
 
-    /**
-     * Sends a message containing </messageContent> to a user registered under the email </email> if and only if this
-     * attendee is allowed to message that user.
-     *
-     * @param recipient          a String representing the email of the recipient
-     * @param messageContent a String representing the content of the message
-     */
 
+    /**
+     * Method that deletes a senders message by index.
+     * @param index The string index.
+     * @param senderEmail The sender email.
+     */
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
 
+    /**
+     * Method that returns ArrayList of EventID's.
+     * @return ArrayList Strings.
+     */
     public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
 
+    /**
+     * Method that runs an individual chat menu
+     * @param presenter The presenter.
+     * @param emails The String ArrayList of emails.
+     */
     public void runIndividualChatMenu(MessengerPresenter presenter, ArrayList<String> emails) {
         presenter.viewChats(emails);
         int index = Integer.parseInt(scan.nextLine());
@@ -103,6 +119,11 @@ public abstract class MessengerController {
         }
     }
 
+    /**
+     * Mehtod that runs a group chat menu.
+     * @param presenter The presenter.
+     * @param talkIDS ArrayList of String talkID's.
+     */
     public void runGroupChatMenu(MessengerPresenter presenter, ArrayList<String> talkIDS) {
         presenter.viewGroupChats(talkIDS);
         int index = Integer.parseInt(scan.nextLine());
@@ -118,6 +139,11 @@ public abstract class MessengerController {
         }
     }
 
+
+    /**
+     * Method that runs a message individuals menu.
+     * @param presenter The presenter.
+     */
     public void runMessageIndividualUserMenu(MessengerPresenter presenter) {
         presenter.askForEmail();
         String email = "";
