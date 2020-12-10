@@ -415,7 +415,8 @@ public class UserManager extends Observable {
         String typeUser = this.emailToType(email);
         if (typeUser.equals("Attendee")) {
             if (!(((Attendee) user).getRequests().isEmpty())) {
-                return true;
+                if (((Attendee) user).getNumberOfPending() > 0){ return true;}
+                return false;
             }
             return false;
         }
