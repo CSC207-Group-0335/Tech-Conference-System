@@ -77,7 +77,7 @@ public class OrgScheduleController extends UserScheduleController {
                         String chosenSpeaker = userManager.getSpeakerEmailList().get(speakerIndex - 1);
                         if (!(chosenSpeakers.contains(chosenSpeaker))) {
                             presenter.printSchedule("speaker");
-                            this.getSchedule(email, 1, "User");
+                            this.getSchedule(chosenSpeaker, 1, "User");
                             chosenSpeakers.add(chosenSpeaker);
                             presenter.printChooseSpeakers(2);
                         } else {
@@ -595,7 +595,11 @@ public class OrgScheduleController extends UserScheduleController {
                 while (capacity < eventManager.eventIdToUsersSignedUp(event).size()){
                     presenter.changeEvent(5, "");
                     capacity  = pickCapacity(eventManager.eventIdToRoomName(event));
-                } } }}
+                }
+                eventManager.setCapacity(event, capacity);
+                presenter.printSuccess();
+                return;
+            } }}
 
 
     /**

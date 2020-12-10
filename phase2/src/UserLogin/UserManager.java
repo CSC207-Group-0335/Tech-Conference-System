@@ -358,20 +358,6 @@ public class UserManager extends Observable {
         ArrayList<Map.Entry<String,String>> listOfEntry = new ArrayList<Map.Entry<String, String>>(entrySet);
         return listOfEntry;
     }
-//tried to get getRequestList to show the status of the request too and not just print the requests
-    //public ArrayList<String> getRequestList(String email) {
-        //ArrayList<String> requests = new ArrayList<>();
-        //Attendee attendee = (Attendee) this.emailToUser(email);
-        //LinkedHashMap<String, String> attendeeRequests = attendee.getRequests();
-        //requests.addAll(attendeeRequests.keySet());
-        //int i = 0;
-        //for (String r : requests){
-            //String requestStatus = attendeeRequests.get(r);
-            //requests.set(0, r + ", " + requestStatus);
-            //i++;
-        //}
-        //return requests;
-    //}
 
     /**
      * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered

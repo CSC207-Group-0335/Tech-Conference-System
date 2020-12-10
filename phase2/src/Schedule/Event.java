@@ -144,4 +144,6 @@ public class Event {
     public boolean getVIPStatus(){
         return this.vipRestricted;
     }
+
+    public void setCapacity(int cap) { this.capacity = cap;}
 }

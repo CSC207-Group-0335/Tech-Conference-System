@@ -589,5 +589,15 @@ public class EventManager{
         }
         return events;
     }
+
+    /**
+     * A method to set the capacity of an event
+     * @param eventID the event id
+     * @param cap the capacity that the event will be set to
+     */
+    public void setCapacity(String eventID, int cap) {
+        Event event = getEvent(eventID);
+        event.setCapacity(cap);
+    }
 }
 

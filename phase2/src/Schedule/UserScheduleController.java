@@ -48,6 +48,9 @@ public class UserScheduleController{
             return "Event is at full capacity.";
         }
         else if(!(eventManager.checkDoubleBooking(eventID, userManager.emailToEventList(email)))){
+            if (eventManager.eventIdToUsersSignedUp(eventID).contains(email)){
+                return "User already signed up";
+            }
             return "Double booking";
         }
         else if (!(eventManager.checkIfUserAllowed(email, eventID))){
@@ -58,7 +61,7 @@ public class UserScheduleController{
                 this.userManager.addEvent(email, eventID);
                 return "User added.";
             }
-            return "User already signed up";
+            return null;
         }
     }
 
@@ -174,10 +177,10 @@ public class UserScheduleController{
                 }
                 else{
                     String signUpStatus = this.signUp(eventIdToRegister);
-                    if (signUpStatus.equals("User already registered for the requested event.")){
+                    if (signUpStatus.equals("User already signed up")){
                         presenter.printRegistrationBlocked(1);
                     }
-                    else if(signUpStatus.equals("Double booking.")){
+                    else if(signUpStatus.equals("Double booking")){
                         presenter.printRegistrationBlocked(3);
                     }
                     else if(signUpStatus.equals("VIP only event")){
