@@ -7,7 +7,7 @@ package MessagingPresenters;
 public class OrganizerMessengerPresenter extends MessengerPresenter {
     @Override
     public void printWelcomeMessage() {
-        System.out.println("Welcome to the organizer messenger client");
+        System.out.println(System.lineSeparator() + "Welcome to the organizer messenger client");
     }
 
     @Override

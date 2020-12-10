@@ -33,7 +33,6 @@ public abstract class MessageManager {
         this.eventManager = eventManager;
     }
 
-
     public abstract HashSet<User> getFriendsList();
 
     /**
@@ -100,7 +99,6 @@ public abstract class MessageManager {
      * @return a boolean representing whether or not there is a conversation between these two users
      */
 
-
     private Boolean containsConversationWith(String email) {
         if (conversationStorage.contains(user.getEmail(), email)) {
             return true;
@@ -161,8 +159,6 @@ public abstract class MessageManager {
             }
         }
     }
-
-
 
     /**
      * Deletes a message.
@@ -242,7 +238,6 @@ public abstract class MessageManager {
         return eventIDs;
         }
 
-
     public ArrayList<String> getGroupChatMessages(String eventID) {
         ArrayList<String> messages = new ArrayList<>();
         for (Message message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
@@ -251,6 +246,3 @@ public abstract class MessageManager {
         return messages;
         }
     }
-
-
-
