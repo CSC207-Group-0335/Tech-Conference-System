@@ -98,7 +98,7 @@ public class ConversationManager {
         return returnStatus;
     }
 
-    private Boolean isValidIndex(Integer index) {
+    private Boolean isValidIndex(int index) {
         if (index >= 0 && index < this.messages.size()) {
             return true;
         }
@@ -107,7 +107,7 @@ public class ConversationManager {
         }
     }
 
-    public void deleteMessage(String email, Integer index) {
+    public void deleteMessage(String email, int index) {
         if (this.isValidIndex(index) && email.equals(messages.get(index).getSenderEmail())) {
             System.out.println(index);
             System.out.println(messages.size());
