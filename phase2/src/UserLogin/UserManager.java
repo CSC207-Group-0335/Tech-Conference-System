@@ -400,6 +400,18 @@ public class UserManager extends Observable {
         return false;
     }
 
+    public boolean hasRequests(String email) {
+        User user = this.emailToUser(email);
+        String typeUser = this.emailToType(email);
+        if (typeUser.equals("Attendee")) {
+            if (!(((Attendee) user).getRequests().isEmpty())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     /**
      * A helper function for userRequestsPending that adds the value that is pending to a list
      * @param user a user
