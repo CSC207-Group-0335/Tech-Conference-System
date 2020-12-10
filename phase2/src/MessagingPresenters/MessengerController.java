@@ -46,21 +46,12 @@ public abstract class MessengerController {
     public void message(String recipient, String messageContent) {
         messageManager.message(recipient, messageContent);
     }
-    public ArrayList<Message> viewUnarchivedMessages(String email) {
-        return messageManager.getUnarchivedMessages(email);
-    }
-
-    public ArrayList<Message> viewArchivedMessages(String email) {
-        return messageManager.getArchivedMessages(email);
-    }
 
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
 
     public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
-
-    public ArrayList<String> getGroupChatMessages(String eventID){return messageManager.getGroupChatMessages(eventID);}
 
     public void runIndividualChatMenu(MessengerPresenter presenter, ArrayList<String> emails) {
         presenter.viewChats(emails);
@@ -72,18 +63,7 @@ public abstract class MessengerController {
         Boolean viewingArchivedMessages = false;
         char input = 'a';
         while (input != '0') {
-            ArrayList<Message> messages;
-            if (viewingArchivedMessages) {
-                messages = viewArchivedMessages(recipientEmail);
-            }
-            else {
-                messages = viewUnarchivedMessages(recipientEmail);
-            }
-            ArrayList<String> outputMessages = new ArrayList<>();
-            for (int i = 1; i <= messages.size(); i++) {
-                Message message = messages.get(i - 1);
-                outputMessages.add(i + " - " + message.getSenderEmail() + ": " + message.getMessageContent());
-            }
+            ArrayList<String> outputMessages = messageManager.getFormattedMessages(viewingArchivedMessages, recipientEmail);
             presenter.viewConversation(outputMessages, viewingArchivedMessages);
             String in = scan.nextLine();
             input = in.toCharArray()[0];
@@ -92,13 +72,13 @@ public abstract class MessengerController {
             }
             else if (input != '0') {
                 int position = Integer.parseInt(in) - 1;
-                String msg = messages.get(position).getMessageContent();
-                Boolean isRead = messages.get(position).hasStatus(email, "Read");
+                String msg = messageManager.getContentOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail);
+                Boolean isRead = messageManager.getReadStatusOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail, email);
                 presenter.viewMessageMenu(msg, viewingArchivedMessages, isRead);
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
-                    deleteMessage(position, messages.get(position).getSenderEmail());
+                    deleteMessage(position, messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, index, recipientEmail));
                     presenter.printSuccessfulDeletion();
                 }
                 else if (opt == 2) {
@@ -136,7 +116,7 @@ public abstract class MessengerController {
         String groupChatID = talkIDS.get(index - 1);
         char input = 'a';
         while (input != '0'){
-            ArrayList<String> messages = getGroupChatMessages(groupChatID);
+            ArrayList<String> messages = messageManager.getGroupChatMessages(groupChatID);
             presenter.viewGroupChat(messages);
             input = scan.nextLine().toCharArray()[0];
         }
