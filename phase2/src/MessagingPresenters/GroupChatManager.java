@@ -54,5 +54,54 @@ public class GroupChatManager {
     public String getEventID() {
         return eventID;
     }
-}
 
+    public ArrayList<String> getMessageIDs() {
+        ArrayList<String> messageIDs = new ArrayList<String>();
+        for (Message message: messages) {
+            messageIDs.add(message.getMessageID());
+        }
+        return messageIDs;
+    }
+
+    public String getSenderOfMessageWithID(String messageID) {
+        String sender = null;
+        for (Message message: messages) {
+            if (message.getMessageID().equals(messageID)) {
+                sender = message.getSenderEmail();
+            }
+        }
+        return sender;
+    }
+
+    public LocalDateTime getTimestampOfMessageWithID(String messageID) {
+        LocalDateTime time = null;
+        for (Message message: messages) {
+            if (message.getMessageID().equals(messageID)) {
+                time = message.getTimestamp();
+            }
+        }
+        return time;
+    }
+
+    public String getContentOfMessageWithID(String messageID) {
+        String content = null;
+        for (Message message: messages) {
+            if (message.getMessageID().equals(messageID)) {
+                content = message.getMessageContent();
+            }
+        }
+        return content;
+    }
+
+
+
+    public String getGroupchatIDOfMessageWithID(String messageID) {
+        String groupID = null;
+        for (Message message: messages) {
+            if (message.getMessageID().equals(messageID)) {
+                groupID = getEventID();
+            }
+        }
+        return groupID;
+    }
+}
