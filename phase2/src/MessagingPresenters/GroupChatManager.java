@@ -55,6 +55,10 @@ public class GroupChatManager {
         return eventID;
     }
 
+    /**
+     * Return ArrayList of messsageIDs in this chat.
+     * @return ArrayList of Strings.
+     */
     public ArrayList<String> getMessageIDs() {
         ArrayList<String> messageIDs = new ArrayList<String>();
         for (Message message: messages) {
@@ -63,6 +67,11 @@ public class GroupChatManager {
         return messageIDs;
     }
 
+    /**
+     * Returns sender by messageID.
+     * @param messageID String messageID.
+     * @return String email.
+     */
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
         for (Message message: messages) {
@@ -72,6 +81,12 @@ public class GroupChatManager {
         }
         return sender;
     }
+
+    /**
+     * Returns recipient by messageID.
+     * @param messageID String messageID.
+     * @return String email.
+     */
     public String getRecipientOfMessageWithID(String messageID) {
         String recipient = null;
         for (Message message: messages) {
@@ -81,6 +96,12 @@ public class GroupChatManager {
         }
         return recipient;
     }
+
+    /**
+     * Method to get timestamp by messageID.
+     * @param messageID String messageID.
+     * @return LocalDateTime.
+     */
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
         for (Message message: messages) {
@@ -91,6 +112,11 @@ public class GroupChatManager {
         return time;
     }
 
+    /**
+     * Return content of message by messageID.
+     * @param messageID String messageID.
+     * @return String content.
+     */
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
         for (Message message: messages) {
@@ -102,7 +128,11 @@ public class GroupChatManager {
     }
 
 
-
+    /**
+     * Method to return groupchatID by messageID.
+     * @param messageID String messageID.
+     * @return String groupID.
+     */
     public String getGroupChatIDOfMessageWithID(String messageID) {
         String groupID = null;
         for (Message message: messages) {

@@ -226,6 +226,10 @@ public abstract class MessageManager {
         return emails;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getEventIDs() {
         ArrayList<String> eventIDs = new ArrayList<>();
         for (Event event : eventManager.eventList) {
