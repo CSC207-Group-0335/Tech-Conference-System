@@ -76,27 +76,7 @@ public class SpeakerMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
-                    presenter.askForEmail();
-                    String email = "";
-                    boolean valid_recipient = false;
-
-                    while (!valid_recipient) {
-                        email = scan.nextLine();
-                        if (email.equals("0")) {
-                            continue OUTER_LOOP;
-                        }
-                        if (messageManager.canMessage(email)) {
-                            valid_recipient = true;
-                        } else {
-                            presenter.printSendMessageError();
-                        }
-                    }
-
-                    presenter.askForMessageBody();
-                    String body = scan.nextLine();
-
-                    messageManager.message(email, body);
-                    presenter.printMessageSentSuccess();
+                    runMessageIndividualUserMenu(presenter);
                 }
                 else if (option == 4) {
                     // MESSAGE ALL ATTENDEES

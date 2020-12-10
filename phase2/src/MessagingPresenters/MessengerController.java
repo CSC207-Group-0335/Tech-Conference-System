@@ -43,10 +43,6 @@ public abstract class MessengerController {
      * @param messageContent a String representing the content of the message
      */
 
-    public void message(String recipient, String messageContent) {
-        messageManager.message(recipient, messageContent);
-    }
-
     public void deleteMessage(int index, String senderEmail){
         messageManager.deleteMessage(senderEmail, index);
     }
@@ -120,6 +116,34 @@ public abstract class MessengerController {
             presenter.viewGroupChat(messages);
             input = scan.nextLine().toCharArray()[0];
         }
+    }
+
+    public void runMessageIndividualUserMenu(MessengerPresenter presenter) {
+        presenter.askForEmail();
+        String email = "";
+        boolean valid_recipient = false;
+
+        while (!valid_recipient) {
+            email = scan.nextLine();
+            if (email.equals("0")) {
+                return;
+            }
+            if (messageManager.canMessage(email)) {
+                valid_recipient = true;
+            } else {
+                presenter.printSendMessageError();
+            }
+        }
+
+        presenter.askForMessageBody();
+        String body = scan.nextLine();
+
+        if (body.equals("0")) {
+            return;
+        }
+
+        messageManager.message(email, body);
+        presenter.printMessageSentSuccess();
     }
 
     public abstract void run();
