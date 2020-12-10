@@ -65,8 +65,10 @@ public class UserSchedulePresenter extends SchedulePresenter{
         switch (i){
             case 1:
                 System.out.println("There are no speakers attending the conference yet.");
+                break;
             case 2:
                 System.out.println("There are no events in the conference yet.");
+                break;
     }}
 
     public void printAllRequests(ArrayList<Map.Entry<String, String>> requests) {
@@ -74,6 +76,20 @@ public class UserSchedulePresenter extends SchedulePresenter{
         for (Map.Entry<String, String> s : requests){
             System.out.println(i + ") " + s);
             i++;
+        }
+    }
+
+    public void printRequestforUser(int i) {
+        switch(i){
+            case 1:
+                System.out.println("Submit a request");
+                break;
+            case 2:
+                System.out.println("Request successfully added!");
+                break;
+            case 3:
+                System.out.println("You have already made this request");
+                break;
         }
     }
 }

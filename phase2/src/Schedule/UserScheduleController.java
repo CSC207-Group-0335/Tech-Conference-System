@@ -68,10 +68,10 @@ public class UserScheduleController{
     public boolean submitRequest(String request) {
         if (this.userManager.requestNotRepeat(request, email)){
             this.userManager.addRequest(email, request);
-            System.out.println("Request successfully added!");
+            presenter.printRequestforUser(2);
             return true;
         }
-        System.out.println("You have already made this request");
+        presenter.printRequestforUser(3);
         return false;
     }
 
@@ -129,7 +129,7 @@ public class UserScheduleController{
         //based on index
         ArrayList<Map.Entry<String, String>> requestList = userManager.getRequestList(email);
         presenter.printAllRequests(requestList);
-        System.out.println("Submit a request");
+        presenter.printRequestforUser(1);
         boolean doContinue = true;
         while (doContinue){
             String request = validatorController.userStringInputValidation("scheduling", "request", scan );
