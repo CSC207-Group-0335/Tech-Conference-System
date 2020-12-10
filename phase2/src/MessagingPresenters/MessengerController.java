@@ -144,7 +144,7 @@ public abstract class MessengerController {
      * Method that runs a message individuals menu.
      * @param presenter The presenter.
      */
-    public void runMessageIndividualUserMenu(MessengerPresenter presenter) {
+    public void runMessageMenu(MessengerPresenter presenter, boolean individual) {
         presenter.askForEmail();
         String email = "";
         boolean valid_recipient = false;
@@ -168,7 +168,7 @@ public abstract class MessengerController {
             return;
         }
 
-        messageManager.message(email, body, true);
+        messageManager.message(email, body, individual);
         presenter.printMessageSentSuccess();
     }
 

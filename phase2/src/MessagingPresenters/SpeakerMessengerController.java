@@ -86,7 +86,7 @@ public class SpeakerMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
-                    runMessageIndividualUserMenu(presenter);
+                    runMessageMenu(presenter, true);
                 }
                 else if (option == 4) {
                     // MESSAGE ALL ATTENDEES
@@ -117,6 +117,10 @@ public class SpeakerMessengerController extends MessengerController {
                         messageManager.message(user.getEmail(), body, true);
                     }
                     presenter.printMessageSentSuccess();
+                }
+                else if (option == 6) {
+                    // MESSAGE GROUP
+                    runMessageMenu(presenter, false);
                 }
             } catch (NumberFormatException nfe) {
                 presenter.printInvalidOptionError();

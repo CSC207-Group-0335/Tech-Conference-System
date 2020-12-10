@@ -5,7 +5,6 @@ import UserLogin.MainMenuController;
 import UserLogin.UserManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -93,7 +92,7 @@ public class OrganizerMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE INDIVIDUAL USER
-                    runMessageIndividualUserMenu(presenter);
+                    runMessageMenu(presenter, true);
                 }
                 else if (option == 4) {
                     // MESSAGE ALL SPEAKERS
@@ -114,6 +113,10 @@ public class OrganizerMessengerController extends MessengerController {
                     }
                     messageAllAttendees(body);
                     presenter.printMessageSentSuccess();
+                }
+                else if (option == 6) {
+                    // MESSAGE GROUP
+                    runMessageMenu(presenter, false);
                 }
             } catch (NumberFormatException nfe) {
                 presenter.printInvalidOptionError();
