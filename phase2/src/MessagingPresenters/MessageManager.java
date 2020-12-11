@@ -108,6 +108,13 @@ public abstract class MessageManager {
         }
     }
 
+    /**
+     * Adds a status to the message.
+     * @param email a String representing an email
+     * @param index an int representing an index
+     * @param status a String representing a status
+     */
+
     public void addMessageStatus(String email, int index, String status){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
@@ -115,12 +122,27 @@ public abstract class MessageManager {
         }
     }
 
+    /**
+     * Removes the status of the message.
+     * @param email a String representing an email
+     * @param index an int representing an index
+     * @param status a String representing a status
+     */
+
     public void deleteMessageStatus(String email, int index, String status){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
             c.removeStatus(user.getEmail(), index, status);
         }
     }
+
+    /**
+     * Returns true if this message has a status.
+     * @param email a String representing an email
+     * @param index an int representing an index
+     * @param status a String representing a status
+     * @return
+     */
 
     public Boolean hasMessageStatus(String email, int index, String status){
         Boolean returnStatus = null;
@@ -200,6 +222,12 @@ public abstract class MessageManager {
         return null;
     }
 
+    /**
+     * Returns a list of archived messages.
+     * @param email a String representing an email
+     * @return an ArrayList containing archived messages
+     */
+
     public ArrayList<Message> getArchivedMessages(String email) {
         if (this.canMessage(email)) {
             if (containsConversationWith(email)) {
@@ -258,9 +286,11 @@ public abstract class MessageManager {
         if (conversationStorage.getGroupChatManager(eventID) == null){
             conversationStorage.addGroupChatManager(eventID);
         }
-        for (GroupChatMessage message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
-            messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
+        if (conversationStorage.getGroupChatManager(eventID) != null) {
+            for (GroupChatMessage message: conversationStorage.getGroupChatManager(eventID).getMessages()) {
+                messages.add(message.getSenderEmail()+": "+message.getMessageContent()+"\t"+message.getTimestamp().toString());
             }
+        }
         return messages;
     }
 
