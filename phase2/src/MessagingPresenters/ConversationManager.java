@@ -154,10 +154,8 @@ public class ConversationManager {
      * @param email The string email.
      * @param index The int index.
      */
-    public void deleteMessage(String email, int index) {
-        if (this.isValidIndex(index) && email.equals(messages.get(index).getSenderEmail())) {
-            this.messages.remove(index);
-        }
+    public void deleteMessage(String email, int index, Boolean viewingArchived) {
+        this.messages.remove(getMessageWithIndexAndStatus(email, index, viewingArchived));
     }
 
     /**

@@ -202,10 +202,10 @@ public abstract class MessageManager {
      * @param index an Integer representing the index of the message to be deleted
      */
 
-    public void deleteMessage(String email, Integer index) {
+    public void deleteMessage(String email, Integer index, Boolean viewingArchived) {
         if (containsConversationWith(email)) {
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.deleteMessage(user.getEmail(), index);
+            c.deleteMessage(user.getEmail(), index, viewingArchived);
         }
     }
 
