@@ -115,10 +115,10 @@ public abstract class MessageManager {
      * @param status a String representing a status
      */
 
-    public void addMessageStatus(String email, int index, String status){
+    public void addMessageStatus(String email, int index, String status, Boolean viewingArchived){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.addStatus(user.getEmail(), index, status);
+            c.addStatus(user.getEmail(), index, status, viewingArchived);
         }
     }
 
@@ -129,10 +129,10 @@ public abstract class MessageManager {
      * @param status a String representing a status
      */
 
-    public void deleteMessageStatus(String email, int index, String status){
+    public void deleteMessageStatus(String email, int index, String status, Boolean viewingArchived){
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.removeStatus(user.getEmail(), index, status);
+            c.removeStatus(user.getEmail(), index, status, viewingArchived);
         }
     }
 
@@ -144,13 +144,20 @@ public abstract class MessageManager {
      * @return
      */
 
-    public Boolean hasMessageStatus(String email, int index, String status){
+    public Boolean hasMessageStatus(String email, int index, String status, Boolean viewingArchived){
         Boolean returnStatus = null;
         if (containsConversationWith(email)){
             ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            returnStatus = c.hasStatus(user.getEmail(), index, status);
+            returnStatus = c.hasStatus(user.getEmail(), index, status, viewingArchived);
         }
         return returnStatus;
+    }
+
+    public void swapMessageStatus(String email, int index, String originalStatus, String newStatus, Boolean viewingArchived){
+        if (containsConversationWith(email)){
+            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
+            c.swapStatus(user.getEmail(), index, originalStatus, newStatus, viewingArchived);
+        }
     }
 
     /**

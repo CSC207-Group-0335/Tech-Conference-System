@@ -127,6 +127,16 @@ public class Message {
         }
     }
 
+    public void swapStatus(String email, String originalStatus, String newStatus) {
+        if (email.equals(senderEmail)) {
+            this.senderStatuses.remove(originalStatus);
+            this.senderStatuses.add(newStatus);
+        } else {
+            this.recipientStatuses.remove(originalStatus);
+            this.recipientStatuses.add(newStatus);
+        }
+    }
+
     /**
      * Getter to return messageID.
      * @return String messageID.

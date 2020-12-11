@@ -95,24 +95,20 @@ public abstract class MessengerController {
                 }
                 else if (opt == 2) {
                     // READ/UNREAD
-                    if (messageManager.hasMessageStatus(recipientEmail, position, "Unread")) {
-                        messageManager.deleteMessageStatus(recipientEmail, position, "Unread");
-                        messageManager.addMessageStatus(recipientEmail, position, "Read");
+                    if (messageManager.hasMessageStatus(email, position, "Unread", viewingArchivedMessages)) {
+                        messageManager.swapMessageStatus(email, position, "Unread", "Read", viewingArchivedMessages);
                     }
                     else {
-                        messageManager.deleteMessageStatus(recipientEmail, position, "Read");
-                        messageManager.addMessageStatus(recipientEmail, position, "Unread");
+                        messageManager.swapMessageStatus(email, position, "Read", "Unread", viewingArchivedMessages);
                     }
                 }
                 else if (opt == 3) {
                     // ARCHIVAL
-                    if (messageManager.hasMessageStatus(recipientEmail, position, "Archived")) {
-                        messageManager.deleteMessageStatus(recipientEmail, position, "Archived");
-                        messageManager.addMessageStatus(recipientEmail, position, "Unarchived");
+                    if (messageManager.hasMessageStatus(email, position, "Archived", viewingArchivedMessages)) {
+                        messageManager.swapMessageStatus(email, position, "Archived", "Unarchived", viewingArchivedMessages);
                     }
                     else {
-                        messageManager.deleteMessageStatus(recipientEmail, position, "Unarchived");
-                        messageManager.addMessageStatus(recipientEmail, position, "Archived");
+                        messageManager.swapMessageStatus(email, position, "Unarchived", "Archived", viewingArchivedMessages);
                     }
                 }
             }

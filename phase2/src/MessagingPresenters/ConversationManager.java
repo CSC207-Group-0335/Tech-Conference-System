@@ -63,7 +63,7 @@ public class ConversationManager {
      */
 
     /**
-     * Method to add a message to the smessages list
+     * Method to add a message to the messages list
      * @param recipientEmail The String recipient's email.
      * @param senderEmail The String sender's email.
      * @param timestamp The LocalDateTime timestamp.
@@ -81,16 +81,38 @@ public class ConversationManager {
         return index < messages.size();
     }
 
+    public Message getMessageWithIndexAndStatus(String email, int index, Boolean viewingArchived) {
+        String status;
+        if (viewingArchived) {
+            status = "Archived";
+        } else {
+            status = "Unarchived";
+        }
+
+        int i = 0;
+        int j = 0;
+        while (i < this.messages.size()) {
+            Message message = this.messages.get(i);
+            if (message.hasStatus(email, status)) {
+                if (j == index) {
+                    return message;
+                } else {
+                    j++;
+                }
+            }
+            i++;
+        }
+        return null;
+    }
+
     /**
      * Method to add a status to a specific message by index and user email.
      * @param email The String email.
      * @param index The int index.
      * @param status The String status.
      */
-    public void addStatus(String email, int index, String status){
-        if (indexExists(index)){
-            messages.get(index).addStatus(email, status);
-        }
+    public void addStatus(String email, int index, String status, Boolean viewingArchived){
+        getMessageWithIndexAndStatus(email, index, viewingArchived).addStatus(email, status);
     }
 
     /**
@@ -99,10 +121,8 @@ public class ConversationManager {
      * @param index The int index.
      * @param status The String status.
      */
-    public void removeStatus(String email, int index, String status){
-        if (indexExists(index)){
-            messages.get(index).removeStatus(email, status);
-        }
+    public void removeStatus(String email, int index, String status, Boolean viewingArchived){
+        getMessageWithIndexAndStatus(email, index, viewingArchived).removeStatus(email, status);
     }
 
     /**
@@ -112,12 +132,12 @@ public class ConversationManager {
      * @param status The String status.
      * @return Boolean.
      */
-    public Boolean hasStatus(String email, int index, String status){
-        Boolean returnStatus = null;
-        if (indexExists(index)){
-            returnStatus = messages.get(index).hasStatus(email, status);
-        }
-        return returnStatus;
+    public Boolean hasStatus(String email, int index, String status, Boolean viewingArchived){
+        return getMessageWithIndexAndStatus(email, index, viewingArchived).hasStatus(email, status);
+    }
+
+    public void swapStatus(String email, int index, String originalStatus, String newStatus, Boolean viewingArchived){
+        getMessageWithIndexAndStatus(email, index, viewingArchived).swapStatus(email, originalStatus, newStatus);
     }
 
     private Boolean isValidIndex(int index) {
