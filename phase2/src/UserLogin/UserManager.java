@@ -21,31 +21,6 @@ public class UserManager extends Observable {
     }
 
     /**
-     * creates a new user object and places it in UserList. Generates an associated UserScheduleManager with the new
-     * user as the argument.
-     * @return true if a new user is created, false otherwise.
-     */
-
-//    public boolean createUser(String usertype, String name, String password, String email) {
-//        //Create instance of user depending on usertype
-//        // First check if email is already in system
-//        if (!(checkIfValidEmail(email))){
-//            return false;
-//        }
-//        User newUser = createUserOfInstance(usertype, name, password, email);
-//        if (newUser == null) {
-//            return false;
-//        }
-//        //Add the user to the UserList
-//        this.userList.add(newUser);
-//        //Add the Attendee/Organizer user to UserScheduleList
-//        if (newUser instanceof Speaker){
-//            this.speakerList.add((Speaker) newUser);
-//        }
-//        return true;
-//    }
-
-    /**
      * Returns true if a new user account with the given credentials was successfully created.
      *
      * @param usertype a String representing the user type
@@ -208,7 +183,6 @@ public class UserManager extends Observable {
         }
         return null;
     }
-    //Delete if not used
 
     /**
      * Returns true if the user with email </email> is of VIP status.

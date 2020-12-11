@@ -35,7 +35,9 @@ public class RoomSystem extends Observable {
         roomList.forEach(roo -> {
             JSONObject room = (JSONObject) roo; //cast roo as a JSONObject
             String roomName = (String) room.get("roomname"); //fetch the name of the room
-            roomManager.createRoom(roomName); //create a room with the fetched roomName
+            Long capacity = (Long) room.get("capacity");
+            int c = capacity.intValue();
+            roomManager.createRoom(roomName, c); //create a room with the fetched roomName
         });
         eventSystem.run();
     }

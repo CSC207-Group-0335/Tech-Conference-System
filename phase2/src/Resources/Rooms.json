@@ -1,1 +1,1 @@
-[{"roomname":"TRN102"},{"roomname":"Bahen"},{"roomname":"Con Hall"},{"roomname":"Simcoe"},{"roomname":"BTP32"},{"roomname":"Beep Boop Room"},{"roomname":"Party Plaza"},{"roomname":"Big Room"}]
+[{"roomname":"TRN102","capacity":2},{"roomname":"Bahen","capacity":2},{"roomname":"Con Hall","capacity":2},{"roomname":"Simcoe","capacity":2},{"roomname":"BTP32","capacity":2},{"roomname":"Beep Boop Room","capacity":2},{"roomname":"Party Plaza","capacity":100},{"roomname":"Big Room","capacity":100}]

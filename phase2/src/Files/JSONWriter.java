@@ -187,8 +187,10 @@ public class JSONWriter {
     public void writeToRooms(String json, RoomManager rooms){
         JSONArray roomsArray = new JSONArray();
         for (String name: rooms.getRoomNameList()){
+            int capacity = rooms.roomNameToCapacity(name);
             JSONObject newobj = new JSONObject();
             newobj.put("roomname", name);
+            newobj.put("capacity", capacity);
             roomsArray.add(newobj);
         }
         try {
