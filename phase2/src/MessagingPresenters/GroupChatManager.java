@@ -53,6 +53,11 @@ public class GroupChatManager {
         return eventID;
     }
 
+    /**
+     * Returns a list of messade IDs.
+     * @return an ArrayList containing message IDs
+     */
+
     public ArrayList<String> getMessageIDs() {
         ArrayList<String> messageIDs = new ArrayList<String>();
         for (GroupChatMessage message: messages) {
@@ -60,6 +65,12 @@ public class GroupChatManager {
         }
         return messageIDs;
     }
+
+    /**
+     * Returns the email of the user who sent the message with the given message ID.
+     * @param messageID a String representing the message ID
+     * @return
+     */
 
     public String getSenderOfMessageWithID(String messageID) {
         String sender = null;
@@ -71,6 +82,12 @@ public class GroupChatManager {
         return sender;
     }
 
+    /**
+     * Returns the time at which the message with the given message ID was sent.
+     * @param messageID a String representing the message ID
+     * @return a LocalDateTime object represent the time at which the message was sent
+     */
+
     public LocalDateTime getTimestampOfMessageWithID(String messageID) {
         LocalDateTime time = null;
         for (GroupChatMessage message: messages) {
@@ -80,6 +97,12 @@ public class GroupChatManager {
         }
         return time;
     }
+
+    /**
+     * Returns the content of the message with the given message ID.
+     * @param messageID a String representing the message ID
+     * @return a String representing the content of the message
+     */
 
     public String getContentOfMessageWithID(String messageID) {
         String content = null;
