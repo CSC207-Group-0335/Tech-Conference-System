@@ -95,36 +95,6 @@ public class Event {
     }
 
     /**
-     * Returns true if the speaker was successfully added.
-     * @param speakerEmail the email of the speaker
-     * @return a booleans representing whether or not the speaker was added
-     */
-
-    public boolean addSpeaker(String speakerEmail){
-        for (String speaker : speakers){
-            if (speaker.equals(speakerEmail)){
-                return false;
-            }
-        }
-        speakers.add(speakerEmail);
-        return true;
-    }
-
-    /**
-     * Returns true if the speaker was successfully removed.
-     * @param speakerEmail the email of the speaker
-     * @return a booleans representing whether or not the speaker was removed
-     */
-
-    public boolean removeSpeaker(String speakerEmail){
-        if (speakers.contains(speakerEmail)) {
-            speakers.remove(speakerEmail);
-            return true;
-        }
-        else{return false;}
-    }
-
-    /**
      * Retrieves the tile of the talk.
      * @return A string representing the title of the talk.
      */

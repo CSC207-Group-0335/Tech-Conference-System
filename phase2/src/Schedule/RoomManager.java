@@ -1,29 +1,22 @@
 package Schedule;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
  * Stores all the rooms for the conference.
  */
-public class RoomStorage {
+public class RoomManager {
     /**
      * A list of all the rooms.
      */
     ArrayList<Room> roomList;
     ArrayList<String> roomNameList;
-    /**
-     * A mapping of rooms to its corresponding RoomScheduleManager which checks for double booking.
-     */
-    //HashMap<Room, RoomScheduleManager> scheduleList;
-    EventManager eventManager;
-
     HashMap<String, Room> roomNameMap;
 
     /**
      * Creates a room storage.
      */
-    public RoomStorage(){
+    public RoomManager(){
         this.roomList = new ArrayList<>();
         this.roomNameList = new ArrayList<>();
         this.roomNameMap = new HashMap<String, Room>();
@@ -78,15 +71,7 @@ public class RoomStorage {
         }
         return false;
     }
-    public void removeRoom(String roomName){
-        for (Room r : roomList){
-            if (r.getRoomName().equals(roomName)){
-                roomList.remove(r);
-                roomNameList.remove(roomName);
-                roomNameMap.remove(roomName);
-            }
-        }
-    }
+
     /**
      * Gets the list of rooms.
      * @return An ArrayList representing the roomList of RoomStorage.
@@ -100,7 +85,7 @@ public class RoomStorage {
      * @return A HashMap representing the scheduleList of RoomStorage.
      */
 
-    public boolean addEvent(String roomName, String EventId, LocalDateTime start, LocalDateTime end){
+    public boolean addEvent(String roomName, String EventId){
         Room r = roomNameMap.get(roomName);
         boolean found = true;
         for (String id : r.getEventList()){
@@ -178,12 +163,6 @@ public class RoomStorage {
 
     public ArrayList<String> getRoomNameList() {
         return this.roomNameList;
-    }
-
-    public boolean changeRoomCapacity(String roomName, int capacity){
-        Room room = nameToRoom(roomName);
-        room.changeCapacity(capacity);
-        return true;
     }
 
 }

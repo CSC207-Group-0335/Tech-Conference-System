@@ -20,8 +20,8 @@ public class OrgScheduleController extends UserScheduleController {
      */
 
     public OrgScheduleController(String email, EventManager eventManager, UserManager userManager,
-                                 MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
-        super(email, eventManager, userManager, mainMenuController, roomStorage, scanner);
+                                 MainMenuController mainMenuController, RoomManager roomManager, Scanner scanner){
+        super(email, eventManager, userManager, mainMenuController, roomManager, scanner);
         presenter = new OrgSchedulePresenter();
     }
 
@@ -104,7 +104,7 @@ public class OrgScheduleController extends UserScheduleController {
 
     public String pickRoom(Scanner scan) {
         // first they pick a speaker, then they pick a room, then they pick a time and check if it works
-        presenter.printByIndex(roomStorage.getRoomNameList());
+        presenter.printByIndex(roomManager.getRoomNameList());
         presenter.choose("room");
         boolean doContinue  = true;
         while (doContinue){
@@ -116,11 +116,11 @@ public class OrgScheduleController extends UserScheduleController {
             else if (roomIndex == 0){
                 return null;
             }
-            else if (roomIndex -1 >= roomStorage.getRoomNameList().size()){
+            else if (roomIndex -1 >= roomManager.getRoomNameList().size()){
                 presenter.printTryAgain("room index");
             }
             else{
-                String chosenRoom = roomStorage.getRoomNameList().get(roomIndex - 1);
+                String chosenRoom = roomManager.getRoomNameList().get(roomIndex - 1);
                 presenter.printSchedule("room");
                 this.getSchedule(chosenRoom, 2, "Room");
                 return chosenRoom;
@@ -218,11 +218,11 @@ public class OrgScheduleController extends UserScheduleController {
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
         //LocalDateTime end = dateTime.plusHours(1);
          if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))
-                && !eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 1;}
+                && !eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 1;}
         else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))){
             return 2;
         }
-        else if(!eventManager.checkDoubleBooking(startTime, endTime, roomStorage.roomNameToEventIds(room))){return 3;}
+        else if(!eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 3;}
         else{return 0;}
     }
     /**
@@ -257,7 +257,7 @@ public class OrgScheduleController extends UserScheduleController {
             if (capacity == null){
                 continue;
             }
-            else if (capacity > roomStorage.roomNameToCapacity(room)){
+            else if (capacity > roomManager.roomNameToCapacity(room)){
                 presenter.printRequestEventMenu(2);
             }
             else {
@@ -353,7 +353,7 @@ public class OrgScheduleController extends UserScheduleController {
      */
 
     public boolean addRoom(String roomName, int cap) {
-        return this.roomStorage.createRoom(roomName, cap);
+        return this.roomManager.createRoom(roomName, cap);
     }
 
     /**
