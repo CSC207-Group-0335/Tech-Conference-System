@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
- * A class representing event features.
+ * A use case class for storing the values of EventMap from EventManager.
  */
 
-public class EventFeatures {
+public class EventMapFeatures {
     Room room;
     ArrayList<Speaker> speakers;
     LocalDateTime start;
@@ -24,7 +24,7 @@ public class EventFeatures {
      * @param end the end time
      */
 
-    public EventFeatures(Room room, ArrayList<Speaker> speakers, LocalDateTime start, LocalDateTime end){
+    public EventMapFeatures(Room room, ArrayList<Speaker> speakers, LocalDateTime start, LocalDateTime end){
         this.room =room;
         this.speakers = speakers;
         this.start = start;
