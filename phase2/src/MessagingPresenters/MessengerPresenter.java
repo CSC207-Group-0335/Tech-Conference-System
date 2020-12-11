@@ -29,7 +29,7 @@ public abstract class MessengerPresenter {
     /**
      * Prints Asks for email
      */
-    public void askForEmail() {System.out.println("Please enter the recipient's email address or 0 to go back:");}
+    public void askForEmail() {System.out.println("Please enter the address to send to or 0 to go back:");}
 
     /**
      * Prints Tells users to type message.
