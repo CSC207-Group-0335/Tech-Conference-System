@@ -22,30 +22,6 @@ public class RoomManager {
         this.roomNameMap = new HashMap<String, Room>();
     }
 
-    /**
-     * Creates a room with the specified name. And adds the rooms to the room list  and schedule list.
-     * @param roomName The name of the room.
-     * @return A boolean notifying if the room was successfully created.
-     */
-    public boolean createRoom(String roomName) {
-        boolean bool = true;
-        for (Room r : roomList) {
-            if (r.getRoomName().equals(roomName)) {
-                bool = false;
-                break;
-            }
-        }
-        if (bool) {
-            Room room = new Room(roomName);
-            roomList.add(room);
-            roomNameList.add(roomName);
-//            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-//            scheduleList.put(room, rScheduleManager);
-            roomNameMap.put(roomName, room);
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Creates a room with the specified name and capacity. And adds the rooms to the room list  and schedule list.
@@ -64,8 +40,6 @@ public class RoomManager {
             Room room = new Room(roomName, capacity);
             roomList.add(room);
             roomNameList.add(roomName);
-//            RoomScheduleManager rScheduleManager = new RoomScheduleManager(room);
-//            scheduleList.put(room, rScheduleManager);
             roomNameMap.put(roomName, room);
             return true;
         }

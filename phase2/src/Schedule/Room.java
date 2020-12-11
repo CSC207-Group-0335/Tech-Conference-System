@@ -10,7 +10,7 @@ public class Room {
     /**
      * The amount of attendees allowed in the room, not including the speaker.
      */
-    int capacity = 2;
+    int capacity;
 
     /**
      * Creates a room with the specified name and capacity.
@@ -23,15 +23,6 @@ public class Room {
     public Room(String roomName, int capacity){
         this.roomName = roomName;
         this.capacity = capacity;
-        this.eventList = new ArrayList<>();
-    }
-
-    /**
-     * Creates a room with the specified name.
-     * @param roomName The name of the room.
-     */
-    public Room(String roomName){
-        this.roomName = roomName;
         this.eventList = new ArrayList<>();
     }
 

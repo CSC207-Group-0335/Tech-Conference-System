@@ -217,13 +217,21 @@ public class OrgScheduleController extends UserScheduleController {
 
     public int checkDoubleBooking(String speaker, String room, LocalDateTime startTime, LocalDateTime endTime){
         //LocalDateTime end = dateTime.plusHours(1);
-         if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))
-                && !eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 1;}
-        else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))){
-            return 2;
+        if (speaker == ""){
+            if (!eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){
+                return 3;
+            }
         }
-        else if(!eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 3;}
-        else{return 0;}
+        else{
+            if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))
+                    && !eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 1;}
+            else if(!eventManager.checkDoubleBooking(startTime, endTime, userManager.emailToEventList(speaker))){
+                return 2;
+            }
+            else if(!eventManager.checkDoubleBooking(startTime, endTime, roomManager.roomNameToEventIds(room))){return 3;}
+            else{return 0;}
+        }
+        return 0;
     }
     /**
      * Check if any speaker in the list of speakers is double booked at the specified room and time
@@ -235,6 +243,11 @@ public class OrgScheduleController extends UserScheduleController {
      */
 
     public boolean checkDoubleBookingSpeakers(ArrayList<String> speakers, String room, LocalDateTime startTime, LocalDateTime endTime){
+        if (speakers.size() == 0){
+            if (checkDoubleBooking("", room, startTime, endTime) == 3){
+                return false;
+            }
+        }
         for (String s : speakers){
             if (!(checkDoubleBooking(s, room, startTime, endTime)==0)){
                 return false;
@@ -259,6 +272,9 @@ public class OrgScheduleController extends UserScheduleController {
             }
             else if (capacity > roomManager.roomNameToCapacity(room)){
                 presenter.printRequestEventMenu(2);
+            }
+            else if (capacity == 0){
+                return null;
             }
             else {
                 return capacity;
@@ -290,22 +306,6 @@ public class OrgScheduleController extends UserScheduleController {
             endTime = pickTime(scan, 1);
             if (endTime == null) {return false;}
         }
-        if (speakers.size() == 0){
-            int capacity = pickCapacity(room);
-            presenter.printRequestEventMenu(3);
-            String eventTitle = scan.nextLine();
-            presenter.printRequestEventMenu(4);
-            String vip1 = validatorController.userStringInputValidation("scheduling", "VIP label", scan);
-            boolean vip1bool = false;
-            if (vip1.equals("VIP")){
-                vip1bool = true;
-            }
-            if (eventManager.createEvent(eventTitle, speakers, room, startTime, endTime, capacity, vip1bool)){
-                presenter.printChoosingSpeakersProcess(2, eventTitle);
-                return true;
-            }
-            else{return  false;}
-        }
         boolean doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
         while(!doubleBookingChecker){
             presenter.printRequestEventMenu(5);
@@ -325,7 +325,11 @@ public class OrgScheduleController extends UserScheduleController {
             }
             doubleBookingChecker = checkDoubleBookingSpeakers(speakers, room, startTime, endTime);
         }
-        int capacity = pickCapacity(room);
+        presenter.printChoosingSpeakersProcess(4, Integer.toString(roomManager.roomNameToCapacity(room)));
+        Integer capacity = pickCapacity(room);
+        if (capacity == null){
+            return false;
+        }
         presenter.printRequestEventMenu(6);
         presenter.printRequestEventMenu(3);
         String eventTitle = scan.nextLine();

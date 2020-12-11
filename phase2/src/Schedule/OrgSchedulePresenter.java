@@ -147,6 +147,9 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 9:
                 System.out.println("End time must be after the start time. Pick another end time");
                 break;
+            case 10:
+                System.out.println("Event capacity must be above 0.");
+                break;
         }
     }
 
@@ -213,6 +216,8 @@ public class OrgSchedulePresenter extends UserSchedulePresenter {
             case 3:
                 System.out.println("Too many speakers. Please choose at most " + str + " speakers.");
                 break;
+            case 4:
+                System.out.println("Capacity of the chosen room is " + str +".");
         }
     }
 
