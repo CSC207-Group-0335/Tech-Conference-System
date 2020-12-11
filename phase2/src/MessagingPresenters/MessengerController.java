@@ -80,7 +80,7 @@ public abstract class MessengerController {
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
-                    messageManager.deleteMessage(messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail), position, viewingArchivedMessages);
+                    messageManager.deleteMessage(recipientEmail, position, viewingArchivedMessages);
                     presenter.printSuccessfulDeletion();
                 }
                 else if (opt == 2) {
