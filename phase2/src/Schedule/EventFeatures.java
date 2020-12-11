@@ -1,7 +1,6 @@
 package Schedule;
 
 import UserLogin.Speaker;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
