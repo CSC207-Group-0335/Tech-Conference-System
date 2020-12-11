@@ -44,6 +44,7 @@ public abstract class MessengerController {
         }
     }
 
+
     /**
      * Method that deletes a senders message by index.
      * @param index The string index.
@@ -89,7 +90,7 @@ public abstract class MessengerController {
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
-                    deleteMessage(position, messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, position, recipientEmail));
+                    deleteMessage(position, messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, index, recipientEmail));
                     presenter.printSuccessfulDeletion();
                 }
                 else if (opt == 2) {

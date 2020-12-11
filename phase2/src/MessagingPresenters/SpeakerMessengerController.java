@@ -82,7 +82,7 @@ public class SpeakerMessengerController extends MessengerController {
                 else if (option == 2) {
                     //VIEW GROUP CHATS
                     ArrayList<String> talkIDS = getEventIDS();
-                    runIndividualChatMenu(presenter, talkIDS);
+                    runGroupChatMenu(presenter, talkIDS);
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
