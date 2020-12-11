@@ -96,13 +96,6 @@ public class JSONWriter {
 
         }
 
-        //I found an alternative way to write to files here, but both ways seem to work the same - Nathan
-//        try (FileWriter file = new FileWriter(json)) {
-//            file.write(userArray.toJSONString());
-//            file.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         try {
             Files.write(Paths.get(json), userArray.toJSONString().getBytes());
@@ -227,34 +220,4 @@ public class JSONWriter {
     }
 
 
-//    public void writeToGroupchat(String json, ConversationStorage storage){
-//        JSONArray convoArray = new JSONArray();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//
-//        for(GroupChatManager chat: storage.getGroupChatManagers()){
-//            JSONArray messagesArray = new JSONArray();
-//            JSONObject convoObject = new JSONObject();
-//            convoObject.put("eventID", chat.getEventID());
-//            for(String messageid: chat.getMessageIDs()){
-//            JSONObject messageobj = new JSONObject();
-//            messageobj.put("recipient", chat.getRecipientOfMessageWithID(messageid));
-//            messageobj.put("sender", chat.getSenderOfMessageWithID(messageid));
-//            LocalDateTime time = chat.getTimestampOfMessageWithID(messageid);
-//            String formatted = time.format(formatter);
-//            messageobj.put("time", formatted);
-//            messageobj.put("content", chat.getContentOfMessageWithID(messageid));
-//            messageobj.put("recipientstatus", chat.getRecipientStatusesOfMessageWithID(messageid));
-//            messageobj.put("senderstatus", chat.getSenderStatusesOfMessageWithID(messageid));
-//            messagesArray.add(messageobj);
-//
-//
-//
-//
-//        }
-//
-//    }
-//
-//
-//
-//}
 }

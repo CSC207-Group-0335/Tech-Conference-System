@@ -44,16 +44,6 @@ public abstract class MessengerController {
         }
     }
 
-
-    /**
-     * Method that deletes a senders message by index.
-     * @param index The string index.
-     * @param senderEmail The sender email.
-     */
-    public void deleteMessage(int index, String senderEmail){
-        messageManager.deleteMessage(senderEmail, index);
-    }
-
     /**
      * Method that returns ArrayList of EventID's.
      * @return ArrayList Strings.
@@ -90,7 +80,7 @@ public abstract class MessengerController {
                 int opt = Integer.parseInt(scan.nextLine());
                 if (opt == 1) {
                     // DELETION
-                    deleteMessage(position, messageManager.getSenderOfMessageAtIndex(viewingArchivedMessages, index, recipientEmail));
+                    messageManager.deleteMessage(recipientEmail, position, viewingArchivedMessages);
                     presenter.printSuccessfulDeletion();
                 }
                 else if (opt == 2) {

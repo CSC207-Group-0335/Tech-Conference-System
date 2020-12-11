@@ -1,13 +1,11 @@
 package Schedule;
 
-import Files.CSVWriter;
 import Files.JSONReader;
 import Files.JSONWriter;
 import UserLogin.UserManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -46,8 +44,6 @@ public class RoomSystem extends Observable {
      * Method to write the changes to the RoomFile, called in MainMenuController.logout().
      */
     public void save() {
-        CSVWriter csvWriter = new CSVWriter();
-        csvWriter.writeToRooms("src/Resources/RoomFile", roomStorage);
         JSONWriter jsonWriter = new JSONWriter();
         jsonWriter.writeToRooms("src/Resources/Rooms.json", roomStorage);
     }
