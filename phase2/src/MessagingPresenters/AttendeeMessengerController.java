@@ -62,7 +62,11 @@ public class AttendeeMessengerController extends MessengerController {
                 }
                 else if (option == 3) {
                     // MESSAGE USER
-                    runMessageIndividualUserMenu(presenter);
+                    runMessageMenu(presenter, true);
+                }
+                else if (option == 4) {
+                    // MESSAGE GROUP
+                    runMessageMenu(presenter, false);
                 }
             }
             catch (NumberFormatException nfe) {

@@ -15,6 +15,7 @@ public class AttendeeMessengerPresenter extends MessengerPresenter {
      * Method to print the messaging menu prompt.
      */
     public void printMessagesMenu() {
-        System.out.println("Press 3 to send a message to a user");
+        System.out.println("Press 3 to send a message to a user" + System.lineSeparator() +
+                "Press 4 to message a groupchat");
     }
 }
