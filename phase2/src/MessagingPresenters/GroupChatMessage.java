@@ -31,15 +31,6 @@ public class GroupChatMessage {
     }
 
     /**
-     * Returns the ID of the group chat.
-     * @return a String representing a group chat ID
-     */
-
-    public String getGroupChatID() {
-        return groupChatID;
-    }
-
-    /**
      * Returns the email address of the user who sent this message.
      *
      * @return the email address of the sender
@@ -76,5 +67,4 @@ public class GroupChatMessage {
      */
 
     public String getMessageID() { return messageID; }
-
 }

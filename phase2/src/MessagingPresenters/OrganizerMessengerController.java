@@ -7,7 +7,6 @@ import UserLogin.UserManager;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 /**
  * A class that represents an organizer message controller.
  */

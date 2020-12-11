@@ -27,7 +27,6 @@ public class AttendeeMessengerController extends MessengerController {
         this.userManager = userManager;
     }
 
-
     /**
      * Returns a list containing all recipients.
      *
