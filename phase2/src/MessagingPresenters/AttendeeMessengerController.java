@@ -58,7 +58,8 @@ public class AttendeeMessengerController extends MessengerController {
                 else if (option == 2) {
                     //VIEW GROUP CHATS
                     ArrayList<String> eventIDS = getEventIDS();
-                    runGroupChatMenu(presenter, eventIDS);
+                    ArrayList<String> IDS = getIDS();
+                    runGroupChatMenu(presenter, eventIDS, IDS);
                 }
                 else if (option == 3) {
                     // MESSAGE USER
@@ -66,7 +67,9 @@ public class AttendeeMessengerController extends MessengerController {
                 }
                 else if (option == 4) {
                     // MESSAGE GROUP
-                    runMessageMenu(presenter, false);
+                    ArrayList<String> eventIDS = getEventIDS();
+                    ArrayList<String> IDS = getIDS();
+                    runGroupChatMessageMenu(presenter, eventIDS, IDS);
                 }
             }
             catch (NumberFormatException nfe) {

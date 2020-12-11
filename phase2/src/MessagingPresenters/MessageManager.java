@@ -277,6 +277,22 @@ public abstract class MessageManager {
             if (event.getSpeakers().contains(user.getEmail()) ||
                     event.getUsersSignedUp().contains(user.getEmail()) ||
                     user instanceof Organizer) {
+                eventIDs.add(eventManager.toStringEvent(event.getEventId()));
+            }
+        }
+        return eventIDs;
+    }
+
+    /**
+     * Method that returns an ArrayList of all EventID's
+     * @return ArrayList of Strings.
+     */
+    public ArrayList<String> getIDs() {
+        ArrayList<String> eventIDs = new ArrayList<>();
+        for (Event event : eventManager.eventList) {
+            if (event.getSpeakers().contains(user.getEmail()) ||
+                    event.getUsersSignedUp().contains(user.getEmail()) ||
+                    user instanceof Organizer) {
                 eventIDs.add(event.getEventId());
             }
         }

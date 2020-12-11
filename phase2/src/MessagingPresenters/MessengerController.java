@@ -51,6 +51,12 @@ public abstract class MessengerController {
     public ArrayList<String> getEventIDS(){return messageManager.getEventIDs();}
 
     /**
+     * Method that returns ArrayList of EventID's.
+     * @return ArrayList Strings.
+     */
+    public ArrayList<String> getIDS(){return messageManager.getIDs();}
+
+    /**
      * Method that runs an individual chat menu
      * @param presenter The presenter.
      * @param emails The String ArrayList of emails.
@@ -110,21 +116,41 @@ public abstract class MessengerController {
      * @param presenter The presenter.
      * @param talkIDS ArrayList of String talkID's.
      */
-    public void runGroupChatMenu(MessengerPresenter presenter, ArrayList<String> talkIDS) {
+    public void runGroupChatMenu(MessengerPresenter presenter, ArrayList<String> talkIDS, ArrayList<String> IDS) {
         presenter.viewGroupChats(talkIDS);
         int index = Integer.parseInt(scan.nextLine());
         if (index == 0 || talkIDS.size() == 0) {
             return;
         }
-        String groupChatID = talkIDS.get(index - 1);
+        String ID = IDS.get(index - 1);
         char input = 'a';
         while (input != '0'){
-            ArrayList<String> messages = messageManager.getGroupChatMessages(groupChatID);
+            ArrayList<String> messages = messageManager.getGroupChatMessages(ID);
             presenter.viewGroupChat(messages);
             input = scan.nextLine().toCharArray()[0];
         }
     }
 
+    /**
+     * Mehtod that runs a group chat menu.
+     * @param presenter The presenter.
+     * @param talkIDS ArrayList of String talkID's.
+     */
+    public void runGroupChatMessageMenu(MessengerPresenter presenter, ArrayList<String> talkIDS, ArrayList<String> IDS) {
+        presenter.viewGroupChats(talkIDS);
+        int index = Integer.parseInt(scan.nextLine());
+        if (index == 0 || talkIDS.size() == 0) {
+            return;
+        }
+        String ID = IDS.get(index - 1);
+        presenter.askForMessageBody();
+        String body = scan.nextLine();
+        if (body.equals("0")) {
+            return;
+        }
+        messageManager.message(ID, body, false);
+        presenter.printMessageSentSuccess();
+    }
 
     /**
      * Method that runs a message individuals menu.
