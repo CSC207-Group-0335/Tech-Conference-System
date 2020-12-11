@@ -1,6 +1,5 @@
 package MessagingPresenters;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -148,13 +147,5 @@ public class Message {
      */
     public ArrayList<String> getRecipientStatuses() {
         return this.recipientStatuses;
-    }
-
-    public void setSenderStatuses(ArrayList<String> senderStatuses) {
-        this.senderStatuses = senderStatuses;
-    }
-
-    public void setRecipientStatuses(ArrayList<String> recipientStatuses) {
-        this.recipientStatuses = recipientStatuses;
     }
 }

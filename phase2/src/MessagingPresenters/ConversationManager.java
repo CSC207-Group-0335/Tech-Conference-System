@@ -54,16 +54,6 @@ public class ConversationManager {
     }
 
     /**
-     * Returns the email of the user who sent the latest message.
-     *
-     * @return a String representing the email of the most recent sender
-     */
-
-    public String getLastSenderEmail() {
-        return messages.get(messages.size() - 1).getSenderEmail();
-    }
-
-    /**
      * Adds a message to conversation manager.
      *
      * @param recipientEmail a String representing the email of the recipient
@@ -86,7 +76,6 @@ public class ConversationManager {
             this.messages.add(message);
         }
     }
-
 
     private boolean indexExists(int index){
         return index < messages.size();
