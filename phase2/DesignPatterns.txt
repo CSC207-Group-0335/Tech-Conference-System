@@ -1,0 +1,19 @@
+List of Design Patterns Used:
+
+Observer:
+
+The Observer pattern was used in this program to keep track of changes in an object.
+These following classes implement Observable:
+
+- MessagingSystem: notifies observers when a MessengerController has been set
+
+- EventSystem: notifies observers when an OrgScheduleController, UserScheduleController, 
+  or SpeakerScheduleController has been set.
+
+- RoomSystem: runs EventSystem, which uses Observer
+
+- LogInController: notifies observers of what type of User has logged in
+
+
+
+

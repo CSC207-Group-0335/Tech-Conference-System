@@ -1,0 +1,10 @@
+Features Added:
+
+- Group Chats for each event
+
+- Message statuses; allows users to archive, mark as unread/read, 
+  or delete messages.
+
+- Allows users to send in requests or accommodations 
+
+- Stores information inside JSON files
