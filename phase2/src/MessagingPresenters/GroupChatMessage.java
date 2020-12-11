@@ -30,7 +30,10 @@ public class GroupChatMessage {
         this.messageID = UUID.randomUUID().toString();
     }
 
-
+    /**
+     * Returns the ID of the group chat.
+     * @return a String representing a group chat ID
+     */
 
     public String getGroupChatID() {
         return groupChatID;
@@ -67,6 +70,10 @@ public class GroupChatMessage {
         return messageContent;
     }
 
+    /**
+     * Returns the ID of this message.
+     * @return a String representing a message ID
+     */
 
     public String getMessageID() { return messageID; }
 

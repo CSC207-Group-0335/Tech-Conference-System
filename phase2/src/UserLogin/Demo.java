@@ -5,7 +5,7 @@ package UserLogin;
  */
 
 public class Demo {
-    /*8
+    /*
     The main method of the program.
      */
 
