@@ -60,9 +60,8 @@ public class LogInController extends Observable {
                 this.email = email;
                 setUserEmail(this.email); //set the user
 
-                //NOTE NOV 24. These have to take in an email now, so that also needs to be updated in eventSystem
-                //and messagingSystem.
-                this.eventSystem.setEmail(this.email);
+
+
                 this.messagingSystem.setEmail(this.email);
                 this.eventSystem.instantiateControllers(this.email, scanner); //Instantiate controllers for the found user
                 this.messagingSystem.instantiateControllers(this.email, scanner);

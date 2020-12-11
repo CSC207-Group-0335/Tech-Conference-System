@@ -285,30 +285,6 @@ public class UserManager extends Observable {
 
 
     /**
-     * Returns true if this request has not been addressed.
-     *
-     * @param req a String representing a request
-     * @param email a String representing an email
-     * @return a boolean representing whether or not this request is yet to addressed
-     */
-
-    public boolean requestNotAddressed(String req, String email) {
-        Attendee attendee = (Attendee) this.emailToUser(email);
-        if (!(attendee == null)){
-            if (attendee.getRequests().containsKey(req)) {
-                if (attendee.getRequests().get(req).equals("pending")) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            return false;
-        }
-        return false;
-    }
-
-    /**
      * Returns true if the request is not a repeat.
      *
      * @param req a String representing a request
@@ -351,37 +327,13 @@ public class UserManager extends Observable {
      */
 
     public ArrayList<Map.Entry<String, String>> getRequestList(String email) {
-        ArrayList<String> requests = new ArrayList<>();
         Attendee attendee = (Attendee) this.emailToUser(email);
-        //requests.addAll(attendee.getRequests().keySet());
+
         LinkedHashMap<String, String> requestMap = attendee.getRequests();
         Set<Map.Entry<String, String>> entrySet  = requestMap.entrySet();
         // Creating an ArrayList of Entry objects
         ArrayList<Map.Entry<String,String>> listOfEntry = new ArrayList<Map.Entry<String, String>>(entrySet);
         return listOfEntry;
-    }
-
-    /**
-     * Returns a HashMap of email addresses paired with a list of pending requests sent in by the attendee registered
-     * under that email.
-     *
-     * @return a HashMap with email addresses as the keys and ArrayLists of requests as the values
-     */
-
-    public LinkedHashMap<String, ArrayList<String>> emailToRequest() {
-        LinkedHashMap<String, ArrayList<String>> emailRequestMap = new LinkedHashMap<>();
-        for (String email : getUserEmailList()) {
-            if (this.emailToUser(email) instanceof Attendee) {
-                ArrayList<String> userRequests = new ArrayList<>();
-                for (String req : ((Attendee) this.emailToUser(email)).requestMap.keySet()) {
-                    if (((Attendee) this.emailToUser(email)).requestMap.get(req).equals("pending")) {
-                        userRequests.add(req);
-                    }
-                }
-                emailRequestMap.put(email, userRequests);
-            }
-        }
-        return emailRequestMap;
     }
 
     /**

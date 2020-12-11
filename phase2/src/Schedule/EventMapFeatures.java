@@ -51,23 +51,4 @@ public class EventMapFeatures {
         return speakers;
     }
 
-    /**
-     * Returns end time.
-     *
-     * @return a LocalDateTime object representing the end time
-     */
-
-    public LocalDateTime getEnd() {
-        return end;
-    }
-
-    /**
-     * Returns start time.
-     *
-     * @return a LocalDateTime object representing the start time
-     */
-
-    public LocalDateTime getStart() {
-        return start;
-    }
 }

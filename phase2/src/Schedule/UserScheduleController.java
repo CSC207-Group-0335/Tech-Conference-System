@@ -13,7 +13,7 @@ public class UserScheduleController{
     UserManager userManager;
     EventManager eventManager;
     MainMenuController mainMenuController;
-    RoomStorage roomStorage;
+    RoomManager roomManager;
     UserSchedulePresenter presenter;
     Scanner scan;
     ValidatorController validatorController;
@@ -27,12 +27,12 @@ public class UserScheduleController{
      * @param scanner The scanner of MainMenuController.
      */
     public UserScheduleController(String email, EventManager eventManager, UserManager userManager,
-                                  MainMenuController mainMenuController, RoomStorage roomStorage, Scanner scanner){
+                                  MainMenuController mainMenuController, RoomManager roomManager, Scanner scanner){
         this.scan = scanner;
         this.email = email;
         this.userManager = userManager;
         this.eventManager = eventManager;
-        this.roomStorage = roomStorage;
+        this.roomManager = roomManager;
         this.mainMenuController = mainMenuController;
         presenter = new UserSchedulePresenter();
         validatorController = new ValidatorController();
@@ -110,7 +110,7 @@ public class UserScheduleController{
         if (type == "User"){
          registeredEvents = userManager.emailToEventList(identifier);}
         else if (type == "Room"){
-            registeredEvents = roomStorage.roomNameToEventIds(identifier);
+            registeredEvents = roomManager.roomNameToEventIds(identifier);
         }
         if(registeredEvents.size() != 0){
             ArrayList<String> stringRepRegisteredEvents = new ArrayList<>();

@@ -4,7 +4,7 @@ import MessagingPresenters.ConversationManager;
 import MessagingPresenters.ConversationStorage;
 import MessagingPresenters.GroupChatManager;
 import Schedule.EventManager;
-import Schedule.RoomStorage;
+import Schedule.RoomManager;
 import UserLogin.UserManager;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -184,7 +184,7 @@ public class JSONWriter {
      * @param json The string location of the JSON.
      * @param rooms The RoomStorage.
      */
-    public void writeToRooms(String json, RoomStorage rooms){
+    public void writeToRooms(String json, RoomManager rooms){
         JSONArray roomsArray = new JSONArray();
         for (String name: rooms.getRoomNameList()){
             JSONObject newobj = new JSONObject();
