@@ -44,6 +44,32 @@ public class SpeakerMessageManager extends MessageManager{
                 emails.add(userManager.emailToUser(email));
             }
         }
+
+        for (ConversationManager c: conversationStorage.getConversationManagers()){
+            if (c.getParticipants().contains(user.getEmail())){
+                if (c.getParticipants().get(0).equals(user.getEmail())){
+                    emails.add(userManager.emailToUser(c.getParticipants().get(1)));
+                }else{
+                    emails.add(userManager.emailToUser(c.getParticipants().get(0)));
+                }
+            }
+        }
+        return emails;
+    }
+
+    /**
+     * Returns a set of the emails of all attendees signed up for this speaker's events.
+     *
+     * @return a HashSet containing Strings representing the emails of all attendees signed up for this speaker's events
+     */
+
+    public HashSet<User> getAttendeesList() {
+        HashSet<User> emails = new HashSet<>();
+        for (Event event : getSpeakerEvents()) {
+            for (String email: event.getUsersSignedUp()){
+                emails.add(userManager.emailToUser(email));
+            }
+        }
         return emails;
     }
 
@@ -68,7 +94,7 @@ public class SpeakerMessageManager extends MessageManager{
      */
 
     public void messageAllAttendees(String messageContent) {
-        for (User user : getFriendsList()) {
+        for (User user : getAttendeesList()) {
             message(user.getEmail(), messageContent, true);
         }
     }
