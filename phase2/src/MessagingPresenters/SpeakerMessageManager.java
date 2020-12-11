@@ -15,7 +15,6 @@ public class SpeakerMessageManager extends MessageManager{
         super(speakerEmail, userManager, conversationStorage, eventManager);
     }
 
-
     /**
      * Returns a list of all events the speaker will be participating in.
      *

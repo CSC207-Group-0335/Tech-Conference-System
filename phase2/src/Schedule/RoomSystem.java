@@ -14,15 +14,15 @@ import java.util.*;
  */
 public class RoomSystem extends Observable {
 
-    public RoomStorage roomStorage;
+    public RoomManager roomManager;
     public EventSystem eventSystem;
 
     /**
      * Creates a new RoomSystem.
      */
     public RoomSystem(UserManager userManager){
-        this.roomStorage = new RoomStorage();
-        this.eventSystem = new EventSystem(userManager, this.roomStorage);
+        this.roomManager = new RoomManager();
+        this.eventSystem = new EventSystem(userManager, this.roomManager);
     }
 
     /**
@@ -35,7 +35,7 @@ public class RoomSystem extends Observable {
         roomList.forEach(roo -> {
             JSONObject room = (JSONObject) roo; //cast roo as a JSONObject
             String roomName = (String) room.get("roomname"); //fetch the name of the room
-            roomStorage.createRoom(roomName); //create a room with the fetched roomName
+            roomManager.createRoom(roomName); //create a room with the fetched roomName
         });
         eventSystem.run();
     }
@@ -45,6 +45,6 @@ public class RoomSystem extends Observable {
      */
     public void save() {
         JSONWriter jsonWriter = new JSONWriter();
-        jsonWriter.writeToRooms("src/Resources/Rooms.json", roomStorage);
+        jsonWriter.writeToRooms("src/Resources/Rooms.json", roomManager);
     }
 }

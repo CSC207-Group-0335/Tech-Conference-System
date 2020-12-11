@@ -80,15 +80,6 @@ public class Room {
         return this.eventList;
     }
 
-    /**
-     * Changes the capacity of this room.
-     *
-     * @param capacity an int representing the new capacity.
-     */
-
-    public void changeCapacity(int capacity){
-        this.capacity = capacity;
-    }
 }
 
 

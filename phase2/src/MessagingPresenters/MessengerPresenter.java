@@ -1,7 +1,6 @@
 package MessagingPresenters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public abstract class MessengerPresenter {
     public void printMenu() {
@@ -143,7 +142,7 @@ public abstract class MessengerPresenter {
         else {
             int i = 1;
             for (String eventID : eventIDs) {
-                System.out.println(i + " - " + "Group Chat with Event ID: "+ eventID);
+                System.out.println(i + "-" + eventID);
                 i++;
             }
             System.out.println("Input the number corresponding to the email address with the conversation you wish " +

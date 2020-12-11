@@ -109,34 +109,6 @@ public abstract class MessageManager {
     }
 
     /**
-     * Adds a status to the message.
-     * @param email a String representing an email
-     * @param index an int representing an index
-     * @param status a String representing a status
-     */
-
-    public void addMessageStatus(String email, int index, String status, Boolean viewingArchived){
-        if (containsConversationWith(email)){
-            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.addStatus(user.getEmail(), index, status, viewingArchived);
-        }
-    }
-
-    /**
-     * Removes the status of the message.
-     * @param email a String representing an email
-     * @param index an int representing an index
-     * @param status a String representing a status
-     */
-
-    public void deleteMessageStatus(String email, int index, String status, Boolean viewingArchived){
-        if (containsConversationWith(email)){
-            ConversationManager c = conversationStorage.getConversationManager(user.getEmail(), email);
-            c.removeStatus(user.getEmail(), index, status, viewingArchived);
-        }
-    }
-
-    /**
      * Returns true if this message has a status.
      * @param email a String representing an email
      * @param index an int representing an index
@@ -277,6 +249,22 @@ public abstract class MessageManager {
             if (event.getSpeakers().contains(user.getEmail()) ||
                     event.getUsersSignedUp().contains(user.getEmail()) ||
                     user instanceof Organizer) {
+                eventIDs.add(eventManager.toStringEvent(event.getEventId()));
+            }
+        }
+        return eventIDs;
+    }
+
+    /**
+     * Method that returns an ArrayList of all EventID's
+     * @return ArrayList of Strings.
+     */
+    public ArrayList<String> getIDs() {
+        ArrayList<String> eventIDs = new ArrayList<>();
+        for (Event event : eventManager.eventList) {
+            if (event.getSpeakers().contains(user.getEmail()) ||
+                    event.getUsersSignedUp().contains(user.getEmail()) ||
+                    user instanceof Organizer) {
                 eventIDs.add(event.getEventId());
             }
         }
@@ -375,16 +363,5 @@ public abstract class MessageManager {
      */
     public Boolean getReadStatusOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail, String senderEmail) {
         return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).hasStatus(senderEmail, "Read");
-    }
-
-    /**
-     * Method to get the sender of a message by index.
-     * @param viewingArchivedMessages Boolean that tells if we are searching archived or unarchived messages.
-     * @param index The int index.
-     * @param recipientEmail The recipient email.
-     * @return String email.
-     */
-    public String getSenderOfMessageAtIndex(Boolean viewingArchivedMessages, int index, String recipientEmail) {
-        return getMessageAtIndex(viewingArchivedMessages, index, recipientEmail).getSenderEmail();
     }
 }

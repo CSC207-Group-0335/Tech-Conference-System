@@ -22,18 +22,17 @@ public class EventSystem extends Observable{
     public EventManager eventManager;
     public MessagingSystem messagingSystem;
     public ScheduleSystem scheduleSystem;
-    public String userEmail;
     public UserManager userManager;
-    public RoomStorage roomStorage;
+    public RoomManager roomManager;
     public MainMenuController mainMenuController;
 
     /**
      * creates a new TalkSystem.
      */
-    public EventSystem(UserManager userManager, RoomStorage roomStorage){
-        this.eventManager = new EventManager(userManager, roomStorage);
+    public EventSystem(UserManager userManager, RoomManager roomManager){
+        this.eventManager = new EventManager(userManager, roomManager);
         this.userManager = userManager;
-        this.roomStorage = roomStorage;
+        this.roomManager = roomManager;
         this.messagingSystem = new MessagingSystem(userManager, eventManager);
         this.scheduleSystem = new ScheduleSystem(eventManager, userManager);
     }
@@ -47,12 +46,12 @@ public class EventSystem extends Observable{
         this.addObserver(mainMenuController);
         if (userManager.emailToType(userEmail).equals("Attendee")){
             this.userScheduleController = new UserScheduleController(userEmail,  eventManager, userManager,
-                    mainMenuController, roomStorage, scanner);
+                    mainMenuController, roomManager, scanner);
             setUserScheduleController();
             }
         else if (userManager.emailToType(userEmail).equals("Organizer")){
             this.orgScheduleController = new OrgScheduleController(userEmail, eventManager, userManager,
-                    mainMenuController, roomStorage, scanner);
+                    mainMenuController, roomManager, scanner);
             setOrgScheduleController();
         }
         else{
@@ -97,15 +96,7 @@ public class EventSystem extends Observable{
         jsonWriter.writeToEvents("src/Resources/Events.json", this.eventManager);
     }
 
-    /**
-     * Sets an email address.
-     *
-     * @param userEmail a String representing the email
-     */
 
-    public void setEmail(String userEmail){
-        this.userEmail = userEmail;
-    }
 
     /**
      * Sets a main menu controller.

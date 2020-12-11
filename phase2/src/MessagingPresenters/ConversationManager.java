@@ -1,6 +1,5 @@
 package MessagingPresenters;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -77,10 +76,6 @@ public class ConversationManager {
         }
     }
 
-    private boolean indexExists(int index){
-        return index < messages.size();
-    }
-
     public Message getMessageWithIndexAndStatus(String email, int index, Boolean viewingArchived) {
         String status;
         if (viewingArchived) {
@@ -140,15 +135,6 @@ public class ConversationManager {
         getMessageWithIndexAndStatus(email, index, viewingArchived).swapStatus(email, originalStatus, newStatus);
     }
 
-    private Boolean isValidIndex(int index) {
-        if (index >= 0 && index < this.messages.size()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     /**
      * Method to delete a message by index and email.
      * @param email The string email.
@@ -168,12 +154,6 @@ public class ConversationManager {
     public ArrayList<String> getParticipants() {
         return this.participants;
     }
-
-    /**
-     * Method to return the messages in this conversation.
-     * @return ArrayList of Messages
-     */
-    public ArrayList<Message> getMessages() { return this.messages; }
 
     // FOR JSON READER AND WRITER
 

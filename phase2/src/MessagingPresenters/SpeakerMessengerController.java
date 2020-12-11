@@ -82,7 +82,8 @@ public class SpeakerMessengerController extends MessengerController {
                 else if (option == 2) {
                     //VIEW GROUP CHATS
                     ArrayList<String> talkIDS = getEventIDS();
-                    runGroupChatMenu(presenter, talkIDS);
+                    ArrayList<String> IDS = getIDS();
+                    runGroupChatMenu(presenter, talkIDS, IDS);
                 }
                 else if (option == 3) {
                     // MESSAGE ONE USER
@@ -120,7 +121,9 @@ public class SpeakerMessengerController extends MessengerController {
                 }
                 else if (option == 6) {
                     // MESSAGE GROUP
-                    runMessageMenu(presenter, false);
+                    ArrayList<String> talkIDS = getEventIDS();
+                    ArrayList<String> IDS = getIDS();
+                    runGroupChatMessageMenu(presenter, talkIDS, IDS);
                 }
             } catch (NumberFormatException nfe) {
                 presenter.printInvalidOptionError();

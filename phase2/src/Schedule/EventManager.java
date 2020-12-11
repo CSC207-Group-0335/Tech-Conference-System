@@ -29,13 +29,13 @@ public class EventManager{
      */
     public ArrayList<Event> eventList;
     public ArrayList<String> eventIdsList;
-    private RoomStorage roomStorage;
+    private RoomManager roomManager;
     private UserManager userManager;
 
-    public EventManager(UserManager userManager, RoomStorage roomStorage){
+    public EventManager(UserManager userManager, RoomManager roomManager){
         this.userManager = userManager;
-        this.roomList = roomStorage.getRoomList();
-        this.roomStorage = roomStorage;
+        this.roomList = roomManager.getRoomList();
+        this.roomManager = roomManager;
         this.eventMap = new LinkedHashMap<Event, EventMapFeatures>();
         this.eventList = new ArrayList<>();
         this.eventIdsList = new ArrayList<>();
@@ -121,7 +121,7 @@ public class EventManager{
                 for (Speaker s: speakers){
                     userManager.addEvent(s.getEmail(), event.getEventId());
                 }
-                roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
+                roomManager.addEvent(roomName, event.getEventId());
                 return true;
             }
             else{
@@ -161,7 +161,7 @@ public class EventManager{
             for (Speaker s: speakers){
                 userManager.addEvent(s.getEmail(), event.getEventId());
             }
-            roomStorage.addEvent(roomName, event.getEventId(), event.getStartTime(), event.getEndTime());
+            roomManager.addEvent(roomName, event.getEventId());
             return true;
         }
         else{
@@ -186,7 +186,7 @@ public class EventManager{
             for (String speaker : t.getSpeakers()){
                 userManager.removeEvent(speaker, t.eventId);
             }
-            this.roomStorage.removeEvent(t.roomName, t.eventId);
+            this.roomManager.removeEvent(t.roomName, t.eventId);
             return true;
         }
         return false;
@@ -241,14 +241,6 @@ public class EventManager{
         return getEvent(id).removeUser(userEmail);
         }
 
-
-    /**
-     * Get the eventMap
-     * @return A LinkedHashMap representing the eventMap of EventManager.
-     */
-    public HashMap<Event, EventMapFeatures> getEventMap(){
-        return this.eventMap;
-    }
 
     /**
      * Takes in an event id and returns the corresponding Event object.
@@ -348,20 +340,6 @@ public class EventManager{
     public String eventIdToRoomName(String id){
         Event e = getEvent(id);
         return e.getRoomName();
-    }
-
-    /**
-     * Takes in an event id and returns the VIP status of the corresponding Event.
-     * @param id The event id.
-     * @return The string VIP status of the corresponding Event.
-     */
-    public String eventIdToVIPStatus(String id){
-        Event e = getEvent(id);
-        if(e.vipRestricted){
-            return "VIP";}
-        else{
-            return "None";
-        }
     }
 
     /***
