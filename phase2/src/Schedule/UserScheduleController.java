@@ -78,7 +78,6 @@ public class UserScheduleController{
     /**
      * Let a user cancel their enrollment in an event.
      */
-    //doesnt do anything rn
     public void cancelRegistration(String eventId){
         if (eventManager.eventIdToUsersSignedUp(eventId).contains(email)){
             eventManager.removeAttendee(email, eventId);
@@ -289,7 +288,6 @@ public class UserScheduleController{
                 int chosenInt = eventManager.getAllEventDayMonth().get(dayIndex-1);
                 ArrayList<String> eventIdsList = new ArrayList<>();
                 for (String id: eventManager.intDayToEventIDs(chosenInt)){
-                    //eventList.add(eventManager.toStringEvent(id));
                     eventIdsList.add(id);
                 }
                 ArrayList<String> sortedIds = eventManager.sort(eventIdsList);

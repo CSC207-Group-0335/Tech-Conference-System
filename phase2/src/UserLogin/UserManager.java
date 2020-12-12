@@ -356,7 +356,6 @@ public class UserManager extends Observable {
         for (Map.Entry<String, String> entry : userRequests.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            // now work with key and value...
             if (value.equals("pending")){
                 requestsPending.add(key);
             }

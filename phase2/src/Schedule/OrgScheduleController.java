@@ -511,18 +511,14 @@ public class OrgScheduleController extends UserScheduleController {
                 String status = scan.nextLine();
                 if (status.equals("approved") || status.equals("rejected")) {
                     this.userManager.updateRequests(requestToChange, status, attendeeEmail);
-                    // requestsList.remove(attendeeIndex - 1);
                     presenter.printReviewRequests(3);
                 }
                 else {
                     presenter.printReviewRequests(4);
                 }
-                //presenter.printByIndex(requestsList);
-                //presenter.printGoodbye("scheduling");
                 presenter.printByIndex(userManager.totalPending());
                 presenter.printReviewRequests(1);
                 super.presenter.choose("Attendee");
-                //presenter.printGoBack();
                 return;
             }
         }
