@@ -135,7 +135,7 @@ public class MessagingSystem extends Observable{
         });
         };
     /**
-     * Method to write the changes to the Conversations.csv, called in MainMenuController.logout().
+     * Method to write the changes to the Conversations.json, called in MainMenuController.logout().
      */
 
     public void save() {

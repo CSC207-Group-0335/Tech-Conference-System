@@ -72,8 +72,6 @@ public class TechConferenceSystem {
         mainMenuController.runMainMenu(logInController.getEmail());
     }
 
-    //"requests":[{"request":"Vegan","status":"pending"},{"request":"Disabled","status":"pending"}]
-
     /**
      * Method to write the changes to the Users.json.
      */

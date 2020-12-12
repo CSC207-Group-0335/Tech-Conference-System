@@ -49,7 +49,7 @@ public class ScheduleSystem{
         }
 
     /**
-     * Method to write the changes to the Registration.csv, called in MainMenuController.logout().
+     * Method to write the changes to the Registration.json, called in MainMenuController.logout().
      */
     public void save(){
         JSONWriter jsonWriter = new JSONWriter();
