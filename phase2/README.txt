@@ -1,7 +1,6 @@
 To test the user interface, RUN DEMO.JAVA located in the UserLogin package as done in Phase 1. You will be 
 prompted to input a valid email address and a password. Existing users and their log in credentials are 
-stored in Users.json in the Resources package (although a more readable version of the information is stored 
-in Users.csv). If the inputted credentials do not match any existing user, you will be prompted to try again.
+stored in Users.json in the Resources package. If the inputted credentials do not match any existing user, you will be prompted to try again.
 
 Passwords and email addresses of each user are located in the third and fourth columns, respectively, of 
 Users.csv.
