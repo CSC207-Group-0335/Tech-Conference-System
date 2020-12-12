@@ -297,7 +297,7 @@ public class EventManager{
      * @return A Room representing the room the corresponding Event is being held at.
      */
     public Room getEventRoom(String id){
-        return (Room) this.eventMap.get(getEvent(id)).getRoom();
+        return this.eventMap.get(getEvent(id)).getRoom();
     }
 
     /**
@@ -457,7 +457,7 @@ public class EventManager{
         String totalString = "";
         Integer i = 1;
         for(String line: lines){
-            totalString += Integer.toString(i) + ") " + line + System.lineSeparator();
+            totalString += i + ") " + line + System.lineSeparator();
             i++;
         }
         return totalString;
