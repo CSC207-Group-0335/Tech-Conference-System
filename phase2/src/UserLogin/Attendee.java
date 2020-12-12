@@ -11,9 +11,6 @@ import java.util.Map;
 
 public class Attendee extends User {
     public boolean VIP;
-    //make it a list of strings for multiple requests?
-    // strings are in format of "request, status", with status only being one of two "pending" or "addressed"
-    //public LinkedHashMap<String, String> requests;
 
     /**
      * A constructor for an Attendee.
@@ -114,7 +111,6 @@ public class Attendee extends User {
         LinkedHashMap<String, String> userRequests = this.getRequests();
         for (Map.Entry<String, String> entry : userRequests.entrySet()) {
             String value = entry.getValue();
-            // now work with key and value...
             if (value.equals("pending")){
                 pendingLeft = pendingLeft + 1;
             }

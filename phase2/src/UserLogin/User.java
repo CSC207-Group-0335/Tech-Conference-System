@@ -78,10 +78,6 @@ public abstract class User {
         return eventList;
     }
 
-    //NOTE TO REQUEST TEAM: I added this because i need it for writing and reading, since that invloves a general user
-    //object. so this means we will need requestMaps in other users that maybe are just empty? idk exactly how you wanna
-    //do that in your implementation of requests. I just need a method like this is here (it can be abstract if you want)
-    // - Nathan (early morning Dec 9th)
 
     /**
      * Returns this user's requests.

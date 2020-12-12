@@ -86,30 +86,6 @@ public class Message {
         return messageContent;
     }
 
-    /**
-     * Method to add status to recipient or sender.
-     * @param email String email.
-     * @param status String status.
-     */
-    public void addStatus(String email, String status) {
-        if (email.equals(senderEmail)) {
-            this.senderStatuses.add(status);
-        } else {
-            this.recipientStatuses.add(status);
-        }
-    }
-    /**
-     * Method to remove status from recipient or sender.
-     * @param email String email.
-     * @param status String status.
-     */
-    public void removeStatus(String email, String status) {
-        if (email.equals(senderEmail)) {
-            this.senderStatuses.remove(status);
-        } else {
-            this.recipientStatuses.remove(status);
-        }
-    }
 
     /**
      * Method to check if there is a status.

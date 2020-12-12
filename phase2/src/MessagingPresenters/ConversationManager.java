@@ -100,25 +100,6 @@ public class ConversationManager {
         return null;
     }
 
-    /**
-     * Method to add a status to a specific message by index and user email.
-     * @param email The String email.
-     * @param index The int index.
-     * @param status The String status.
-     */
-    public void addStatus(String email, int index, String status, Boolean viewingArchived){
-        getMessageWithIndexAndStatus(email, index, viewingArchived).addStatus(email, status);
-    }
-
-    /**
-     * Method to remove a status to a specific message by index and user email.
-     * @param email The String email.
-     * @param index The int index.
-     * @param status The String status.
-     */
-    public void removeStatus(String email, int index, String status, Boolean viewingArchived){
-        getMessageWithIndexAndStatus(email, index, viewingArchived).removeStatus(email, status);
-    }
 
     /**
      * Method that returns a boolean signifying if the user has a status with a specific message.

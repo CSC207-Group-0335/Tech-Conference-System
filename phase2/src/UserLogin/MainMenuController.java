@@ -81,7 +81,7 @@ public class MainMenuController implements Observer {
      */
     private void runMainMenuAttendee() {
         presenter.printMainMenuInfo(); //Display Main Menu
-        boolean check = true; // fix create while loop
+        boolean check = true;
         //present an option that allows the user to logout from the main menu
         //which would then turn check to false
         while (check) {
@@ -117,7 +117,7 @@ public class MainMenuController implements Observer {
      */
     private void runMainMenuSpeaker() {
         presenter.printMainMenuInfo(); //Display Main Menu
-        boolean check = true; // fix create while loop
+        boolean check = true;
         while (check) {
             String choice = scanner.nextLine();
             try {
