@@ -43,7 +43,7 @@ public class RoomSystem extends Observable {
     }
 
     /**
-     * Method to write the changes to the RoomFile, called in MainMenuController.logout().
+     * Method to write the changes to the Rooms.json, called in MainMenuController.logout().
      */
     public void save() {
         JSONWriter jsonWriter = new JSONWriter();
