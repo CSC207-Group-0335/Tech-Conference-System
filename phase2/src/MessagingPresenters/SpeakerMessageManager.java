@@ -97,20 +97,4 @@ public class SpeakerMessageManager extends MessageManager{
             message(user.getEmail(), messageContent, true);
         }
     }
-
-    // message attendees of one event functions needs to be added
-
-    /**
-     * Event to Message All Attendees of one Event.
-      * @param messageContent String.
-     * @param eventID String.
-     */
-    public void messageAllAttendeesOfEvent(String messageContent, String eventID){
-        Event event = eventManager.getEvent(eventID);
-        ArrayList<User> attendees = getAttendeesOfEvent(event);
-        for (User attendee: attendees){
-            message(attendee.getEmail(), messageContent, true);
-        }
-
-    }
 }
