@@ -206,7 +206,6 @@ public class EventManager{
             return true;
         }
         else{
-            // if it got to here then the event is VIP no point in checking it
             return userVIP;
         }
     }
