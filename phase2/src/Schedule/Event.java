@@ -1,9 +1,5 @@
 package Schedule;
 
-import UserLogin.Speaker;
-import UserLogin.User;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
