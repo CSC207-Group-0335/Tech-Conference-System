@@ -28,10 +28,6 @@ public class Attendee extends User {
         super(name, password, email);
         this.VIP = VIP;
         this.setupRequests(requestMap);
-        //this.requests = requestMap;
-        //this.requests = new LinkedHashMap<>();
-        //testing purposes
-        //this.setRequests("vegan");
     }
 
 
