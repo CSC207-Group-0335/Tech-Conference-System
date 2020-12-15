@@ -1,0 +1,13 @@
+Dependency Inversion:
+To follow clean architecture, we don’t want classes in outer layers to directly handle classes and objects of inner layers.
+This was a major reason for architectural violations in Phase 1 of our project and we implemented a layer of abstraction to
+resolve this issue. Where once entity classes were directly being handled inside our controller classes, we introduced new
+abstractions and use case classes that handled the logic that was previously in controllers and passed the final actionable
+input back into the controllers. For example, the abstract MessageController class now makes calls to the MessageManager use
+case class to obtain formatted strings of messages apart from the message entities themselves, as well as handling logic
+such as changing user statuses.
+
+Facade:
+We have not overly used the Facade design pattern, but rather more implicitly. What was logic that was once being handled
+all by a controller class has now been split up into other classes in the same layer, making our code easier to read and
+extend too.

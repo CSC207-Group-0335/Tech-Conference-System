@@ -10,3 +10,6 @@ Features Added:
 - Allows users to send in requests or accommodations 
 
 - Stores information inside JSON files
+
+Our implementation of message statuses is very extensible and open for modification too as the type of status is
+not constrained by individual instance variables, but rather an arbitrary long list of statuses.
