@@ -58,7 +58,6 @@ public class LogInController extends Observable {
             if (this.logInManager.login(email, password)){
                 check = false;
                 this.email = email;
-                setUserEmail(this.email); //set the user
 
 
 
@@ -71,16 +70,6 @@ public class LogInController extends Observable {
                 presenter.printLoginInfo(4); //Something went wrong
             }
         }
-    }
-
-    /**
-     * Method to notify the observers of the User that has logged in (identified by their email),
-     * which will alter the program depending on the type of the user and the specific users details.
-     * @param userEmail the User object that has logged in.
-     */
-    public void setUserEmail(String userEmail) {
-        setChanged();
-        notifyObservers(userEmail);
     }
 
     /**
