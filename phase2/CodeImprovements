@@ -7,7 +7,3 @@ input back into the controllers. For example, the abstract MessageController cla
 case class to obtain formatted strings of messages apart from the message entities themselves, as well as handling logic
 such as changing user statuses.
 
-Facade:
-We have not overly used the Facade design pattern, but rather more implicitly. What was logic that was once being handled
-all by a controller class has now been split up into other classes in the same layer, making our code easier to read and
-extend too.
