@@ -1,9 +1,11 @@
 Features Added:
 
-- Group Chats for each event
+- Group Chats which are chatrooms for each event
 
-- Message statuses; allows users to archive, mark as unread/read, 
+- Message statuses; allows users to archive, mark as unread/read,
   or delete messages.
+
+-Allows seeing schedule by speaker, day or enrolled events
 
 - Allows users to send in requests or accommodations 
 

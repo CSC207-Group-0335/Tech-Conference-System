@@ -2,18 +2,25 @@ List of Design Patterns Used:
 
 Observer:
 
-The Observer pattern was used in this program to keep track of changes in an object.
-These following classes implement Observable:
+The problem: MainMenuController needs to store instances of all relevant controllers in order
+for the user to be able to navigate from the main menu into the scheduling and messaging portals.
+However, Controllers are only instantiated after we know what type our user is (in order to not instantiate useless
+controllers for a type other than our user's) and after we have instantiated a scanner object (All controllers
+use the same scanner object as multiple scanners create issues with user input).
+MainMenuController is instantiated in TechConference system and does not "know" the controllers as they
+are instantiated. Thus we use the observer design pattern in order to notify the MainMenuController when
+controllers are instantiated and thus allow it to store controllers.
 
-- MessagingSystem: notifies observers when a MessengerController has been set
+These following classes extend Observable:
 
-- EventSystem: notifies observers when an OrgScheduleController, UserScheduleController, 
-  or SpeakerScheduleController has been set.
+- MessagingSystem: notifies observers when a MessengerController has been instantiated.
 
-- RoomSystem: runs EventSystem, which uses Observer
+- EventSystem: notifies observers when an OrgScheduleController, UserScheduleController,
+  or SpeakerScheduleController has been instantiated.
 
-- LogInController: notifies observers of what type of User has logged in
+These following classes implement observer:
 
+-MainMenuController is notified when controllers are created and updates and stores them.
 
 
 
