@@ -10,7 +10,7 @@ and the SOLID Principles of programming.
 
 # Results
 We improved significantly from our Phase 1 project to our Phase 2 project (you can view either one). We were able to improve our program and our grade,
-from a %70 in Phase 1 to an %88 in Phase 2.
+from a 70% in Phase 1 to an 88% in Phase 2.
 
 # How to Use
 To test the user interface, RUN DEMO.JAVA located in the UserLogin package. You will be 
